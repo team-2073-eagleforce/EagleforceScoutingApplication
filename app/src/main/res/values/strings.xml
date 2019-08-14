@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">EagleforceScoutingApplication</string>
+    <string name="notice">notice</string>
+    <string name="no_internet">No Internet</string>
+    <string name="error_network_title">No Internet Connection</string>
+    <string name="processing">Processing...</string>
+    <string name="title_activity_scouting_form">ScoutingFormActivity</string>
+    <string name="tab_text_1">Auto</string>
+    <string name="tab_text_2">TeleOp</string>
+    <string name="tab_text_3">Submit</string>
+    <string name="formCommentsKey">comments</string>
+    <string name="formNameKey">name</string>
+    <string name="drawerSettingsText">Settings</string>
+</resources>
