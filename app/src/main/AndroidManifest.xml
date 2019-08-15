@@ -12,10 +12,26 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:launchMode="singleTop"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.SettingsActivity"></activity>
+        <activity android:name=".activities.ViewScheduleActivity"></activity>
+        <activity android:name=".activities.ChooseFileActivity">
+            <intent-filter>
+                <action android:name="com.example.eagleforcescoutingapplication.activities.ChooseFileActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_settings2"
+            android:parentActivityName=".activities.ScoutingFormActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.eagleforcescoutingapplication.activities.ScoutingFormActivity" />
+        </activity>
         <activity
             android:name=".activities.ScoutingFormActivity"
             android:label="@string/title_activity_scouting_form"
