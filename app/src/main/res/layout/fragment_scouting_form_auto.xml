@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     tools:context=".activities.fragment.AutoFragment">
 
     <TextView
@@ -14,10 +16,124 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:textColor="@color/standard_text_color"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/sandstorm_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingBottom="20dp">
+
+
+        <CheckBox
+            android:id="@+id/sandstorm_cross_CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/standard_text_color"
+            android:textSize="30dp"
+            android:text="Passed Baseline" />
+
+        <TextView
+            android:id="@+id/sandstorm_cargoship_hatches_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:layout_marginStart="10dp"
+            android:text="Cargoship Hatches"
+            android:textColor="@color/standard_text_color"
+            android:layout_below="@id/sandstorm_cross_CheckBox"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/sandstorm_rocket_hatches_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/standard_text_color"
+            android:layout_below="@id/sandstorm_cargoship_hatches_TextView"
+            android:text="Rocket Hatches"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/sandstorm_cargoship_cargo_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:layout_marginStart="10dp"
+            android:text="Cargoship Cargo"
+            android:textColor="@color/standard_text_color"
+            android:layout_below="@id/sandstorm_rocket_hatches_TextView"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/sandstorm_rocket_cargo_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/standard_text_color"
+            android:layout_below="@id/sandstorm_cargoship_cargo_TextView"
+            android:text="Rocket Cargo"
+            android:textSize="30sp"/>
+
+        <include
+            android:id="@+id/sandstorm_cargo_ship_hatches_layout"
+            layout="@layout/add_subtract_values"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_alignTop="@id/sandstorm_rocket_hatches_layout"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBaseline="@id/sandstorm_cargoship_hatches_TextView"
+            android:layout_marginTop="-80dp" />
+
+        <include
+            android:id="@+id/sandstorm_rocket_hatches_layout"
+            layout="@layout/add_subtract_values"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_alignTop="@id/sandstorm_cargo_ship_cargo_layout"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBaseline="@id/sandstorm_rocket_hatches_TextView"
+            android:layout_marginTop="-80dp" />
+
+        <include
+            android:id="@+id/sandstorm_cargo_ship_cargo_layout"
+            layout="@layout/add_subtract_values"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_alignTop="@id/sandstorm_rocket_cargo_layout"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBaseline="@id/sandstorm_cargoship_cargo_TextView"
+            android:layout_marginTop="-80dp" />
+
+        <include
+            android:id="@+id/sandstorm_rocket_cargo_layout"
+            layout="@layout/add_subtract_values"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_alignBaseline="@id/sandstorm_rocket_cargo_TextView"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sandstorm_section"
+        android:text="submit"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"/>
+
+</RelativeLayout>
+
