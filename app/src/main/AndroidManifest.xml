@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="com.example.eagleforcescoutingapplication">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.team2073.eagleforcescoutingapplication">
 
     <dist:module dist:instant="true" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
 
     <application
         android:name=".EagleforceScoutingApplication"
@@ -16,24 +19,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ViewScheduleActivity"></activity>
-        <activity android:name=".activities.ChooseFileActivity">
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.team2073.eagleforcescoutingapplication"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"
+                tools:replace="android:resource" />
+        </provider>
+        <activity android:name="com.team2073.eagleforcescoutingapplication.activities.ViewScheduleActivity"></activity>
+        <activity android:name="com.team2073.eagleforcescoutingapplication.activities.ChooseFileActivity">
             <intent-filter>
-                <action android:name="com.example.eagleforcescoutingapplication.activities.ChooseFileActivity" />
+                <action android:name="com.team2073.eagleforcescoutingapplication.activities.ChooseFileActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name="com.team2073.eagleforcescoutingapplication.activities.SettingsActivity"
             android:label="@string/title_activity_settings2"
-            android:parentActivityName=".activities.ScoutingFormActivity">
+            android:parentActivityName="com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.eagleforcescoutingapplication.activities.ScoutingFormActivity" />
+                android:value="com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity" />
         </activity>
         <activity
-            android:name=".activities.ScoutingFormActivity"
+            android:name="com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity"
             android:label="@string/title_activity_scouting_form"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

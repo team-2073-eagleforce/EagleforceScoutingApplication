@@ -1,0 +1,4 @@
+package com.team2073.eagleforcescoutingapplication.framework.view;
+
+public interface ChooseFileView extends BaseView {
+}
