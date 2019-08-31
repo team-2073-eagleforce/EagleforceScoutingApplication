@@ -56,8 +56,12 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         csvManager.writeData(formMap.get(mActivity.getString(R.string.formCommentsKey)));
 
         if (BluetoothAdapter.getDefaultAdapter() == null) {
-            Toast.makeText(mActivity, "Please Enable Bluetooth", Toast.LENGTH_SHORT).show();
             return;
+        }
+
+        if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            mActivity.startActivityForResult(enableBtIntent, 1);
         }
 
         //Bluetooth start

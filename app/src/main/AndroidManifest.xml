@@ -4,12 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.team2073.eagleforcescoutingapplication">
 
-    <dist:module dist:instant="true" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-
     <application
         android:name=".EagleforceScoutingApplication"
         android:allowBackup="true"
@@ -19,6 +13,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.ReceiveFileActivity"></activity>
+
+        <activity android:name=".activities.ViewScheduleActivity" />
+
+        <activity android:name=".activities.ChooseFileActivity">
+            <intent-filter>
+                <action android:name="com.team2073.eagleforcescoutingapplication.activities.ChooseFileActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_settings2"
+            android:parentActivityName=".activities.ScoutingFormActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ScoutingFormActivity"
+            android:label="@string/title_activity_scouting_form"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.team2073.eagleforcescoutingapplication"
@@ -30,33 +54,12 @@
                 android:resource="@xml/provider_paths"
                 tools:replace="android:resource" />
         </provider>
-        <activity android:name="com.team2073.eagleforcescoutingapplication.activities.ViewScheduleActivity"></activity>
-        <activity android:name="com.team2073.eagleforcescoutingapplication.activities.ChooseFileActivity">
-            <intent-filter>
-                <action android:name="com.team2073.eagleforcescoutingapplication.activities.ChooseFileActivity" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.team2073.eagleforcescoutingapplication.activities.SettingsActivity"
-            android:label="@string/title_activity_settings2"
-            android:parentActivityName="com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity" />
-        </activity>
-        <activity
-            android:name="com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity"
-            android:label="@string/title_activity_scouting_form"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <dist:module dist:instant="true" />
 
 </manifest>
