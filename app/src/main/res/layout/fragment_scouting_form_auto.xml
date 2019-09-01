@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
     tools:context=".activities.fragment.AutoFragment"
     android:orientation="horizontal">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/section_label"
@@ -25,24 +28,22 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:textColor="@color/standard_text_color"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:textColor="@color/standard_text_color"
                 app:layout_constraintLeft_toLeftOf="parent"
                 tools:layout_constraintLeft_creator="1"
                 tools:layout_constraintTop_creator="1" />
-
 
 
             <CheckBox
                 android:id="@+id/sandstorm_cross_CheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/standard_text_color"
-                android:textSize="30dp"
-                android:text="Passed Baseline"
                 android:scaleX="1"
-                android:scaleY="1"/>
-
+                android:scaleY="1"
+                android:text="Passed Baseline"
+                android:textColor="@color/standard_text_color"
+                android:textSize="30dp" />
 
 
             <RelativeLayout
@@ -56,23 +57,22 @@
                     android:id="@+id/sandstorm_rocket_cargo_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/standard_text_color"
-                    android:text="Rocket Cargo"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:text="Rocket Cargo"
+                    android:textColor="@color/standard_text_color"
                     android:textSize="30sp" />
 
                 <include
-                    android:id="@+id/sandstorm_rocket_cargo_layout"
+                    android:id="@+id/teleop_rocket_cargo_layout"
                     layout="@layout/add_subtract_values"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="right"
-                    />
+                    android:layout_marginRight="30dp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -87,26 +87,24 @@
                     android:id="@+id/sandstorm_rocket_cargo_fail_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/failed_attempts"
-                    android:text="Rocket Cargo Fail"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_horizontal"
+                    android:text="Rocket Cargo Fail"
+                    android:textColor="@color/failed_attempts"
                     android:textSize="30sp"
-                    android:textStyle="italic"/>
+                    android:textStyle="italic" />
 
                 <include
-                    android:id="@+id/sandstorm_rocket_cargo_fails_layout"
+                    android:id="@+id/teleop_rocket_cargo_fails_layout"
                     layout="@layout/add_subtract_values_red"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
 
-                    android:layout_marginRight="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="right"
-                    />
+                    android:layout_marginRight="30dp" />
             </RelativeLayout>
-
 
 
             <RelativeLayout
@@ -120,15 +118,15 @@
                     android:id="@+id/sandstorm_rocket_hatches_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/standard_text_color"
-                    android:text="Rocket Hatches"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:text="Rocket Hatches"
+                    android:textColor="@color/standard_text_color"
                     android:textSize="30sp" />
 
                 <include
-                    android:id="@+id/sandstorm_rocket_hatches_layout"
+                    android:id="@+id/teleop_rocket_hatches_layout"
                     layout="@layout/add_subtract_values"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
@@ -150,24 +148,23 @@
                     android:id="@+id/sandstorm_rocket_hatches_fail_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/failed_attempts"
-                    android:text="Rocket Hatches Fail"
-                    android:textStyle="italic"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="30sp" />
+                    android:layout_marginStart="10dp"
+                    android:text="Rocket Hatches Fail"
+                    android:textColor="@color/failed_attempts"
+                    android:textSize="30sp"
+                    android:textStyle="italic" />
 
                 <include
-                    android:id="@+id/sandstorm_rocket_hatches_fail_layout"
+                    android:id="@+id/teleop_rocket_hatches_fail_layout"
                     layout="@layout/add_subtract_values_red"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="right"
-                    />
+                    android:layout_marginRight="30dp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -181,23 +178,22 @@
                     android:id="@+id/sandstorm_cargoship_cargo_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/standard_text_color"
-                    android:text="Cargoship Cargo"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:text="Cargoship Cargo"
+                    android:textColor="@color/standard_text_color"
                     android:textSize="30sp" />
 
                 <include
-                    android:id="@+id/sandstorm_cargoship_cargo_layout"
+                    android:id="@+id/teleop_cargoship_cargo_layout"
                     layout="@layout/add_subtract_values"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="right"
-                    />
+                    android:layout_marginRight="30dp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -211,24 +207,23 @@
                     android:id="@+id/sandstorm_cargoship_cargo_fail_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/failed_attempts"
-                    android:textStyle="italic"
-                    android:text="Cargoship Cargo Fail"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="30sp" />
+                    android:layout_marginStart="10dp"
+                    android:text="Cargoship Cargo Fail"
+                    android:textColor="@color/failed_attempts"
+                    android:textSize="30sp"
+                    android:textStyle="italic" />
 
                 <include
-                    android:id="@+id/sandstorm_cargoship_cargo_fails_layout"
+                    android:id="@+id/teleop_cargoship_cargo_fails_layout"
                     layout="@layout/add_subtract_values_red"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="right"
-                    />
+                    android:layout_marginRight="30dp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -242,23 +237,22 @@
                     android:id="@+id/sandstorm_cargoship_hatches_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/standard_text_color"
-                    android:text="CargoShip Hatches"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:text="CargoShip Hatches"
+                    android:textColor="@color/standard_text_color"
                     android:textSize="30sp" />
 
                 <include
-                    android:id="@+id/sandstorm_cargoship_hatches_layout"
+                    android:id="@+id/teleop_cargoship_hatches_layout"
                     layout="@layout/add_subtract_values"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="right"
-                    />
+                    android:layout_marginRight="30dp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -272,36 +266,25 @@
                     android:id="@+id/sandstorm_cargoship_hatches_fail_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/failed_attempts"
-                    android:text="CargoShip Hatches Fail"
-                    android:textStyle="italic"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="30sp" />
+                    android:layout_marginStart="10dp"
+                    android:text="CargoShip Hatches Fail"
+                    android:textColor="@color/failed_attempts"
+                    android:textSize="30sp"
+                    android:textStyle="italic" />
 
                 <include
-                    android:id="@+id/sandstorm_cargoship_hatches_fail_layout"
+                    android:id="@+id/teleop_cargoship_hatches_fail_layout"
                     layout="@layout/add_subtract_values_red"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="right"
-                    />
+                    android:layout_marginRight="30dp" />
             </RelativeLayout>
-
-            <Button
-                android:id="@+id/submit_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/cargoship_hatches_fail_count"
-                android:text="submit"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="20dp"/>
-
         </RelativeLayout>
-    </ScrollView>
-</RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
 

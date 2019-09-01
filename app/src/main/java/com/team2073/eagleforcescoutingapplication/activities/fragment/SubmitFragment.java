@@ -3,11 +3,13 @@ package com.team2073.eagleforcescoutingapplication.activities.fragment;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,10 +26,19 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
     private ScoutingFormPresenter scoutingFormPresenter;
     private EditText formComments;
     private EditText formName;
-    private Button submitButton;
+    private Button formSubmitButton;
 
     private String name;
     private String comments;
+
+    private String[] autoData;
+    private String[] teleOpData;
+
+    View autoFragment;
+
+    String state = Environment.getExternalStorageState();
+
+
 
     String[] externalStoragePermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     String[] bluetoothPermission = {Manifest.permission.BLUETOOTH};
@@ -64,10 +75,21 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
 
         formComments = root.findViewById(R.id.formComments);
         formName = root.findViewById(R.id.formName);
+        formSubmitButton = root.findViewById(R.id.formSubmitButton);
 
         comments = formComments.getText().toString();
         name = formName.getText().toString();
 
+        formSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Environment.MEDIA_MOUNTED.equals(state)){
+                    Toast.makeText(getActivity(), "hi buddy", Toast.LENGTH_LONG).show();
+                    scoutingFormPresenter.createCSV();
+////                    scoutingFormPresenter.writeCSV();
+                }
+            }
+        });
         return root;
     }
 

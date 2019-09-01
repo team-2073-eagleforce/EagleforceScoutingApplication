@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="240dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageButton
+        android:id="@+id/add"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/btn_background"
+        android:text="+"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/standard_text_color"
+        android:gravity="center"
+        android:src="@drawable/ic_add_circle_outline_white"
+        />
+
+    <TextView
+        android:id="@+id/amount_TextView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        />
+
+    <ImageButton
+        android:id="@+id/subtract"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/btn_background"
+        android:text="--"
+        android:gravity="center"
+        android:src="@drawable/ic_remove_circle_outline_white"
+        />
+
+</RelativeLayout>
