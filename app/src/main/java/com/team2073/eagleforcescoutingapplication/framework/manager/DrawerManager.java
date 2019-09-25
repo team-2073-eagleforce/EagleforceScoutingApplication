@@ -41,28 +41,19 @@ public class DrawerManager {
         new DrawerBuilder()
                 .withActivity(activity)
                 .addDrawerItems(scoutingForm, new DividerDrawerItem())
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(@Nullable View view, int i, @NotNull IDrawerItem<?> iDrawerItem) {
-                        activity.startActivity(new Intent(activity, ScoutingFormActivity.class));
-                        return false;
-                    }
+                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
+                    activity.startActivity(new Intent(activity, ScoutingFormActivity.class));
+                    return false;
                 })
                 .addDrawerItems(schedule, new DividerDrawerItem())
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(@Nullable View view, int i, @NotNull IDrawerItem<?> iDrawerItem) {
-                        activity.startActivity(new Intent(activity, ViewScheduleActivity.class));
-                        return false;
-                    }
+                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
+                    activity.startActivity(new Intent(activity, ViewScheduleActivity.class));
+                    return false;
                 })
                 .addDrawerItems(settings, new DividerDrawerItem())
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(@Nullable View view, int i, @NotNull IDrawerItem<?> iDrawerItem) {
-                        activity.startActivity(new Intent(activity, SettingsActivity.class));
-                        return false;
-                    }
+                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
+                    activity.startActivity(new Intent(activity, SettingsActivity.class));
+                    return false;
                 })
                 .build();
     }

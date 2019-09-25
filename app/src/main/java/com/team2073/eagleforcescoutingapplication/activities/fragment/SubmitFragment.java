@@ -85,7 +85,7 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
             public void onClick(View view) {
                 if(Environment.MEDIA_MOUNTED.equals(state)){
                     Toast.makeText(getActivity(), "hi buddy", Toast.LENGTH_LONG).show();
-                    scoutingFormPresenter.createCSV();
+//                    scoutingFormPresenter.createCSV();
 ////                    scoutingFormPresenter.writeCSV();
                 }
             }

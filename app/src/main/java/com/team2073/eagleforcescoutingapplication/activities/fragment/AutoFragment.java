@@ -14,11 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.eagleforcescoutingapplication.R;
-import com.example.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
-public class AutoFragment extends Fragment {
+public class AutoFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_SECTION_NUMBER = "Auto";
     private PageViewModel pageViewModel;
@@ -113,49 +112,49 @@ public class AutoFragment extends Fragment {
 
         //Sandstorm cargo on Rocket
         sandstormRocketCargoLayoutButtonView = root.findViewById(R.id.teleop_rocket_cargo_layout);
-        sandstormRocketCargoText = sandstormRocketCargoLayoutButtonView.findViewById(R.id.amount_TextView);
+        sandstormRocketCargoText = sandstormRocketCargoLayoutButtonView.findViewById(R.id.relEditText);
         addRocketCargoAmountButton = sandstormRocketCargoLayoutButtonView.findViewById(R.id.add);
         subtractRocketCargoAmountButton = sandstormRocketCargoLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm cargo on Rocket fails
         sandstormRocketCargoFailsLayoutButtonView = root.findViewById(R.id.teleop_rocket_cargo_fails_layout);
-        sandstormRocketCargoFailsText = sandstormRocketCargoFailsLayoutButtonView.findViewById(R.id.amount_TextView);
+        sandstormRocketCargoFailsText = sandstormRocketCargoFailsLayoutButtonView.findViewById(R.id.relEditText);
         addRocketFailCargoAmountButton = sandstormRocketCargoFailsLayoutButtonView.findViewById(R.id.add);
         subtractRocketFailCargoAmountButton = sandstormRocketCargoFailsLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm hatches on Rocket
         sandstormRocketHatchesLayoutButtonView = root.findViewById(R.id.teleop_rocket_hatches_layout);
-        sandstormRocketHatchesText = sandstormRocketHatchesLayoutButtonView.findViewById(R.id.amount_TextView);
+        sandstormRocketHatchesText = sandstormRocketHatchesLayoutButtonView.findViewById(R.id.relEditText);
         addRocketHatchesAmountButton = sandstormRocketHatchesLayoutButtonView.findViewById(R.id.add);
         subtractRocketHatchAmountButton = sandstormRocketHatchesLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm hatches on Rocket fails
         sandstormRocketHatchesFailsLayoutButtonView = root.findViewById(R.id.teleop_rocket_hatches_fail_layout);
-        sandstormRocketHatchesFailsText = sandstormRocketHatchesFailsLayoutButtonView.findViewById(R.id.amount_TextView);
+        sandstormRocketHatchesFailsText = sandstormRocketHatchesFailsLayoutButtonView.findViewById(R.id.relEditText);
         addRocketHatchesFailAmountButton = sandstormRocketHatchesFailsLayoutButtonView.findViewById(R.id.add);
         subtractRocketHatchFailAmountButton = sandstormRocketHatchesFailsLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm cargo on cargoship
         sandstormCargoShipCargoLayoutButtonView = root.findViewById(R.id.teleop_cargoship_cargo_layout);
-        sandstormCargoShipCargoText = sandstormCargoShipCargoLayoutButtonView.findViewById(R.id.amount_TextView);
+        sandstormCargoShipCargoText = sandstormCargoShipCargoLayoutButtonView.findViewById(R.id.relEditText);
         addCargoshipCargoAmountButton = sandstormCargoShipCargoLayoutButtonView.findViewById(R.id.add);
         subtractCargoshipCargoAmountButton = sandstormCargoShipCargoLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm cargo on cargoship fails
         sandstormCargoShipCargoFailsLayoutButtonView = root.findViewById(R.id.teleop_cargoship_cargo_fails_layout);
-        sandstormCargoShipCargoFailsText = sandstormCargoShipCargoFailsLayoutButtonView.findViewById(R.id.amount_TextView);
+        sandstormCargoShipCargoFailsText = sandstormCargoShipCargoFailsLayoutButtonView.findViewById(R.id.relEditText);
         addCargoshipCargoFailAmountButton = sandstormCargoShipCargoFailsLayoutButtonView.findViewById(R.id.add);
         subtractCargoshipCargoFailAmountButton = sandstormCargoShipCargoFailsLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm hatches on Cargo Ship
         sandstormCargoShipHatchesLayoutButtonView = root.findViewById(R.id.teleop_cargoship_hatches_layout);
-        sandstormCargoShipHatchesText = sandstormCargoShipHatchesLayoutButtonView.findViewById(R.id.amount_TextView);
+        sandstormCargoShipHatchesText = sandstormCargoShipHatchesLayoutButtonView.findViewById(R.id.relEditText);
         addCargoshipHatchesAmountButton = sandstormCargoShipHatchesLayoutButtonView.findViewById(R.id.add);
         subtractCargoshipHatchAmountButton = sandstormCargoShipHatchesLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm hatches on Cargo Ship fails
         sandstormCargoShipHatchesFailsLayoutButtonView = root.findViewById(R.id.teleop_cargoship_hatches_fail_layout);
-        sandstormCargoShipHatchesFailsText = sandstormCargoShipHatchesFailsLayoutButtonView.findViewById(R.id.amount_TextView);
+        sandstormCargoShipHatchesFailsText = sandstormCargoShipHatchesFailsLayoutButtonView.findViewById(R.id.relEditText);
         addCargoshipHatchesFailAmountButton = sandstormCargoShipHatchesFailsLayoutButtonView.findViewById(R.id.add);
         subtractCargoshipHatchFailAmountButton = sandstormCargoShipHatchesFailsLayoutButtonView.findViewById(R.id.subtract);
 
@@ -300,5 +299,10 @@ public class AutoFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         //Save the fragment's state here
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }

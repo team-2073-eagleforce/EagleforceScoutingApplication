@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.team2073.eagleforcescoutingapplication">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".EagleforceScoutingApplication"
         android:allowBackup="true"
@@ -12,10 +16,10 @@
         android:launchMode="singleTop"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".activities.FormDataActivity"></activity>
-        <activity android:name=".activities.SettingsActivity" />
-        <activity android:name=".activities.ReceiveFileActivity"></activity>
+        android:theme="@style/AppTheme"
+        tools:targetApi="O_MR1">
+        <activity android:name=".activities.FormDataActivity" />
+        <activity android:name=".activities.ReceiveFileActivity" />
 
         <activity android:name=".activities.ViewScheduleActivity" />
 
@@ -47,7 +51,7 @@
         </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.team2073.eagleforcescoutingapplication"
+            android:authorities="com.team2073.eagleforcescoutingapplication.util.EagleProvider"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">
@@ -57,10 +61,6 @@
                 tools:replace="android:resource" />
         </provider>
     </application>
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <dist:module dist:instant="true" />
 

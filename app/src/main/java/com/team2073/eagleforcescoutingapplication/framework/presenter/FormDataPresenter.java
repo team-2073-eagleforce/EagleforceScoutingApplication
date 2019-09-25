@@ -1,9 +1,9 @@
-package com.example.eagleforcescoutingapplication.framework.presenter;
+package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
 import android.app.Activity;
 
-import com.example.eagleforcescoutingapplication.framework.manager.CSVManager;
-import com.example.eagleforcescoutingapplication.framework.view.FormDataView;
+import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
+import com.team2073.eagleforcescoutingapplication.framework.view.FormDataView;
 
 import java.util.HashMap;
 import java.util.Map;

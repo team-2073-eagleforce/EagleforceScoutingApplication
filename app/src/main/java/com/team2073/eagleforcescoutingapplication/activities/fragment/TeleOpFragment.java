@@ -13,9 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.eagleforcescoutingapplication.R;
-import com.example.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 public class TeleOpFragment extends Fragment {
 
@@ -79,13 +78,14 @@ public class TeleOpFragment extends Fragment {
     ImageButton subtractCargoshipHatchFailAmountButton;
     public int teleopCargoShipHatchFailAmount = 0;
 
-    public static TeleOpFragment newInstance(int index){
+    public static TeleOpFragment newInstance(int index) {
         TeleOpFragment fragment = new TeleOpFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
         return fragment;
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,60 +103,60 @@ public class TeleOpFragment extends Fragment {
 
         //Sandstorm cargo on Rocket
         teleopRocketCargoLayoutButtonView = root.findViewById(R.id.teleop_rocket_cargo_layout);
-        teleopRocketCargoText = teleopRocketCargoLayoutButtonView.findViewById(R.id.amount_TextView);
+        teleopRocketCargoText = teleopRocketCargoLayoutButtonView.findViewById(R.id.relEditText);
         addRocketCargoAmountButton = teleopRocketCargoLayoutButtonView.findViewById(R.id.add);
         subtractRocketCargoAmountButton = teleopRocketCargoLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm cargo on Rocket fails
         teleopRocketCargoFailsLayoutButtonView = root.findViewById(R.id.teleop_rocket_cargo_fails_layout);
-        teleopRocketCargoFailsText = teleopRocketCargoFailsLayoutButtonView.findViewById(R.id.amount_TextView);
+        teleopRocketCargoFailsText = teleopRocketCargoFailsLayoutButtonView.findViewById(R.id.relEditText);
         addRocketFailCargoAmountButton = teleopRocketCargoFailsLayoutButtonView.findViewById(R.id.add);
         subtractRocketFailCargoAmountButton = teleopRocketCargoFailsLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm hatches on Rocket
         teleopRocketHatchesLayoutButtonView = root.findViewById(R.id.teleop_rocket_hatches_layout);
-        teleopRocketHatchesText = teleopRocketHatchesLayoutButtonView.findViewById(R.id.amount_TextView);
+        teleopRocketHatchesText = teleopRocketHatchesLayoutButtonView.findViewById(R.id.relEditText);
         addRocketHatchesAmountButton = teleopRocketHatchesLayoutButtonView.findViewById(R.id.add);
         subtractRocketHatchAmountButton = teleopRocketHatchesLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm hatches on Rocket fails
         teleopRocketHatchesFailsLayoutButtonView = root.findViewById(R.id.teleop_rocket_hatches_fail_layout);
-        teleopRocketHatchesFailsText = teleopRocketHatchesFailsLayoutButtonView.findViewById(R.id.amount_TextView);
+        teleopRocketHatchesFailsText = teleopRocketHatchesFailsLayoutButtonView.findViewById(R.id.relEditText);
         addRocketHatchesFailAmountButton = teleopRocketHatchesFailsLayoutButtonView.findViewById(R.id.add);
         subtractRocketHatchFailAmountButton = teleopRocketHatchesFailsLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm cargo on cargoship
         teleopCargoShipCargoLayoutButtonView = root.findViewById(R.id.teleop_cargoship_cargo_layout);
-        teleopCargoShipCargoText = teleopCargoShipCargoLayoutButtonView.findViewById(R.id.amount_TextView);
+        teleopCargoShipCargoText = teleopCargoShipCargoLayoutButtonView.findViewById(R.id.relEditText);
         addCargoshipCargoAmountButton = teleopCargoShipCargoLayoutButtonView.findViewById(R.id.add);
         subtractCargoshipCargoAmountButton = teleopCargoShipCargoLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm cargo on cargoship fails
         teleopCargoShipCargoFailsLayoutButtonView = root.findViewById(R.id.teleop_cargoship_cargo_fails_layout);
-        teleopCargoShipCargoFailsText = teleopCargoShipCargoFailsLayoutButtonView.findViewById(R.id.amount_TextView);
+        teleopCargoShipCargoFailsText = teleopCargoShipCargoFailsLayoutButtonView.findViewById(R.id.relEditText);
         addCargoshipCargoFailAmountButton = teleopCargoShipCargoFailsLayoutButtonView.findViewById(R.id.add);
         subtractCargoshipCargoFailAmountButton = teleopCargoShipCargoFailsLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm hatches on Cargo Ship
         teleopCargoShipHatchesLayoutButtonView = root.findViewById(R.id.teleop_cargoship_hatches_layout);
-        teleopCargoShipHatchesText = teleopCargoShipHatchesLayoutButtonView.findViewById(R.id.amount_TextView);
+        teleopCargoShipHatchesText = teleopCargoShipHatchesLayoutButtonView.findViewById(R.id.relEditText);
         addCargoshipHatchesAmountButton = teleopCargoShipHatchesLayoutButtonView.findViewById(R.id.add);
         subtractCargoshipHatchAmountButton = teleopCargoShipHatchesLayoutButtonView.findViewById(R.id.subtract);
 
         //Sandstorm hatches on Cargo Ship fails
         teleopCargoShipHatchesFailsLayoutButtonView = root.findViewById(R.id.teleop_cargoship_hatches_fail_layout);
-        teleopCargoShipHatchesFailsText = teleopCargoShipHatchesFailsLayoutButtonView.findViewById(R.id.amount_TextView);
+        teleopCargoShipHatchesFailsText = teleopCargoShipHatchesFailsLayoutButtonView.findViewById(R.id.relEditText);
         addCargoshipHatchesFailAmountButton = teleopCargoShipHatchesFailsLayoutButtonView.findViewById(R.id.add);
         subtractCargoshipHatchFailAmountButton = teleopCargoShipHatchesFailsLayoutButtonView.findViewById(R.id.subtract);
 
 
         //Button Click Listeners
-        addRocketCargoAmountButton.setOnClickListener(new View.OnClickListener(){
+        addRocketCargoAmountButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(), "test", Toast.LENGTH_SHORT).show();
-                teleopRocketCargoAmount = presenter.incrementAmount(teleopRocketCargoAmount);
+                teleopRocketCargoAmount += (teleopRocketCargoAmount);
                 presenter.setText(teleopRocketCargoText, teleopRocketCargoAmount);
             }
         });
@@ -164,7 +164,7 @@ public class TeleOpFragment extends Fragment {
         subtractRocketCargoAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopRocketCargoAmount = presenter.decrementAmount(teleopRocketCargoAmount);
+                teleopRocketCargoAmount -= (teleopRocketCargoAmount);
                 presenter.setText(teleopRocketCargoText, teleopRocketCargoAmount);
             }
         });
@@ -172,7 +172,7 @@ public class TeleOpFragment extends Fragment {
         addRocketFailCargoAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopRocketCargoFailAmount = presenter.incrementAmount(teleopRocketCargoFailAmount);
+                teleopRocketCargoFailAmount += (teleopRocketCargoFailAmount);
                 presenter.setText(teleopRocketCargoFailsText, teleopRocketCargoFailAmount);
             }
         });
@@ -180,7 +180,7 @@ public class TeleOpFragment extends Fragment {
         subtractRocketFailCargoAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopRocketCargoFailAmount = presenter.decrementAmount(teleopRocketCargoFailAmount);
+                teleopRocketCargoFailAmount -= (teleopRocketCargoFailAmount);
                 presenter.setText(teleopRocketCargoFailsText, teleopRocketCargoFailAmount);
             }
         });
@@ -188,7 +188,7 @@ public class TeleOpFragment extends Fragment {
         addRocketHatchesAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopRocketHatchAmount = presenter.incrementAmount(teleopRocketHatchAmount);
+                teleopRocketHatchAmount += (teleopRocketHatchAmount);
                 presenter.setText(teleopRocketHatchesText, teleopRocketHatchAmount);
             }
         });
@@ -196,7 +196,7 @@ public class TeleOpFragment extends Fragment {
         subtractRocketHatchAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopRocketHatchAmount = presenter.decrementAmount(teleopRocketHatchAmount);
+                teleopRocketHatchAmount -= (teleopRocketHatchAmount);
                 presenter.setText(teleopRocketHatchesText, teleopRocketHatchAmount);
             }
         });
@@ -204,7 +204,7 @@ public class TeleOpFragment extends Fragment {
         addRocketHatchesFailAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopRocketHatchFailsAmount = presenter.incrementAmount(teleopRocketHatchFailsAmount);
+                teleopRocketHatchFailsAmount += (teleopRocketHatchFailsAmount);
                 presenter.setText(teleopRocketHatchesFailsText, teleopRocketHatchFailsAmount);
             }
         });
@@ -212,7 +212,7 @@ public class TeleOpFragment extends Fragment {
         subtractRocketHatchFailAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopRocketHatchFailsAmount = presenter.decrementAmount(teleopRocketHatchFailsAmount);
+                teleopRocketHatchFailsAmount -= (teleopRocketHatchFailsAmount);
                 presenter.setText(teleopRocketHatchesFailsText, teleopRocketHatchFailsAmount);
             }
         });
@@ -220,7 +220,7 @@ public class TeleOpFragment extends Fragment {
         addCargoshipCargoAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopCargoShipCargoAmount = presenter.incrementAmount(teleopCargoShipCargoAmount);
+                teleopCargoShipCargoAmount += (teleopCargoShipCargoAmount);
                 presenter.setText(teleopCargoShipCargoText, teleopCargoShipCargoAmount);
             }
         });
@@ -228,7 +228,7 @@ public class TeleOpFragment extends Fragment {
         subtractCargoshipCargoAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopCargoShipCargoAmount = presenter.decrementAmount(teleopCargoShipCargoAmount);
+                teleopCargoShipCargoAmount -= (teleopCargoShipCargoAmount);
                 presenter.setText(teleopCargoShipCargoText, teleopCargoShipCargoAmount);
             }
         });
@@ -236,7 +236,7 @@ public class TeleOpFragment extends Fragment {
         addCargoshipCargoFailAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopCargoShipCargoFailAmount = presenter.incrementAmount(teleopCargoShipCargoFailAmount);
+                teleopCargoShipCargoFailAmount += (teleopCargoShipCargoFailAmount);
                 presenter.setText(teleopCargoShipCargoFailsText, teleopCargoShipCargoFailAmount);
             }
         });
@@ -244,7 +244,7 @@ public class TeleOpFragment extends Fragment {
         subtractCargoshipCargoFailAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopCargoShipCargoFailAmount = presenter.decrementAmount(teleopCargoShipCargoFailAmount);
+                teleopCargoShipCargoFailAmount -= (teleopCargoShipCargoFailAmount);
                 presenter.setText(teleopCargoShipCargoFailsText, teleopCargoShipCargoFailAmount);
             }
         });
@@ -252,7 +252,7 @@ public class TeleOpFragment extends Fragment {
         addCargoshipHatchesAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopCargoShipHatchAmount = presenter.incrementAmount(teleopCargoShipHatchAmount);
+                teleopCargoShipHatchAmount += (teleopCargoShipHatchAmount);
                 presenter.setText(teleopCargoShipHatchesText, teleopCargoShipHatchAmount);
             }
         });
@@ -260,7 +260,7 @@ public class TeleOpFragment extends Fragment {
         subtractCargoshipHatchAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopCargoShipHatchAmount =  presenter.decrementAmount(teleopCargoShipHatchAmount);
+                teleopCargoShipHatchAmount -= (teleopCargoShipHatchAmount);
                 presenter.setText(teleopCargoShipHatchesText, teleopCargoShipHatchAmount);
             }
         });
@@ -268,7 +268,7 @@ public class TeleOpFragment extends Fragment {
         addCargoshipHatchesFailAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopCargoShipHatchFailAmount =  presenter.incrementAmount(teleopCargoShipHatchFailAmount);
+                teleopCargoShipHatchFailAmount += (teleopCargoShipHatchFailAmount);
                 presenter.setText(teleopCargoShipHatchesFailsText, teleopCargoShipHatchFailAmount);
             }
         });
@@ -276,7 +276,7 @@ public class TeleOpFragment extends Fragment {
         subtractCargoshipHatchFailAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                teleopCargoShipHatchFailAmount = presenter.decrementAmount(teleopCargoShipHatchFailAmount);
+                teleopCargoShipHatchFailAmount -= (teleopCargoShipHatchFailAmount);
                 presenter.setText(teleopCargoShipHatchesFailsText, teleopCargoShipHatchFailAmount);
             }
         });

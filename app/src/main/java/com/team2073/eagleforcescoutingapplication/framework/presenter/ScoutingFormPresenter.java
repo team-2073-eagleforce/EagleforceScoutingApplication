@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Environment;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
@@ -52,8 +53,8 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
 
         csvManager.setFormCSVFile(tempCSVDir, matchNumber + "-" + teamNumber + ".csv");
 
-        csvManager.writeData(formMap.get(mActivity.getString(R.string.formNameKey)));
-        csvManager.writeData(formMap.get(mActivity.getString(R.string.formCommentsKey)));
+//        csvManager.writeData(formMap.get(mActivity.getString(R.string.formNameKey)));
+//        csvManager.writeData(formMap.get(mActivity.getString(R.string.formCommentsKey)));
 
         if (BluetoothAdapter.getDefaultAdapter() == null) {
             return;
@@ -107,6 +108,23 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     }
 
     public void writeCSV() {
-        csvManager.writeData();
+        csvManager.writeData(new String[0]);
+    }
+
+    public int incrementAmount(int amount){
+        amount += 1;
+        return amount;
+    }
+
+    public int decrementAmount(int amount){
+        amount -= 1;
+        if(amount < 0){
+            amount = 0;
+        }
+        return amount;
+    }
+
+    public void setText(TextView textView, int amount){
+        textView.setText(String.valueOf(amount));
     }
 }

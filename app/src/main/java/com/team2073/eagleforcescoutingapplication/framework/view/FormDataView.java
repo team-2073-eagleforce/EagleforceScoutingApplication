@@ -1,4 +1,4 @@
-package com.example.eagleforcescoutingapplication.framework.view;
+package com.team2073.eagleforcescoutingapplication.framework.view;
 
 public interface FormDataView extends BaseView{
     void onDataFormatSuccess();

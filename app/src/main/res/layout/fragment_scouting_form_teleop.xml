@@ -32,13 +32,13 @@
 
                 <TextView
                     android:id="@+id/sandstorm_rocket_cargo_TextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="133dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/standard_text_color"
-                    android:text="Rocket Cargo"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:text="Rocket Cargo"
+                    android:textColor="@color/standard_text_color"
                     android:textSize="30sp" />
 
                 <include
@@ -63,18 +63,18 @@
 
                 <TextView
                     android:id="@+id/sandstorm_rocket_cargo_fail_TextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="137dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/failed_attempts"
-                    android:text="Rocket Cargo Fail"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_horizontal"
+                    android:text="Rocket Cargo Fail"
+                    android:textColor="@color/failed_attempts"
                     android:textSize="30sp"
-                    android:textStyle="italic"/>
+                    android:textStyle="italic" />
 
                 <include
                     android:id="@+id/teleop_rocket_cargo_fails_layout"
-                    layout="@layout/add_subtract_values_red"
+                    layout="@layout/add_subtract_values"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
 
@@ -96,13 +96,13 @@
 
                 <TextView
                     android:id="@+id/sandstorm_rocket_hatches_TextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="123dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/standard_text_color"
-                    android:text="Rocket Hatches"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:text="Rocket Hatches"
+                    android:textColor="@color/standard_text_color"
                     android:textSize="30sp" />
 
                 <include
@@ -138,7 +138,7 @@
 
                 <include
                     android:id="@+id/teleop_rocket_hatches_fail_layout"
-                    layout="@layout/add_subtract_values_red"
+                    layout="@layout/add_subtract_values"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
@@ -199,7 +199,7 @@
 
                 <include
                     android:id="@+id/teleop_cargoship_cargo_fails_layout"
-                    layout="@layout/add_subtract_values_red"
+                    layout="@layout/add_subtract_values"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
@@ -260,7 +260,7 @@
 
                 <include
                     android:id="@+id/teleop_cargoship_hatches_fail_layout"
-                    layout="@layout/add_subtract_values_red"
+                    layout="@layout/add_subtract_values"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
@@ -269,33 +269,6 @@
                     android:layout_gravity="right"
                     />
             </RelativeLayout>
-            
-            <TextView
-                android:id="@+id/drive_performance_Textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Drive Performance"
-                android:textSize="40dp"
-                android:textStyle="bold"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="20dp"
-                android:layout_below="@id/cargoship_hatches_fail_count"
-                />
-
-            <SeekBar
-                android:id="@+id/drive_performance_seekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:max="10"
-                android:layout_below="@id/drive_performance_Textview"
-                android:progress="3" />
-
-            <ToggleButton
-                android:id="@+id/toggleButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/drive_performance_seekBar"
-                android:text="Climb" />
 
         </RelativeLayout>
     </ScrollView>

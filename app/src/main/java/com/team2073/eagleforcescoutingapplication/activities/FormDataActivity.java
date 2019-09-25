@@ -1,11 +1,9 @@
-package com.example.eagleforcescoutingapplication.activities;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.team2073.eagleforcescoutingapplication.activities;
 
 import android.os.Bundle;
 
-import com.example.eagleforcescoutingapplication.R;
-import com.example.eagleforcescoutingapplication.framework.view.FormDataView;
+import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.framework.view.FormDataView;
 
 public class FormDataActivity extends BaseActivity implements FormDataView {
 

@@ -8,7 +8,7 @@
         android:width="80dp"/>
 
     <solid
-        android:color="@color/background_color"/>
+        android:color="@color/colorAccent"/>
 
     <corners
         android:radius="100dp"/>
