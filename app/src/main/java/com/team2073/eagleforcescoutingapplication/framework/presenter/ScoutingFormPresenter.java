@@ -6,23 +6,17 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Environment;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
 import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.framework.DeepSpaceScoutingForm;
-import com.team2073.eagleforcescoutingapplication.framework.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;
-import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,20 +26,18 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     private Activity mActivity;
     private CSVManager csvManager;
     private DrawerManager drawerManager;
-    private PrefsDataManager prefsDataManager;
 
-    private ScoutingForm scoutingForm = new DeepSpaceScoutingForm();
-
+    private int matchNumber;
+    private String position;
+    private int teamNumber;
+    private String name;
     private File tempCSVDir;
     private Map<String, String> formMap = new HashMap<>();
-
-    private ArrayList<String> formData;
 
     public ScoutingFormPresenter(Activity activity) {
         this.mActivity = activity;
         csvManager = CSVManager.getInstance(mActivity);
         drawerManager = DrawerManager.getInstance(mActivity);
-        prefsDataManager = PrefsDataManager.getInstance(mActivity);
         tempCSVDir = new File(mActivity.getFilesDir(), "tmpCSVFiles");
     }
 
@@ -57,10 +49,9 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         formMap.put(key, data);
     }
 
-
     public void sendOverBluetooth() {
 
-//        csvManager.setFormCSVFile(tempCSVDir, matchNumber + "-" + teamNumber + ".csv");
+        csvManager.setFormCSVFile(tempCSVDir, teamNumber + "-" + matchNumber + ".csv");
 
 //        csvManager.writeData(formMap.get(mActivity.getString(R.string.formNameKey)));
 //        csvManager.writeData(formMap.get(mActivity.getString(R.string.formCommentsKey)));
@@ -85,7 +76,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
                 FileProvider.getUriForFile(
                         mActivity.getApplicationContext(),
                         "com.team2073.eagleforcescoutingapplication",
-                        csvManager.getFormCSVFile()));
+                        csvManager.getFormCSVFile(teamNumber, matchNumber)));
 
         List<ResolveInfo> appList = mActivity.getPackageManager().queryIntentActivities(intent, 0);
 
@@ -117,7 +108,27 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     }
 
     public void writeCSV() {
-        formData = prefsDataManager.readFromPreferences(scoutingForm.getFieldNames());
-        csvManager.writeData(formData.toArray());
+        csvManager.writeData(new String[0]);
+    }
+
+    public int incrementAmount(int amount){
+        amount += 1;
+        return amount;
+    }
+
+    public int decrementAmount(int amount){
+        amount -= 1;
+        if(amount < 0){
+            amount = 0;
+        }
+        return amount;
+    }
+
+    public void setText(TextView textView, int amount){
+        textView.setText(String.valueOf(amount));
+    }
+
+    public String getRootDirectory(){
+        return Environment.getExternalStorageDirectory().getAbsolutePath();
     }
 }

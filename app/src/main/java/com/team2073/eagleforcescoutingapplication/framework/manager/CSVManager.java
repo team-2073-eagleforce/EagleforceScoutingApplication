@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.opencsv.CSVWriter;
+import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -13,7 +14,9 @@ public class CSVManager {
     private static final String TAG = "CSVManager";
     public static CSVManager INSTANCE;
     private Activity mActivity;
+    private File mainDir;
     private File csvFile;
+    private ScoutingFormPresenter presenter;
 
     public static CSVManager getInstance(Activity activity) {
         if (INSTANCE == null) {
@@ -32,7 +35,7 @@ public class CSVManager {
 
     public void createCSV(String root, int teamNumber) {
         File mainDir = new File(root + "/" + "ScoutingDataApplication");
-        Log.i(TAG, "Instanitated file");
+        Log.i(TAG, "Instantiated file");
         if (!mainDir.exists()) {
             mainDir.mkdir();
             Log.i(TAG, mainDir.getPath() + " created successfully");
@@ -74,5 +77,23 @@ public class CSVManager {
             }
         }
         return strArr;
+    }
+
+    public File getFormCSVFile(int teamNumber, int matchNumber){
+        String fileName = teamNumber + "-" + matchNumber + ".csv";
+        File rootFile = new File(presenter.getRootDirectory());
+        File returnedFile = null;
+        File[] files = rootFile.listFiles();
+        for(File file: files){
+            if (file.getName() == fileName){
+                returnedFile =  file;
+            }
+        }
+        return returnedFile;
+    }
+
+    public void setFormCSVFile(File mainDir, String csvFile) {
+        this.csvFile = new File(csvFile);
+        this.mainDir = mainDir;
     }
 }
