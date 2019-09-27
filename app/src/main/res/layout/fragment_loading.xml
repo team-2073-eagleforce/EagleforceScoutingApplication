@@ -10,7 +10,7 @@
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/CircularProgress" />
+        android:theme="@style/AppTheme" />
 
     <TextView
         android:id="@+id/message_fragment_loading"
@@ -19,7 +19,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="12dp"
         android:gravity="center"
-        android:textColor="@color/browser_actions_bg_grey"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
         tools:text="@string/processing" />
 </LinearLayout>

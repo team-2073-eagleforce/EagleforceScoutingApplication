@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Environment;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,8 @@ import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManage
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,6 +125,13 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
             amount = 0;
         }
         return amount;
+    }
+
+    public ArrayList<RelativeLayout> createRelativeLayoutList(RelativeLayout... relativeLayouts) {
+        ArrayList<RelativeLayout> layouts = new ArrayList<>();
+        Collections.addAll(layouts, relativeLayouts);
+
+        return layouts;
     }
 
     public void setText(TextView textView, int amount){

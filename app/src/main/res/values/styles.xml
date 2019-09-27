@@ -1,28 +1,13 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/open_sans_light</item>
-    </style>
-
-    <style name="FullScreenProgressDialog" parent="android:Theme.Dialog">
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowTitleStyle">@null</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
-        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
-        <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:background">@android:color/transparent</item>
-    </style>
-
-    <style name="CircularProgress" parent="Theme.AppCompat.Light">
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -30,8 +15,105 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.NoActionBarWithTransparentStatusBar" parent="AppTheme.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBarWithTranslucentWindow" parent="AppTheme.NoActionBarWithTransparentStatusBar">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="AppTheme.ActionBar.Transparent" parent="AppTheme">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.DayNight" />
+
+    <style name="CustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@android:color/white</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+    </style>
+
+    <style name="MaterialAlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:textSize">?attr/font_default</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialogTitleTextStyle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialogBodyTextStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialogPositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/MaterialAlertDialogNegativeButtonStyle</item>
+    </style>
+
+    <style name="MaterialAlertDialogPositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="MaterialAlertDialogNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
+    <style name="MaterialAlertDialogTitleTextStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textSize">?attr/font_20</item>
+    </style>
+
+    <style name="MaterialAlertDialogBodyTextStyle">
+        <item name="android:textSize">?attr/font_default</item>
+    </style>
+
+    <style name="PreferenceActivityTheme" parent="AppTheme.NoActionBar">
+        <item name="android:textAppearanceListItem">@style/PreferenceTitleTextStyle</item>
+        <item name="android:textAppearanceListItemSecondary">@style/PreferenceSubtitleTextStyle</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialogPositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/MaterialAlertDialogNegativeButtonStyle</item>
+    </style>
+
+    <style name="PreferenceTitleTextStyle">
+        <item name="android:textSize">?attr/font_16</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
+    <style name="PreferenceSubtitleTextStyle">
+        <item name="android:textSize">?attr/font_default</item>
+    </style>
+
+    <style name="FontStyle">
+    </style>
+
+    <style name="FontStyle.Small">
+        <item name="font_default">12sp</item>
+        <item name="font_12">12sp</item>
+        <item name="font_16">14sp</item>
+        <item name="font_18">16sp</item>
+        <item name="font_20">18sp</item>
+    </style>
+
+    <style name="FontStyle.Normal">
+        <item name="font_default">14sp</item>
+        <item name="font_12">12sp</item>
+        <item name="font_16">16sp</item>
+        <item name="font_18">18sp</item>
+        <item name="font_20">20sp</item>
+    </style>
+
+    <style name="FontStyle.Large">
+        <item name="font_default">16sp</item>
+        <item name="font_12">14sp</item>
+        <item name="font_16">18sp</item>
+        <item name="font_18">20sp</item>
+        <item name="font_20">22sp</item>
+    </style>
+
+    <style name="FontStyle.XLarge">
+        <item name="font_default">18sp</item>
+        <item name="font_12">16sp</item>
+        <item name="font_16">20sp</item>
+        <item name="font_18">22sp</item>
+        <item name="font_20">24sp</item>
+    </style>
 
 </resources>

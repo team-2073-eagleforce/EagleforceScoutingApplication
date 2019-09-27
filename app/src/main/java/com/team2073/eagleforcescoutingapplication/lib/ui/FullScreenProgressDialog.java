@@ -19,7 +19,7 @@ public class FullScreenProgressDialog extends Dialog {
     public static FullScreenProgressDialog mProgressDialog;
 
     public FullScreenProgressDialog(Context context, boolean cancelable, DialogInterface.OnCancelListener cancelListener) {
-        super(context, R.style.FullScreenProgressDialog);
+        super(context, R.style.AppTheme);
 
         this.setCancelable(cancelable);
         this.setOnCancelListener(cancelListener);
