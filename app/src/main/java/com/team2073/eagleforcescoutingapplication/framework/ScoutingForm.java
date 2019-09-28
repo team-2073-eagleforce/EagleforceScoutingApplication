@@ -1,6 +1,7 @@
 package com.team2073.eagleforcescoutingapplication.framework;
 
+import java.util.ArrayList;
+
 public interface ScoutingForm {
-    int getTeamNumber();
-    int getMatchNumber();
+    ArrayList<String> getFieldNames();
 }

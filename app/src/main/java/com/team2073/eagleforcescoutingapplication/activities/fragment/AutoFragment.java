@@ -63,20 +63,20 @@ public class AutoFragment extends Fragment {
     }
 
     private void initFieldNames() {
-        fieldNames.add("Cargo Cargo");
-        fieldNames.add("Cargo Cargo Failed");
-        fieldNames.add("Cargo Hatch");
-        fieldNames.add("Cargo Hatch Failed");
-        fieldNames.add("Rocket Cargo");
-        fieldNames.add("Rocket Cargo Failed");
-        fieldNames.add("Rocket Hatch");
-        fieldNames.add("Rocket Hatch Failed");
+        fieldNames.add("Auto Cargo Cargo");
+        fieldNames.add("Auto Cargo Cargo Failed");
+        fieldNames.add("Auto Cargo Hatch");
+        fieldNames.add("Auto Cargo Hatch Failed");
+        fieldNames.add("Auto Rocket Cargo");
+        fieldNames.add("Auto Rocket Cargo Failed");
+        fieldNames.add("Auto Rocket Hatch");
+        fieldNames.add("Auto Rocket Hatch Failed");
     }
 
     private void initRecyclerView(View root) {
         Timber.d("init recyclerView");
         RecyclerView recyclerView = root.findViewById(R.id.autoRecyclerView);
-        ScoutingFormRecyclerViewAdapter adapter = new ScoutingFormRecyclerViewAdapter(fieldNames, getContext());
+        ScoutingFormRecyclerViewAdapter adapter = new ScoutingFormRecyclerViewAdapter(fieldNames, getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

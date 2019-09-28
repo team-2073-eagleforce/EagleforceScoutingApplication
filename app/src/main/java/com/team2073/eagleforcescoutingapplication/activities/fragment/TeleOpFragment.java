@@ -61,20 +61,20 @@ public class TeleOpFragment extends Fragment {
     }
 
     private void initFieldNames() {
-        fieldNames.add("Cargo Cargo");
-        fieldNames.add("Cargo Cargo Failed");
-        fieldNames.add("Cargo Hatch");
-        fieldNames.add("Cargo Hatch Failed");
-        fieldNames.add("Rocket Cargo");
-        fieldNames.add("Rocket Cargo Failed");
-        fieldNames.add("Rocket Hatch");
-        fieldNames.add("Rocket Hatch Failed");
+        fieldNames.add("Tele Cargo Cargo");
+        fieldNames.add("Tele Cargo Cargo Failed");
+        fieldNames.add("Tele Cargo Hatch");
+        fieldNames.add("Tele Cargo Hatch Failed");
+        fieldNames.add("Tele Rocket Cargo");
+        fieldNames.add("Tele Rocket Cargo Failed");
+        fieldNames.add("Tele Rocket Hatch");
+        fieldNames.add("Tele Rocket Hatch Failed");
     }
 
     private void initRecyclerView(View root){
         Timber.d("init recyclerView");
         RecyclerView recyclerView = root.findViewById(R.id.teleRecyclerView);
-        ScoutingFormRecyclerViewAdapter adapter = new ScoutingFormRecyclerViewAdapter(fieldNames, getContext());
+        ScoutingFormRecyclerViewAdapter adapter = new ScoutingFormRecyclerViewAdapter(fieldNames, getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

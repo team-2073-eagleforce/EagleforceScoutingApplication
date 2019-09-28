@@ -1,5 +1,6 @@
 package com.team2073.eagleforcescoutingapplication.framework;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;
 
 import java.util.ArrayList;
 
@@ -24,11 +26,13 @@ public class ScoutingFormRecyclerViewAdapter extends RecyclerView.Adapter<Scouti
 
     private static final String TAG = ScoutingFormRecyclerViewAdapter.class.getSimpleName();
     private ArrayList<String> fieldName;
-    private Context context;
+    private Context activity;
+    private PrefsDataManager prefsDataManager;
 
-    public ScoutingFormRecyclerViewAdapter(ArrayList<String> fieldName, Context context) {
+    public ScoutingFormRecyclerViewAdapter(ArrayList<String> fieldName, Activity activity) {
         this.fieldName = fieldName;
-        this.context = context;
+        this.activity = activity;
+        prefsDataManager = PrefsDataManager.getInstance(activity);
     }
 
     @NonNull
@@ -46,10 +50,19 @@ public class ScoutingFormRecyclerViewAdapter extends RecyclerView.Adapter<Scouti
         holder.add.setOnClickListener(view -> {
             Integer value = Integer.parseInt(holder.data.getText().toString()) + 1;
             holder.data.setText(value.toString());
+
+            prefsDataManager.writeToPreferences(fieldName.get(position), value.toString());
+            prefsDataManager.commitToPreferences();
+            Timber.d("shared Preferences: " + fieldName.get(position) + ", " + prefsDataManager.readFromPreferences(fieldName.get(position)));
         });
         holder.subtract.setOnClickListener(view -> {
             Integer value = Integer.parseInt(holder.data.getText().toString()) - 1;
             holder.data.setText(value.toString());
+
+            prefsDataManager.writeToPreferences(fieldName.get(position), value.toString());
+            prefsDataManager.commitToPreferences();
+
+            Timber.d("shared Preferences: " + fieldName.get(position) + ", " + prefsDataManager.readFromPreferences(fieldName.get(position)));
         });
     }
 

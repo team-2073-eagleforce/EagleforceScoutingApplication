@@ -80,14 +80,11 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
         comments = formComments.getText().toString();
         name = formName.getText().toString();
 
-        formSubmitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(Environment.MEDIA_MOUNTED.equals(state)){
-                    Toast.makeText(getActivity(), "hi buddy", Toast.LENGTH_LONG).show();
+        formSubmitButton.setOnClickListener(view -> {
+            if(Environment.MEDIA_MOUNTED.equals(state)){
+                Toast.makeText(getActivity(), "hi buddy", Toast.LENGTH_LONG).show();
 //                    scoutingFormPresenter.createCSV();
-////                    scoutingFormPresenter.writeCSV();
-                }
+//                    scoutingFormPresenter.writeCSV();
             }
         });
         return root;
