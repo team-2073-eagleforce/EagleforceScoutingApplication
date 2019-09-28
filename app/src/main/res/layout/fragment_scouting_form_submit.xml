@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/scrollView"
+    android:id="@+id/submitView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -17,8 +17,8 @@
             android:layout_marginTop="256dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
+            android:hint="Comments"
             android:inputType="textPersonName"
-            android:text="Comments"
             app:layout_constraintBottom_toTopOf="@+id/formSubmitButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,8 +48,8 @@
             android:layout_marginBottom="8dp"
             android:ems="10"
             android:fontFamily="@font/open_sans_light"
+            android:hint="Name"
             android:inputType="textPersonName"
-            android:text="Name"
             app:layout_constraintBottom_toTopOf="@+id/formComments"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
