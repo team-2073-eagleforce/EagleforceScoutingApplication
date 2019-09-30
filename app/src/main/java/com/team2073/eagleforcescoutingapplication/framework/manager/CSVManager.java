@@ -4,19 +4,19 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.opencsv.CSVWriter;
+import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import timber.log.Timber;
-
 public class CSVManager {
     private static final String TAG = "CSVManager";
     public static CSVManager INSTANCE;
     private Activity mActivity;
-    private File formCSVFile;
-    private String fileName;
+    private File mainDir;
+    private File csvFile;
+    private ScoutingFormPresenter presenter;
 
     public static CSVManager getInstance(Activity activity) {
         if (INSTANCE == null) {
@@ -29,40 +29,35 @@ public class CSVManager {
         mActivity = activity;
     }
 
-    public void setFormCSVFile(File dir, String fileName) {
-        formCSVFile = new File(dir, fileName);
-        try {
-            formCSVFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public File getFormCSVFile() {
-        return formCSVFile;
+    public void setCSVFile(File csvFile) {
+        this.csvFile = csvFile;
     }
 
     public void createCSV(String root, int teamNumber) {
-        File mainDir = new File(root + "/" + "ScoutingData:P");
+        File mainDir = new File(root + "/" + "ScoutingDataApplication");
+        Log.i(TAG, "Instantiated file");
         if (!mainDir.exists()) {
             mainDir.mkdir();
+            Log.i(TAG, mainDir.getPath() + " created successfully");
         }
-        formCSVFile = new File(mainDir, teamNumber + ".csv");
-        if (!formCSVFile.exists()) {
+        setCSVFile(new File(mainDir, teamNumber + ".csv"));
+
+        if (!csvFile.exists()) {
             try {
-                formCSVFile.createNewFile();
+                csvFile.createNewFile();
+                Log.i(TAG, csvFile.getAbsolutePath() + " created successfully");
             } catch (IOException e) {
                 e.printStackTrace();
+                Log.i(TAG, "Failed to make CSV");
             }
         }
     }
 
-    public void writeData(Object[] data) {
+    public void writeData(String[] data) {
         try {
+            CSVWriter csvWriter = new CSVWriter(new FileWriter(csvFile));
 
-            CSVWriter csvWriter = new CSVWriter(new FileWriter(formCSVFile));
-
-            csvWriter.writeNext(convertObjectToString(data));
+            csvWriter.writeNext(convertIntToString(data));
 
             csvWriter.close();
 
@@ -72,7 +67,7 @@ public class CSVManager {
         }
     }
 
-    public String[] convertObjectToString(Object[] array) {
+    public String[] convertIntToString(Object[] array) {
         String[] strArr = (String[]) array;
         for (int i = 0; i < array.length; i++) {
             try {
@@ -82,5 +77,23 @@ public class CSVManager {
             }
         }
         return strArr;
+    }
+
+    public File getFormCSVFile(int teamNumber, int matchNumber){
+        String fileName = teamNumber + "-" + matchNumber + ".csv";
+        File rootFile = new File(presenter.getRootDirectory());
+        File returnedFile = null;
+        File[] files = rootFile.listFiles();
+        for(File file: files){
+            if (file.getName() == fileName){
+                returnedFile =  file;
+            }
+        }
+        return returnedFile;
+    }
+
+    public void setFormCSVFile(File mainDir, String csvFile) {
+        this.csvFile = new File(csvFile);
+        this.mainDir = mainDir;
     }
 }
