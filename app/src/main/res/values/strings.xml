@@ -5,9 +5,11 @@
     <string name="error_network_title">No Internet Connection</string>
     <string name="processing">Processing...</string>
     <string name="title_activity_scouting_form">ScoutingFormActivity</string>
-    <string name="tab_text_1">Auto</string>
-    <string name="tab_text_2">TeleOp</string>
-    <string name="tab_text_3">Submit</string>
+    <string name="tab_text_1">Start</string>
+    <string name="tab_text_2">Auto</string>
+    <string name="tab_text_3">TeleOp</string>
+    <string name="tab_text_4">Details</string>
+    <string name="tab_text_5">Submit</string>
     <string name="formCommentsKey">comments</string>
     <string name="formNameKey">name</string>
     <string name="drawerSettingsText">Settings</string>
@@ -29,4 +31,7 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="drawerScoutingFormText">Scouting Form</string>
     <string name="drawerScheduleText">Schedule</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -63,14 +63,7 @@ public class AutoFragment extends Fragment {
     }
 
     private void initFieldNames() {
-        fieldNames.add("Auto Cargo Cargo");
-        fieldNames.add("Auto Cargo Cargo Failed");
-        fieldNames.add("Auto Cargo Hatch");
-        fieldNames.add("Auto Cargo Hatch Failed");
-        fieldNames.add("Auto Rocket Cargo");
-        fieldNames.add("Auto Rocket Cargo Failed");
-        fieldNames.add("Auto Rocket Hatch");
-        fieldNames.add("Auto Rocket Hatch Failed");
+        fieldNames = scoutingFormPresenter.getScoutingForm().getAutoFieldNames();
     }
 
     private void initRecyclerView(View root) {

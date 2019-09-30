@@ -41,7 +41,7 @@ public class PrefsDataManager {
     public ArrayList<String> readFromPreferences(ArrayList<String> keys) {
         ArrayList<String> values = new ArrayList<>();
         for (String key: keys) {
-            readFromPreferences(key);
+            values.add(readFromPreferences(key));
         }
         return values;
     }
@@ -52,6 +52,10 @@ public class PrefsDataManager {
      */
     public Boolean commitToPreferences(){
         return editor.commit();
+    }
+
+    public void clearPreferences(){
+        editor.clear();
     }
 
 }
