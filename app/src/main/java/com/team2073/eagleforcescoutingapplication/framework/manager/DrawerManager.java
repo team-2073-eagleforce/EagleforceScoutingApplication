@@ -55,6 +55,7 @@ public class DrawerManager {
                     activity.startActivity(new Intent(activity, SettingsActivity.class));
                     return false;
                 })
+                .withSliderBackgroundColor(activity.getColor(R.color.grey))
                 .build();
     }
 }
