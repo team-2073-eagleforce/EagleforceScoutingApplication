@@ -1,6 +1,7 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,22 +20,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class SubmitFragment extends Fragment implements View.OnClickListener{
 
     private ScoutingFormPresenter scoutingFormPresenter;
-    private EditText formComments;
-    private EditText formName;
-    private Button formSubmitButton;
 
-    private String name;
-    private String comments;
-
-    private String[] autoData;
-    private String[] teleOpData;
-
-    View autoFragment;
+    @BindView(R.id.formComments) EditText formComments;
+    @BindView(R.id.formName) EditText formName;
 
     String state = Environment.getExternalStorageState();
 
@@ -70,23 +67,10 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_scouting_form_submit, container, false);
+        ButterKnife.bind(this, root);
 
         root.findViewById(R.id.formSubmitButton).setOnClickListener(this);
 
-        formComments = root.findViewById(R.id.formComments);
-        formName = root.findViewById(R.id.formName);
-        formSubmitButton = root.findViewById(R.id.formSubmitButton);
-
-        comments = formComments.getText().toString();
-        name = formName.getText().toString();
-
-        formSubmitButton.setOnClickListener(view -> {
-            if(Environment.MEDIA_MOUNTED.equals(state)){
-                Toast.makeText(getActivity(), "hi buddy", Toast.LENGTH_LONG).show();
-//                    scoutingFormPresenter.createCSV();
-//                    scoutingFormPresenter.writeCSV();
-            }
-        });
         return root;
     }
 
@@ -94,8 +78,8 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.formSubmitButton: {
-                scoutingFormPresenter.saveData(getString(R.string.formNameKey), name);
-                scoutingFormPresenter.saveData(getString(R.string.formCommentsKey), comments);
+                scoutingFormPresenter.saveData("name", formName.getText().toString());
+                scoutingFormPresenter.saveData("comments", formComments.getText().toString());
 
                 if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -107,6 +91,8 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
                     ActivityCompat.requestPermissions(getActivity(), bluetoothPermission,23);
                 }
                 scoutingFormPresenter.sendOverBluetooth();
+                scoutingFormPresenter.clearPreferences();
+                startActivity(new Intent(getActivity(), ScoutingFormActivity.class));
                 break;
             }
         }

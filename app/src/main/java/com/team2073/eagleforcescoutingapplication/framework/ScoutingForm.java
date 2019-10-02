@@ -4,4 +4,7 @@ import java.util.ArrayList;
 
 public interface ScoutingForm {
     ArrayList<String> getFieldNames();
+    ArrayList<String> getTeleFieldNames();
+    ArrayList<String> getAutoFieldNames();
+    ArrayList<String> getDetailsFieldNames();
 }

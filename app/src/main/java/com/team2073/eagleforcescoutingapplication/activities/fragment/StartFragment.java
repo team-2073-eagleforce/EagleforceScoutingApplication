@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,20 +20,22 @@ import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFo
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class TeleOpFragment extends Fragment {
+public class StartFragment extends Fragment {
 
-    private static final String TAG = "TeleOpFragment";
+    private static final String TAG = "StartFragment";
+    @BindView(R.id.matchNumber) EditText matchNumberText;
+    @BindView(R.id.teamNumber) EditText teamNumberText;
 
-    private static final String ARG_SECTION_NUMBER = "TeleOp";
+    private static final String ARG_SECTION_NUMBER = "Start";
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
 
-    private ArrayList<String> fieldNames = new ArrayList<>();
-
-    public static TeleOpFragment newInstance(int index) {
-        TeleOpFragment fragment = new TeleOpFragment();
+    public static StartFragment newInstance(int index) {
+        StartFragment fragment = new StartFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -42,34 +46,32 @@ public class TeleOpFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
-        int index = 2;
+        int index = 1;
         index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());
+
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_scouting_form_teleop, container, false);
+        View root = inflater.inflate(R.layout.fragment_start, container, false);
+        ButterKnife.bind(this, root);
 
-        initFieldNames();
-        initRecyclerView(root);
+        matchNumberText.setOnFocusChangeListener((view, b) -> {
+            if(!b){
+                scoutingFormPresenter.saveData("matchNumber", matchNumberText.getText().toString());
+            }
+        });
 
+        teamNumberText.setOnFocusChangeListener((view, b) -> {
+            if(!b){
+                scoutingFormPresenter.saveData("teamNumber", teamNumberText.getText().toString());
+            }
+        });
         return root;
 
     }
 
-    private void initFieldNames() {
-        fieldNames = scoutingFormPresenter.getScoutingForm().getTeleFieldNames();
-    }
-
-    private void initRecyclerView(View root){
-        Timber.d("init recyclerView");
-        RecyclerView recyclerView = root.findViewById(R.id.teleRecyclerView);
-        ScoutingFormRecyclerViewAdapter adapter = new ScoutingFormRecyclerViewAdapter(fieldNames, getActivity());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-    }
 }

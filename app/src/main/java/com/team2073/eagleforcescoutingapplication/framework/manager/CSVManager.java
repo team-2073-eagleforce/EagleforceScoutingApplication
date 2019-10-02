@@ -9,6 +9,9 @@ import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFo
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+
+import timber.log.Timber;
 
 public class CSVManager {
     private static final String TAG = "CSVManager";
@@ -33,14 +36,14 @@ public class CSVManager {
         this.csvFile = csvFile;
     }
 
-    public void createCSV(String root, int teamNumber) {
+    public void createCSV(String root, int teamNumber, int matchNumber) {
         File mainDir = new File(root + "/" + "ScoutingDataApplication");
-        Log.i(TAG, "Instantiated file");
+        Timber.i("Instantiated file");
         if (!mainDir.exists()) {
             mainDir.mkdir();
             Log.i(TAG, mainDir.getPath() + " created successfully");
         }
-        setCSVFile(new File(mainDir, teamNumber + ".csv"));
+        setCSVFile(new File(mainDir, matchNumber + "_" + teamNumber + ".csv"));
 
         if (!csvFile.exists()) {
             try {
@@ -53,7 +56,7 @@ public class CSVManager {
         }
     }
 
-    public void writeData(String[] data) {
+    public void writeData(Object[] data) {
         try {
             CSVWriter csvWriter = new CSVWriter(new FileWriter(csvFile));
 
@@ -61,22 +64,14 @@ public class CSVManager {
 
             csvWriter.close();
 
-            Log.d(TAG, "CSV Wrote Successfully");
+            Timber.d("CSV Wrote Successfully");
         } catch (IOException e) {
-            Log.e(TAG, "CSV Failed to Write");
+            Timber.e("CSV Failed to Write");
         }
     }
 
     public String[] convertIntToString(Object[] array) {
-        String[] strArr = (String[]) array;
-        for (int i = 0; i < array.length; i++) {
-            try {
-                strArr[i] = array[i].toString();
-            } catch (NullPointerException ex) {
-                // do some default initialization
-            }
-        }
-        return strArr;
+        return Arrays.copyOf(array, array.length, String[].class);
     }
 
     public File getFormCSVFile(int teamNumber, int matchNumber){

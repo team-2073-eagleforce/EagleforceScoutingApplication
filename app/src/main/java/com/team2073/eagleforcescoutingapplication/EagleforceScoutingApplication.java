@@ -8,7 +8,9 @@ import com.team2073.eagleforcescoutingapplication.lib.service.NetworkConnectionR
 
 import java.util.ArrayList;
 
-public class EagleforceScoutingApplication  extends Application implements Application.ActivityLifecycleCallbacks {
+import timber.log.Timber;
+
+public class EagleforceScoutingApplication extends Application implements Application.ActivityLifecycleCallbacks {
 
     private ArrayList<Activity> listActivity;
 
@@ -18,6 +20,8 @@ public class EagleforceScoutingApplication  extends Application implements Appli
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+
+        Timber.plant(new Timber.DebugTree());
 
         listActivity = new ArrayList<>();
         registerActivityLifecycleCallbacks(this);
