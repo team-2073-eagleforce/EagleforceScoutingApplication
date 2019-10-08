@@ -13,9 +13,6 @@ public class DeepSpaceScoutingForm implements ScoutingForm {
         fieldNames.add("teamNumber");
         fieldNames.add("matchNumber");
 
-        fieldNames.add("name");
-        fieldNames.add("comments");
-
         fieldNames.add("autoRocketCargo");
         fieldNames.add("autoRocketCargoF");
         fieldNames.add("autoRocketHatch");
@@ -58,6 +55,9 @@ public class DeepSpaceScoutingForm implements ScoutingForm {
         detailNames.add("driverPerformance");
         detailNames.add("autoPerformance");
         detailNames.add("climbLevel");
+
+        fieldNames.add("name");
+        fieldNames.add("comments");
     }
 
     @Override

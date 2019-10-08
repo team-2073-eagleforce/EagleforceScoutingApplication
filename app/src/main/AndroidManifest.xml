@@ -21,7 +21,8 @@
         <activity android:name=".activities.FormDataActivity" />
         <activity android:name=".activities.ReceiveFileActivity" />
 
-        <activity android:name=".activities.ViewScheduleActivity" />
+        <activity android:name=".activities.ViewScheduleActivity"
+            android:theme="@style/AppTheme"/>
 
         <activity android:name=".activities.ChooseFileActivity">
             <intent-filter>

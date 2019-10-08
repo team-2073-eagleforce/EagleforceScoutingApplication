@@ -43,7 +43,7 @@ public class CSVManager {
             mainDir.mkdir();
             Log.i(TAG, mainDir.getPath() + " created successfully");
         }
-        setCSVFile(new File(mainDir, matchNumber + "_" + teamNumber + ".csv"));
+        setCSVFile(new File(mainDir, teamNumber + "-" + matchNumber + ".csv"));
 
         if (!csvFile.exists()) {
             try {
@@ -90,5 +90,9 @@ public class CSVManager {
     public void setFormCSVFile(File mainDir, String csvFile) {
         this.csvFile = new File(csvFile);
         this.mainDir = mainDir;
+    }
+
+    public File getCsvFile() {
+        return csvFile;
     }
 }

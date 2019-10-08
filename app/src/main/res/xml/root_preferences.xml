@@ -20,9 +20,10 @@
     <PreferenceCategory app:title="@string/setup_header">
 
         <PreferenceScreen
+            app:key="schedule"
             android:summary="Choose"
             android:title="Schedule File">
-            <intent android:action="com.example.eagleforcescoutingapplication.activities.ChooseFileActivity" />
+            <intent android:action="com.team2073.eagleforcescoutingapplication.activities.ChooseFileActivity" />
         </PreferenceScreen>
 
         <EditTextPreference

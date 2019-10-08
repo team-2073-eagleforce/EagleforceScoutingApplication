@@ -1,9 +1,13 @@
 package com.team2073.eagleforcescoutingapplication.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.team2073.eagleforcescoutingapplication.R;
@@ -16,10 +20,24 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
     private final String LOG = "ScoutingFormActivity";
     private ScoutingFormPresenter scoutingFormPresenter;
 
+    String[] externalStoragePermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    String[] bluetoothPermission = {Manifest.permission.BLUETOOTH};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         scoutingFormPresenter.makeDrawer();
+        scoutingFormPresenter.clearPreferences();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, externalStoragePermission,23);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, bluetoothPermission,23);
+        }
     }
 
     @Override
