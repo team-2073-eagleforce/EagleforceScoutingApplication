@@ -40,19 +40,17 @@ public class DrawerManager {
 
         new DrawerBuilder()
                 .withActivity(activity)
-                .addDrawerItems(scoutingForm, new DividerDrawerItem())
+                .addDrawerItems(scoutingForm, new DividerDrawerItem(),
+                        schedule, new DividerDrawerItem(),
+                        settings, new DividerDrawerItem())
                 .withOnDrawerItemClickListener((view, position, drawerItem) -> {
-                    activity.startActivity(new Intent(activity, ScoutingFormActivity.class));
-                    return false;
-                })
-                .addDrawerItems(schedule, new DividerDrawerItem())
-                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
-                    activity.startActivity(new Intent(activity, ViewScheduleActivity.class));
-                    return false;
-                })
-                .addDrawerItems(settings, new DividerDrawerItem())
-                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
-                    activity.startActivity(new Intent(activity, SettingsActivity.class));
+                    if (scoutingForm.equals(drawerItem)) {
+                        activity.startActivity(new Intent(activity, ScoutingFormActivity.class));
+                    } else if (schedule.equals(drawerItem)) {
+                        activity.startActivity(new Intent(activity, ViewScheduleActivity.class));
+                    } else if (settings.equals(drawerItem)){
+                        activity.startActivity(new Intent(activity, SettingsActivity.class));
+                    }
                     return false;
                 })
                 .withSliderBackgroundColor(activity.getColor(R.color.grey))

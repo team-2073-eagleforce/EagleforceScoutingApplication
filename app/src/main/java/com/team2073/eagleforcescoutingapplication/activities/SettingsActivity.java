@@ -1,5 +1,6 @@
 package com.team2073.eagleforcescoutingapplication.activities;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -9,6 +10,8 @@ import androidx.core.app.NavUtils;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
+import com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.SettingsPresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.SettingsView;
 
@@ -22,10 +25,8 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         settingsPresenter.makeSettings(getSupportFragmentManager(), getSupportActionBar());
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         settingsPresenter.makeDrawer();
+
     }
 
     @Override
@@ -50,8 +51,7 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
@@ -59,18 +59,25 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class SettingsFragment extends PreferenceFragmentCompat {
+    public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+        private Activity activity;
+        private FileManager fileManager;
+
+        public SettingsFragment(Activity activity){
+            this.activity = activity;
+            fileManager = FileManager.getInstance(activity);
+        }
+
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
-    }
-
-    public static class PreferenceFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         @Override
-        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            addPreferencesFromResource(R.xml.root_preferences);
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+            if (s.equals("Schedule File")) {
+                findPreference(s).setSummary(fileManager.getScheduleFile().getAbsolutePath());
+            }
         }
 
         @Override
@@ -85,13 +92,6 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
             super.onPause();
             getPreferenceScreen().getSharedPreferences()
                     .unregisterOnSharedPreferenceChangeListener(this);
-        }
-
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-            if(s.equals("name")) {
-
-            }
         }
     }
 }

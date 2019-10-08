@@ -55,14 +55,14 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         prefsDataManager.writeToPreferences(key, data);
     }
 
-
-    public void sendOverBluetooth() {
-
+    public void createCSV() {
         csvManager.createCSV(getRootDirectory(),
                 Integer.parseInt(prefsDataManager.readFromPreferences("teamNumber")),
                 Integer.parseInt(prefsDataManager.readFromPreferences("matchNumber")));
-        //TODO add team number field
         writeCSV();
+    }
+
+    public void sendOverBluetooth() {
 
         if (BluetoothAdapter.getDefaultAdapter() == null) {
             return;
@@ -83,9 +83,8 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         intent.putExtra(Intent.EXTRA_STREAM,
                 FileProvider.getUriForFile(
                         mActivity.getApplicationContext(),
-                        "com.team2073.eagleforcescoutingapplication",
-                        csvManager.getFormCSVFile(Integer.parseInt(prefsDataManager.readFromPreferences("teamNumber")),
-                                Integer.parseInt(prefsDataManager.readFromPreferences(prefsDataManager.readFromPreferences("matchNumber"))))));
+                        "com.team2073.eagleforcescoutingapplication.util.EagleProvider",
+                        csvManager.getCsvFile()));
 
         List<ResolveInfo> appList = mActivity.getPackageManager().queryIntentActivities(intent, 0);
 

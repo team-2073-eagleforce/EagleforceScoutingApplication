@@ -23,7 +23,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         mActivity.setContentView(R.layout.activity_settings);
         fragmentManager
                 .beginTransaction()
-                .replace(R.id.settings , new SettingsActivity.SettingsFragment())
+                .replace(R.id.settings , new SettingsActivity.SettingsFragment(mActivity))
                 .commit();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);

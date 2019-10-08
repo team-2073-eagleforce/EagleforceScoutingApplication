@@ -25,4 +25,8 @@ public class FileManager {
     public void setScheduleFile(File scheduleFile){
         this.scheduleFile = scheduleFile;
     }
+
+    public File getScheduleFile(){
+        return scheduleFile;
+    }
 }

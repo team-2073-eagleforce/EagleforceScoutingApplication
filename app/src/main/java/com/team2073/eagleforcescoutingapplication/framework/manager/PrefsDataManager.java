@@ -28,6 +28,7 @@ public class PrefsDataManager {
 
     public void writeToPreferences(String key, String value){
         editor.putString(key, value);
+        editor.commit();
     }
 
     /**
@@ -35,7 +36,7 @@ public class PrefsDataManager {
      * @return value of string or an empty string if there's no assigned value
      */
     public String readFromPreferences(String key){
-        return sharedPreferences.getString(key, "");
+        return sharedPreferences.getString(key, "0");
     }
 
     public ArrayList<String> readFromPreferences(ArrayList<String> keys) {
@@ -56,6 +57,7 @@ public class PrefsDataManager {
 
     public void clearPreferences(){
         editor.clear();
+        editor.commit();
     }
 
 }
