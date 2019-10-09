@@ -31,6 +31,7 @@ public class DeepSpaceScoutingForm implements ScoutingForm {
         autoNames.add("autoCargoHatch");
         autoNames.add("autoCargoHatchF");
 
+        fieldNames.add("teleRocketCargo");
         fieldNames.add("teleRocketCargoF");
         fieldNames.add("teleRocketHatch");
         fieldNames.add("teleRocketHatchF");
