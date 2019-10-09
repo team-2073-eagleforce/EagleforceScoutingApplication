@@ -10,8 +10,6 @@ public class DeepSpaceScoutingForm implements ScoutingForm {
     private ArrayList<String> detailNames = new ArrayList<>();
 
     public DeepSpaceScoutingForm() {
-        fieldNames.add("teamNumber");
-        fieldNames.add("matchNumber");
 
         fieldNames.add("autoRocketCargo");
         fieldNames.add("autoRocketCargoF");
