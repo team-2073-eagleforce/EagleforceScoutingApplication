@@ -1,4 +1,4 @@
-package com.team2073.eagleforcescoutingapplication.framework;
+package com.team2073.eagleforcescoutingapplication.adapters;
 
 import android.app.Activity;
 import android.content.Context;
