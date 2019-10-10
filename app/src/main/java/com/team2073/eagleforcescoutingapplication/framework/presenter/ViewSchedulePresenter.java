@@ -7,6 +7,7 @@ import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;
 import com.team2073.eagleforcescoutingapplication.framework.view.ViewScheduleView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ViewSchedulePresenter extends BasePresenter<ViewScheduleView> {
@@ -26,6 +27,12 @@ public class ViewSchedulePresenter extends BasePresenter<ViewScheduleView> {
     }
 
     public List getAllTeamsPerMatch(){
-        return listTeamsPerMatch;
+        List<TeamsEachMatch> tempList = new ArrayList<>();
+        tempList.add(new TeamsEachMatch(2093, 3242,123,123,12,123));
+        tempList.add(new TeamsEachMatch(2093, 3242,123,123,12,123));
+        tempList.add(new TeamsEachMatch(2093, 3242,123,123,12,123));
+
+        return tempList;
+        //Going back: return listTeamsPerMatch
     }
 }

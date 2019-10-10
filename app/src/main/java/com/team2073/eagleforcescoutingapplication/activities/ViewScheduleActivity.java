@@ -21,7 +21,7 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
 
     private RecyclerView scheduleRecyclerView;
     private ScheduleRecyclerViewAdapter adapter;
-    private List<TeamsEachMatch> matchList;
+    private List<TeamsEachMatch> matchList = viewSchedulePresenter.getAllTeamsPerMatch();
 
 
     @Override
