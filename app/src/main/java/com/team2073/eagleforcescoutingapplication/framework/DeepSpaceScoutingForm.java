@@ -11,6 +11,8 @@ public class DeepSpaceScoutingForm implements ScoutingForm {
 
     public DeepSpaceScoutingForm() {
 
+        fieldNames.add("startingPosition");
+
         fieldNames.add("autoRocketCargo");
         fieldNames.add("autoRocketCargoF");
         fieldNames.add("autoRocketHatch");
@@ -20,6 +22,7 @@ public class DeepSpaceScoutingForm implements ScoutingForm {
         fieldNames.add("autoCargoHatch");
         fieldNames.add("autoCargoHatchF");
 
+        autoNames.add("startingPosition");
         autoNames.add("autoRocketCargo");
         autoNames.add("autoRocketCargoF");
         autoNames.add("autoRocketHatch");
