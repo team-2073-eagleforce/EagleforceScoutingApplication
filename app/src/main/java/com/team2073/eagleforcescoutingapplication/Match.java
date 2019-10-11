@@ -1,6 +1,6 @@
 package com.team2073.eagleforcescoutingapplication;
 
-public class TeamsEachMatch {
+public class Match {
     int red1;
     int red2;
     int red3;
@@ -56,7 +56,7 @@ public class TeamsEachMatch {
         this.blue3 = blue3;
     }
 
-    public TeamsEachMatch(int red1, int red2, int red3, int blue1, int blue2, int blue3){
+    public Match(int red1, int red2, int red3, int blue1, int blue2, int blue3){
         this.red1 = red1;
         this.red2 = red2;
         this.red3 = red3;

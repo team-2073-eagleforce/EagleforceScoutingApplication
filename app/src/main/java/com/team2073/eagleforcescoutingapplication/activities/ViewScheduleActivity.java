@@ -6,8 +6,8 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.team2073.eagleforcescoutingapplication.Match;
 import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.TeamsEachMatch;
 import com.team2073.eagleforcescoutingapplication.adapters.ScheduleRecyclerViewAdapter;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ViewSchedulePresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.ViewScheduleView;
@@ -21,7 +21,7 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
 
     private RecyclerView scheduleRecyclerView;
     private ScheduleRecyclerViewAdapter adapter;
-    private List<TeamsEachMatch> matchList = viewSchedulePresenter.getAllTeamsPerMatch();
+    private List<Match> matchList;
 
 
     @Override
@@ -36,6 +36,7 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
         adapter = new ScheduleRecyclerViewAdapter(getBaseContext(), matchList);
         scheduleRecyclerView.setAdapter(adapter);
         scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        matchList = viewSchedulePresenter.getAllTeamsPerMatch();
     }
 
     @Override

@@ -17,6 +17,7 @@
             android:text="Qual #"
             android:textSize="20sp"
             android:layout_centerHorizontal="true"
+            android:textColor="@color/defaultTextColor"
             android:layout_centerVertical="true"/>
 
     </RelativeLayout>
@@ -28,37 +29,40 @@
         android:layout_marginLeft="120dp"
         android:background="@color/redAlliance">
 
-        <TextView
+        <Button
             android:id="@+id/red_team_1_text"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="team1"
-            android:textSize="20sp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp" />
+            android:layout_marginRight="50dp"
+            android:text="team1"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
 
-        <TextView
+        <Button
             android:id="@+id/red_team_2_text"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/red_team_1_text"
-            android:text="team2"
-            android:textSize="20sp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp" />
+            android:layout_marginRight="50dp"
+            android:layout_toRightOf="@id/red_team_1_text"
+            android:text="team2"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
 
-        <TextView
+        <Button
             android:id="@+id/red_team_3_text"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/red_team_2_text"
-            android:text="team3"
-            android:textSize="20sp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp" />
+            android:layout_marginRight="50dp"
+            android:layout_toRightOf="@id/red_team_2_text"
+            android:text="team3"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -69,37 +73,40 @@
         android:layout_marginLeft="120dp"
         android:background="@color/blueAlliance">
 
-        <TextView
+        <Button
             android:id="@+id/blue_team_1_text"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="team1"
-            android:textSize="20sp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp" />
+            android:layout_marginRight="50dp"
+            android:text="team1"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
 
-        <TextView
+        <Button
             android:id="@+id/blue_team_2_text"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/blue_team_1_text"
-            android:text="team2"
-            android:textSize="20sp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp" />
+            android:layout_marginRight="50dp"
+            android:layout_toRightOf="@id/blue_team_1_text"
+            android:text="team2"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
 
-        <TextView
+        <Button
             android:id="@+id/blue_team_3_text"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/blue_team_2_text"
-            android:text="team3"
-            android:textSize="20sp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp" />
+            android:layout_marginRight="50dp"
+            android:layout_toRightOf="@id/blue_team_2_text"
+            android:text="team3"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
     </RelativeLayout>
 
 
