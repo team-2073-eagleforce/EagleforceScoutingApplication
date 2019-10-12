@@ -25,11 +25,12 @@
 
     <ImageButton
         android:id="@+id/formAdd"
-        android:layout_width="34dp"
-        android:layout_height="32dp"
+        android:layout_width="52dp"
+        android:layout_height="37dp"
         android:layout_marginStart="3dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:background="#00000000"
         android:gravity="center"
         android:src="@drawable/vector_add_white"
         android:text="+"
@@ -40,11 +41,12 @@
 
     <ImageButton
         android:id="@+id/formSubtract"
-        android:layout_width="45dp"
+        android:layout_width="44dp"
         android:layout_height="40dp"
         android:layout_marginStart="240dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:background="#00000000"
         android:gravity="center"
         android:src="@drawable/vector_minus_white"
         android:text="--"

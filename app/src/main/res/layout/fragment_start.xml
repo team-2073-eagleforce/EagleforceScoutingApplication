@@ -29,13 +29,13 @@
             android:layout_width="172dp"
             android:layout_height="63dp"
             android:layout_marginStart="120dp"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="136dp"
             android:layout_marginEnd="120dp"
             android:hint="Match Number"
             android:inputType="number"
             android:textColor="@color/defaultTextColor"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
