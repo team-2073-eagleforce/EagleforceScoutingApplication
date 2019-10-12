@@ -5,17 +5,16 @@
     android:layout_height="match_parent"
     tools:context="com.team2073.eagleforcescoutingapplication.activities.fragment.StartFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <EditText
             android:id="@+id/teamNumber"
             android:layout_width="180dp"
-            android:layout_height="67dp"
-            android:layout_marginStart="114dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="88dp"
-            android:layout_marginEnd="117dp"
             android:hint="Team Number"
             android:inputType="number"
             android:textColor="@color/defaultTextColor"
@@ -27,10 +26,10 @@
         <EditText
             android:id="@+id/matchNumber"
             android:layout_width="172dp"
-            android:layout_height="63dp"
-            android:layout_marginStart="120dp"
-            android:layout_marginTop="136dp"
-            android:layout_marginEnd="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:layout_below="@id/teamNumber"
             android:hint="Match Number"
             android:inputType="number"
             android:textColor="@color/defaultTextColor"
@@ -38,5 +37,5 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </ScrollView>
