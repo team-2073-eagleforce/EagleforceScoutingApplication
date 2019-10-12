@@ -126,4 +126,9 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     public void clearPreferences() {
         prefsDataManager.clearPreferences();
     }
+
+    public void autoFillStartInfo(String teamNumber, String matchNumber) {
+        prefsDataManager.writeToPreferences("teamNumber", teamNumber);
+        prefsDataManager.writeToPreferences("matchNumber", matchNumber);
+    }
 }
