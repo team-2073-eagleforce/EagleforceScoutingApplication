@@ -64,6 +64,13 @@ public class ScoutingFormRecyclerViewAdapter extends RecyclerView.Adapter<Scouti
 
             Timber.d("shared Preferences: " + fieldName.get(position) + ", " + prefsDataManager.readFromPreferences(fieldName.get(position)));
         });
+
+        holder.data.setOnFocusChangeListener((view, b) -> {
+            if(!b){
+                prefsDataManager.writeToPreferences(fieldName.get(position), holder.data.getText().toString());
+                Timber.d("shared Preferences: " + fieldName.get(position) + ", " + prefsDataManager.readFromPreferences(fieldName.get(position)));
+            }
+        });
     }
 
     @Override
