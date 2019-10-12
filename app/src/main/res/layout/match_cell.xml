@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:id="@+id/match_head"
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="100dp">
 
         <TextView
@@ -38,6 +38,7 @@
             android:layout_marginRight="50dp"
             android:text="team1"
             android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"
             android:textSize="20sp" />
 
         <Button
@@ -50,6 +51,7 @@
             android:layout_toRightOf="@id/red_team_1_text"
             android:text="team2"
             android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"
             android:textSize="20sp" />
 
         <Button
@@ -62,6 +64,7 @@
             android:layout_toRightOf="@id/red_team_2_text"
             android:text="team3"
             android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"
             android:textSize="20sp" />
     </RelativeLayout>
 
@@ -82,6 +85,7 @@
             android:layout_marginRight="50dp"
             android:text="team1"
             android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"
             android:textSize="20sp" />
 
         <Button
@@ -94,6 +98,7 @@
             android:layout_toRightOf="@id/blue_team_1_text"
             android:text="team2"
             android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"
             android:textSize="20sp" />
 
         <Button
@@ -106,6 +111,7 @@
             android:layout_toRightOf="@id/blue_team_2_text"
             android:text="team3"
             android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"
             android:textSize="20sp" />
     </RelativeLayout>
 
