@@ -35,7 +35,7 @@
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings2"
             android:parentActivityName=".activities.ScoutingFormActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity" />
@@ -43,7 +43,7 @@
         <activity
             android:name=".activities.ScoutingFormActivity"
             android:label="@string/title_activity_scouting_form"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
