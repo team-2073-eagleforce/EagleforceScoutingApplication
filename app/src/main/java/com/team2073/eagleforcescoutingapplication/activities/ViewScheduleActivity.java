@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.team2073.eagleforcescoutingapplication.Match;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.adapters.ScheduleRecyclerViewAdapter;
+import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ViewSchedulePresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.ViewScheduleView;
 
@@ -22,6 +23,7 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
     private RecyclerView scheduleRecyclerView;
     private ScheduleRecyclerViewAdapter adapter;
     private List<Match> matchList;
+    private PrefsDataManager prefsDataManager;
 
 
     @Override
@@ -29,11 +31,12 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
         super.onCreate(savedInstanceState);
 
         viewSchedulePresenter.makeDrawer();
+        prefsDataManager = PrefsDataManager.getInstance(this);
 
         //Initialize RecyclerView related variables
         matchList = viewSchedulePresenter.getAllTeamsPerMatch();
         scheduleRecyclerView = this.findViewById(R.id.schedule_recycler_view);
-        adapter = new ScheduleRecyclerViewAdapter(getBaseContext(), matchList);
+        adapter = new ScheduleRecyclerViewAdapter(getBaseContext(), matchList, prefsDataManager, this);
         scheduleRecyclerView.setAdapter(adapter);
         scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         matchList = viewSchedulePresenter.getAllTeamsPerMatch();

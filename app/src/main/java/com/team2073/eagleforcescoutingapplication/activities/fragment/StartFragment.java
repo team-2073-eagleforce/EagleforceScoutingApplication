@@ -52,8 +52,10 @@ public class StartFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_start, container, false);
         ButterKnife.bind(this, root);
 
-        scoutingFormPresenter.saveData("matchNumber", matchNumberText.getText().toString());
-        scoutingFormPresenter.saveData("teamNumber", teamNumberText.getText().toString());
+        if (!scoutingFormPresenter.readData("teamNumber").equals("0")) {
+            matchNumberText.setText(scoutingFormPresenter.readData("matchNumber"));
+            teamNumberText.setText(scoutingFormPresenter.readData("teamNumber"));
+        }
 
         matchNumberText.setOnFocusChangeListener((view, b) -> {
             if(!b){

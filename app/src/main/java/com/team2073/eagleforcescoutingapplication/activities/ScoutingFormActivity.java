@@ -19,6 +19,7 @@ import com.google.android.material.tabs.TabLayout;
 public class ScoutingFormActivity extends BaseActivity implements ScoutingFormView {
     private final String LOG = "ScoutingFormActivity";
     private ScoutingFormPresenter scoutingFormPresenter;
+    private boolean hasCleared = false;
 
     String[] externalStoragePermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     String[] bluetoothPermission = {Manifest.permission.BLUETOOTH};
@@ -27,7 +28,11 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         scoutingFormPresenter.makeDrawer();
-        scoutingFormPresenter.clearPreferences();
+
+        if(!hasCleared) {
+            scoutingFormPresenter.clearPreferences();
+            hasCleared = true;
+        }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
