@@ -59,4 +59,6 @@
     <color name="redAlliance">#EEA9A9</color>
 
     <color name="blueAlliance">#B9EFF7</color>
+
+    <color name="scheduleMatchHeadColor">#424242</color>
 </resources>

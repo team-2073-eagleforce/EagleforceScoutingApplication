@@ -8,17 +8,18 @@
     <RelativeLayout
         android:id="@+id/match_head"
         android:layout_width="100dp"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        android:background="@color/scheduleMatchHeadColor">
 
         <TextView
             android:id="@+id/match_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Qual #"
-            android:textSize="20sp"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Qual #"
             android:textColor="@color/defaultTextColor"
-            android:layout_centerVertical="true"/>
+            android:textSize="20sp" />
 
     </RelativeLayout>
 
@@ -26,7 +27,7 @@
         android:id="@+id/red_alliance"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="120dp"
+        android:layout_toRightOf="@id/match_head"
         android:background="@color/redAlliance">
 
         <Button
@@ -73,7 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/red_alliance"
-        android:layout_marginLeft="120dp"
+        android:layout_toRightOf="@id/match_head"
         android:background="@color/blueAlliance">
 
         <Button
