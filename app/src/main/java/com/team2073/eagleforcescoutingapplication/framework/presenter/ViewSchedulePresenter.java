@@ -35,4 +35,8 @@ public class ViewSchedulePresenter extends BasePresenter<ViewScheduleView> {
         scheduleList = csvManager.readScheduleFile(fileManager.getScheduleFile());
         return scheduleList;
     }
+
+    public File getScheduleFile() {
+        return fileManager.getScheduleFile();
+    }
 }

@@ -2,6 +2,7 @@ package com.team2073.eagleforcescoutingapplication.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +33,11 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
 
         viewSchedulePresenter.makeDrawer();
         prefsDataManager = PrefsDataManager.getInstance(this);
+
+        if(viewSchedulePresenter.getScheduleFile() == null) {
+            Toast.makeText(this, "Select a Schedule File", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         //Initialize RecyclerView related variables
         matchList = viewSchedulePresenter.getAllTeamsPerMatch();
