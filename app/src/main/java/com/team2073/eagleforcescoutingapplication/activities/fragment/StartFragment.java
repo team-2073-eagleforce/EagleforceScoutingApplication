@@ -4,25 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.framework.ScoutingFormRecyclerViewAdapter;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class StartFragment extends Fragment {
 
@@ -59,8 +52,10 @@ public class StartFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_start, container, false);
         ButterKnife.bind(this, root);
 
-        scoutingFormPresenter.saveData("matchNumber", matchNumberText.getText().toString());
-        scoutingFormPresenter.saveData("teamNumber", teamNumberText.getText().toString());
+        if (!scoutingFormPresenter.readData("teamNumber").equals("0")) {
+            matchNumberText.setText(scoutingFormPresenter.readData("matchNumber"));
+            teamNumberText.setText(scoutingFormPresenter.readData("teamNumber"));
+        }
 
         matchNumberText.setOnFocusChangeListener((view, b) -> {
             if(!b){

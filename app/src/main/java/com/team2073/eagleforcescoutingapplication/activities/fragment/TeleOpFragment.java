@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.framework.ScoutingFormRecyclerViewAdapter;
+import com.team2073.eagleforcescoutingapplication.adapters.ScoutingFormRecyclerViewAdapter;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.util.ArrayList;

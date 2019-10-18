@@ -21,7 +21,9 @@ public class EagleforceScoutingApplication extends Application implements Applic
         super.onCreate();
         mInstance = this;
 
-        Timber.plant(new Timber.DebugTree());
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
 
         listActivity = new ArrayList<>();
         registerActivityLifecycleCallbacks(this);

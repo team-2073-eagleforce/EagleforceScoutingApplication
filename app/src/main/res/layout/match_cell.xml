@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="125dp"
+    android:id="@+id/match_cell">
+
+    <RelativeLayout
+        android:id="@+id/match_head"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/scheduleMatchHeadColor">
+
+        <TextView
+            android:id="@+id/match_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Qual #"
+            android:textColor="@color/defaultTextColor"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/red_alliance"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_toRightOf="@id/match_head"
+        android:background="@color/redAlliance">
+
+        <Button
+            android:id="@+id/red_team_1_text"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:text="team1"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/red_team_2_text"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_toRightOf="@id/red_team_1_text"
+            android:text="team2"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/red_team_3_text"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_toRightOf="@id/red_team_2_text"
+            android:text="team3"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/blue_alliance"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/red_alliance"
+        android:layout_toRightOf="@id/match_head"
+        android:background="@color/blueAlliance">
+
+        <Button
+            android:id="@+id/blue_team_1_text"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:text="team1"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/blue_team_2_text"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_toRightOf="@id/blue_team_1_text"
+            android:text="team2"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/blue_team_3_text"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_toRightOf="@id/blue_team_2_text"
+            android:text="team3"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/transparent"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -55,6 +55,10 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         prefsDataManager.writeToPreferences(key, data);
     }
 
+    public String readData(String key){
+       return prefsDataManager.readFromPreferences(key);
+    }
+
     public void createCSV() {
         csvManager.createCSV(getRootDirectory(),
                 Integer.parseInt(prefsDataManager.readFromPreferences("teamNumber")),
@@ -125,10 +129,5 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
 
     public void clearPreferences() {
         prefsDataManager.clearPreferences();
-    }
-
-    public void autoFillStartInfo(String teamNumber, String matchNumber) {
-        prefsDataManager.writeToPreferences("teamNumber", teamNumber);
-        prefsDataManager.writeToPreferences("matchNumber", matchNumber);
     }
 }

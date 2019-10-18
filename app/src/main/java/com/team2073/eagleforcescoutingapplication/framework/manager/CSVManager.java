@@ -3,12 +3,20 @@ package com.team2073.eagleforcescoutingapplication.framework.manager;
 import android.app.Activity;
 import android.util.Log;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+import com.team2073.eagleforcescoutingapplication.Match;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import timber.log.Timber;
@@ -74,14 +82,14 @@ public class CSVManager {
         return Arrays.copyOf(array, array.length, String[].class);
     }
 
-    public File getFormCSVFile(int teamNumber, int matchNumber){
+    public File getFormCSVFile(int teamNumber, int matchNumber) {
         String fileName = teamNumber + "-" + matchNumber + ".csv";
         File rootFile = new File(presenter.getRootDirectory());
         File returnedFile = null;
         File[] files = rootFile.listFiles();
-        for(File file: files){
-            if (file.getName() == fileName){
-                returnedFile =  file;
+        for (File file : files) {
+            if (file.getName() == fileName) {
+                returnedFile = file;
             }
         }
         return returnedFile;
@@ -94,5 +102,31 @@ public class CSVManager {
 
     public File getCsvFile() {
         return csvFile;
+    }
+
+    public ArrayList<Match> readScheduleFile(File schedule) {
+        ArrayList<Match> scheduleList = new ArrayList<>();
+
+        try {
+            FileReader fileReader = new FileReader(schedule);
+            CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
+
+            String[] nextRecord;
+            while ((nextRecord = csvReader.readNext()) != null) {
+                Match match = new Match(
+                        nextRecord[2],
+                        nextRecord[3],
+                        nextRecord[4],
+                        nextRecord[5],
+                        nextRecord[6],
+                        nextRecord[7],
+                        nextRecord[8]);
+                scheduleList.add(match);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return scheduleList;
     }
 }
