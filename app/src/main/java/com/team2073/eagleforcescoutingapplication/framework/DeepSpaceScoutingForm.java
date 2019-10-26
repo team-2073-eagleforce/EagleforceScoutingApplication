@@ -10,53 +10,51 @@ public class DeepSpaceScoutingForm implements ScoutingForm {
     private ArrayList<String> detailNames = new ArrayList<>();
 
     public DeepSpaceScoutingForm() {
+        fieldNames.add("Starting Position");
+        fieldNames.add("Auto Rocket Cargo");
+        fieldNames.add("Failed Auto Rocket Cargo");
+        fieldNames.add("Auto Rocket Hatch");
+        fieldNames.add("Failed Auto Rocket Hatch");
+        fieldNames.add("Auto Cargoship Cargo");
+        fieldNames.add("Failed Auto Cargoship Cargo");
+        fieldNames.add("Auto Cargoship Hatch");
+        fieldNames.add("Failed Auto Cargoship Hatch");
 
-        fieldNames.add("startingPosition");
+        autoNames.add("Starting Position");
+        autoNames.add("Auto Rocket Cargo");
+        autoNames.add("Failed Auto Rocket Cargo");
+        autoNames.add("Auto Rocket Hatch");
+        autoNames.add("Failed Auto Rocket Hatch");
+        autoNames.add("Auto Cargoship Cargo");
+        autoNames.add("Failed Auto Cargoship Cargo");
+        autoNames.add("Auto Cargoship Hatch");
+        autoNames.add("Failed Auto Cargoship Hatch");
 
-        fieldNames.add("autoRocketCargo");
-        fieldNames.add("autoRocketCargoF");
-        fieldNames.add("autoRocketHatch");
-        fieldNames.add("autoRocketHatchF");
-        fieldNames.add("autoCargoCargo");
-        fieldNames.add("autoCargoCargoF");
-        fieldNames.add("autoCargoHatch");
-        fieldNames.add("autoCargoHatchF");
+        fieldNames.add("Teleop Rocket Cargo");
+        fieldNames.add("Failed Teleop Rocket Cargo");
+        fieldNames.add("Teleop Rocket Hatch");
+        fieldNames.add("Failed Teleop Rocket Hatch");
+        fieldNames.add("Teleop Cargoship Cargo");
+        fieldNames.add("Failed Teleop Cargoship Cargo");
+        fieldNames.add("Teleop Cargoship Hatch");
+        fieldNames.add("Failed Teleop Cargoship Hatch");
 
-        autoNames.add("startingPosition");
-        autoNames.add("autoRocketCargo");
-        autoNames.add("autoRocketCargoF");
-        autoNames.add("autoRocketHatch");
-        autoNames.add("autoRocketHatchF");
-        autoNames.add("autoCargoCargo");
-        autoNames.add("autoCargoCargoF");
-        autoNames.add("autoCargoHatch");
-        autoNames.add("autoCargoHatchF");
+        teleNames.add("Teleop Rocket Cargo");
+        teleNames.add("Failed Teleop Rocket Cargo");
+        teleNames.add("Teleop Rocket Hatch");
+        teleNames.add("Failed Teleop Rocket Hatch");
+        teleNames.add("Teleop Cargoship Cargo");
+        teleNames.add("Failed Teleop Cargoship Cargo");
+        teleNames.add("Teleop Cargoship Hatch");
+        teleNames.add("Failed Teleop Cargoship Hatch");
 
-        fieldNames.add("teleRocketCargo");
-        fieldNames.add("teleRocketCargoF");
-        fieldNames.add("teleRocketHatch");
-        fieldNames.add("teleRocketHatchF");
-        fieldNames.add("teleCargoCargo");
-        fieldNames.add("teleCargoCargoF");
-        fieldNames.add("teleCargoHatch");
-        fieldNames.add("teleCargoHatchF");
+        fieldNames.add("Driver Performance");
+        fieldNames.add("Auto Performance");
+        fieldNames.add("Climb Level");
 
-        teleNames.add("teleRocketCargo");
-        teleNames.add("teleRocketCargoF");
-        teleNames.add("teleRocketHatch");
-        teleNames.add("teleRocketHatchF");
-        teleNames.add("teleCargoCargo");
-        teleNames.add("teleCargoCargoF");
-        teleNames.add("teleCargoHatch");
-        teleNames.add("teleCargoHatchF");
-
-        fieldNames.add("driverPerformance");
-        fieldNames.add("autoPerformance");
-        fieldNames.add("climbLevel");
-
-        detailNames.add("driverPerformance");
-        detailNames.add("autoPerformance");
-        detailNames.add("climbLevel");
+        detailNames.add("Driver Performance");
+        detailNames.add("Auto Performance");
+        detailNames.add("Climb Level");
 
         fieldNames.add("name");
         fieldNames.add("comments");
