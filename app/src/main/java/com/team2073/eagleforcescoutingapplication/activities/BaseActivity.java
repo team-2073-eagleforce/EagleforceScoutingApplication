@@ -17,19 +17,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.team2073.eagleforcescoutingapplication.EagleforceScoutingApplication;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.framework.view.BaseView;
-import com.team2073.eagleforcescoutingapplication.lib.service.NetworkConnectionReceiver;
 import com.team2073.eagleforcescoutingapplication.lib.ui.FullScreenProgressDialog;
 import com.team2073.eagleforcescoutingapplication.lib.ui.LoadingDialogFragment;
-import com.team2073.eagleforcescoutingapplication.util.NetworkUtil;
 
-public abstract class BaseActivity extends AppCompatActivity implements BaseView, NetworkConnectionReceiver.ConnectionReceiverListener {
+public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 
     private final Object mutex = new Object();
 
     private LoadingDialogFragment mLoadingDialog;
-
-    private View bannerNetwork;
-    private NetworkConnectionReceiver mNetworkConnectionReceiver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,7 +32,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         if (getLayoutResourceId() != 0) {
             setContentView(getLayoutResourceId());
         }
-        mNetworkConnectionReceiver = new NetworkConnectionReceiver();
         initView();
         initEvent();
         bindView();
@@ -50,16 +44,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
                 LinearLayout.LayoutParams.MATCH_PARENT));
         screenRootView.setOrientation(LinearLayout.VERTICAL);
         screenRootView.setBackgroundResource(R.color.colorPrimary);
-        bannerNetwork = LayoutInflater.from(this).inflate(R.layout.banner_network_status, null, false);
-        (bannerNetwork.findViewById(R.id.tvNetWorkClose)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bannerNetwork.setVisibility(View.GONE);
-            }
-        });
+
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View screenView = inflater.inflate(resId, null);
-        screenRootView.addView(bannerNetwork);
         screenRootView.addView(screenView);
 
         super.setContentView(screenRootView);
@@ -69,16 +56,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(mNetworkConnectionReceiver);
-    }
-
-    @Override
-    public void onNetworkConnectionChanged(boolean isConnected) {
-        if (!isConnected) {
-            bannerNetwork.setVisibility(View.VISIBLE);
-        } else {
-            bannerNetwork.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -96,15 +73,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     @Override
     protected void onResume() {
         super.onResume();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(mNetworkConnectionReceiver, intentFilter);
-        EagleforceScoutingApplication.getInstance().setConnectionListener(this);
-        if (NetworkUtil.isNetworkConntected(this)) {
-            bannerNetwork.setVisibility(View.GONE);
-        } else {
-            bannerNetwork.setVisibility(View.VISIBLE);
-        }
     }
 
     protected void saveOutStateBundle(Bundle outState) {
