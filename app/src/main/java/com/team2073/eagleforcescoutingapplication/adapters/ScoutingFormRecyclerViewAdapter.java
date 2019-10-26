@@ -57,7 +57,11 @@ public class ScoutingFormRecyclerViewAdapter extends RecyclerView.Adapter<Scouti
         });
         holder.subtract.setOnClickListener(view -> {
             Integer value = Integer.parseInt(holder.data.getText().toString()) - 1;
+            if(value < 0){
+                value = 0;
+            }
             holder.data.setText(value.toString());
+
 
             prefsDataManager.writeToPreferences(fieldName.get(position), value.toString());
             prefsDataManager.commitToPreferences();
