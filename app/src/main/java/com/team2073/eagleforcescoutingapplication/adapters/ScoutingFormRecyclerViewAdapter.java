@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -59,6 +60,7 @@ public class ScoutingFormRecyclerViewAdapter extends RecyclerView.Adapter<Scouti
             Integer value = Integer.parseInt(holder.data.getText().toString()) - 1;
             if(value < 0){
                 value = 0;
+                Toast.makeText(activity, "Can't Have Negative Values", Toast.LENGTH_SHORT).show();
             }
             holder.data.setText(value.toString());
 
