@@ -1,18 +1,14 @@
 package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
-import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Environment;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
-import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity;
 import com.team2073.eagleforcescoutingapplication.framework.DeepSpaceScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
@@ -21,11 +17,8 @@ import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataMan
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
 
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     private static final String TAG = ScoutingFormPresenter.class.getSimpleName();
@@ -53,16 +46,27 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
 
     public void saveData(String key, String data) {
         prefsDataManager.writeToPreferences(key, data);
-    }
+}
 
-    public String readData(String key){
-       return prefsDataManager.readFromPreferences(key);
+    public String readData(String key) {
+        return prefsDataManager.readFromPreferences(key);
     }
 
     public void createCSV() {
+
+        String match = prefsDataManager.readFromPreferences("matchNumber");
+        String team = prefsDataManager.readFromPreferences("teamNumber");
+
+        if (match.equals("")) {
+            match = "0";
+        }
+
+        if (team.equals("")) {
+            team = "0";
+        }
         csvManager.createCSV(getRootDirectory(),
-                Integer.parseInt(prefsDataManager.readFromPreferences("teamNumber")),
-                Integer.parseInt(prefsDataManager.readFromPreferences("matchNumber")));
+                Integer.parseInt(team),
+                Integer.parseInt(match));
         writeCSV();
     }
 

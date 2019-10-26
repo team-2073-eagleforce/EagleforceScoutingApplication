@@ -23,6 +23,7 @@ public class DrawerManager {
     private static final String TAG = "DrawerManager";
     public static DrawerManager INSTANCE;
     private Activity activity;
+    private Drawer drawer;
 
     public static DrawerManager getInstance(Activity activity) {
         if (INSTANCE == null) {
@@ -40,8 +41,12 @@ public class DrawerManager {
         PrimaryDrawerItem schedule = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.drawerScheduleText);
         PrimaryDrawerItem settings = new PrimaryDrawerItem().withIdentifier(3).withName(R.string.drawerSettingsText);
 
-        new DrawerBuilder()
+        drawer = new DrawerBuilder()
                 .withActivity(activity)
+                .withActionBarDrawerToggle(true)
+                .withActionBarDrawerToggleAnimated(true)
+                .withCloseOnClick(true)
+                .withSelectedItem(-1)
                 .addDrawerItems(scoutingForm, new DividerDrawerItem(),
                         schedule, new DividerDrawerItem(),
                         settings, new DividerDrawerItem())
@@ -57,5 +62,9 @@ public class DrawerManager {
                 })
                 .withSliderBackgroundColor(activity.getColor(R.color.grey))
                 .build();
+    }
+
+    public Drawer getDrawer() {
+        return drawer;
     }
 }

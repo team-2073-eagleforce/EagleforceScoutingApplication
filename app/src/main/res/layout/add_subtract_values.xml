@@ -25,8 +25,8 @@
 
     <ImageButton
         android:id="@+id/formAdd"
-        android:layout_width="52dp"
-        android:layout_height="37dp"
+        android:layout_width="91dp"
+        android:layout_height="61dp"
         android:layout_marginStart="3dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
@@ -41,9 +41,9 @@
 
     <ImageButton
         android:id="@+id/formSubtract"
-        android:layout_width="44dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="240dp"
+        android:layout_width="86dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="245dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:background="#00000000"

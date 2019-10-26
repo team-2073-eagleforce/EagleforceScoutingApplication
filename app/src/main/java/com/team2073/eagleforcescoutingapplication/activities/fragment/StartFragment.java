@@ -49,7 +49,7 @@ public class StartFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_start, container, false);
+        View root = inflater.inflate(R.layout.fragment_scouting_form_start, container, false);
         ButterKnife.bind(this, root);
 
         if (!scoutingFormPresenter.readData("teamNumber").equals("0")) {
