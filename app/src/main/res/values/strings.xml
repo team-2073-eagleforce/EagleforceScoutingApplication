@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EagleforceScoutingApplication</string>
+    <string name="app_name">EagleScout</string>
     <string name="notice">notice</string>
     <string name="no_internet">No Internet</string>
     <string name="error_network_title">No Internet Connection</string>
