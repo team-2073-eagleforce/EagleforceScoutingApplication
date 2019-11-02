@@ -132,6 +132,10 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     }
 
     public void clearPreferences() {
+        prefsDataManager.clearPreferences(scoutingForm.getClearNames());
+    }
+
+    public void clearAllPreferences(){
         prefsDataManager.clearPreferences();
     }
 }

@@ -7,4 +7,5 @@ public interface ScoutingForm {
     ArrayList<String> getTeleFieldNames();
     ArrayList<String> getAutoFieldNames();
     ArrayList<String> getDetailsFieldNames();
+    ArrayList<String> getClearNames();
 }

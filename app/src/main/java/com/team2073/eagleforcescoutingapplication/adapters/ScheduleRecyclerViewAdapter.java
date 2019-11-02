@@ -64,27 +64,27 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         holder.red2.setOnClickListener(view -> {
             prefsDataManager.writeToPreferences("teamNumber", listOfTeams.get(position).getRed2());
             prefsDataManager.writeToPreferences("matchNumber", matchNumber.toString());
-            activity.startActivity(new Intent(activity, ScoutingForm.class));
+            activity.startActivity(new Intent(activity, ScoutingFormActivity.class));
         });
         holder.red3.setOnClickListener(view -> {
             prefsDataManager.writeToPreferences("teamNumber", listOfTeams.get(position).getRed3());
             prefsDataManager.writeToPreferences("matchNumber", matchNumber.toString());
-            activity.startActivity(new Intent(activity, ScoutingForm.class));
+            activity.startActivity(new Intent(activity, ScoutingFormActivity.class));
         });
         holder.blue1.setOnClickListener(view -> {
             prefsDataManager.writeToPreferences("teamNumber", listOfTeams.get(position).getBlue1());
             prefsDataManager.writeToPreferences("matchNumber", matchNumber.toString());
-            activity.startActivity(new Intent(activity, ScoutingForm.class));
+            activity.startActivity(new Intent(activity, ScoutingFormActivity.class));
         });
         holder.blue2.setOnClickListener(view -> {
             prefsDataManager.writeToPreferences("teamNumber", listOfTeams.get(position).getBlue2());
             prefsDataManager.writeToPreferences("matchNumber", matchNumber.toString());
-            activity.startActivity(new Intent(activity, ScoutingForm.class));
+            activity.startActivity(new Intent(activity, ScoutingFormActivity.class));
         });
         holder.blue3.setOnClickListener(view -> {
             prefsDataManager.writeToPreferences("teamNumber", listOfTeams.get(position).getBlue3());
             prefsDataManager.writeToPreferences("matchNumber", matchNumber.toString());
-            activity.startActivity(new Intent(activity, ScoutingForm.class));
+            activity.startActivity(new Intent(activity, ScoutingFormActivity.class));
         });
     }
 

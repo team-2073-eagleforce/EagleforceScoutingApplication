@@ -55,6 +55,13 @@ public class PrefsDataManager {
         return editor.commit();
     }
 
+    public void clearPreferences(ArrayList<String> preferences){
+        for (String preference: preferences) {
+            editor.remove(preference);
+        }
+        editor.commit();
+    }
+
     public void clearPreferences(){
         editor.clear();
         editor.commit();

@@ -1,22 +1,16 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -65,7 +59,9 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
         View root = inflater.inflate(R.layout.fragment_scouting_form_submit, container, false);
         ButterKnife.bind(this, root);
 
-        root.findViewById(R.id.formSubmitButton).setOnClickListener(this);
+        if(!scoutingFormPresenter.readData("name").equals("0")) {
+            formName.setText(scoutingFormPresenter.readData("name"));
+        }
 
         return root;
     }
