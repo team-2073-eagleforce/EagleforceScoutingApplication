@@ -38,7 +38,8 @@ public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
             Uri uri = null;
             if (resultData != null) {
                 uri = resultData.getData();
-                File file = new File(getRealPathFromURI(mActivity, uri));
+                //TODO Make generic path.
+                File file = new File("/sdcard/Download/Match_Schedule.csv");
                 fileManager.setScheduleFile(file);
 
                 Toast.makeText(mActivity, "schedule file saved: " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
