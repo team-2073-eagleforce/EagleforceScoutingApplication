@@ -30,6 +30,8 @@ public class DeepSpaceScoutingForm implements ScoutingForm {
         autoNames.add("Failed Auto Cargoship Cargo");
         autoNames.add("Auto Cargoship Hatch");
         autoNames.add("Failed Auto Cargoship Hatch");
+        autoNames.add("");
+        autoNames.add("");
 
         clearNames.add("Starting Position");
         clearNames.add("Auto Rocket Cargo");

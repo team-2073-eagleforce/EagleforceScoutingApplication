@@ -46,7 +46,7 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
         scoutingFormPresenter = new ScoutingFormPresenter(getActivity());
 
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
-        int index = 3;
+        int index;
         index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
 
@@ -62,6 +62,8 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
         if(!scoutingFormPresenter.readData("name").equals("0")) {
             formName.setText(scoutingFormPresenter.readData("name"));
         }
+
+        root.findViewById(R.id.formSubmitButton).setOnClickListener(this);
 
         return root;
     }
