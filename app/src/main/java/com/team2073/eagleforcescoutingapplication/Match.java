@@ -19,15 +19,17 @@ public class Match {
     }
 
     public String getRed1() {
-        return red1;
+        return red1.substring(3);
     }
+
+    //TODO replace substring methods
 
     public void setRed1(String red1) {
         this.red1 = red1;
     }
 
     public String getRed2() {
-        return red2;
+        return red2.substring(3);
     }
 
     public void setRed2(String red2) {
@@ -35,7 +37,7 @@ public class Match {
     }
 
     public String getRed3() {
-        return red3;
+        return red3.substring(3);
     }
 
     public void setRed3(String red3) {
@@ -43,7 +45,7 @@ public class Match {
     }
 
     public String getBlue1() {
-        return blue1;
+        return blue1.substring(3);
     }
 
     public void setBlue1(String blue1) {
@@ -51,7 +53,7 @@ public class Match {
     }
 
     public String getBlue2() {
-        return blue2;
+        return blue2.substring(3);
     }
 
     public void setBlue2(String blue2) {
@@ -59,7 +61,7 @@ public class Match {
     }
 
     public String getBlue3() {
-        return blue3;
+        return blue3.substring(3);
     }
 
     public void setBlue3(String blue3) {

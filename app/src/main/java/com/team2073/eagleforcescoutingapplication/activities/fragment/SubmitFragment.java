@@ -84,7 +84,7 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    private class BluetoothSend extends AsyncTask<ScoutingFormPresenter, Void, Void> {
+    private static class BluetoothSend extends AsyncTask<ScoutingFormPresenter, Void, Void> {
 
         private ScoutingFormPresenter scoutingFormPresenter;
 

@@ -65,8 +65,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
             team = "0";
         }
         csvManager.createCSV(getRootDirectory(),
-                Integer.parseInt(team),
-                Integer.parseInt(match));
+                team, match);
         writeCSV();
     }
 
