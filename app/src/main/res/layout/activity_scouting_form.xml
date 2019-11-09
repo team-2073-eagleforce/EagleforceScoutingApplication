@@ -28,13 +28,13 @@
             android:background="?attr/colorPrimary"
             app:tabSelectedTextColor="@color/defaultTextColor"
             app:tabTextColor="@color/grey"/>
-    </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </com.google.android.material.appbar.AppBarLayout>
 
 </RelativeLayout>
