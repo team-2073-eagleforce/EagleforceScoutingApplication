@@ -69,30 +69,37 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+
+        startActivity(new Intent(getActivity(), ScoutingFormActivity.class));
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.formSubmitButton: {
                 scoutingFormPresenter.saveData("name", formName.getText().toString());
                 scoutingFormPresenter.saveData("comments", formComments.getText().toString());
-
                 scoutingFormPresenter.createCSV();
-                new BluetoothSend().execute(scoutingFormPresenter);
-                scoutingFormPresenter.clearPreferences();
-                startActivity(new Intent(getActivity(), ScoutingFormActivity.class));
+                BluetoothSend bluetoothSend = new BluetoothSend(scoutingFormPresenter);
+                bluetoothSend.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
                 break;
             }
         }
     }
 
-    private static class BluetoothSend extends AsyncTask<ScoutingFormPresenter, Void, Void> {
+    private static class BluetoothSend extends AsyncTask<Void, Void, Void> {
 
         private ScoutingFormPresenter scoutingFormPresenter;
 
+        public BluetoothSend(ScoutingFormPresenter scoutingFormPresenter){
+            this.scoutingFormPresenter = scoutingFormPresenter;
+        }
+
         @Override
-        protected Void doInBackground(ScoutingFormPresenter... scoutingFormPresenters){
-            for (ScoutingFormPresenter presenter: scoutingFormPresenters) {
-                presenter.sendOverBluetooth();
-            }
+        protected Void doInBackground(Void... voids) {
+            scoutingFormPresenter.sendOverBluetooth();
             return null;
         }
     }

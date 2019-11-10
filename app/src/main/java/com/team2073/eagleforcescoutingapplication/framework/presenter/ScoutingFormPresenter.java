@@ -113,6 +113,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
             } else {
                 intent.setClassName(packageName, className);
                 mActivity.startActivity(intent);
+                mActivity.startActivityForResult(intent, 1234);
             }
         }
     }
