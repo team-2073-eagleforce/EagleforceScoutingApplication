@@ -1,6 +1,7 @@
 package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -112,7 +113,6 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
                 Toast.makeText(mActivity, "Bluetooth Not Available: Make Sure Bluetooth Is On", Toast.LENGTH_SHORT).show();
             } else {
                 intent.setClassName(packageName, className);
-                mActivity.startActivity(intent);
                 mActivity.startActivityForResult(intent, 1234);
             }
         }

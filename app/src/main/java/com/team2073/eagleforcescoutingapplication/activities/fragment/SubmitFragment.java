@@ -69,13 +69,6 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public void startActivityForResult(Intent intent, int requestCode) {
-        super.startActivityForResult(intent, requestCode);
-
-        startActivity(new Intent(getActivity(), ScoutingFormActivity.class));
-    }
-
-    @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.formSubmitButton: {

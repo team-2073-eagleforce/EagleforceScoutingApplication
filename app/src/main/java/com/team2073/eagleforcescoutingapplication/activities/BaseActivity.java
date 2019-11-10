@@ -33,8 +33,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
             setContentView(getLayoutResourceId());
         }
         initView();
-        initEvent();
         bindView();
+        initEvent();
     }
 
     @Override

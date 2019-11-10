@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
@@ -74,6 +75,21 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
     @Override
     public void onSubmitFailed(String errorMessage) {
         Toast.makeText(this, "Submit Success", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, ScoutingFormActivity.class));
+    }
+
+    /**
+     * gets called after bluetooth intent activity is started
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        scoutingFormPresenter.clearPreferences();
         startActivity(new Intent(this, ScoutingFormActivity.class));
     }
 }
