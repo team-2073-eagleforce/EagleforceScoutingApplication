@@ -1,9 +1,5 @@
 package com.team2073.eagleforcescoutingapplication.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,9 +7,8 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ReceiveFilePresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.ReceiveFileView;
 
-import java.net.Socket;
-
 public class ReceiveFileActivity extends BaseActivity implements ReceiveFileView, View.OnClickListener {
+
     private ReceiveFilePresenter receiveFilePresenter;
 
     @Override

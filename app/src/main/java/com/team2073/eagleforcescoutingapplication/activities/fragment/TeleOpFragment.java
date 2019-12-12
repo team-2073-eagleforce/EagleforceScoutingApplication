@@ -22,8 +22,6 @@ import timber.log.Timber;
 
 public class TeleOpFragment extends Fragment {
 
-    private static final String TAG = "TeleOpFragment";
-
     private static final String ARG_SECTION_NUMBER = "TeleOp";
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;

@@ -22,7 +22,7 @@ import java.util.Arrays;
 import timber.log.Timber;
 
 public class CSVManager {
-    private static final String TAG = "CSVManager";
+
     public static CSVManager INSTANCE;
     private Activity mActivity;
     private File mainDir;
@@ -49,17 +49,17 @@ public class CSVManager {
         Timber.i("Instantiated file");
         if (!mainDir.exists()) {
             mainDir.mkdir();
-            Log.i(TAG, mainDir.getPath() + " created successfully");
+            Timber.i("%s Created Successfully", mainDir.getPath());
         }
         setCSVFile(new File(mainDir, teamNumber + "-" + matchNumber + ".csv"));
 
         if (!csvFile.exists()) {
             try {
                 csvFile.createNewFile();
-                Log.i(TAG, csvFile.getAbsolutePath() + " created successfully");
+                Timber.i("%s created successfully", csvFile.getAbsolutePath());
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.i(TAG, "Failed to make CSV");
+                Timber.i("Failed to make CSV");
             }
         }
     }

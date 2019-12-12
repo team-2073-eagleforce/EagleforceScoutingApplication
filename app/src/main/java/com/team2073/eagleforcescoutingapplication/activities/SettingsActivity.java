@@ -17,7 +17,7 @@ import com.team2073.eagleforcescoutingapplication.framework.presenter.SettingsPr
 import com.team2073.eagleforcescoutingapplication.framework.view.SettingsView;
 
 public class SettingsActivity extends BaseActivity implements SettingsView {
-    private final String LOG = "SettingsActivity";
+
     private SettingsPresenter settingsPresenter;
 
     @Override

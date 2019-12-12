@@ -22,8 +22,6 @@ import timber.log.Timber;
 
 public class DetailFragment extends Fragment {
 
-    private static final String TAG = "DetailFragment";
-
     private static final String ARG_SECTION_NUMBER = "Detail";
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;

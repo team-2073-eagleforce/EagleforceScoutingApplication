@@ -22,10 +22,6 @@ import com.team2073.eagleforcescoutingapplication.lib.ui.LoadingDialogFragment;
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 
-    private final Object mutex = new Object();
-
-    private LoadingDialogFragment mLoadingDialog;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,50 +78,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     protected void restoreSavedState(Bundle savedInstanceState) {
 
     }
-
-    /**
-     * Default loading dialog with no message and can not cancel dialog when touch out side
-     */
-    public void showLoading() {
-        synchronized (mutex) {
-            if (!isFinishing()) {
-                if (mLoadingDialog == null) {
-                    mLoadingDialog = LoadingDialogFragment.getInstance(false, null);
-                    getFragmentManager().beginTransaction()
-                            .add(mLoadingDialog, LoadingDialogFragment.FRAGMENT_TAG)
-                            .commitAllowingStateLoss();
-                }
-            }
-        }
-    }
-
-    public void dismissLoading() {
-        synchronized (mutex) {
-            if (!isFinishing()) {
-                if (mLoadingDialog != null) {
-                    getFragmentManager().beginTransaction()
-                            .remove(mLoadingDialog)
-                            .commitAllowingStateLoss();
-                    mLoadingDialog = null;
-                }
-            }
-        }
-    }
-
-    public AlertDialog displayAlertDialog(Context context, String title, String message,
-                                          String positiveButton, AlertDialog.OnClickListener positiveOnClickListener,
-                                          DialogInterface.OnCancelListener onCancelListener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setPositiveButton(positiveButton, positiveOnClickListener);
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setCancelable(false);
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.setOnCancelListener(onCancelListener);
-        return alertDialog;
-    }
-
 
     /**
      * Layout resource id for activity.

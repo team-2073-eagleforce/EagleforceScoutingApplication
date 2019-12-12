@@ -5,7 +5,7 @@ import android.app.Activity;
 import java.io.File;
 
 public class FileManager {
-    private static final String TAG = "FileManager";
+
     public static FileManager INSTANCE;
     private Activity mActivity;
     private File scheduleFile;
