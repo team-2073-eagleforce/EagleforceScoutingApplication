@@ -1,22 +1,16 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -52,7 +46,7 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
         scoutingFormPresenter = new ScoutingFormPresenter(getActivity());
 
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
-        int index = 3;
+        int index;
         index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
 
@@ -65,6 +59,10 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
         View root = inflater.inflate(R.layout.fragment_scouting_form_submit, container, false);
         ButterKnife.bind(this, root);
 
+        if(!scoutingFormPresenter.readData("name").equals("0")) {
+            formName.setText(scoutingFormPresenter.readData("name"));
+        }
+
         root.findViewById(R.id.formSubmitButton).setOnClickListener(this);
 
         return root;
@@ -76,25 +74,25 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
             case R.id.formSubmitButton: {
                 scoutingFormPresenter.saveData("name", formName.getText().toString());
                 scoutingFormPresenter.saveData("comments", formComments.getText().toString());
-
                 scoutingFormPresenter.createCSV();
-                new BluetoothSend().execute(scoutingFormPresenter);
-                scoutingFormPresenter.clearPreferences();
-                startActivity(new Intent(getActivity(), ScoutingFormActivity.class));
+                BluetoothSend bluetoothSend = new BluetoothSend(scoutingFormPresenter);
+                bluetoothSend.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
                 break;
             }
         }
     }
 
-    private class BluetoothSend extends AsyncTask<ScoutingFormPresenter, Void, Void> {
+    private static class BluetoothSend extends AsyncTask<Void, Void, Void> {
 
         private ScoutingFormPresenter scoutingFormPresenter;
 
+        public BluetoothSend(ScoutingFormPresenter scoutingFormPresenter){
+            this.scoutingFormPresenter = scoutingFormPresenter;
+        }
+
         @Override
-        protected Void doInBackground(ScoutingFormPresenter... scoutingFormPresenters){
-            for (ScoutingFormPresenter presenter: scoutingFormPresenters) {
-                presenter.sendOverBluetooth();
-            }
+        protected Void doInBackground(Void... voids) {
+            scoutingFormPresenter.sendOverBluetooth();
             return null;
         }
     }

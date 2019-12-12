@@ -46,25 +46,29 @@ public class StartFragment extends Fragment {
 
     }
 
+    private String lastTeamNumber;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_scouting_form_start, container, false);
         ButterKnife.bind(this, root);
 
-        if (!scoutingFormPresenter.readData("teamNumber").equals("0")) {
+        if (!scoutingFormPresenter.readData("teamNumber").equals("0")
+                && !scoutingFormPresenter.readData("teamNumber").equals(lastTeamNumber)) {
             matchNumberText.setText(scoutingFormPresenter.readData("matchNumber"));
             teamNumberText.setText(scoutingFormPresenter.readData("teamNumber"));
+            lastTeamNumber = scoutingFormPresenter.readData("teamNumber");
         }
 
         matchNumberText.setOnFocusChangeListener((view, b) -> {
-            if(!b){
+            if (!b) {
                 scoutingFormPresenter.saveData("matchNumber", matchNumberText.getText().toString());
             }
         });
 
         teamNumberText.setOnFocusChangeListener((view, b) -> {
-            if(!b){
+            if (!b) {
                 scoutingFormPresenter.saveData("teamNumber", teamNumberText.getText().toString());
             }
         });
