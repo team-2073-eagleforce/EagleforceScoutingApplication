@@ -1,7 +1,6 @@
 package com.team2073.eagleforcescoutingapplication.activities;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,11 +13,10 @@ import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataMan
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ViewSchedulePresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.ViewScheduleView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ViewScheduleActivity extends BaseActivity implements ViewScheduleView {
-    private final String LOG = "ViewScheduleActivity";
+
     private ViewSchedulePresenter viewSchedulePresenter;
 
     private RecyclerView scheduleRecyclerView;

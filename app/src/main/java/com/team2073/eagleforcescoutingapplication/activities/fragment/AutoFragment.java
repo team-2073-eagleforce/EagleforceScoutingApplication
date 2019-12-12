@@ -22,8 +22,6 @@ import timber.log.Timber;
 
 public class AutoFragment extends Fragment {
 
-    private static final String TAG = "AutoFragment";
-
     private static final String ARG_SECTION_NUMBER = "Auto";
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;

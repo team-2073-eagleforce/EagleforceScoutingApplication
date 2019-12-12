@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ReceiveFilePresenter extends BasePresenter<ReceiveFileView> {
+
     private Activity mActivity;
 
     public ReceiveFilePresenter(Activity activity) {

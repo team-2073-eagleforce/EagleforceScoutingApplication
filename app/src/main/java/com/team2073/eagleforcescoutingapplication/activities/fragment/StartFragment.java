@@ -19,7 +19,6 @@ import butterknife.ButterKnife;
 
 public class StartFragment extends Fragment {
 
-    private static final String TAG = "StartFragment";
     @BindView(R.id.matchNumber) EditText matchNumberText;
     @BindView(R.id.teamNumber) EditText teamNumberText;
 

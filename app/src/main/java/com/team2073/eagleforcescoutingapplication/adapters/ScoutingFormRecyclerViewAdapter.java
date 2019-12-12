@@ -25,7 +25,6 @@ import timber.log.Timber;
 
 public class ScoutingFormRecyclerViewAdapter extends RecyclerView.Adapter<ScoutingFormRecyclerViewAdapter.DataViewHolder> {
 
-    private static final String TAG = ScoutingFormRecyclerViewAdapter.class.getSimpleName();
     private ArrayList<String> fieldName;
     private Context activity;
     private PrefsDataManager prefsDataManager;

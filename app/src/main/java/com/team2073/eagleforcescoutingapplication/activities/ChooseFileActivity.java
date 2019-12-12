@@ -10,7 +10,7 @@ import com.team2073.eagleforcescoutingapplication.framework.presenter.ChooseFile
 import com.team2073.eagleforcescoutingapplication.framework.view.ChooseFileView;
 
 public class ChooseFileActivity extends BaseActivity implements ChooseFileView {
-    private final String LOG = "ChooseFileActivity";
+
     private ChooseFilePresenter chooseFilePresenter;
 
     @Override

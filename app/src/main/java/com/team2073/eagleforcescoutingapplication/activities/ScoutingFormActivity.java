@@ -18,7 +18,7 @@ import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFo
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
 
 public class ScoutingFormActivity extends BaseActivity implements ScoutingFormView {
-    private final String LOG = "ScoutingFormActivity";
+
     private ScoutingFormPresenter scoutingFormPresenter;
 
     String[] externalStoragePermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
