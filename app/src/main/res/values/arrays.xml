@@ -9,4 +9,13 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+    <string-array name="scouting_positions">
+        <item>red1</item>
+        <item>red2</item>
+        <item>red3</item>
+        <item>blue1</item>
+        <item>blue2</item>
+        <item>blue3</item>
+    </string-array>
 </resources>

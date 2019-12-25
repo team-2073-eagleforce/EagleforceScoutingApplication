@@ -9,6 +9,8 @@ import android.os.Environment;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
 
 import com.team2073.eagleforcescoutingapplication.framework.DeepSpaceScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.ScoutingForm;
@@ -137,5 +139,11 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
 
     public void clearAllPreferences(){
         prefsDataManager.clearPreferences();
+    }
+
+    public void advanceOnSubmit() {
+        prefsDataManager.readFromPreferences("position");
+
+
     }
 }

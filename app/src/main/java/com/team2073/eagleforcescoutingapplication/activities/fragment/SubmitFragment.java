@@ -75,6 +75,7 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
                 scoutingFormPresenter.saveData("name", formName.getText().toString());
                 scoutingFormPresenter.saveData("comments", formComments.getText().toString());
                 scoutingFormPresenter.createCSV();
+                scoutingFormPresenter.advanceOnSubmit();
                 BluetoothSend bluetoothSend = new BluetoothSend(scoutingFormPresenter);
                 bluetoothSend.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
                 break;
