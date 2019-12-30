@@ -92,6 +92,8 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                 String currValue = listPreference.getValue();
                 settingsPresenter.writeToPreferences("position", currValue);
             }
+
+
         }
 
         @Override
