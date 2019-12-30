@@ -26,6 +26,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     private static final String TAG = ScoutingFormPresenter.class.getSimpleName();
     private Activity mActivity;
@@ -147,12 +149,19 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     }
 
     public void advanceOnSubmit() {
+
+        if(fileManager.getScheduleFile() == null) {
+            Timber.e("no schedule file for auto advance");
+            Toast.makeText(mActivity, "Please select a schedule file", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String position = prefsDataManager.readFromPreferences("position");
         // ArrayList<Match> list = csvManager.readScheduleFile(new File("C:\\Users\\Afraz Hameed\\AndroidStudioProjects\\EagleforceScoutingApplication\\Match_Schedule.csv"));
         ArrayList<Match> scheduleList = csvManager.readScheduleFile(fileManager.getScheduleFile());
         Integer matchNumber = Integer.parseInt(prefsDataManager.readFromPreferences("matchNumber")) + 1;
         String teamNumber;
-        Match currentMatch = scheduleList.get(matchNumber);
+        Match currentMatch = scheduleList.get(matchNumber - 1);
         switch (position) {
             case "red1":
                 teamNumber = currentMatch.getRed1();
