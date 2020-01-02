@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.core.app.NavUtils;
 import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -72,6 +73,7 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+            findPreference("position");
         }
 
         @Override
@@ -84,6 +86,14 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                 EditTextPreference mName = (EditTextPreference) name;
                 settingsPresenter.writeToPreferences("name", ((EditTextPreference) name).getText());
             }
+            if (s.equals("position")) {
+                ListPreference listPreference = (ListPreference) findPreference("position");
+                CharSequence currText = listPreference.getEntry();
+                String currValue = listPreference.getValue();
+                settingsPresenter.writeToPreferences("position", currValue);
+            }
+
+
         }
 
         @Override

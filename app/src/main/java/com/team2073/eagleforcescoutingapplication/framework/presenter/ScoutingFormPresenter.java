@@ -9,11 +9,16 @@ import android.os.Environment;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
 
+import com.team2073.eagleforcescoutingapplication.EagleforceScoutingApplication;
+import com.team2073.eagleforcescoutingapplication.Match;
 import com.team2073.eagleforcescoutingapplication.framework.DeepSpaceScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;
+import com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
 
@@ -21,10 +26,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     private static final String TAG = ScoutingFormPresenter.class.getSimpleName();
     private Activity mActivity;
     private CSVManager csvManager;
+    private FileManager fileManager;
     private DrawerManager drawerManager;
     private PrefsDataManager prefsDataManager;
 
@@ -36,6 +44,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     public ScoutingFormPresenter(Activity activity) {
         this.mActivity = activity;
         csvManager = CSVManager.getInstance(mActivity);
+        fileManager = FileManager.getInstance(mActivity);
         drawerManager = DrawerManager.getInstance(mActivity);
         prefsDataManager = PrefsDataManager.getInstance(mActivity);
         tempCSVDir = new File(mActivity.getFilesDir(), "tmpCSVFiles");
@@ -47,7 +56,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
 
     public void saveData(String key, String data) {
         prefsDataManager.writeToPreferences(key, data);
-}
+    }
 
     public String readData(String key) {
         return prefsDataManager.readFromPreferences(key);
@@ -135,7 +144,50 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         prefsDataManager.clearPreferences(scoutingForm.getClearNames());
     }
 
-    public void clearAllPreferences(){
+    public void clearAllPreferences() {
         prefsDataManager.clearPreferences();
+    }
+
+    public void advanceOnSubmit() {
+
+        if(fileManager.getScheduleFile() == null) {
+            Timber.e("no schedule file for auto advance");
+            Toast.makeText(mActivity, "Please select a schedule file", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String position = prefsDataManager.readFromPreferences("position");
+        // ArrayList<Match> list = csvManager.readScheduleFile(new File("C:\\Users\\Afraz Hameed\\AndroidStudioProjects\\EagleforceScoutingApplication\\Match_Schedule.csv"));
+        ArrayList<Match> scheduleList = csvManager.readScheduleFile(fileManager.getScheduleFile());
+        Integer matchNumber = Integer.parseInt(prefsDataManager.readFromPreferences("matchNumber")) + 1;
+        String teamNumber;
+        Match currentMatch = scheduleList.get(matchNumber - 1);
+        switch (position) {
+            case "red1":
+                teamNumber = currentMatch.getRed1();
+                break;
+            case "red2":
+                teamNumber = currentMatch.getRed2();
+                break;
+            case "red3":
+                teamNumber = currentMatch.getRed3();
+                break;
+            case "blue1":
+                teamNumber = currentMatch.getBlue1();
+                break;
+            case "blue2":
+                teamNumber = currentMatch.getBlue2();
+                break;
+            case "blue3":
+                teamNumber = currentMatch.getBlue3();
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + "position");
+        }
+        prefsDataManager.writeToPreferences("matchNumber", matchNumber.toString());
+        prefsDataManager.writeToPreferences("teamNumber", teamNumber);
+
+
     }
 }

@@ -30,6 +30,12 @@
             app:key="name"
             app:title="@string/signature_title"
             app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/scouting_positions"
+            android:entryValues="@array/scouting_positions"
+            android:key="position"
+            android:title="Position" />
 
     </PreferenceCategory>
 
