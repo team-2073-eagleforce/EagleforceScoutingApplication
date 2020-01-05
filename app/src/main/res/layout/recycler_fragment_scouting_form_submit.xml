@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/formSubmitButton"
+            android:id="@+id/rFormSubmitButton"
             android:layout_width="253dp"
             android:layout_height="61dp"
             android:layout_marginStart="8dp"
@@ -22,10 +22,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/formComments" />
+            app:layout_constraintTop_toBottomOf="@+id/rFormComments" />
 
         <EditText
-            android:id="@+id/formComments"
+            android:id="@+id/rFormComments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -35,13 +35,13 @@
             android:hint="Comments"
             android:inputType="textCapSentences|textMultiLine"
             android:singleLine="false"
-            app:layout_constraintBottom_toTopOf="@+id/formSubmitButton"
+            app:layout_constraintBottom_toTopOf="@+id/rFormSubmitButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/formName"
+            android:id="@+id/rFormName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -51,7 +51,7 @@
             android:ems="10"
             android:hint="Name"
             android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/formComments"
+            app:layout_constraintBottom_toTopOf="@+id/rFormComments"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

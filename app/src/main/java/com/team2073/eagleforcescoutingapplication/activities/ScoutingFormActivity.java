@@ -9,11 +9,13 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.activities.fragment.SectionsPagerAdapter;
+import com.team2073.eagleforcescoutingapplication.activities.fragment.RecyclerPagerAdapter;
+import com.team2073.eagleforcescoutingapplication.framework.PagerAdapterFactory;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
 
@@ -49,7 +51,8 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
 
     @Override
     protected void initEvent() {
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        PagerAdapterFactory pagerAdapterFactory = new PagerAdapterFactory();
+        FragmentPagerAdapter sectionsPagerAdapter = pagerAdapterFactory.getAdapter(scoutingFormPresenter.readData("scoutingMode"), this);
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         viewPager.setOffscreenPageLimit(3);

@@ -15,6 +15,7 @@ import androidx.preference.Preference;
 import com.team2073.eagleforcescoutingapplication.EagleforceScoutingApplication;
 import com.team2073.eagleforcescoutingapplication.Match;
 import com.team2073.eagleforcescoutingapplication.framework.DeepSpaceScoutingForm;
+import com.team2073.eagleforcescoutingapplication.framework.InfiniteRechargeScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;
@@ -36,7 +37,8 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     private DrawerManager drawerManager;
     private PrefsDataManager prefsDataManager;
 
-    private ScoutingForm scoutingForm = new DeepSpaceScoutingForm();
+    //REPLACE with current year's scouting form
+    private ScoutingForm scoutingForm = new InfiniteRechargeScoutingForm();
 
     private File tempCSVDir;
     private ArrayList<String> formData;

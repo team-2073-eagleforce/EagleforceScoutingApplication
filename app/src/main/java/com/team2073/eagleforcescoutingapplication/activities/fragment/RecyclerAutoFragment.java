@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import timber.log.Timber;
 
-public class AutoFragment extends Fragment {
+public class RecyclerAutoFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "Auto";
     private PageViewModel pageViewModel;
@@ -28,8 +28,8 @@ public class AutoFragment extends Fragment {
 
     private ArrayList<String> fieldNames = new ArrayList<>();
 
-    public static AutoFragment newInstance(int index) {
-        AutoFragment fragment = new AutoFragment();
+    public static RecyclerAutoFragment newInstance(int index) {
+        RecyclerAutoFragment fragment = new RecyclerAutoFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -50,7 +50,7 @@ public class AutoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_scouting_form_auto, container, false);
+        View root = inflater.inflate(R.layout.recycler_fragment_scouting_form_auto, container, false);
 
         initFieldNames();
         initRecyclerView(root);
@@ -64,7 +64,6 @@ public class AutoFragment extends Fragment {
     }
 
     private void initRecyclerView(View root) {
-        Timber.d("init recyclerView");
         RecyclerView recyclerView = root.findViewById(R.id.autoRecyclerView);
         ScoutingFormRecyclerViewAdapter adapter = new ScoutingFormRecyclerViewAdapter(fieldNames, getActivity());
         recyclerView.setAdapter(adapter);

@@ -14,13 +14,13 @@ import com.team2073.eagleforcescoutingapplication.R;
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class RecyclerPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3, R.string.tab_text_4, R.string.tab_text_5};
+    private static final int[] TAB_TITLES = new int[]{R.string.recycler_tab_text_1, R.string.recycler_tab_text_2, R.string.recycler_tab_text_3, R.string.recycler_tab_text_4, R.string.recycler_tab_text_5};
     private final Context mContext;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm) {
+    public RecyclerPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
     }
@@ -29,15 +29,15 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0: {
-                return StartFragment.newInstance(position+1);
+                return RecyclerStartFragment.newInstance(position+1);
             } case 1: {
-                return AutoFragment.newInstance(position+1);
+                return RecyclerAutoFragment.newInstance(position+1);
             } case 2: {
-                return TeleOpFragment.newInstance(position+1);
+                return RecyclerTeleOpFragment.newInstance(position+1);
             }case 3: {
-                return DetailFragment.newInstance(position+1);
+                return RecyclerDetailFragment.newInstance(position+1);
             }case 4: {
-                return SubmitFragment.newInstance(position+1);
+                return RecyclerSubmitFragment.newInstance(position+1);
             }
         }
         return null;

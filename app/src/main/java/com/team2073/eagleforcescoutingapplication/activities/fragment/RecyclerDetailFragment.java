@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import timber.log.Timber;
 
-public class DetailFragment extends Fragment {
+public class RecyclerDetailFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "Detail";
     private PageViewModel pageViewModel;
@@ -28,8 +28,8 @@ public class DetailFragment extends Fragment {
 
     private ArrayList<String> fieldNames = new ArrayList<>();
 
-    public static DetailFragment newInstance(int index) {
-        DetailFragment fragment = new DetailFragment();
+    public static RecyclerDetailFragment newInstance(int index) {
+        RecyclerDetailFragment fragment = new RecyclerDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -50,7 +50,7 @@ public class DetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_detail, container, false);
+        View root = inflater.inflate(R.layout.recycler_fragment_detail, container, false);
 
         initFieldNames();
         initRecyclerView(root);
@@ -60,11 +60,10 @@ public class DetailFragment extends Fragment {
     }
 
     private void initFieldNames() {
-        fieldNames = scoutingFormPresenter.getScoutingForm().getDetailsFieldNames();
+        fieldNames = scoutingFormPresenter.getScoutingForm().getEndGameFieldNames();
     }
 
     private void initRecyclerView(View root) {
-        Timber.d("init recyclerView");
         RecyclerView recyclerView = root.findViewById(R.id.detailRecyclerView);
         ScoutingFormRecyclerViewAdapter adapter = new ScoutingFormRecyclerViewAdapter(fieldNames, getActivity());
         recyclerView.setAdapter(adapter);

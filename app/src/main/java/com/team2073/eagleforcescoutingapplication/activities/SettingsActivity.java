@@ -92,6 +92,11 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                 String currValue = listPreference.getValue();
                 settingsPresenter.writeToPreferences("position", currValue);
             }
+            if(s.equals("scoutingMode")) {
+                ListPreference listPreference = findPreference("scoutingMode");
+                String value = listPreference.getValue();
+                settingsPresenter.writeToPreferences("scoutingMode", value);
+            }
 
 
         }

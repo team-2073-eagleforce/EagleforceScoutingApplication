@@ -100,7 +100,7 @@ public class DeepSpaceScoutingForm implements ScoutingForm {
     }
 
     @Override
-    public ArrayList<String> getDetailsFieldNames() {
+    public ArrayList<String> getEndGameFieldNames() {
         return detailNames;
     }
 

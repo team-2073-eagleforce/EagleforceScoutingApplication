@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,17 +18,20 @@ import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFo
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StartFragment extends Fragment {
+public class UIInfoFragment extends Fragment {
 
-    @BindView(R.id.matchNumber) EditText matchNumberText;
-    @BindView(R.id.teamNumber) EditText teamNumberText;
+    @BindView(R.id.uiMatchNumber) EditText matchNumberText;
+    @BindView(R.id.uiTeamNumber) EditText teamNumberText;
+    @BindView(R.id.uiName) EditText nameText;
+    @BindView(R.id.uiPersonalInfoDisplay)
+    TextView personalInfoText;
 
     private static final String ARG_SECTION_NUMBER = "Start";
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
 
-    public static StartFragment newInstance(int index) {
-        StartFragment fragment = new StartFragment();
+    public static UIInfoFragment newInstance(int index) {
+        UIInfoFragment fragment = new UIInfoFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -50,7 +54,7 @@ public class StartFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_scouting_form_start, container, false);
+        View root = inflater.inflate(R.layout.ui_fragment_info, container, false);
         ButterKnife.bind(this, root);
 
         if (!scoutingFormPresenter.readData("teamNumber").equals("0")
@@ -58,6 +62,10 @@ public class StartFragment extends Fragment {
             matchNumberText.setText(scoutingFormPresenter.readData("matchNumber"));
             teamNumberText.setText(scoutingFormPresenter.readData("teamNumber"));
             lastTeamNumber = scoutingFormPresenter.readData("teamNumber");
+        }
+
+        if(!scoutingFormPresenter.readData("name").equals("0")) {
+            nameText.setText(scoutingFormPresenter.readData("name"));
         }
 
         matchNumberText.setOnFocusChangeListener((view, b) -> {
@@ -71,6 +79,13 @@ public class StartFragment extends Fragment {
                 scoutingFormPresenter.saveData("teamNumber", teamNumberText.getText().toString());
             }
         });
+
+        nameText.setOnFocusChangeListener((view, b) -> {
+            if (!b) {
+                scoutingFormPresenter.saveData("name", nameText.getText().toString());
+            }
+        });
+
         return root;
 
     }

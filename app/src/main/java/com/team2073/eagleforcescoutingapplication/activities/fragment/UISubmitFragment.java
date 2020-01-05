@@ -1,6 +1,5 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,26 +14,25 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SubmitFragment extends Fragment implements View.OnClickListener{
+public class UISubmitFragment extends Fragment implements View.OnClickListener{
 
     private ScoutingFormPresenter scoutingFormPresenter;
 
-    @BindView(R.id.formComments) EditText formComments;
-    @BindView(R.id.formName) EditText formName;
+    @BindView(R.id.uiComments)
+    EditText formComments;
 
     String state = Environment.getExternalStorageState();
 
     private static final String ARG_SECTION_NUMBER = "Submit";
     private PageViewModel pageViewModel;
 
-    public static SubmitFragment newInstance(int index){
-        SubmitFragment fragment = new SubmitFragment();
+    public static UISubmitFragment newInstance(int index){
+        UISubmitFragment fragment = new UISubmitFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -50,20 +48,16 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
         index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
 
-        formComments = getActivity().findViewById(R.id.formComments);
+        formComments = getActivity().findViewById(R.id.rFormComments);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_scouting_form_submit, container, false);
+        View root = inflater.inflate(R.layout.ui_fragment_submit, container, false);
         ButterKnife.bind(this, root);
 
-        if(!scoutingFormPresenter.readData("name").equals("0")) {
-            formName.setText(scoutingFormPresenter.readData("name"));
-        }
-
-        root.findViewById(R.id.formSubmitButton).setOnClickListener(this);
+        root.findViewById(R.id.uiSubmitButton).setOnClickListener(this);
 
         return root;
     }
@@ -71,12 +65,11 @@ public class SubmitFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.formSubmitButton: {
-                scoutingFormPresenter.saveData("name", formName.getText().toString());
+            case R.id.uiSubmitButton: {
                 scoutingFormPresenter.saveData("comments", formComments.getText().toString());
                 scoutingFormPresenter.createCSV();
                 scoutingFormPresenter.advanceOnSubmit();
-                BluetoothSend bluetoothSend = new BluetoothSend(scoutingFormPresenter);
+                UISubmitFragment.BluetoothSend bluetoothSend = new UISubmitFragment.BluetoothSend(scoutingFormPresenter);
                 bluetoothSend.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
                 break;
             }
