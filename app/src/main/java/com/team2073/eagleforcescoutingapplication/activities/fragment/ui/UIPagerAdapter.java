@@ -1,4 +1,4 @@
-package com.team2073.eagleforcescoutingapplication.activities.fragment;
+package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
 import android.content.Context;
 
@@ -10,17 +10,13 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.team2073.eagleforcescoutingapplication.R;
 
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
-public class RecyclerPagerAdapter extends FragmentPagerAdapter {
+public class UIPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.recycler_tab_text_1, R.string.recycler_tab_text_2, R.string.recycler_tab_text_3, R.string.recycler_tab_text_4, R.string.recycler_tab_text_5};
+    private static final int[] TAB_TITLES = new int[]{R.string.ui_tab_text_1, R.string.ui_tab_text_2, R.string.ui_tab_text_3, R.string.ui_tab_text_4, R.string.ui_tab_text_5};
     private final Context mContext;
 
-    public RecyclerPagerAdapter(Context context, FragmentManager fm) {
+    public UIPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
     }
@@ -29,15 +25,15 @@ public class RecyclerPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0: {
-                return RecyclerStartFragment.newInstance(position+1);
+                return UIInfoFragment.newInstance(position+1);
             } case 1: {
-                return RecyclerAutoFragment.newInstance(position+1);
+                return UIAutoFragment.newInstance(position+1);
             } case 2: {
-                return RecyclerTeleOpFragment.newInstance(position+1);
+                return UITeleFragment.newInstance(position+1);
             }case 3: {
-                return RecyclerDetailFragment.newInstance(position+1);
+                return UIEndGameFragment.newInstance(position+1);
             }case 4: {
-                return RecyclerSubmitFragment.newInstance(position+1);
+                return UISubmitFragment.newInstance(position+1);
             }
         }
         return null;

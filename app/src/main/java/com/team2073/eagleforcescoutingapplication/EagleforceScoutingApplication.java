@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
-import com.team2073.eagleforcescoutingapplication.lib.service.NetworkConnectionReceiver;
-
 import java.util.ArrayList;
 
 import timber.log.Timber;
@@ -36,10 +34,6 @@ public class EagleforceScoutingApplication extends Application implements Applic
 
     public static synchronized EagleforceScoutingApplication getInstance() {
         return mInstance;
-    }
-
-    public void setConnectionListener(NetworkConnectionReceiver.ConnectionReceiverListener listener) {
-        NetworkConnectionReceiver.connectionReceiverListener = listener;
     }
 
     @Override

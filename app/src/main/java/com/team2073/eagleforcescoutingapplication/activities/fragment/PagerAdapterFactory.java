@@ -1,10 +1,10 @@
-package com.team2073.eagleforcescoutingapplication.framework;
+package com.team2073.eagleforcescoutingapplication.activities.fragment;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.team2073.eagleforcescoutingapplication.activities.fragment.RecyclerPagerAdapter;
-import com.team2073.eagleforcescoutingapplication.activities.fragment.UIPagerAdapter;
+import com.team2073.eagleforcescoutingapplication.activities.fragment.list.RecyclerPagerAdapter;
+import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIPagerAdapter;
 
 public class PagerAdapterFactory {
 

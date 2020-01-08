@@ -87,7 +87,7 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                 settingsPresenter.writeToPreferences("name", ((EditTextPreference) name).getText());
             }
             if (s.equals("position")) {
-                ListPreference listPreference = (ListPreference) findPreference("position");
+                ListPreference listPreference = findPreference("position");
                 CharSequence currText = listPreference.getEntry();
                 String currValue = listPreference.getValue();
                 settingsPresenter.writeToPreferences("position", currValue);

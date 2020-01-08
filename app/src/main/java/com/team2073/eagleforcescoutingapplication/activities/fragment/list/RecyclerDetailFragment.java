@@ -1,4 +1,4 @@
-package com.team2073.eagleforcescoutingapplication.activities.fragment;
+package com.team2073.eagleforcescoutingapplication.activities.fragment.list;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,23 +13,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.adapters.ScoutingFormRecyclerViewAdapter;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.util.ArrayList;
 
-import timber.log.Timber;
+public class RecyclerDetailFragment extends Fragment {
 
-public class RecyclerAutoFragment extends Fragment {
-
-    private static final String ARG_SECTION_NUMBER = "Auto";
+    private static final String ARG_SECTION_NUMBER = "Detail";
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
 
     private ArrayList<String> fieldNames = new ArrayList<>();
 
-    public static RecyclerAutoFragment newInstance(int index) {
-        RecyclerAutoFragment fragment = new RecyclerAutoFragment();
+    public static RecyclerDetailFragment newInstance(int index) {
+        RecyclerDetailFragment fragment = new RecyclerDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -50,7 +49,7 @@ public class RecyclerAutoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.recycler_fragment_scouting_form_auto, container, false);
+        View root = inflater.inflate(R.layout.recycler_fragment_detail, container, false);
 
         initFieldNames();
         initRecyclerView(root);
@@ -60,11 +59,11 @@ public class RecyclerAutoFragment extends Fragment {
     }
 
     private void initFieldNames() {
-        fieldNames = scoutingFormPresenter.getScoutingForm().getAutoFieldNames();
+        fieldNames = scoutingFormPresenter.getScoutingForm().getEndGameFieldNames();
     }
 
     private void initRecyclerView(View root) {
-        RecyclerView recyclerView = root.findViewById(R.id.autoRecyclerView);
+        RecyclerView recyclerView = root.findViewById(R.id.detailRecyclerView);
         ScoutingFormRecyclerViewAdapter adapter = new ScoutingFormRecyclerViewAdapter(fieldNames, getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

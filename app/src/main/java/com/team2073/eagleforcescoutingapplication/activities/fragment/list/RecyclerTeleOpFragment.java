@@ -1,4 +1,4 @@
-package com.team2073.eagleforcescoutingapplication.activities.fragment;
+package com.team2073.eagleforcescoutingapplication.activities.fragment.list;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,13 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
+import com.team2073.eagleforcescoutingapplication.adapters.ScoutingFormRecyclerViewAdapter;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.util.ArrayList;
 
-public class UITeleFragment extends Fragment {
+public class RecyclerTeleOpFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "TeleOp";
     private PageViewModel pageViewModel;
@@ -23,8 +27,8 @@ public class UITeleFragment extends Fragment {
 
     private ArrayList<String> fieldNames = new ArrayList<>();
 
-    public static UITeleFragment newInstance(int index) {
-        UITeleFragment fragment = new UITeleFragment();
+    public static RecyclerTeleOpFragment newInstance(int index) {
+        RecyclerTeleOpFragment fragment = new RecyclerTeleOpFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -44,9 +48,10 @@ public class UITeleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.ui_fragment_teleop, container, false);
+        View root = inflater.inflate(R.layout.recycler_fragment_scouting_form_teleop, container, false);
 
         initFieldNames();
+        initRecyclerView(root);
 
         return root;
 
@@ -54,5 +59,13 @@ public class UITeleFragment extends Fragment {
 
     private void initFieldNames() {
         fieldNames = scoutingFormPresenter.getScoutingForm().getTeleFieldNames();
+    }
+
+    private void initRecyclerView(View root){
+        RecyclerView recyclerView = root.findViewById(R.id.teleRecyclerView);
+        ScoutingFormRecyclerViewAdapter adapter = new ScoutingFormRecyclerViewAdapter(fieldNames, getActivity());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
     }
 }

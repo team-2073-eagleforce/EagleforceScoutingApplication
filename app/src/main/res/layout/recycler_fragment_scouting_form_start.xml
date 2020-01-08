@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.team2073.eagleforcescoutingapplication.activities.fragment.RecyclerStartFragment">
+    tools:context="com.team2073.eagleforcescoutingapplication.activities.fragment.list.RecyclerStartFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/rTeamNumber"

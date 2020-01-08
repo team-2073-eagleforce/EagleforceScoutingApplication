@@ -1,9 +1,9 @@
 package com.team2073.eagleforcescoutingapplication.activities;
 
-import androidx.annotation.Nullable;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ChooseFilePresenter;

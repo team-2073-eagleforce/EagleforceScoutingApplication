@@ -16,8 +16,6 @@
         android:launchMode="singleTop"
         android:theme="@style/AppTheme"
         tools:targetApi="O_MR1">
-        <activity android:name=".activities.FormDataActivity" />
-        <activity android:name=".activities.ReceiveFileActivity" />
 
         <activity android:name=".activities.ViewScheduleActivity"
             android:theme="@style/AppTheme"/>

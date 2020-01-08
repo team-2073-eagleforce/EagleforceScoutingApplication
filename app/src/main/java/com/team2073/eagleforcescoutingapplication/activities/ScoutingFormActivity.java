@@ -14,8 +14,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.activities.fragment.RecyclerPagerAdapter;
-import com.team2073.eagleforcescoutingapplication.framework.PagerAdapterFactory;
+import com.team2073.eagleforcescoutingapplication.framework.form.InfiniteRechargeScoutingForm;
+import com.team2073.eagleforcescoutingapplication.activities.fragment.PagerAdapterFactory;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
 
@@ -68,17 +68,6 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
     protected void bindView() {
         scoutingFormPresenter = new ScoutingFormPresenter(this);
         scoutingFormPresenter.bindView(this);
-    }
-
-    @Override
-    public void onSubmitSuccessful() {
-        Toast.makeText(this, "Failed to Submit", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSubmitFailed(String errorMessage) {
-        Toast.makeText(this, "Submit Success", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this, ScoutingFormActivity.class));
     }
 
     /**

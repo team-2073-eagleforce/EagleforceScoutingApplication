@@ -1,4 +1,4 @@
-package com.team2073.eagleforcescoutingapplication.framework;
+package com.team2073.eagleforcescoutingapplication.framework.form;
 
 import java.util.ArrayList;
 

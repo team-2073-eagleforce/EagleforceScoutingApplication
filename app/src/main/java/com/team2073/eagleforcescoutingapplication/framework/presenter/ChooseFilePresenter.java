@@ -1,12 +1,10 @@
 package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.widget.Toast;
 
 import com.team2073.eagleforcescoutingapplication.activities.SettingsActivity;
@@ -14,7 +12,6 @@ import com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;
 import com.team2073.eagleforcescoutingapplication.framework.view.ChooseFileView;
 
 import java.io.File;
-import java.net.URISyntaxException;
 
 public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
     private Activity mActivity;
@@ -35,12 +32,17 @@ public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
 
     public void saveScheduleFile(int requestCode, int resultCode, Intent resultData) {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            Uri uri = null;
             if (resultData != null) {
-                uri = resultData.getData();
-                //TODO Make generic path.
-                File file = new File("/sdcard/Download/Match_Schedule.csv");
-                fileManager.setScheduleFile(file);
+                Uri uri = resultData.getData();
+
+                String tempID = DocumentsContract.getDocumentId(uri);
+                String[] split = tempID.split(":");
+                String id = split[1];
+              File file = new File("/sdcard/Documents" +"/"+id);
+//              for emulation
+//              File file = new File(uri.getPath().substring(14));
+
+                FileManager.getInstance(mActivity).setScheduleFile(file);
 
                 Toast.makeText(mActivity, "schedule file saved: " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
 
@@ -49,11 +51,19 @@ public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
         }
     }
 
-    public static String getRealPathFromURI(Context context, Uri uri){
-        String filePath = "";
-        String wholeID = DocumentsContract.getDocumentId(uri);
 
-        // Split at colon, use second item in the array
-        return wholeID.split(":")[1];
+    public String getColunmData(Uri uri, String selection, String[] selectarg) {
+        String filepath = "";
+        Cursor cursor = null;
+        String colunm = "_data";
+        String[] projection = {colunm};
+        cursor = mActivity.getContentResolver().query(uri, projection, selection, selectarg, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            filepath = cursor.getString(cursor.getColumnIndex(colunm));
+        }
+        if (cursor != null)
+            cursor.close();
+        return filepath;
     }
 }

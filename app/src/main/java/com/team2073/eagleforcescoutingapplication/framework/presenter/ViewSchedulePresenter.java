@@ -2,14 +2,13 @@ package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
 import android.app.Activity;
 
-import com.team2073.eagleforcescoutingapplication.Match;
+import com.team2073.eagleforcescoutingapplication.util.Match;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;
 import com.team2073.eagleforcescoutingapplication.framework.view.ViewScheduleView;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ViewSchedulePresenter extends BasePresenter<ViewScheduleView> {

@@ -1,4 +1,4 @@
-package com.team2073.eagleforcescoutingapplication;
+package com.team2073.eagleforcescoutingapplication.util;
 
 public class Match {
 

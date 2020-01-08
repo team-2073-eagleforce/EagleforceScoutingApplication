@@ -6,8 +6,4 @@ public interface Presenter<V extends BaseView> {
     void bindView(V baseView);
 
     void unbindView();
-
-    void onStop();
-
-    void onResume();
 }

@@ -1,6 +1,5 @@
-package com.team2073.eagleforcescoutingapplication.framework;
+package com.team2073.eagleforcescoutingapplication.framework.form;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class InfiniteRechargeScoutingForm implements ScoutingForm {

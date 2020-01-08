@@ -1,7 +1,6 @@
 package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -9,21 +8,16 @@ import android.os.Environment;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
-import androidx.preference.ListPreference;
-import androidx.preference.Preference;
 
-import com.team2073.eagleforcescoutingapplication.EagleforceScoutingApplication;
-import com.team2073.eagleforcescoutingapplication.Match;
-import com.team2073.eagleforcescoutingapplication.framework.DeepSpaceScoutingForm;
-import com.team2073.eagleforcescoutingapplication.framework.InfiniteRechargeScoutingForm;
-import com.team2073.eagleforcescoutingapplication.framework.ScoutingForm;
+import com.team2073.eagleforcescoutingapplication.framework.form.InfiniteRechargeScoutingForm;
+import com.team2073.eagleforcescoutingapplication.util.Match;
+import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,12 +30,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     private FileManager fileManager;
     private DrawerManager drawerManager;
     private PrefsDataManager prefsDataManager;
-
-    //REPLACE with current year's scouting form
     private ScoutingForm scoutingForm = new InfiniteRechargeScoutingForm();
-
-    private File tempCSVDir;
-    private ArrayList<String> formData;
 
     public ScoutingFormPresenter(Activity activity) {
         this.mActivity = activity;
@@ -49,7 +38,6 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         fileManager = FileManager.getInstance(mActivity);
         drawerManager = DrawerManager.getInstance(mActivity);
         prefsDataManager = PrefsDataManager.getInstance(mActivity);
-        tempCSVDir = new File(mActivity.getFilesDir(), "tmpCSVFiles");
     }
 
     public void makeDrawer() {
@@ -130,7 +118,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     }
 
     public void writeCSV() {
-        formData = prefsDataManager.readFromPreferences(scoutingForm.getFieldNames());
+        ArrayList<String> formData = prefsDataManager.readFromPreferences(scoutingForm.getFieldNames());
         csvManager.writeData(formData.toArray());
     }
 

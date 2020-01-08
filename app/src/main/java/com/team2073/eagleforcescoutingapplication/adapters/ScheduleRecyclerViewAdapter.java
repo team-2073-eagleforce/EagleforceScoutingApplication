@@ -14,12 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.Match;
+import com.team2073.eagleforcescoutingapplication.util.Match;
 import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity;
-import com.team2073.eagleforcescoutingapplication.framework.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 
 public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRecyclerViewAdapter.ViewHolder> {
