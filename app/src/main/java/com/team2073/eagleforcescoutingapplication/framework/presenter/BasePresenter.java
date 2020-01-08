@@ -17,20 +17,7 @@ public class BasePresenter<V extends BaseView> implements Presenter<V> {
         this.view = view;
     }
 
-    @Override
-    public void onStop() {
-
-    }
-
-    @Override
-    public void onResume() {
-
-    }
-
     public void unbindView() {
-        if (isViewAttached()) {
-            getView().updateProgressDialog(false);
-        }
         this.view = null;
         if (subscription != null) {
             subscription.unsubscribe();
@@ -48,20 +35,6 @@ public class BasePresenter<V extends BaseView> implements Presenter<V> {
 
     public void checkViewAttached() {
         if (!isViewAttached()) throw new MvpViewNotAttachedException();
-    }
-
-    public boolean isNetworkConnected(Context mContext) {
-        ConnectivityManager cm =
-                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-    }
-
-    public void showNetworkError(Context mContext) {
-        if (isViewAttached()) {
-            getView().updateProgressDialog(false);
-            getView().showErrorMessageDialog(mContext.getResources().getString(R.string.notice), mContext.getResources().getString(R.string.no_internet), false);
-        }
     }
 
     public static class MvpViewNotAttachedException extends RuntimeException {

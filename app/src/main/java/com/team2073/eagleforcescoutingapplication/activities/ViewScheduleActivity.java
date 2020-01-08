@@ -6,7 +6,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.team2073.eagleforcescoutingapplication.Match;
+import com.team2073.eagleforcescoutingapplication.util.Match;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.adapters.ScheduleRecyclerViewAdapter;
 import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;

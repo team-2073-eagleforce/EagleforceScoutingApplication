@@ -1,9 +1,6 @@
 package com.team2073.eagleforcescoutingapplication.activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +8,10 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.team2073.eagleforcescoutingapplication.EagleforceScoutingApplication;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.framework.view.BaseView;
-import com.team2073.eagleforcescoutingapplication.lib.ui.FullScreenProgressDialog;
-import com.team2073.eagleforcescoutingapplication.lib.ui.LoadingDialogFragment;
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 
@@ -102,24 +95,4 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      */
     protected abstract void bindView();
 
-    @Override
-    public void updateProgressDialog(boolean isShowProgressDialog) {
-        if (isShowProgressDialog) {
-            showProgressDialog();
-        } else {
-            hideProgressDialog();
-        }
-    }
-
-    protected void showProgressDialog() {
-        FullScreenProgressDialog.show(this);
-    }
-
-    protected void hideProgressDialog() {
-        FullScreenProgressDialog.hideProgressDialog();
-    }
-
-    @Override
-    public void showErrorMessageDialog(String errorTitle, String errorMessage, Boolean isBackLogin) {
-    }
 }

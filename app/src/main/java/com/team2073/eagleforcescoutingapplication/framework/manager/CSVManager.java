@@ -1,18 +1,15 @@
 package com.team2073.eagleforcescoutingapplication.framework.manager;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
-import com.team2073.eagleforcescoutingapplication.Match;
+import com.opencsv.exceptions.CsvValidationException;
+import com.team2073.eagleforcescoutingapplication.util.Match;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -44,6 +41,14 @@ public class CSVManager {
         this.csvFile = csvFile;
     }
 
+    /**
+     *
+     * @param root directory which csv will be saved
+     * @param teamNumber
+     * @param matchNumber
+     *
+     * Creates a CSV from the scouting form
+     */
     public void createCSV(String root, String teamNumber, String matchNumber) {
         File mainDir = new File(root + "/" + "ScoutingDataApplication");
         Timber.i("Instantiated file");
@@ -104,6 +109,13 @@ public class CSVManager {
         return csvFile;
     }
 
+    /**
+     *
+     * @param schedule
+     * @return
+     *
+     *Converts a CSV to an {@link ArrayList} to be better manipulated
+     */
     public ArrayList<Match> readScheduleFile(File schedule) {
         ArrayList<Match> scheduleList = new ArrayList<>();
 
@@ -124,7 +136,7 @@ public class CSVManager {
                 scheduleList.add(match);
             }
 
-        } catch (IOException e) {
+        } catch (IOException | CsvValidationException e) {
             e.printStackTrace();
         }
         return scheduleList;

@@ -60,6 +60,7 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+
         private Activity activity;
         private FileManager fileManager;
         private SettingsPresenter settingsPresenter;
@@ -87,10 +88,15 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                 settingsPresenter.writeToPreferences("name", ((EditTextPreference) name).getText());
             }
             if (s.equals("position")) {
-                ListPreference listPreference = (ListPreference) findPreference("position");
+                ListPreference listPreference = findPreference("position");
                 CharSequence currText = listPreference.getEntry();
                 String currValue = listPreference.getValue();
                 settingsPresenter.writeToPreferences("position", currValue);
+            }
+            if(s.equals("scoutingMode")) {
+                ListPreference listPreference = findPreference("scoutingMode");
+                String value = listPreference.getValue();
+                settingsPresenter.writeToPreferences("scoutingMode", value);
             }
 
 
