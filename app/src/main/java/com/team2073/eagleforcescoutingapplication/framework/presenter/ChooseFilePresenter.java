@@ -30,6 +30,14 @@ public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
         mActivity.startActivityForResult(intent, READ_REQUEST_CODE);
     }
 
+    /**
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param resultData
+     *
+     * Stores filepath of the chosen CSV file
+     */
     public void saveScheduleFile(int requestCode, int resultCode, Intent resultData) {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
@@ -49,21 +57,5 @@ public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
                 mActivity.startActivity(new Intent(mActivity, SettingsActivity.class));
             }
         }
-    }
-
-
-    public String getColunmData(Uri uri, String selection, String[] selectarg) {
-        String filepath = "";
-        Cursor cursor = null;
-        String colunm = "_data";
-        String[] projection = {colunm};
-        cursor = mActivity.getContentResolver().query(uri, projection, selection, selectarg, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            filepath = cursor.getString(cursor.getColumnIndex(colunm));
-        }
-        if (cursor != null)
-            cursor.close();
-        return filepath;
     }
 }

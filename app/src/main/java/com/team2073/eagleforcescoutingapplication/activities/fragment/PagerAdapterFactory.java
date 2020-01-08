@@ -11,6 +11,12 @@ public class PagerAdapterFactory {
     private RecyclerPagerAdapter recyclerPagerAdapter;
     private UIPagerAdapter uiPagerAdapter;
 
+    /**
+     *
+     * @param pagerAdapter from the settings: either list or icons
+     * @param activity
+     * @return
+     */
     public FragmentPagerAdapter getAdapter(String pagerAdapter, FragmentActivity activity) {
         switch (pagerAdapter) {
             case "List":

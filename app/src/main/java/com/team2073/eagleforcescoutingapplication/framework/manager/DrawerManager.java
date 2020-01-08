@@ -36,6 +36,10 @@ public class DrawerManager {
         this.activity = activity;
     }
 
+
+    /**
+     * Creates the default material drawer for the application. Should be called in each activity
+     */
     public void makeDrawer() {
         PrimaryDrawerItem scoutingForm = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.drawerScoutingFormText);
         PrimaryDrawerItem schedule = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.drawerScheduleText);

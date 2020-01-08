@@ -4,18 +4,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.tabs.TabLayout;
 import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.framework.form.InfiniteRechargeScoutingForm;
-import com.team2073.eagleforcescoutingapplication.activities.fragment.PagerAdapterFactory;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
 
@@ -25,6 +19,7 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
 
     String[] externalStoragePermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     String[] bluetoothPermission = {Manifest.permission.BLUETOOTH};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +46,7 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
 
     @Override
     protected void initEvent() {
-        PagerAdapterFactory pagerAdapterFactory = new PagerAdapterFactory();
-        FragmentPagerAdapter sectionsPagerAdapter = pagerAdapterFactory.getAdapter(scoutingFormPresenter.readData("scoutingMode"), this);
-        ViewPager viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setOffscreenPageLimit(3);
-        TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
+        scoutingFormPresenter.createTabs();
     }
 
     @Override
@@ -70,8 +59,9 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
         scoutingFormPresenter.bindView(this);
     }
 
+
     /**
-     * gets called after bluetooth intent activity is started
+     * gets called after bluetooth intent activity is started. Clears preferences for next activity and starts a new form
      *
      * @param requestCode
      * @param resultCode

@@ -60,6 +60,7 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+
         private Activity activity;
         private FileManager fileManager;
         private SettingsPresenter settingsPresenter;

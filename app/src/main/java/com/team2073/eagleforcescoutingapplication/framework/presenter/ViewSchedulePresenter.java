@@ -30,7 +30,6 @@ public class ViewSchedulePresenter extends BasePresenter<ViewScheduleView> {
     }
 
     public List getAllTeamsPerMatch(){
-        //TODO handle if schedule file not selected yet
         scheduleList = csvManager.readScheduleFile(fileManager.getScheduleFile());
         return scheduleList;
     }

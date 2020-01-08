@@ -41,6 +41,14 @@ public class CSVManager {
         this.csvFile = csvFile;
     }
 
+    /**
+     *
+     * @param root directory which csv will be saved
+     * @param teamNumber
+     * @param matchNumber
+     *
+     * Creates a CSV from the scouting form
+     */
     public void createCSV(String root, String teamNumber, String matchNumber) {
         File mainDir = new File(root + "/" + "ScoutingDataApplication");
         Timber.i("Instantiated file");
@@ -101,6 +109,13 @@ public class CSVManager {
         return csvFile;
     }
 
+    /**
+     *
+     * @param schedule
+     * @return
+     *
+     *Converts a CSV to an {@link ArrayList} to be better manipulated
+     */
     public ArrayList<Match> readScheduleFile(File schedule) {
         ArrayList<Match> scheduleList = new ArrayList<>();
 
