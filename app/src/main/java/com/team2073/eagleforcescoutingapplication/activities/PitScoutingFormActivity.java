@@ -31,6 +31,8 @@ public class PitScoutingFormActivity extends BaseActivity implements ScoutingFor
 
         pitScoutingFormPresenter.makeDrawer();
 
+        pitScoutingFormPresenter.clearPreferences();
+
         initFieldNames();
         initRecyclerView();
     }
@@ -70,7 +72,7 @@ public class PitScoutingFormActivity extends BaseActivity implements ScoutingFor
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.pitScoutingSubmit:
-                pitScoutingFormPresenter.makeCSV();
+                pitScoutingFormPresenter.createCSV();
 
                 BluetoothSend bluetoothSend = new BluetoothSend(pitScoutingFormPresenter);
                 bluetoothSend.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);

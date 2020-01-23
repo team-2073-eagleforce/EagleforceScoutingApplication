@@ -7,6 +7,7 @@ public class PitScoutingForm implements ScoutingForm {
     private ArrayList<String> fieldNames = new ArrayList<>();
 
     public PitScoutingForm() {
+        fieldNames.add("teamNumber");
         fieldNames.add("Height");
         fieldNames.add("Weight");
     }
@@ -33,6 +34,6 @@ public class PitScoutingForm implements ScoutingForm {
 
     @Override
     public ArrayList<String> getClearNames() {
-        return null;
+        return fieldNames;
     }
 }

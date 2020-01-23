@@ -72,8 +72,10 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         if (team.equals("")) {
             team = "0";
         }
-        csvManager.createCSV(getRootDirectory(),
-                team, match);
+
+        String fileName = team + "-" + match + ".csv";
+
+        csvManager.createCSV(getRootDirectory(), fileName);
         writeCSV();
     }
 
@@ -81,51 +83,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
      * Handles sending a csv file to another device through bluetooth.
      */
     public void sendOverBluetooth() {
-
-        if (BluetoothAdapter.getDefaultAdapter() == null) {
-            return;
-        }
-
-        if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            mActivity.startActivityForResult(enableBtIntent, 1);
-        }
-
-        //Bluetooth start
-        Intent intent = new Intent();
-
-        intent.setAction(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        intent.putExtra(Intent.EXTRA_STREAM,
-                FileProvider.getUriForFile(
-                        mActivity.getApplicationContext(),
-                        "com.team2073.eagleforcescoutingapplication.util.EagleProvider",
-                        csvManager.getCsvFile()));
-
-        List<ResolveInfo> appList = mActivity.getPackageManager().queryIntentActivities(intent, 0);
-
-        if (appList.size() > 0) {
-            String packageName = null;
-            String className = null;
-            boolean found = false;
-
-            for (ResolveInfo info : appList) {
-                packageName = info.activityInfo.packageName;
-                if (packageName.equals("com.android.bluetooth")) {
-                    className = info.activityInfo.name;
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                Toast.makeText(mActivity, "Bluetooth Not Available: Make Sure Bluetooth Is On", Toast.LENGTH_SHORT).show();
-            } else {
-                intent.setClassName(packageName, className);
-                mActivity.startActivityForResult(intent, 1234);
-            }
-        }
+        csvManager.sendOverBluetooth();
     }
 
     public void writeCSV() {
