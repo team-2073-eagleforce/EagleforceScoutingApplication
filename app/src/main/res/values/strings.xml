@@ -45,6 +45,13 @@
     <string name="drawerScoutingFormText">Scouting Form</string>
     <string name="drawerScheduleText">Schedule</string>
 
+    <string name="Position">Position Button for WOF</string>
+    <string name="Rotation">Rotation Button for WOF</string>
+    <string name="WOF"></string>
+    <String name="rotationText"></String>
+    <String name="positionText<"></String>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="drawerPitScoutingFormText">Pit Scouting</string>

@@ -1,9 +1,13 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,17 +16,26 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
+import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 public class UITeleFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "TeleOp";
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
+    private SharedPreferences sharedPreferences;
+    private PrefsDataManager prefsDataManager;
 
     private ArrayList<String> fieldNames = new ArrayList<>();
+
+    private Button rControl;
+    private Button pControl;
+
 
     public static UITeleFragment newInstance(int index) {
         UITeleFragment fragment = new UITeleFragment();
@@ -49,6 +62,39 @@ public class UITeleFragment extends Fragment {
 
         initFieldNames();
 
+        rControl = root.findViewById(R.id.rotationControl);
+        pControl = root.findViewById(R.id.positionControl);
+
+        rControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (prefsDataManager.readFromPreferences("uiRotation") == String.valueOf(1)) {
+                    prefsDataManager.writeToPreferences("uiRotation", String.valueOf(0));
+                } else {
+                    prefsDataManager.writeToPreferences("uiRotation", String.valueOf(1));
+                }
+            }
+        });
+        pControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (prefsDataManager.readFromPreferences("uiPosition") == String.valueOf(1)) {
+                    prefsDataManager.writeToPreferences("uiPosition", String.valueOf(0));
+                } else {
+                    prefsDataManager.writeToPreferences("uiPosition", String.valueOf(1));
+                }
+            }
+
+        });
+
+
+
+pControl.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+
+    }
+});
         return root;
 
     }
@@ -56,4 +102,11 @@ public class UITeleFragment extends Fragment {
     private void initFieldNames() {
         fieldNames = scoutingFormPresenter.getScoutingForm().getTeleFieldNames();
     }
-}
+
+
+
+    }
+
+
+
+
