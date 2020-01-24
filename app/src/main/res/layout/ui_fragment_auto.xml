@@ -13,33 +13,28 @@
            android:id="@+id/auto_cell_score_count"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content">
-           <TextView
-               android:id="@+id/auto_num_bottom"
+
+           <include
+               android:id="@+id/bottomport_layout"
+               layout="@layout/port_points_layout"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:textColor="@color/primaryTextColor"
-               android:textSize="25sp"
-               android:text="@string/number_cells_bottom"
                />
 
-           <TextView
-               android:id="@+id/auto_num_outer"
+           <include
+               android:id="@+id/outerport_layout"
+               layout="@layout/port_points_layout"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:textColor="@color/primaryTextColor"
-               android:text="@string/number_cells_outer"
-               android:textSize="25sp"
-               android:layout_below="@id/auto_num_bottom"
+               android:layout_below="@id/bottomport_layout"
                />
 
-           <TextView
-               android:id="@+id/auto_num_inner"
+           <include
+               android:id="@+id/innerport_layout"
+               layout="@layout/port_points_layout"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:textColor="@color/primaryTextColor"
-               android:text="@string/number_cells_inner"
-               android:textSize="25sp"
-               android:layout_below="@id/auto_num_outer"
+               android:layout_below="@id/outerport_layout"
                />
 
        </RelativeLayout>
@@ -49,22 +44,23 @@
             android:id="@+id/outer_and_inner_frame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/auto_cell_score_count">
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/auto_cell_score_count"
+            android:layout_marginBottom="20dp">
 
             <ImageButton
-                android:id="@+id/outerport"
-                android:layout_width="550dp"
-                android:layout_height="550dp"
+                android:id="@+id/outerport_button"
+                android:layout_width="350dp"
+                android:layout_height="340dp"
                 android:background="@drawable/outerport"
-                android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 />
 
             <ImageButton
-                android:id="@+id/innerport"
-                android:layout_width="550dp"
-                android:layout_height="600dp"
+                android:id="@+id/innerport_button"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:background="@drawable/innerport"
                 android:layout_gravity="center"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
@@ -73,12 +69,23 @@
         </FrameLayout>
 
         <ImageButton
-            android:id="@+id/autoline"
+            android:id="@+id/bottomport_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottomport"
+            android:layout_below="@id/outer_and_inner_frame"
+            android:layout_centerHorizontal="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            />
+
+        <ImageButton
+            android:id="@+id/autoline_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/autoline"
             android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:layout_below="@id/outer_and_inner_frame"
+            android:layout_below="@id/bottomport_button"
             android:layout_centerHorizontal="true"/>
     </RelativeLayout>
+
 </ScrollView>
