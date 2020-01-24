@@ -14,15 +14,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/wof"
-            android:text="@string/WOF"/>
+            android:layout_centerHorizontal="true"
+            />
 
         <Button
             android:id="@+id/rotationControl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           android:layout_centerHorizontal="true"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="@string/Rotation"
+            android:text="Rotational"
             android:width="110dp"
             android:height="100dp" />
 
@@ -30,30 +31,11 @@
             android:id="@+id/positionControl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_allignParentTop="true"
             android:layout_centerHorizontal="true"
             android:width="110dp"
             android:height="100dp"
-            android:text="@string/Position"
+            android:text="Positional"
             />
-
-        <TextView
-            android:id="@+id/positionText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/positionText"
-            android:width="110dp"
-            android:height="100dp"
-
-            />
-
-        <TextView
-            android:id="@+id/rotationText"
-            android:layout_toRightOf="@+id/rotationControl"
-            android:text="@string/rotationText"
-            android:width="110dp"
-            android:height="100dp"
-             />
 
     </RelativeLayout>
 
