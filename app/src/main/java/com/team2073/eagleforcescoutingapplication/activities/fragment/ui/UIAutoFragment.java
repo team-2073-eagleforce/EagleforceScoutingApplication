@@ -1,7 +1,7 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +91,9 @@ public class UIAutoFragment extends Fragment {
         autoInnerAmt = innerPort.findViewById(R.id.edittext);
         innerPortButton = root.findViewById(R.id.innerport_button);
 
+        //Instantiate Autoline Views
+        autolineButton = root.findViewById(R.id.autoline_button);
+
         initializeViewLabels();
         initializeFieldNames();
 
@@ -106,20 +109,25 @@ public class UIAutoFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
             bottomPortButton.setOnClickListener((View v) -> {
-                updateOnClick(bottomPortButton);
+                updatePortOnClick(bottomPortButton);
         });
             outerPortButton.setOnClickListener((View v) -> {
-                updateOnClick(outerPortButton);
+                updatePortOnClick(outerPortButton);
         });
             innerPortButton.setOnClickListener((View v) -> {
-                updateOnClick(innerPortButton);
+                updatePortOnClick(innerPortButton);
         });
+            autolineButton.setOnClickListener((View v) -> {
+                //TODO: Add functionality here.
+                onClickAutoline();
+            });
     }
 
     private void initWriteToPref(){
         scoutingFormPresenter.initWriteToPreferences(fieldNames.get(3));
         scoutingFormPresenter.initWriteToPreferences(fieldNames.get(2));
         scoutingFormPresenter.initWriteToPreferences(fieldNames.get(1));
+        scoutingFormPresenter.initWriteToPreferences(fieldNames.get(0));
     }
 
     private void initializeViewLabels() {
@@ -134,14 +142,13 @@ public class UIAutoFragment extends Fragment {
         autoInnerAmt.setText(scoutingFormPresenter.readFromPreferences(fieldNames.get(1)));
     }
 
-    public void updateOnClick(View v){
+    private void updatePortOnClick(View v){
         String fieldName;
         Integer updatedTextValue;
 
         if(v.getId() == (R.id.bottomport_button)) {
             updatedTextValue = Integer.parseInt(autoBottomAmt.getText().toString()) + 1;
             fieldName = fieldNames.get(3);
-//            autoBottomAmt.setText(updatedTextValue.toString());
         }else if(v.getId() == (R.id.outerport_button)){
             updatedTextValue = Integer.parseInt(autoOuterAmt.getText().toString()) + 1;
             fieldName = fieldNames.get(2);
@@ -153,10 +160,23 @@ public class UIAutoFragment extends Fragment {
             fieldName = null;
             Timber.d("No such field available.");
         }
-//        updatedTextValue = Integer.parseInt(scoutingFormPresenter.readFromPreferences(fieldName)) + 1;
         scoutingFormPresenter.updatePreferences(fieldName, updatedTextValue.toString());
         setEditTextViews();
     }
+
+    private void onClickAutoline(){
+        //
+        Integer val = Integer.parseInt(scoutingFormPresenter.readFromPreferences(fieldNames.get(0)));
+        if(val == 0){
+            val += 1;
+            autolineButton.setImageResource(R.drawable.autoline_clicked);
+        }else{
+            val -= 1;
+            autolineButton.setImageResource(R.drawable.autoline);
+        }
+        scoutingFormPresenter.writeToPreferences(fieldNames.get(0), val);
+    }
+
 
     private void initializeFieldNames() {
         fieldNames = scoutingFormPresenter.getScoutingForm().getAutoFieldNames();
