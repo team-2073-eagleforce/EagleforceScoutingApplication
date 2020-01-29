@@ -2,10 +2,12 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -14,30 +16,68 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/wof"
-            android:layout_centerHorizontal="true"
-            />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/rotationControl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="Rotational"
             android:width="110dp"
-            android:height="100dp" />
+            android:height="100dp"
+            android:text="Rotation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.328"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.732" />
 
         <Button
             android:id="@+id/positionControl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_marginTop="64dp"
             android:width="110dp"
             android:height="100dp"
-            android:text="Positional"
-            />
+            android:text="Position"
+            app:layout_constraintHorizontal_bias="0.328"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/positionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/positionControl"
+            android:width="110dp"
+            android:height="100dp"
+            android:text="Off"
+            android:textSize="70sp"
+
+            app:layout_constraintBottom_toBottomOf="@+id/positionControl"
+            app:layout_constraintLeft_toRightOf="@id/positionControl"
+            app:layout_constraintStart_toEndOf="@+id/positionControl"
+            app:layout_constraintTop_toTopOf="@+id/positionControl" />
+
+        <TextView
+            android:id="@+id/rotationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="136dp"
+            android:width="110dp"
+            android:height="100dp"
+            android:text="Off\"
+            android:textSize="70sp"
+            app:layout_constraintBottom_toBottomOf="@+id/rotationControl"
+            app:layout_constraintLeft_toRightOf="@id/rotationControl"
+            app:layout_constraintStart_toEndOf="@+id/rotationControl"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </ScrollView>

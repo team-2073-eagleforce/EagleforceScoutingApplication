@@ -29,12 +29,14 @@ public class UITeleFragment extends Fragment {
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
     private SharedPreferences sharedPreferences;
-    private PrefsDataManager prefsDataManager;
+    private PrefsDataManager prefsDataManager = PrefsDataManager.getInstance(getActivity());
 
     private ArrayList<String> fieldNames = new ArrayList<>();
 
     private Button rControl;
     private Button pControl;
+    private TextView rText;
+    private TextView pText;
 
 
     public static UITeleFragment newInstance(int index) {
@@ -53,6 +55,7 @@ public class UITeleFragment extends Fragment {
         index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());
+
     }
 
     @Nullable
@@ -64,37 +67,32 @@ public class UITeleFragment extends Fragment {
 
         rControl = root.findViewById(R.id.rotationControl);
         pControl = root.findViewById(R.id.positionControl);
+        rText = root.findViewById(R.id.rotationText);
+        pText = root.findViewById(R.id.positionText);
+        prefsDataManager.writeToPreferences("uiPosition", String.valueOf(0));
+        prefsDataManager.writeToPreferences("uiRotation", String.valueOf(0));
 
-        rControl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (prefsDataManager.readFromPreferences("uiRotation") == String.valueOf(1)) {
-                    prefsDataManager.writeToPreferences("uiRotation", String.valueOf(0));
-                } else {
-                    prefsDataManager.writeToPreferences("uiRotation", String.valueOf(1));
-                }
+
+        rControl.setOnClickListener(view -> {
+            if (prefsDataManager.readFromPreferences("uiRotation").equals(String.valueOf(0))) {
+                prefsDataManager.writeToPreferences("uiRotation", String.valueOf(1));
+                rText.setText("On");
+            } else {
+                prefsDataManager.writeToPreferences("uiRotation", String.valueOf(0));
+                rText.setText("Off");
             }
         });
-        pControl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (prefsDataManager.readFromPreferences("uiPosition") == String.valueOf(1)) {
-                    prefsDataManager.writeToPreferences("uiPosition", String.valueOf(0));
-                } else {
-                    prefsDataManager.writeToPreferences("uiPosition", String.valueOf(1));
-                }
-            }
-
+        pControl.setOnClickListener(view -> {
+            if (prefsDataManager.readFromPreferences("uiPosition").equals(String.valueOf(0))) {
+            prefsDataManager.writeToPreferences("uiPosition", String.valueOf(1));
+            pText.setText("On");
+        } else {
+            prefsDataManager.writeToPreferences("uiPosition", String.valueOf(0));
+            pText.setText("Off");
+        }
         });
 
 
-
-pControl.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-
-    }
-});
         return root;
 
     }
