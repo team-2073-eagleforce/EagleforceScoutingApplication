@@ -72,7 +72,7 @@
             android:id="@+id/bottomport_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bottomport"
+            android:background="@drawable/bottom_port"
             android:layout_below="@id/outer_and_inner_frame"
             android:layout_centerHorizontal="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
