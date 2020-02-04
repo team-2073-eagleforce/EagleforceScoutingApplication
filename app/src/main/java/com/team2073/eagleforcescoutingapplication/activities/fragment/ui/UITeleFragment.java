@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,7 +39,26 @@ public class UITeleFragment extends Fragment {
     private Button pControl;
     private TextView rText;
     private TextView pText;
+    //Bottom Port Views
+    private View bottomPort;
+    private TextView autoBottomLabel;
+    private EditText autoBottomAmt;
 
+    //Outer port Views
+    private View outerPort;
+    private TextView autoOuterLabel;
+    private EditText autoOuterAmt;
+
+    //Inner port Views
+    private View innerPort;
+    private TextView autoInnerLabel;
+    private EditText autoInnerAmt;
+
+    //ImageButtons
+    private ImageButton bottomPortButton;
+    private ImageButton outerPortButton;
+    private ImageButton innerPortButton;
+    private ImageButton autolineButton;
 
     public static UITeleFragment newInstance(int index) {
         UITeleFragment fragment = new UITeleFragment();
@@ -63,7 +84,32 @@ public class UITeleFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.ui_fragment_teleop, container, false);
 
-        initFieldNames();
+        //Instantiate bottom port views
+        bottomPort = root.findViewById(R.id.bottomport_layout);
+        autoBottomLabel = bottomPort.findViewById(R.id.textview);
+        autoBottomAmt = bottomPort.findViewById(R.id.edittext);
+        bottomPortButton = root.findViewById(R.id.bottomport_button);
+
+        //Instantiate bottom port views
+        outerPort = root.findViewById(R.id.outerport_layout);
+        autoOuterLabel = outerPort.findViewById(R.id.textview);
+        autoOuterAmt = outerPort.findViewById(R.id.edittext);
+        outerPortButton = root.findViewById(R.id.outerport_button);
+
+        //Instantiate bottom port views
+        innerPort = root.findViewById(R.id.innerport_layout);
+        autoInnerLabel = innerPort.findViewById(R.id.textview);
+        autoInnerAmt = innerPort.findViewById(R.id.edittext);
+        innerPortButton = root.findViewById(R.id.innerport_button);
+
+        //Instantiate Autoline Views
+        autolineButton = root.findViewById(R.id.autoline_button);
+
+        initializeViewLabels();
+        initializeFieldNames();
+
+        initWriteToPref();
+        setEditTextViews();
 
         rControl = root.findViewById(R.id.rotationControl);
         pControl = root.findViewById(R.id.positionControl);
@@ -96,12 +142,82 @@ public class UITeleFragment extends Fragment {
         return root;
 
     }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-    private void initFieldNames() {
-        fieldNames = scoutingFormPresenter.getScoutingForm().getTeleFieldNames();
+        bottomPortButton.setOnClickListener((View v) -> {
+            updatePortOnClick(bottomPortButton);
+        });
+        outerPortButton.setOnClickListener((View v) -> {
+            updatePortOnClick(outerPortButton);
+        });
+        innerPortButton.setOnClickListener((View v) -> {
+            updatePortOnClick(innerPortButton);
+        });
+        autolineButton.setOnClickListener((View v) -> {
+            //TODO: Add functionality here.
+            onClickAutoline();
+        });
+    }
+    private void initWriteToPref(){
+        scoutingFormPresenter.initWriteToPreferences(fieldNames.get(3));
+        scoutingFormPresenter.initWriteToPreferences(fieldNames.get(2));
+        scoutingFormPresenter.initWriteToPreferences(fieldNames.get(1));
+        scoutingFormPresenter.initWriteToPreferences(fieldNames.get(0));
+    }
+
+    private void initializeViewLabels() {
+        autoBottomLabel.setText(getResources().getString(R.string.num_cells_bottom_label));
+        autoOuterLabel.setText(getResources().getString(R.string.num_cells_outer_label));
+        autoInnerLabel.setText(getResources().getString(R.string.num_cells_inner_label));
+    }
+
+    private void setEditTextViews() {
+        autoBottomAmt.setText(scoutingFormPresenter.readFromPreferences(fieldNames.get(3)));
+        autoOuterAmt.setText(scoutingFormPresenter.readFromPreferences(fieldNames.get(2)));
+        autoInnerAmt.setText(scoutingFormPresenter.readFromPreferences(fieldNames.get(1)));
+    }
+
+    private void updatePortOnClick(View v){
+        String fieldName;
+        Integer updatedTextValue;
+
+        if(v.getId() == (R.id.bottomport_button)) {
+            updatedTextValue = Integer.parseInt(autoBottomAmt.getText().toString()) + 1;
+            fieldName = fieldNames.get(3);
+        }else if(v.getId() == (R.id.outerport_button)){
+            updatedTextValue = Integer.parseInt(autoOuterAmt.getText().toString()) + 1;
+            fieldName = fieldNames.get(2);
+        }else if(v.getId() == (R.id.innerport_button)){
+            updatedTextValue = Integer.parseInt(autoInnerAmt.getText().toString()) + 1;
+            fieldName = fieldNames.get(1);
+        }else{
+            updatedTextValue = 0;
+            fieldName = null;
+            Timber.d("No such field available.");
+        }
+        scoutingFormPresenter.updatePreferences(fieldName, updatedTextValue.toString());
+        setEditTextViews();
+    }
+
+    private void onClickAutoline(){
+        //
+        Integer val = Integer.parseInt(scoutingFormPresenter.readFromPreferences(fieldNames.get(0)));
+        if(val == 0){
+            val += 1;
+            autolineButton.setImageResource(R.drawable.autoline_clicked);
+        }else{
+            val -= 1;
+            autolineButton.setImageResource(R.drawable.autoline);
+        }
+        scoutingFormPresenter.writeToPreferences(fieldNames.get(0), val);
     }
 
 
+    private void initializeFieldNames() {
+        fieldNames = scoutingFormPresenter.getScoutingForm().getAutoFieldNames();
+    }
 
     }
 

@@ -4,10 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/relativeLayout3"
+        android:id="@+id/wofLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -27,12 +28,8 @@
             android:width="110dp"
             android:height="100dp"
             android:text="Rotation"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.328"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.732" />
+            app:layout_constraintEnd_toEndOf="@+id/positionControl"
+            app:layout_constraintTop_toBottomOf="@+id/positionControl" />
 
         <Button
             android:id="@+id/positionControl"
@@ -66,16 +63,95 @@
             android:id="@+id/rotationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="136dp"
             android:width="110dp"
             android:height="100dp"
             android:text="Off\"
             android:textSize="70sp"
-            app:layout_constraintBottom_toBottomOf="@+id/rotationControl"
-            app:layout_constraintLeft_toRightOf="@id/rotationControl"
-            app:layout_constraintStart_toEndOf="@+id/rotationControl"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintEnd_toEndOf="@+id/positionText"
+            app:layout_constraintStart_toEndOf="@+id/positionControl"
+            app:layout_constraintTop_toBottomOf="@+id/positionText" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_marginTop="244dp"
+            app:layout_constraintTop_toBottomOf="@+id/positionText"
+            tools:layout_editor_absoluteX="-16dp">
+
+            <RelativeLayout
+                android:id="@+id/auto_cell_score_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <include
+                    android:id="@+id/bottomport_layout"
+                    layout="@layout/port_points_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/outerport_layout"
+                    layout="@layout/port_points_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/bottomport_layout" />
+
+                <include
+                    android:id="@+id/innerport_layout"
+                    layout="@layout/port_points_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/outerport_layout" />
+
+            </RelativeLayout>
+
+
+            <FrameLayout
+                android:id="@+id/outer_and_inner_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/auto_cell_score_count"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp">
+
+                <ImageButton
+                    android:id="@+id/outerport_button"
+                    android:layout_width="350dp"
+                    android:layout_height="340dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/outerport"
+                    android:foreground="?attr/selectableItemBackgroundBorderless" />
+
+                <ImageButton
+                    android:id="@+id/innerport_button"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/innerport"
+                    android:foreground="?attr/selectableItemBackgroundBorderless" />
+
+            </FrameLayout>
+
+            <ImageButton
+                android:id="@+id/bottomport_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/outer_and_inner_frame"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bottomport"
+                android:foreground="?attr/selectableItemBackgroundBorderless" />
+
+            <ImageButton
+                android:id="@+id/autoline_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bottomport_button"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/autoline"
+                android:foreground="?attr/selectableItemBackgroundBorderless" />
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
