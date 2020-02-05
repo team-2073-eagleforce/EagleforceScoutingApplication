@@ -89,19 +89,11 @@ public class UIEndGameFragment extends Fragment {
         });
 
         robotStateBalanced.setOnClickListener((View v) ->{
-            robotStateBalanced.setVisibility(View.GONE);
-            straightClimb.setVisibility(View.GONE);
-            robotStateUnbalanced.setVisibility(View.VISIBLE);
-            tiltedClimb.setVisibility(View.VISIBLE);
-            scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 3);
+           unBalancedClimb();
         });
 
         robotStateUnbalanced.setOnClickListener((View v) ->{
-            robotStateUnbalanced.setVisibility(View.GONE);
-            tiltedClimb.setVisibility(View.GONE);
-            robotStateParked.setVisibility(View.VISIBLE);
-            straightClimb.setVisibility(View.VISIBLE);
-            scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 1);
+            parked();
         });
 
     }
@@ -110,6 +102,22 @@ public class UIEndGameFragment extends Fragment {
         robotStateParked.setVisibility(View.GONE);
         robotStateBalanced.setVisibility(View.VISIBLE);
         scoutingFormPresenter.writeToPreferences(endgamePreferenceVal,2);
+    }
+
+    private void unBalancedClimb(){
+        robotStateBalanced.setVisibility(View.GONE);
+        straightClimb.setVisibility(View.GONE);
+        robotStateUnbalanced.setVisibility(View.VISIBLE);
+        tiltedClimb.setVisibility(View.VISIBLE);
+        scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 3);
+    }
+
+    private void parked(){
+        robotStateUnbalanced.setVisibility(View.GONE);
+        tiltedClimb.setVisibility(View.GONE);
+        robotStateParked.setVisibility(View.VISIBLE);
+        straightClimb.setVisibility(View.VISIBLE);
+        scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 1);
     }
 
     private void initalWriteToPreferences(){
