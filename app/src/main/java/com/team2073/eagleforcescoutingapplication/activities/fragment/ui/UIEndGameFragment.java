@@ -1,12 +1,13 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,22 +18,20 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
-import java.util.ArrayList;
-
 public class UIEndGameFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "Detail";
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
-    private String endgamePreferenceVal = "endgameState";
+
+    private String leveledPrefereceVal = "levelState";
 
     private ImageView straightClimb;
     private ImageView tiltedClimb;
-    private ImageButton robotStateParked;
+
     private ImageButton robotStateBalanced;
     private ImageButton robotStateUnbalanced;
-
-    private ArrayList<String> fieldNames = new ArrayList<>();
+    private Button changeLevelButton;
 
     public static UIEndGameFragment newInstance(int index) {
         UIEndGameFragment fragment = new UIEndGameFragment();
@@ -66,42 +65,45 @@ public class UIEndGameFragment extends Fragment {
         tiltedClimb .setVisibility(View.GONE);
 
         //Robot View
-        robotStateParked = root.findViewById(R.id.robot_state_parked);
-
         robotStateBalanced = root.findViewById(R.id.robot_state_balanced);
-        robotStateBalanced.setVisibility(View.GONE);
+        robotStateBalanced.setVisibility(View.VISIBLE);
 
         robotStateUnbalanced = root.findViewById(R.id.robot_state_unbalanced);
         robotStateUnbalanced.setVisibility(View.GONE);
 
+        changeLevelButton = root.findViewById(R.id.robot_change_level_button);
+        changeLevelButton.setBackgroundColor(Color.TRANSPARENT);
+
+
         initalWriteToPreferences();
 
         return root;
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        robotStateParked.setOnClickListener((View V) -> {
+        changeLevelButton.setOnClickListener((View v) ->{
+           changeLevelState();
+        });
+    }
+
+    private void changeLevelState(){
+        Integer current = Integer.parseInt(scoutingFormPresenter.readFromPreferences(leveledPrefereceVal));
+        if(current == 0){
             balancedClimb();
-        });
-
-        robotStateBalanced.setOnClickListener((View v) ->{
-           unBalancedClimb();
-        });
-
-        robotStateUnbalanced.setOnClickListener((View v) ->{
-            parked();
-        });
-
+        }else if(current == 1){
+            unBalancedClimb();
+        }
     }
 
     private void balancedClimb(){
-        robotStateParked.setVisibility(View.GONE);
         robotStateBalanced.setVisibility(View.VISIBLE);
-        scoutingFormPresenter.writeToPreferences(endgamePreferenceVal,2);
+        robotStateUnbalanced.setVisibility(View.GONE);
+        tiltedClimb.setVisibility(View.GONE);
+        straightClimb.setVisibility(View.VISIBLE);
+        scoutingFormPresenter.writeToPreferences(leveledPrefereceVal,1);
     }
 
     private void unBalancedClimb(){
@@ -109,18 +111,10 @@ public class UIEndGameFragment extends Fragment {
         straightClimb.setVisibility(View.GONE);
         robotStateUnbalanced.setVisibility(View.VISIBLE);
         tiltedClimb.setVisibility(View.VISIBLE);
-        scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 3);
-    }
-
-    private void parked(){
-        robotStateUnbalanced.setVisibility(View.GONE);
-        tiltedClimb.setVisibility(View.GONE);
-        robotStateParked.setVisibility(View.VISIBLE);
-        straightClimb.setVisibility(View.VISIBLE);
-        scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 1);
+        scoutingFormPresenter.writeToPreferences(leveledPrefereceVal, 0);
     }
 
     private void initalWriteToPreferences(){
-        scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 0);
+        scoutingFormPresenter.writeToPreferences(leveledPrefereceVal, 1);
     }
 }
