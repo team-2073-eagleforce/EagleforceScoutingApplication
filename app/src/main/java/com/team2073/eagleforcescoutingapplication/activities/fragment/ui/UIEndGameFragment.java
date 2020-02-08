@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +19,8 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
+import java.util.ArrayList;
+
 public class UIEndGameFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "Detail";
@@ -25,13 +28,24 @@ public class UIEndGameFragment extends Fragment {
     private ScoutingFormPresenter scoutingFormPresenter;
 
     private String leveledPrefereceVal = "levelState";
+    private String endgamePreferenceVal = "climbState";
 
     private ImageView straightClimb;
     private ImageView tiltedClimb;
 
     private ImageButton robotStateBalanced;
+    private ImageButton robotStateParked;
     private ImageButton robotStateUnbalanced;
     private Button changeLevelButton;
+
+    private ImageView robotStateClimbNull;
+    private ImageButton robotStateClimb;
+    private ImageButton robotStateBalanced2;
+    private ImageButton robotStateBalanced3;
+
+    private static int imageChangeCounter;
+
+    private ArrayList<String> fieldNames = new ArrayList<>();
 
     public static UIEndGameFragment newInstance(int index) {
         UIEndGameFragment fragment = new UIEndGameFragment();
@@ -62,11 +76,13 @@ public class UIEndGameFragment extends Fragment {
         //Titled Climb View
         tiltedClimb = root.findViewById(R.id.climb_bar_tilt);
         tiltedClimb.setRotation(20);
-        tiltedClimb .setVisibility(View.GONE);
+        tiltedClimb.setVisibility(View.GONE);
 
         //Robot View
+        robotStateParked = root.findViewById(R.id.robot_state_parked);
+
         robotStateBalanced = root.findViewById(R.id.robot_state_balanced);
-        robotStateBalanced.setVisibility(View.VISIBLE);
+        robotStateBalanced.setVisibility(View.GONE);
 
         robotStateUnbalanced = root.findViewById(R.id.robot_state_unbalanced);
         robotStateUnbalanced.setVisibility(View.GONE);
@@ -75,9 +91,23 @@ public class UIEndGameFragment extends Fragment {
         changeLevelButton.setBackgroundColor(Color.TRANSPARENT);
 
 
+        robotStateClimb = root.findViewById(R.id.robot_state_climbed);
+        robotStateClimb.setVisibility(View.VISIBLE);
+
+        robotStateClimbNull = root.findViewById(R.id.robot_state_climbNull);
+        robotStateClimbNull.setVisibility(View.INVISIBLE);
+
+        robotStateBalanced2 = root.findViewById(R.id.robot_state_balanced2);
+        robotStateBalanced2.setVisibility(View.GONE);
+
+        robotStateBalanced3 = root.findViewById(R.id.robot_state_balanced3);
+        robotStateBalanced3.setVisibility(View.GONE);
+        imageChangeCounter = 1;
+
         initalWriteToPreferences();
 
         return root;
+
     }
 
     @Override
@@ -87,6 +117,41 @@ public class UIEndGameFragment extends Fragment {
         changeLevelButton.setOnClickListener((View v) ->{
            changeLevelState();
         });
+
+        robotStateClimb.setOnClickListener((View v) -> {
+
+
+            if (imageChangeCounter == 0) {
+                scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 1);
+                robotStateClimb.setVisibility(View.VISIBLE);
+                robotStateClimbNull.setVisibility(View.INVISIBLE);
+                imageChangeCounter++;
+            }
+            else if (imageChangeCounter == 1) {
+                scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 2);
+                robotStateBalanced.setVisibility(View.VISIBLE);
+                imageChangeCounter++;
+
+            } else if (imageChangeCounter == 2) {
+                scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 3);
+                robotStateBalanced2.setVisibility(View.VISIBLE);
+                imageChangeCounter++;
+
+            } else if (imageChangeCounter == 3) {
+                scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 4);
+                robotStateBalanced3.setVisibility(View.VISIBLE);
+                imageChangeCounter++;
+
+            } else if (imageChangeCounter == 4){
+                imageChangeCounter = 0;
+                robotStateClimbNull.setVisibility(View.VISIBLE);
+                robotStateBalanced2.setVisibility(View.INVISIBLE);
+                robotStateBalanced3.setVisibility(View.INVISIBLE);
+                robotStateBalanced.setVisibility(View.INVISIBLE);
+                scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 0);
+            }
+        });
+
     }
 
     private void changeLevelState(){
@@ -116,5 +181,6 @@ public class UIEndGameFragment extends Fragment {
 
     private void initalWriteToPreferences(){
         scoutingFormPresenter.writeToPreferences(leveledPrefereceVal, 1);
+        scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 0);
     }
 }
