@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,8 +16,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
-import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
-import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.util.ArrayList;
@@ -29,19 +26,19 @@ public class UIEndGameFragment extends Fragment {
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
 
-    private String leveledPreferenceVal = "levelState";
-    private String endgamePreferenceVal = "climbState";
+    private String leveledPrefereceVal = "levelState";
+    private String climbStatePreferenceVal = "climbState";
 
     private ImageView straightClimb;
     private ImageView tiltedClimb;
 
     private ImageButton robotStateBalanced;
-    private ImageButton robotStateLeveled;
+    private ImageView robotStateParked;
     private ImageButton robotStateUnbalanced;
-    private Button robotChangeLevelButton;
+    private Button changeLevelButton;
 
     private ImageView robotStateClimbNull;
-    private ImageButton robotStateClimb;
+    private ImageButton robotStateClimbButton;
     private ImageButton robotStateBalanced2;
     private ImageButton robotStateBalanced3;
 
@@ -72,17 +69,14 @@ public class UIEndGameFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.ui_fragment_endgame, container, false);
 
-        //Straight Climb View
+        //Level Views
         straightClimb = root.findViewById(R.id.climb_bar_straight);
-
-        //Titled Climb View
         tiltedClimb = root.findViewById(R.id.climb_bar_tilt);
         tiltedClimb.setRotation(20);
         tiltedClimb.setVisibility(View.GONE);
 
-        //Robot View
-//        robotStateLeveled = root.findViewById(R.id.robot_change_level_button);
-//        robotStateLeveled.setVisibility(View.VISIBLE);
+        changeLevelButton = root.findViewById(R.id.robot_change_level_button);
+        changeLevelButton.setBackgroundColor(Color.TRANSPARENT);
 
         robotStateBalanced = root.findViewById(R.id.robot_state_balanced);
         robotStateBalanced.setVisibility(View.GONE);
@@ -90,22 +84,22 @@ public class UIEndGameFragment extends Fragment {
         robotStateUnbalanced = root.findViewById(R.id.robot_state_unbalanced);
         robotStateUnbalanced.setVisibility(View.GONE);
 
-        robotChangeLevelButton = root.findViewById(R.id.robot_change_level_button);
-        robotChangeLevelButton.setBackgroundColor(Color.TRANSPARENT);
+        //Climb State Views
+        robotStateParked = root.findViewById(R.id.robot_state_parked);
+        robotStateParked.setVisibility(View.GONE);
 
-
-        robotStateClimb = root.findViewById(R.id.robot_state_climbed);
-        robotStateClimb.setVisibility(View.VISIBLE);
+        robotStateClimbButton = root.findViewById(R.id.robot_state_climb_button);
+        robotStateClimbButton.setVisibility(View.VISIBLE);
 
         robotStateClimbNull = root.findViewById(R.id.robot_state_climbNull);
-        robotStateClimbNull.setVisibility(View.INVISIBLE);
+        robotStateClimbNull.setVisibility(View.VISIBLE);
 
         robotStateBalanced2 = root.findViewById(R.id.robot_state_balanced2);
         robotStateBalanced2.setVisibility(View.GONE);
 
         robotStateBalanced3 = root.findViewById(R.id.robot_state_balanced3);
         robotStateBalanced3.setVisibility(View.GONE);
-        imageChangeCounter = 1;
+        imageChangeCounter = 0;
 
         initalWriteToPreferences();
 
@@ -117,74 +111,48 @@ public class UIEndGameFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        changeLevelButton.setOnClickListener((View v) ->{
+           changeLevelState();
+        });
 
-//        changeLevelButton.setOnClickListener((View v) ->{
-//           changeLevelState();
-//        });
-        robotChangeLevelButton.setOnClickListener((View v) -> {
-            if (Integer.parseInt(scoutingFormPresenter.readData(endgamePreferenceVal)) != 0 && Integer.parseInt(scoutingFormPresenter.readData(endgamePreferenceVal)) != 1) {
-//                if (Integer.parseInt(scoutingFormPresenter.readFromPreferences(leveledPreferenceVal)) == 0) {
-//                    tiltedClimb.setVisibility(View.VISIBLE);
-//                    straightClimb.setVisibility(View.INVISIBLE);
-//                    scoutingFormPresenter.writeToPreferences(leveledPreferenceVal, 2);
-//                } else if
-               if (Integer.parseInt(scoutingFormPresenter.readData(leveledPreferenceVal)) == 1) {
-                    tiltedClimb.setVisibility(View.VISIBLE);
-                    straightClimb.setVisibility(View.INVISIBLE);
-                    scoutingFormPresenter.saveData(leveledPreferenceVal, "2");
-                } else if (Integer.parseInt(scoutingFormPresenter.readData(leveledPreferenceVal)) == 2) {
-                    tiltedClimb.setVisibility(View.INVISIBLE);
-                    straightClimb.setVisibility(View.VISIBLE);
-                    scoutingFormPresenter.saveData(leveledPreferenceVal, "1");
-                }
-            }
-            });
-
-
-        robotStateClimb.setOnClickListener((View v) -> {
-
-
+        robotStateClimbButton.setOnClickListener((View v) -> {
             if (imageChangeCounter == 0) {
-                scoutingFormPresenter.saveData(endgamePreferenceVal, "1");
-                robotStateClimb.setVisibility(View.VISIBLE);
-                robotStateClimbNull.setVisibility(View.INVISIBLE);
-                defaultClimb();
+                scoutingFormPresenter.writeToPreferences(climbStatePreferenceVal, 1);
+                robotStateClimbNull.setVisibility(View.GONE);
+                robotStateParked.setVisibility(View.VISIBLE);
                 imageChangeCounter++;
-            } else if (imageChangeCounter == 1) {
-                scoutingFormPresenter.saveData(endgamePreferenceVal, "2");
+            }
+            else if (imageChangeCounter == 1) {
+                scoutingFormPresenter.writeToPreferences(climbStatePreferenceVal, 2);
+                robotStateParked.setVisibility(View.GONE);
                 robotStateBalanced.setVisibility(View.VISIBLE);
-                balanceScore();
                 imageChangeCounter++;
 
             } else if (imageChangeCounter == 2) {
-                scoutingFormPresenter.saveData(endgamePreferenceVal, "3");
+                scoutingFormPresenter.writeToPreferences(climbStatePreferenceVal, 3);
                 robotStateBalanced2.setVisibility(View.VISIBLE);
-                balanceScore();
                 imageChangeCounter++;
 
             } else if (imageChangeCounter == 3) {
-                scoutingFormPresenter.saveData(endgamePreferenceVal, "4");
+                scoutingFormPresenter.writeToPreferences(climbStatePreferenceVal, 4);
                 robotStateBalanced3.setVisibility(View.VISIBLE);
-                balanceScore();
                 imageChangeCounter++;
 
-
-            } else if (imageChangeCounter == 4) {
+            } else if (imageChangeCounter == 4){
                 imageChangeCounter = 0;
                 robotStateClimbNull.setVisibility(View.VISIBLE);
                 robotStateBalanced2.setVisibility(View.INVISIBLE);
                 robotStateBalanced3.setVisibility(View.INVISIBLE);
                 robotStateBalanced.setVisibility(View.INVISIBLE);
-                defaultClimb();
-                scoutingFormPresenter.saveData(endgamePreferenceVal, "0");
+                scoutingFormPresenter.writeToPreferences(climbStatePreferenceVal, 0);
             }
-        });
+            System.out.println("Testing this: " + scoutingFormPresenter.readFromPreferences(climbStatePreferenceVal));
 
+        });
     }
 
-
     private void changeLevelState(){
-        Integer current = Integer.parseInt(scoutingFormPresenter.readData(leveledPreferenceVal));
+        Integer current = Integer.parseInt(scoutingFormPresenter.readFromPreferences(leveledPrefereceVal));
         if(current == 0){
             balancedClimb();
         }else if(current == 1){
@@ -197,7 +165,7 @@ public class UIEndGameFragment extends Fragment {
         robotStateUnbalanced.setVisibility(View.GONE);
         tiltedClimb.setVisibility(View.GONE);
         straightClimb.setVisibility(View.VISIBLE);
-        scoutingFormPresenter.saveData(leveledPreferenceVal,"1");
+        scoutingFormPresenter.writeToPreferences(leveledPrefereceVal,1);
     }
 
     private void unBalancedClimb(){
@@ -205,21 +173,11 @@ public class UIEndGameFragment extends Fragment {
         straightClimb.setVisibility(View.GONE);
         robotStateUnbalanced.setVisibility(View.VISIBLE);
         tiltedClimb.setVisibility(View.VISIBLE);
-        scoutingFormPresenter.saveData(leveledPreferenceVal, "0");
+        scoutingFormPresenter.writeToPreferences(leveledPrefereceVal, 0);
     }
 
     private void initalWriteToPreferences(){
-        scoutingFormPresenter.saveData(leveledPreferenceVal, "1");
-        scoutingFormPresenter.saveData(endgamePreferenceVal, "0");
-    }
-    private void defaultClimb() {
-        scoutingFormPresenter.saveData(leveledPreferenceVal, "0");
-        tiltedClimb.setVisibility(View.INVISIBLE);
-        straightClimb.setVisibility(View.VISIBLE);
-    }
-    private void balanceScore() {
-        if (Integer.parseInt(scoutingFormPresenter.readData(leveledPreferenceVal)) == 0) {
-            scoutingFormPresenter.saveData(leveledPreferenceVal, "1");
-        }
+        scoutingFormPresenter.writeToPreferences(leveledPrefereceVal, 1);
+        scoutingFormPresenter.writeToPreferences(climbStatePreferenceVal, 0);
     }
 }
