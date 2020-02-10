@@ -1,6 +1,5 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,37 +17,28 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
-import java.util.ArrayList;
-
 import timber.log.Timber;
 
-public class UIAutoFragment extends Fragment {
+public class UIAutoFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_SECTION_NUMBER = "Auto";
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
-    private ArrayList<String> fieldNames;
 
-    //Bottom Port Views
-    private View bottomPort;
     private TextView autoBottomLabel;
-    private EditText autoBottomAmt;
+    private EditText autoBottomText;
 
-    //Outer port Views
-    private View outerPort;
     private TextView autoOuterLabel;
-    private EditText autoOuterAmt;
+    private EditText autoOuterText;
 
-    //Inner port Views
-    private View innerPort;
     private TextView autoInnerLabel;
-    private EditText autoInnerAmt;
+    private EditText autoInnerText;
 
     //ImageButtons
     private ImageButton bottomPortButton;
     private ImageButton outerPortButton;
     private ImageButton innerPortButton;
-    private ImageButton autolineButton;
+    private ImageButton autoLineButton;
 
     public static UIAutoFragment newInstance(int index) {
         UIAutoFragment fragment = new UIAutoFragment();
@@ -73,32 +63,28 @@ public class UIAutoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.ui_fragment_auto, container, false);
 
-        //Instantiate bottom port views
-        bottomPort = root.findViewById(R.id.bottomport_layout);
+        //Bottom Port Views
+        View bottomPort = root.findViewById(R.id.bottomport_layout);
         autoBottomLabel = bottomPort.findViewById(R.id.textview);
-        autoBottomAmt = bottomPort.findViewById(R.id.edittext);
+        autoBottomText = bottomPort.findViewById(R.id.edittext);
         bottomPortButton = root.findViewById(R.id.bottomport_button);
 
-        //Instantiate bottom port views
-        outerPort = root.findViewById(R.id.outerport_layout);
+        //Outer port Views
+        View outerPort = root.findViewById(R.id.outerport_layout);
         autoOuterLabel = outerPort.findViewById(R.id.textview);
-        autoOuterAmt = outerPort.findViewById(R.id.edittext);
+        autoOuterText = outerPort.findViewById(R.id.edittext);
         outerPortButton = root.findViewById(R.id.outerport_button);
 
-        //Instantiate bottom port views
-        innerPort = root.findViewById(R.id.innerport_layout);
+        //Inner port Views
+        View innerPort = root.findViewById(R.id.innerport_layout);
         autoInnerLabel = innerPort.findViewById(R.id.textview);
-        autoInnerAmt = innerPort.findViewById(R.id.edittext);
+        autoInnerText = innerPort.findViewById(R.id.edittext);
         innerPortButton = root.findViewById(R.id.innerport_button);
 
-        //Instantiate Autoline Views
-        autolineButton = root.findViewById(R.id.autoline_button);
+        autoLineButton = root.findViewById(R.id.autoline_button);
 
         initializeViewLabels();
-        initializeFieldNames();
-
-        initWriteToPref();
-        setEditTextViews();
+        initFields();
 
         return root;
 
@@ -108,26 +94,50 @@ public class UIAutoFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-            bottomPortButton.setOnClickListener((View v) -> {
-                updatePortOnClick(bottomPortButton);
+        bottomPortButton.setOnClickListener(this);
+        outerPortButton.setOnClickListener(this);
+        innerPortButton.setOnClickListener(this);
+        autoLineButton.setOnClickListener(this);
+
+        autoBottomText.setOnFocusChangeListener((view, b) -> {
+            if (!b) {
+                if (autoBottomText.getText().toString().equals("")) {
+                    autoBottomText.setText("0");
+                }
+
+                scoutingFormPresenter.saveData("Auto Bottom", autoBottomText.getText().toString());
+                Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
+            }
         });
-            outerPortButton.setOnClickListener((View v) -> {
-                updatePortOnClick(outerPortButton);
+        autoOuterText.setOnFocusChangeListener((view, b) -> {
+            if (!b) {
+                if (autoOuterText.getText().toString().equals("")) {
+                    autoOuterText.setText("0");
+                }
+                scoutingFormPresenter.saveData("Auto Outer", autoOuterText.getText().toString());
+                Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
+            }
         });
-            innerPortButton.setOnClickListener((View v) -> {
-                updatePortOnClick(innerPortButton);
+        autoInnerText.setOnFocusChangeListener((view, b) -> {
+            if (!b) {
+                if (autoInnerText.getText().toString().equals("")) {
+                    autoInnerText.setText("0");
+                }
+                scoutingFormPresenter.saveData("Auto Inner", autoInnerText.getText().toString());
+                Timber.d("shared Preferences: " + "Auto Inner" + ", " + scoutingFormPresenter.readData("Auto Inner"));
+            }
         });
-            autolineButton.setOnClickListener((View v) -> {
-                //TODO: Add functionality here.
-                onClickAutoline();
-            });
     }
 
-    private void initWriteToPref(){
-        scoutingFormPresenter.initWriteToPreferences(fieldNames.get(3));
-        scoutingFormPresenter.initWriteToPreferences(fieldNames.get(2));
-        scoutingFormPresenter.initWriteToPreferences(fieldNames.get(1));
-        scoutingFormPresenter.initWriteToPreferences(fieldNames.get(0));
+    private void initFields() {
+        scoutingFormPresenter.saveData("Auto Cross", "0");
+        scoutingFormPresenter.saveData("Auto Inner", "0");
+        scoutingFormPresenter.saveData("Auto Outer", "0");
+        scoutingFormPresenter.saveData("Auto Bottom", "0");
+
+        autoBottomText.setText("0");
+        autoOuterText.setText("0");
+        autoInnerText.setText("0");
     }
 
     private void initializeViewLabels() {
@@ -136,49 +146,46 @@ public class UIAutoFragment extends Fragment {
         autoInnerLabel.setText(getResources().getString(R.string.num_cells_inner_label));
     }
 
-    private void setEditTextViews() {
-        autoBottomAmt.setText(scoutingFormPresenter.readFromPreferences(fieldNames.get(3)));
-        autoOuterAmt.setText(scoutingFormPresenter.readFromPreferences(fieldNames.get(2)));
-        autoInnerAmt.setText(scoutingFormPresenter.readFromPreferences(fieldNames.get(1)));
-    }
+    @Override
+    public void onClick(View v) {
 
-    private void updatePortOnClick(View v){
-        String fieldName;
-        Integer updatedTextValue;
+        Integer value = 0;
+        switch (v.getId()) {
+            case R.id.bottomport_button:
+                value = Integer.parseInt(autoBottomText.getText().toString()) + 1;
+                autoBottomText.setText(value.toString());
 
-        if(v.getId() == (R.id.bottomport_button)) {
-            updatedTextValue = Integer.parseInt(autoBottomAmt.getText().toString()) + 1;
-            fieldName = fieldNames.get(3);
-        }else if(v.getId() == (R.id.outerport_button)){
-            updatedTextValue = Integer.parseInt(autoOuterAmt.getText().toString()) + 1;
-            fieldName = fieldNames.get(2);
-        }else if(v.getId() == (R.id.innerport_button)){
-            updatedTextValue = Integer.parseInt(autoInnerAmt.getText().toString()) + 1;
-            fieldName = fieldNames.get(1);
-        }else{
-            updatedTextValue = 0;
-            fieldName = null;
-            Timber.d("No such field available.");
+                scoutingFormPresenter.saveData("Auto Bottom", value.toString());
+
+                Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
+                break;
+            case R.id.outerport_button:
+                value = Integer.parseInt(autoOuterText.getText().toString()) + 1;
+                autoOuterText.setText(value.toString());
+
+                scoutingFormPresenter.saveData("Auto Outer", value.toString());
+
+                Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
+                break;
+            case R.id.innerport_button:
+                value = Integer.parseInt(autoInnerText.getText().toString()) + 1;
+                autoInnerText.setText(value.toString());
+
+                scoutingFormPresenter.saveData("Auto Inner", value.toString());
+
+                Timber.d("shared Preferences: " + "Auto Inner" + ", " + scoutingFormPresenter.readData("Auto Inner"));
+                break;
+            case R.id.autoline_button:
+                value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Auto Cross")) - 1);
+                if (value == 1) {
+                    autoLineButton.setImageResource(R.drawable.autoline_clicked);
+                } else {
+                    autoLineButton.setImageResource(R.drawable.autoline);
+                }
+                scoutingFormPresenter.saveData("Auto Cross", value.toString());
+
+                Timber.d("shared Preferences: " + "Auto Cross" + ", " + scoutingFormPresenter.readData("Auto Cross"));
+                break;
         }
-        scoutingFormPresenter.updatePreferences(fieldName, updatedTextValue.toString());
-        setEditTextViews();
-    }
-
-    private void onClickAutoline(){
-        //
-        Integer val = Integer.parseInt(scoutingFormPresenter.readFromPreferences(fieldNames.get(0)));
-        if(val == 0){
-            val += 1;
-            autolineButton.setImageResource(R.drawable.autoline_clicked);
-        }else{
-            val -= 1;
-            autolineButton.setImageResource(R.drawable.autoline);
-        }
-        scoutingFormPresenter.writeToPreferences(fieldNames.get(0), val);
-    }
-
-
-    private void initializeFieldNames() {
-        fieldNames = scoutingFormPresenter.getScoutingForm().getAutoFieldNames();
     }
 }

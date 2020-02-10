@@ -122,20 +122,20 @@ public class UIEndGameFragment extends Fragment {
 //           changeLevelState();
 //        });
         robotChangeLevelButton.setOnClickListener((View v) -> {
-            if (Integer.parseInt(scoutingFormPresenter.readFromPreferences(endgamePreferenceVal)) != 0 && Integer.parseInt(scoutingFormPresenter.readFromPreferences(endgamePreferenceVal)) != 1) {
+            if (Integer.parseInt(scoutingFormPresenter.readData(endgamePreferenceVal)) != 0 && Integer.parseInt(scoutingFormPresenter.readData(endgamePreferenceVal)) != 1) {
 //                if (Integer.parseInt(scoutingFormPresenter.readFromPreferences(leveledPreferenceVal)) == 0) {
 //                    tiltedClimb.setVisibility(View.VISIBLE);
 //                    straightClimb.setVisibility(View.INVISIBLE);
 //                    scoutingFormPresenter.writeToPreferences(leveledPreferenceVal, 2);
 //                } else if
-               if (Integer.parseInt(scoutingFormPresenter.readFromPreferences(leveledPreferenceVal)) == 1) {
+               if (Integer.parseInt(scoutingFormPresenter.readData(leveledPreferenceVal)) == 1) {
                     tiltedClimb.setVisibility(View.VISIBLE);
                     straightClimb.setVisibility(View.INVISIBLE);
-                    scoutingFormPresenter.writeToPreferences(leveledPreferenceVal, 2);
-                } else if (Integer.parseInt(scoutingFormPresenter.readFromPreferences(leveledPreferenceVal)) == 2) {
+                    scoutingFormPresenter.saveData(leveledPreferenceVal, "2");
+                } else if (Integer.parseInt(scoutingFormPresenter.readData(leveledPreferenceVal)) == 2) {
                     tiltedClimb.setVisibility(View.INVISIBLE);
                     straightClimb.setVisibility(View.VISIBLE);
-                    scoutingFormPresenter.writeToPreferences(leveledPreferenceVal, 1);
+                    scoutingFormPresenter.saveData(leveledPreferenceVal, "1");
                 }
             }
             });
@@ -145,25 +145,25 @@ public class UIEndGameFragment extends Fragment {
 
 
             if (imageChangeCounter == 0) {
-                scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 1);
+                scoutingFormPresenter.saveData(endgamePreferenceVal, "1");
                 robotStateClimb.setVisibility(View.VISIBLE);
                 robotStateClimbNull.setVisibility(View.INVISIBLE);
                 defaultClimb();
                 imageChangeCounter++;
             } else if (imageChangeCounter == 1) {
-                scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 2);
+                scoutingFormPresenter.saveData(endgamePreferenceVal, "2");
                 robotStateBalanced.setVisibility(View.VISIBLE);
                 balanceScore();
                 imageChangeCounter++;
 
             } else if (imageChangeCounter == 2) {
-                scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 3);
+                scoutingFormPresenter.saveData(endgamePreferenceVal, "3");
                 robotStateBalanced2.setVisibility(View.VISIBLE);
                 balanceScore();
                 imageChangeCounter++;
 
             } else if (imageChangeCounter == 3) {
-                scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 4);
+                scoutingFormPresenter.saveData(endgamePreferenceVal, "4");
                 robotStateBalanced3.setVisibility(View.VISIBLE);
                 balanceScore();
                 imageChangeCounter++;
@@ -176,7 +176,7 @@ public class UIEndGameFragment extends Fragment {
                 robotStateBalanced3.setVisibility(View.INVISIBLE);
                 robotStateBalanced.setVisibility(View.INVISIBLE);
                 defaultClimb();
-                scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 0);
+                scoutingFormPresenter.saveData(endgamePreferenceVal, "0");
             }
         });
 
@@ -184,7 +184,7 @@ public class UIEndGameFragment extends Fragment {
 
 
     private void changeLevelState(){
-        Integer current = Integer.parseInt(scoutingFormPresenter.readFromPreferences(leveledPreferenceVal));
+        Integer current = Integer.parseInt(scoutingFormPresenter.readData(leveledPreferenceVal));
         if(current == 0){
             balancedClimb();
         }else if(current == 1){
@@ -197,7 +197,7 @@ public class UIEndGameFragment extends Fragment {
         robotStateUnbalanced.setVisibility(View.GONE);
         tiltedClimb.setVisibility(View.GONE);
         straightClimb.setVisibility(View.VISIBLE);
-        scoutingFormPresenter.writeToPreferences(leveledPreferenceVal,1);
+        scoutingFormPresenter.saveData(leveledPreferenceVal,"1");
     }
 
     private void unBalancedClimb(){
@@ -205,21 +205,21 @@ public class UIEndGameFragment extends Fragment {
         straightClimb.setVisibility(View.GONE);
         robotStateUnbalanced.setVisibility(View.VISIBLE);
         tiltedClimb.setVisibility(View.VISIBLE);
-        scoutingFormPresenter.writeToPreferences(leveledPreferenceVal, 0);
+        scoutingFormPresenter.saveData(leveledPreferenceVal, "0");
     }
 
     private void initalWriteToPreferences(){
-        scoutingFormPresenter.writeToPreferences(leveledPreferenceVal, 1);
-        scoutingFormPresenter.writeToPreferences(endgamePreferenceVal, 0);
+        scoutingFormPresenter.saveData(leveledPreferenceVal, "1");
+        scoutingFormPresenter.saveData(endgamePreferenceVal, "0");
     }
     private void defaultClimb() {
-        scoutingFormPresenter.writeToPreferences(leveledPreferenceVal, 0);
+        scoutingFormPresenter.saveData(leveledPreferenceVal, "0");
         tiltedClimb.setVisibility(View.INVISIBLE);
         straightClimb.setVisibility(View.VISIBLE);
     }
     private void balanceScore() {
-        if (Integer.parseInt(scoutingFormPresenter.readFromPreferences(leveledPreferenceVal)) == 0) {
-            scoutingFormPresenter.writeToPreferences(leveledPreferenceVal, 1);
+        if (Integer.parseInt(scoutingFormPresenter.readData(leveledPreferenceVal)) == 0) {
+            scoutingFormPresenter.saveData(leveledPreferenceVal, "1");
         }
     }
 }

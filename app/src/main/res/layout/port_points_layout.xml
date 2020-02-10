@@ -16,9 +16,9 @@
         android:id="@+id/edittext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:layout_toRightOf="@id/textview"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
-        />
+        android:layout_marginStart="15dp"
+        android:layout_toEndOf="@id/textview"
+        android:inputType="number"
+        android:textSize="25sp" />
 </RelativeLayout>

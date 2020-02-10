@@ -99,27 +99,6 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         return scoutingForm;
     }
 
-    /**
-     *Data Preferences.
-     */
-    public void initWriteToPreferences(String field){
-        Integer value = 0;
-        prefsDataManager.writeToPreferences(field, value.toString());
-    }
-
-    public String readFromPreferences(String field){
-        return prefsDataManager.readFromPreferences(field);
-    }
-
-    public void writeToPreferences(String field, Integer newValue){
-        prefsDataManager.writeToPreferences(field, newValue.toString());
-    }
-
-    public void updatePreferences(String field, String upDatedAmt){
-        Integer updatedValue = Integer.parseInt(upDatedAmt);
-        prefsDataManager.writeToPreferences(field, updatedValue.toString());
-    }
-
     public void clearPreferences() {
         prefsDataManager.clearPreferences(scoutingForm.getClearNames());
     }

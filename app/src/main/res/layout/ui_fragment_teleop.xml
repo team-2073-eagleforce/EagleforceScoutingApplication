@@ -22,17 +22,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/rotationControl"
+            android:id="@+id/rotationControlButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:width="110dp"
             android:height="100dp"
             android:text="Rotation"
-            app:layout_constraintEnd_toEndOf="@+id/positionControl"
-            app:layout_constraintTop_toBottomOf="@+id/positionControl" />
+            app:layout_constraintEnd_toEndOf="@+id/positionControlButton"
+            app:layout_constraintTop_toBottomOf="@+id/positionControlButton" />
 
         <Button
-            android:id="@+id/positionControl"
+            android:id="@+id/positionControlButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
@@ -48,16 +48,16 @@
             android:id="@+id/positionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/positionControl"
+            android:layout_toEndOf="@id/positionControlButton"
             android:width="110dp"
             android:height="100dp"
             android:text="Off"
             android:textSize="70sp"
 
-            app:layout_constraintBottom_toBottomOf="@+id/positionControl"
-            app:layout_constraintLeft_toRightOf="@id/positionControl"
-            app:layout_constraintStart_toEndOf="@+id/positionControl"
-            app:layout_constraintTop_toTopOf="@+id/positionControl" />
+            app:layout_constraintBottom_toBottomOf="@+id/positionControlButton"
+            app:layout_constraintLeft_toRightOf="@id/positionControlButton"
+            app:layout_constraintStart_toEndOf="@+id/positionControlButton"
+            app:layout_constraintTop_toTopOf="@+id/positionControlButton" />
 
         <TextView
             android:id="@+id/rotationText"
@@ -65,10 +65,10 @@
             android:layout_height="wrap_content"
             android:width="110dp"
             android:height="100dp"
-            android:text="Off\"
+            android:text="Off"
             android:textSize="70sp"
             app:layout_constraintEnd_toEndOf="@+id/positionText"
-            app:layout_constraintStart_toEndOf="@+id/positionControl"
+            app:layout_constraintStart_toEndOf="@+id/positionControlButton"
             app:layout_constraintTop_toBottomOf="@+id/positionText" />
 
         <RelativeLayout
@@ -81,7 +81,7 @@
             tools:layout_editor_absoluteX="-16dp">
 
             <RelativeLayout
-                android:id="@+id/auto_cell_score_count"
+                android:id="@+id/tele_cell_score_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -112,7 +112,7 @@
                 android:id="@+id/outer_and_inner_frame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/auto_cell_score_count"
+                android:layout_below="@id/tele_cell_score_count"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp">
 
@@ -143,14 +143,6 @@
                 android:background="@drawable/bottom_port"
                 android:foreground="?attr/selectableItemBackgroundBorderless" />
 
-            <ImageButton
-                android:id="@+id/autoline_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/bottomport_button"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/autoline"
-                android:foreground="?attr/selectableItemBackgroundBorderless" />
         </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

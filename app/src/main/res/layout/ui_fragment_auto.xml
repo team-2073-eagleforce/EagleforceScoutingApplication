@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/constraintLayout"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,43 +9,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-       <RelativeLayout
-           android:id="@+id/auto_cell_score_count"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content">
 
-           <include
-               android:id="@+id/bottomport_layout"
-               layout="@layout/port_points_layout"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               />
+        <RelativeLayout
+            android:id="@+id/tele_cell_score_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-           <include
-               android:id="@+id/outerport_layout"
-               layout="@layout/port_points_layout"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_below="@id/bottomport_layout"
-               />
+            <include
+                android:id="@+id/bottomport_layout"
+                layout="@layout/port_points_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-           <include
-               android:id="@+id/innerport_layout"
-               layout="@layout/port_points_layout"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_below="@id/outerport_layout"
-               />
+            <include
+                android:id="@+id/outerport_layout"
+                layout="@layout/port_points_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bottomport_layout" />
 
-       </RelativeLayout>
+            <include
+                android:id="@+id/innerport_layout"
+                layout="@layout/port_points_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/outerport_layout" />
 
+        </RelativeLayout>
 
         <FrameLayout
             android:id="@+id/outer_and_inner_frame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/auto_cell_score_count"
+            android:layout_below="@id/tele_cell_score_count"
             android:layout_marginBottom="20dp">
 
             <ImageButton
@@ -86,6 +83,7 @@
             android:foreground="?attr/selectableItemBackgroundBorderless"
             android:layout_below="@id/bottomport_button"
             android:layout_centerHorizontal="true"/>
+
     </RelativeLayout>
 
 </ScrollView>

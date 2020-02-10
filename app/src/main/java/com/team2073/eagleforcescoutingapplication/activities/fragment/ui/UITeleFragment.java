@@ -1,8 +1,6 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,47 +16,34 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
-import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
-
-import java.util.ArrayList;
 
 import timber.log.Timber;
 
-public class UITeleFragment extends Fragment {
+public class UITeleFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_SECTION_NUMBER = "TeleOp";
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
-    private SharedPreferences sharedPreferences;
-    private PrefsDataManager prefsDataManager = PrefsDataManager.getInstance(getActivity());
 
-    private ArrayList<String> fieldNames = new ArrayList<>();
-
-    private Button rControl;
-    private Button pControl;
     private TextView rText;
     private TextView pText;
-    //Bottom Port Views
-    private View bottomPort;
-    private TextView autoBottomLabel;
-    private EditText autoBottomAmt;
 
-    //Outer port Views
-    private View outerPort;
-    private TextView autoOuterLabel;
-    private EditText autoOuterAmt;
+    private TextView teleBottomLabel;
+    private EditText teleBottomText;
 
-    //Inner port Views
-    private View innerPort;
-    private TextView autoInnerLabel;
-    private EditText autoInnerAmt;
+    private TextView teleOuterLabel;
+    private EditText teleOuterText;
 
-    //ImageButtons
+    private TextView teleInnerLabel;
+    private EditText teleInnerText;
+
     private ImageButton bottomPortButton;
     private ImageButton outerPortButton;
     private ImageButton innerPortButton;
-    private ImageButton autolineButton;
+
+    private Button rControlButton;
+    private Button pControlButton;
 
     public static UITeleFragment newInstance(int index) {
         UITeleFragment fragment = new UITeleFragment();
@@ -85,141 +70,153 @@ public class UITeleFragment extends Fragment {
         View root = inflater.inflate(R.layout.ui_fragment_teleop, container, false);
 
         //Instantiate bottom port views
-        bottomPort = root.findViewById(R.id.bottomport_layout);
-        autoBottomLabel = bottomPort.findViewById(R.id.textview);
-        autoBottomAmt = bottomPort.findViewById(R.id.edittext);
+        //Bottom Port Views
+        View bottomPort = root.findViewById(R.id.bottomport_layout);
+        teleBottomLabel = bottomPort.findViewById(R.id.textview);
+        teleBottomText = bottomPort.findViewById(R.id.edittext);
         bottomPortButton = root.findViewById(R.id.bottomport_button);
 
         //Instantiate bottom port views
-        outerPort = root.findViewById(R.id.outerport_layout);
-        autoOuterLabel = outerPort.findViewById(R.id.textview);
-        autoOuterAmt = outerPort.findViewById(R.id.edittext);
+        //Outer port Views
+        View outerPort = root.findViewById(R.id.outerport_layout);
+        teleOuterLabel = outerPort.findViewById(R.id.textview);
+        teleOuterText = outerPort.findViewById(R.id.edittext);
         outerPortButton = root.findViewById(R.id.outerport_button);
 
         //Instantiate bottom port views
-        innerPort = root.findViewById(R.id.innerport_layout);
-        autoInnerLabel = innerPort.findViewById(R.id.textview);
-        autoInnerAmt = innerPort.findViewById(R.id.edittext);
+        //Inner port Views
+        View innerPort = root.findViewById(R.id.innerport_layout);
+        teleInnerLabel = innerPort.findViewById(R.id.textview);
+        teleInnerText = innerPort.findViewById(R.id.edittext);
         innerPortButton = root.findViewById(R.id.innerport_button);
 
-        //Instantiate Autoline Views
-        autolineButton = root.findViewById(R.id.autoline_button);
+        rControlButton = root.findViewById(R.id.rotationControlButton);
+        pControlButton = root.findViewById(R.id.positionControlButton);
 
-        initializeViewLabels();
-        initializeFieldNames();
-
-        initWriteToPref();
-        setEditTextViews();
-
-        rControl = root.findViewById(R.id.rotationControl);
-        pControl = root.findViewById(R.id.positionControl);
         rText = root.findViewById(R.id.rotationText);
         pText = root.findViewById(R.id.positionText);
-        prefsDataManager.writeToPreferences("uiPosition", String.valueOf(0));
-        prefsDataManager.writeToPreferences("uiRotation", String.valueOf(0));
 
-
-        rControl.setOnClickListener(view -> {
-            if (prefsDataManager.readFromPreferences("uiRotation").equals(String.valueOf(0))) {
-                prefsDataManager.writeToPreferences("uiRotation", String.valueOf(1));
-                rText.setText("On");
-            } else {
-                prefsDataManager.writeToPreferences("uiRotation", String.valueOf(0));
-                rText.setText("Off");
-            }
-        });
-        pControl.setOnClickListener(view -> {
-            if (prefsDataManager.readFromPreferences("uiPosition").equals(String.valueOf(0))) {
-            prefsDataManager.writeToPreferences("uiPosition", String.valueOf(1));
-            pText.setText("On");
-        } else {
-            prefsDataManager.writeToPreferences("uiPosition", String.valueOf(0));
-            pText.setText("Off");
-        }
-        });
-
+        initializeViewLabels();
+        initFields();
 
         return root;
-
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        bottomPortButton.setOnClickListener((View v) -> {
-            updatePortOnClick(bottomPortButton);
+        bottomPortButton.setOnClickListener(this);
+        outerPortButton.setOnClickListener(this);
+        innerPortButton.setOnClickListener(this);
+        rControlButton.setOnClickListener(this);
+        pControlButton.setOnClickListener(this);
+        rControlButton.setOnClickListener(this);
+        pControlButton.setOnClickListener(this);
+
+        teleBottomText.setOnFocusChangeListener((view, b) -> {
+            if (!b) {
+                if (teleBottomText.getText().toString().equals("")) {
+                    teleBottomText.setText("0");
+                }
+
+                scoutingFormPresenter.saveData("Teleop Bottom", teleBottomText.getText().toString());
+                Timber.d("shared Preferences: " + "Teleop Bottom" + ", " + scoutingFormPresenter.readData("Teleop Bottom"));
+            }
         });
-        outerPortButton.setOnClickListener((View v) -> {
-            updatePortOnClick(outerPortButton);
+        teleOuterText.setOnFocusChangeListener((view, b) -> {
+            if (!b) {
+                if (teleOuterText.getText().toString().equals("")) {
+                    teleOuterText.setText("0");
+                }
+                scoutingFormPresenter.saveData("Teleop Outer", teleOuterText.getText().toString());
+                Timber.d("shared Preferences: " + "Teleop Outer" + ", " + scoutingFormPresenter.readData("Teleop Outer"));
+            }
         });
-        innerPortButton.setOnClickListener((View v) -> {
-            updatePortOnClick(innerPortButton);
-        });
-        autolineButton.setOnClickListener((View v) -> {
-            //TODO: Add functionality here.
-            onClickAutoline();
+        teleInnerText.setOnFocusChangeListener((view, b) -> {
+            if (!b) {
+                if (teleInnerText.getText().toString().equals("")) {
+                    teleInnerText.setText("0");
+                }
+                scoutingFormPresenter.saveData("Teleop Inner", teleInnerText.getText().toString());
+                Timber.d("shared Preferences: " + "Teleop Inner" + ", " + scoutingFormPresenter.readData("Teleop Inner"));
+            }
         });
     }
-    private void initWriteToPref(){
-        scoutingFormPresenter.initWriteToPreferences(fieldNames.get(3));
-        scoutingFormPresenter.initWriteToPreferences(fieldNames.get(2));
-        scoutingFormPresenter.initWriteToPreferences(fieldNames.get(1));
-        scoutingFormPresenter.initWriteToPreferences(fieldNames.get(0));
+
+    private void initFields() {
+        scoutingFormPresenter.saveData("Teleop Inner", "0");
+        scoutingFormPresenter.saveData("Teleop Outer", "0");
+        scoutingFormPresenter.saveData("Teleop Bottom", "0");
+
+        scoutingFormPresenter.saveData("Control Panel Rotation", "0");
+        scoutingFormPresenter.saveData("Control Panel Position", "0");
+
+        teleBottomText.setText("0");
+        teleOuterText.setText("0");
+        teleInnerText.setText("0");
     }
 
     private void initializeViewLabels() {
-        autoBottomLabel.setText(getResources().getString(R.string.num_cells_bottom_label));
-        autoOuterLabel.setText(getResources().getString(R.string.num_cells_outer_label));
-        autoInnerLabel.setText(getResources().getString(R.string.num_cells_inner_label));
+        teleBottomLabel.setText(getResources().getString(R.string.num_cells_bottom_label));
+        teleOuterLabel.setText(getResources().getString(R.string.num_cells_outer_label));
+        teleInnerLabel.setText(getResources().getString(R.string.num_cells_inner_label));
     }
 
-    private void setEditTextViews() {
-        autoBottomAmt.setText(scoutingFormPresenter.readFromPreferences(fieldNames.get(3)));
-        autoOuterAmt.setText(scoutingFormPresenter.readFromPreferences(fieldNames.get(2)));
-        autoInnerAmt.setText(scoutingFormPresenter.readFromPreferences(fieldNames.get(1)));
-    }
+    @Override
+    public void onClick(View v) {
+        Integer value = 0;
+        switch (v.getId()) {
+            case R.id.bottomport_button:
+                value = Integer.parseInt(teleBottomText.getText().toString()) + 1;
+                teleBottomText.setText(value.toString());
 
-    private void updatePortOnClick(View v){
-        String fieldName;
-        Integer updatedTextValue;
+                scoutingFormPresenter.saveData("Teleop Bottom", value.toString());
 
-        if(v.getId() == (R.id.bottomport_button)) {
-            updatedTextValue = Integer.parseInt(autoBottomAmt.getText().toString()) + 1;
-            fieldName = fieldNames.get(3);
-        }else if(v.getId() == (R.id.outerport_button)){
-            updatedTextValue = Integer.parseInt(autoOuterAmt.getText().toString()) + 1;
-            fieldName = fieldNames.get(2);
-        }else if(v.getId() == (R.id.innerport_button)){
-            updatedTextValue = Integer.parseInt(autoInnerAmt.getText().toString()) + 1;
-            fieldName = fieldNames.get(1);
-        }else{
-            updatedTextValue = 0;
-            fieldName = null;
-            Timber.d("No such field available.");
+                Timber.d("shared Preferences: " + "Teleop Bottom" + ", " + scoutingFormPresenter.readData("Teleop Bottom"));
+                break;
+            case R.id.outerport_button:
+                value = Integer.parseInt(teleOuterText.getText().toString()) + 1;
+                teleOuterText.setText(value.toString());
+
+                scoutingFormPresenter.saveData("Teleop Outer", value.toString());
+
+                Timber.d("shared Preferences: " + "Teleop Outer" + ", " + scoutingFormPresenter.readData("Teleop Outer"));
+                break;
+            case R.id.innerport_button:
+                value = Integer.parseInt(teleInnerText.getText().toString()) + 1;
+                teleInnerText.setText(value.toString());
+
+                scoutingFormPresenter.saveData("Auto Inner", value.toString());
+
+                Timber.d("shared Preferences: " + "Teleop Inner" + ", " + scoutingFormPresenter.readData("Teleop Inner"));
+                break;
+            case R.id.rotationControlButton:
+                value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Control Panel Rotation")) - 1);
+                if (value == 1) {
+                    //TODO find a cleaner way to display ON/OFF
+                    rText.setText("On");
+                } else {
+                    rText.setText("Off");
+                }
+                scoutingFormPresenter.saveData("Control Panel Rotation", value.toString());
+
+                Timber.d("shared Preferences: " + "Control Panel Rotation" + ", " + scoutingFormPresenter.readData("Control Panel Rotation"));
+                break;
+            case R.id.positionControlButton:
+                value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Control Panel Position")) - 1);
+                if (value == 1) {
+                    pText.setText("On");
+                } else {
+                    pText.setText("Off");
+                }
+                scoutingFormPresenter.saveData("Control Panel Position", value.toString());
+
+                Timber.d("shared Preferences: " + "Control Panel Position" + ", " + scoutingFormPresenter.readData("Control Panel Position"));
+                break;
         }
-        scoutingFormPresenter.updatePreferences(fieldName, updatedTextValue.toString());
-        setEditTextViews();
     }
-
-    private void onClickAutoline(){
-        //
-        Integer val = Integer.parseInt(scoutingFormPresenter.readFromPreferences(fieldNames.get(0)));
-        if(val == 0){
-            val += 1;
-            autolineButton.setImageResource(R.drawable.autoline_clicked);
-        }else{
-            val -= 1;
-            autolineButton.setImageResource(R.drawable.autoline);
-        }
-        scoutingFormPresenter.writeToPreferences(fieldNames.get(0), val);
-    }
-
-
-    private void initializeFieldNames() {
-        fieldNames = scoutingFormPresenter.getScoutingForm().getAutoFieldNames();
-    }
-
-    }
+}
 
 
 
