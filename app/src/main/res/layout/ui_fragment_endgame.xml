@@ -40,9 +40,10 @@
             app:layout_constraintTop_toTopOf="@+id/climb_beam" />
 
         <ImageButton
-            android:id="@+id/robot_state_parked"
+            android:id="@+id/robot_state_leveled"
             android:layout_width="200dp"
             android:layout_height="175dp"
+            android:layout_marginBottom="200dp"
             android:background="@drawable/robotdraftone"
             app:layout_constraintBottom_toBottomOf="@id/climb_beam"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -57,18 +58,18 @@
             app:layout_constraintBottom_toBottomOf="@id/climb_beam"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/robot_state_parked" />
+            app:layout_constraintTop_toBottomOf="@id/robot_state_leveled" />
 
         <ImageView
             android:id="@+id/robot_state_climbNull"
             android:layout_width="200dp"
             android:layout_height="175dp"
             android:layout_marginTop="50dp"
-            android:background="#131111"
+            android:background="#3C3F41"
             app:layout_constraintBottom_toBottomOf="@id/climb_beam"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/robot_state_parked" />
+        app:layout_constraintTop_toBottomOf="@id/robot_state_leveled" />
 
         <ImageButton
             android:id="@+id/robot_state_balanced"
