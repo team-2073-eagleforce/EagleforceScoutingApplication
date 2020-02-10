@@ -37,7 +37,7 @@
             android:layout_marginTop="85dp"
             android:src="@drawable/climb_bar_straight"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTo="@+id/climb_beam" />
+            app:layout_constraintTop_toTopOf="@+id/climb_beam" />
 
         <ImageView
             android:id="@+id/robot_state_parked"
