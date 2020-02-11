@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -34,7 +35,7 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener{
     private ImageView climb4;
 
     private Button changeLevelButton;
-    private Button climbButton;
+    private ImageButton climbButton;
 
 
     public static UIEndGameFragment newInstance(int index) {
@@ -62,8 +63,6 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener{
 
         leveled = root.findViewById(R.id.climb_bar_straight);
         unleveled = root.findViewById(R.id.climb_bar_tilt);
-
-        leveled = root.findViewById(R.id.climb2);
 
         climb1 = root.findViewById(R.id.climb1);
         climb2 = root.findViewById(R.id.climb2);
@@ -110,7 +109,7 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener{
         Integer value = 0;
         switch(view.getId()){
             case R.id.level_button:
-                value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Auto Cross")) - 1);
+                value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Level")) - 1);
                 if (value == 1) {
                     unleveled.setVisibility(View.VISIBLE);
                     leveled.setVisibility(View.GONE);
@@ -123,7 +122,7 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener{
                 Timber.d("shared Preferences: " + "Level" + ", " + scoutingFormPresenter.readData("Level"));
                 break;
             case R.id.climb_button:
-                value = Integer.parseInt(scoutingFormPresenter.readData("Climb") + 1);
+                value = Integer.parseInt(scoutingFormPresenter.readData("Climb")) + 1;
                 if(value == 5) {
                     value = 0;
                 }
