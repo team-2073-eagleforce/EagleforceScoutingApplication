@@ -45,20 +45,17 @@ public class InfiniteRechargeScoutingForm implements ScoutingForm {
         clearNames.add("Control Panel Position");
 
         fieldNames.add("Climb");
-        fieldNames.add("Park");
-        fieldNames.add("Lift");
+        fieldNames.add("Level");
         fieldNames.add("Driver Performance");
         fieldNames.add("Auto Performance");
 
         endgameNames.add("Climb");
-        endgameNames.add("Park");
-        endgameNames.add("Lift");
+        endgameNames.add("Level");
         endgameNames.add("Driver Performance");
         endgameNames.add("Auto Performance");
 
         clearNames.add("Climb");
-        clearNames.add("Park");
-        clearNames.add("Lift");
+        clearNames.add("Level");
         clearNames.add("Driver Performance");
         clearNames.add("Auto Performance");
 
