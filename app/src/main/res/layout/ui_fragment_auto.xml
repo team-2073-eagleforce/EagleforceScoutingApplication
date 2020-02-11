@@ -9,11 +9,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageButton
+            android:id="@+id/autoline_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/autoline"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:layout_centerHorizontal="true"/>
 
         <RelativeLayout
-            android:id="@+id/tele_cell_score_count"
+            android:id="@+id/cell_score_count"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/autoline_button">
 
             <include
                 android:id="@+id/bottomport_layout"
@@ -42,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/tele_cell_score_count"
+            android:layout_below="@id/cell_score_count"
             android:layout_marginBottom="20dp">
 
             <ImageButton
@@ -74,15 +82,6 @@
             android:layout_centerHorizontal="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             />
-
-        <ImageButton
-            android:id="@+id/autoline_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/autoline"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:layout_below="@id/bottomport_button"
-            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 
