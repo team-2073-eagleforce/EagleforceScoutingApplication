@@ -21,20 +21,13 @@
             android:id="@+id/cell_score_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/autoline_button">
-
-            <include
-                android:id="@+id/bottomport_layout"
-                layout="@layout/port_points_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            android:layout_below="@id/bottomport_button">
 
             <include
                 android:id="@+id/outerport_layout"
                 layout="@layout/port_points_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/bottomport_layout" />
+                android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/innerport_layout"
@@ -43,6 +36,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/outerport_layout" />
 
+            <include
+                android:id="@+id/bottomport_layout"
+                layout="@layout/port_points_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/innerport_layout"/>
+
         </RelativeLayout>
 
         <FrameLayout
@@ -50,8 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/cell_score_count"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:layout_below="@id/autoline_button">
 
             <ImageButton
                 android:id="@+id/outerport_button"

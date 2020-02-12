@@ -8,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/wofLayout"
@@ -22,7 +23,6 @@
                 android:id="@+id/WOF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
                 android:background="@drawable/wof"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -93,20 +93,15 @@
             <RelativeLayout
                 android:id="@+id/tele_cell_score_count"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bottomport_button">
 
-                <include
-                    android:id="@+id/bottomport_layout"
-                    layout="@layout/port_points_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
 
                 <include
                     android:id="@+id/outerport_layout"
                     layout="@layout/port_points_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/bottomport_layout" />
+                    android:layout_height="wrap_content" />
 
                 <include
                     android:id="@+id/innerport_layout"
@@ -115,6 +110,13 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/outerport_layout" />
 
+                <include
+                    android:id="@+id/bottomport_layout"
+                    layout="@layout/port_points_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/innerport_layout"/>
+
             </RelativeLayout>
 
 
@@ -122,7 +124,6 @@
                 android:id="@+id/outer_and_inner_frame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tele_cell_score_count"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp">
 
