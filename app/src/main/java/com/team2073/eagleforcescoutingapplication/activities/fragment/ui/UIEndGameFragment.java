@@ -20,7 +20,7 @@ import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFo
 
 import timber.log.Timber;
 
-public class UIEndGameFragment extends Fragment implements View.OnClickListener{
+public class UIEndGameFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_SECTION_NUMBER = "Detail";
     private PageViewModel pageViewModel;
@@ -107,15 +107,29 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         Integer value = 0;
-        switch(view.getId()){
+        switch (view.getId()) {
             case R.id.level_button:
-                value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Level")) - 1);
-                if (value == 1) {
-                    unleveled.setVisibility(View.VISIBLE);
-                    leveled.setVisibility(View.GONE);
-                } else {
-                    leveled.setVisibility(View.VISIBLE);
+                value = Integer.parseInt(scoutingFormPresenter.readData("Level")) + 1;
+
+                if (Integer.parseInt(scoutingFormPresenter.readData("Climb")) == 0 || Integer.parseInt(scoutingFormPresenter.readData("Climb")) == 1) {
                     unleveled.setVisibility(View.GONE);
+                    leveled.setVisibility(View.GONE);
+                    scoutingFormPresenter.saveData("Level", "0");
+                } else {
+                    if (value == 0 || value == 3) {
+                        value = 1;
+                        scoutingFormPresenter.saveData("Level", "1");
+                    }
+                    if (value == 1) {
+                        unleveled.setVisibility(View.VISIBLE);
+                        leveled.setVisibility(View.GONE);
+                    } else if (value == 2) {
+                        leveled.setVisibility(View.VISIBLE);
+                        unleveled.setVisibility(View.GONE);
+                    } else {
+                        leveled.setVisibility(View.GONE);
+                        unleveled.setVisibility(View.GONE);
+                    }
                 }
                 scoutingFormPresenter.saveData("Level", value.toString());
 
@@ -123,30 +137,36 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.climb_button:
                 value = Integer.parseInt(scoutingFormPresenter.readData("Climb")) + 1;
-                if(value == 5) {
+                if (value == 5) {
                     value = 0;
                 }
-                if(value == 0) {
+                if (value == 0) {
                     climb1.setVisibility(View.GONE);
                     climb2.setVisibility(View.GONE);
                     climb3.setVisibility(View.GONE);
                     climb4.setVisibility(View.GONE);
-                } else if(value == 1) {
+
+                    unleveled.setVisibility(View.GONE);
+                    leveled.setVisibility(View.GONE);
+                } else if (value == 1) {
                     climb1.setVisibility(View.VISIBLE);
                     climb2.setVisibility(View.GONE);
                     climb3.setVisibility(View.GONE);
                     climb4.setVisibility(View.GONE);
-                }else if(value == 2) {
+                } else if (value == 2) {
                     climb1.setVisibility(View.GONE);
                     climb2.setVisibility(View.VISIBLE);
                     climb3.setVisibility(View.GONE);
                     climb4.setVisibility(View.GONE);
-                }else if(value == 3){
+
+                    unleveled.setVisibility(View.VISIBLE);
+                    leveled.setVisibility(View.GONE);
+                } else if (value == 3) {
                     climb1.setVisibility(View.GONE);
                     climb2.setVisibility(View.VISIBLE);
                     climb3.setVisibility(View.VISIBLE);
                     climb4.setVisibility(View.GONE);
-                }else if(value == 4){
+                } else if (value == 4) {
                     climb1.setVisibility(View.GONE);
                     climb2.setVisibility(View.VISIBLE);
                     climb3.setVisibility(View.VISIBLE);
@@ -154,7 +174,7 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener{
                 }
                 scoutingFormPresenter.saveData("Climb", value.toString());
                 Timber.d("shared Preferences: " + "Climb" + ", " + scoutingFormPresenter.readData("Climb"));
-
         }
+
     }
 }
