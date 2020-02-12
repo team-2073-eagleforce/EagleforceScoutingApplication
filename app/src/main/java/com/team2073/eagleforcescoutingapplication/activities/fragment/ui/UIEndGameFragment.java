@@ -112,9 +112,9 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
                 value = Integer.parseInt(scoutingFormPresenter.readData("Level")) + 1;
 
                 if (Integer.parseInt(scoutingFormPresenter.readData("Climb")) == 0 || Integer.parseInt(scoutingFormPresenter.readData("Climb")) == 1) {
+                    scoutingFormPresenter.saveData("Level", "0");
                     unleveled.setVisibility(View.GONE);
                     leveled.setVisibility(View.GONE);
-                    scoutingFormPresenter.saveData("Level", "0");
                 } else {
                     if (value == 0 || value == 3) {
                         value = 1;
@@ -130,8 +130,8 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
                         leveled.setVisibility(View.GONE);
                         unleveled.setVisibility(View.GONE);
                     }
+                    scoutingFormPresenter.saveData("Level", value.toString());
                 }
-                scoutingFormPresenter.saveData("Level", value.toString());
 
                 Timber.d("shared Preferences: " + "Level" + ", " + scoutingFormPresenter.readData("Level"));
                 break;
@@ -175,6 +175,8 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
                 scoutingFormPresenter.saveData("Climb", value.toString());
                 Timber.d("shared Preferences: " + "Climb" + ", " + scoutingFormPresenter.readData("Climb"));
         }
+        System.out.println("Climb: " + scoutingFormPresenter.readData("Climb"));
+        System.out.println("Level " + scoutingFormPresenter.readData("Level"));
 
     }
 }
