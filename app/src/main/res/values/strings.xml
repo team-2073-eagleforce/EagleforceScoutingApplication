@@ -23,6 +23,11 @@
     <string name="drawerSettingsText">Settings</string>
     <string name="title_activity_settings2">Settings</string>
 
+    <!-- Game Specific Titles -->
+    <string name="num_cells_bottom_label"># Bottom Port</string>
+    <string name="num_cells_outer_label"># Outer Port</string>
+    <string name="num_cells_inner_label"># Inner Port</string>
+
     <!-- Preference Titles -->
     <string name="setup_header">Setup</string>
     <string name="sync_header">Sync</string>

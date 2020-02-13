@@ -1,13 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/wofLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ports"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <ImageView
+                android:id="@+id/WOF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/wof"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/rotationControlButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="110dp"
+                android:height="100dp"
+                android:text="Rotation"
+                app:layout_constraintEnd_toEndOf="@+id/positionControlButton"
+                app:layout_constraintTop_toBottomOf="@+id/positionControlButton" />
+
+            <Button
+                android:id="@+id/positionControlButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:width="110dp"
+                android:height="100dp"
+                android:text="Position"
+                app:layout_constraintHorizontal_bias="0.328"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/positionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/positionControlButton"
+                android:width="110dp"
+                android:height="100dp"
+                android:text="Off"
+                android:textSize="70sp"
+
+                app:layout_constraintBottom_toBottomOf="@+id/positionControlButton"
+                app:layout_constraintLeft_toRightOf="@id/positionControlButton"
+                app:layout_constraintStart_toEndOf="@+id/positionControlButton"
+                app:layout_constraintTop_toTopOf="@+id/positionControlButton" />
+
+            <TextView
+                android:id="@+id/rotationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="110dp"
+                android:height="100dp"
+                android:text="Off"
+                android:textSize="70sp"
+                app:layout_constraintEnd_toEndOf="@+id/positionText"
+                app:layout_constraintStart_toEndOf="@+id/positionControlButton"
+                app:layout_constraintTop_toBottomOf="@+id/positionText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/ports"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:id="@+id/tele_cell_score_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bottomport_button">
+
+
+                <include
+                    android:id="@+id/outerport_layout"
+                    layout="@layout/port_points_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/innerport_layout"
+                    layout="@layout/port_points_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/outerport_layout" />
+
+                <include
+                    android:id="@+id/bottomport_layout"
+                    layout="@layout/port_points_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/innerport_layout"/>
+
+            </RelativeLayout>
+
+
+            <FrameLayout
+                android:id="@+id/outer_and_inner_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp">
+
+                <ImageButton
+                    android:id="@+id/outerport_button"
+                    android:layout_width="350dp"
+                    android:layout_height="340dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/outerport"
+                    android:foreground="?attr/selectableItemBackgroundBorderless" />
+
+                <ImageButton
+                    android:id="@+id/innerport_button"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/innerport"
+                    android:foreground="?attr/selectableItemBackgroundBorderless" />
+
+            </FrameLayout>
+
+            <ImageButton
+                android:id="@+id/bottomport_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/outer_and_inner_frame"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bottom_port"
+                android:foreground="?attr/selectableItemBackgroundBorderless" />
+
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
 </ScrollView>
+

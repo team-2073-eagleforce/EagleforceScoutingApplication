@@ -1,14 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/constraintLayout"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageButton
+            android:id="@+id/autoline_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/autoline"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:layout_centerHorizontal="true"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:id="@+id/cell_score_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bottomport_button">
+
+            <include
+                android:id="@+id/outerport_layout"
+                layout="@layout/port_points_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/innerport_layout"
+                layout="@layout/port_points_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/outerport_layout" />
+
+            <include
+                android:id="@+id/bottomport_layout"
+                layout="@layout/port_points_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/innerport_layout"/>
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/outer_and_inner_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:layout_below="@id/autoline_button">
+
+            <ImageButton
+                android:id="@+id/outerport_button"
+                android:layout_width="350dp"
+                android:layout_height="340dp"
+                android:background="@drawable/outerport"
+                android:layout_gravity="center"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                />
+
+            <ImageButton
+                android:id="@+id/innerport_button"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/innerport"
+                android:layout_gravity="center"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                />
+
+        </FrameLayout>
+
+        <ImageButton
+            android:id="@+id/bottomport_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_port"
+            android:layout_below="@id/outer_and_inner_frame"
+            android:layout_centerHorizontal="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            />
+
+    </RelativeLayout>
+
 </ScrollView>

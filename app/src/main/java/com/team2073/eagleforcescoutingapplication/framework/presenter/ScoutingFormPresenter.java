@@ -107,6 +107,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         prefsDataManager.clearPreferences();
     }
 
+
     /**
      * Creates the tabbed interface for the {@link ScoutingFormActivity} based on the scouting mode chosen in the {@link SettingsActivity}
      */
