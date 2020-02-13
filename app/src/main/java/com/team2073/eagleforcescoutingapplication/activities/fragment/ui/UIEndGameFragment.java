@@ -161,6 +161,9 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
 
                     unleveled.setVisibility(View.VISIBLE);
                     leveled.setVisibility(View.GONE);
+                    scoutingFormPresenter.saveData("Level", "1");
+                    Timber.d("shared Preferences: " + "Level" + ", " + scoutingFormPresenter.readData("Level"));
+
                 } else if (value == 3) {
                     climb1.setVisibility(View.GONE);
                     climb2.setVisibility(View.VISIBLE);
