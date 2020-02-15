@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
@@ -15,9 +14,8 @@
             android:id="@+id/wofLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/ports"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/tele_cell_score_count">
 
             <ImageView
                 android:id="@+id/WOF"
@@ -80,84 +78,110 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         <RelativeLayout
-            android:id="@+id/ports"
+            android:id="@+id/tele_cell_score_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/tele_bottomport_button"
+            android:layout_marginBottom="20dp">
 
-            <RelativeLayout
-                android:id="@+id/tele_cell_score_count"
+            <include
+                android:id="@+id/outerport_layout"
+                layout="@layout/port_points_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/innerport_layout"
+                layout="@layout/port_points_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/bottomport_button">
+                android:layout_below="@id/outerport_layout" />
 
-
-                <include
-                    android:id="@+id/outerport_layout"
-                    layout="@layout/port_points_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <include
-                    android:id="@+id/innerport_layout"
-                    layout="@layout/port_points_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/outerport_layout" />
-
-                <include
-                    android:id="@+id/bottomport_layout"
-                    layout="@layout/port_points_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/innerport_layout"/>
-
-            </RelativeLayout>
-
-
-            <FrameLayout
-                android:id="@+id/outer_and_inner_frame"
+            <include
+                android:id="@+id/bottomport_layout"
+                layout="@layout/port_points_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="20dp">
-
-                <ImageButton
-                    android:id="@+id/outerport_button"
-                    android:layout_width="350dp"
-                    android:layout_height="340dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/outerport"
-                    android:foreground="?attr/selectableItemBackgroundBorderless" />
-
-                <ImageButton
-                    android:id="@+id/innerport_button"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/innerport"
-                    android:foreground="?attr/selectableItemBackgroundBorderless" />
-
-            </FrameLayout>
-
-            <ImageButton
-                android:id="@+id/bottomport_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/outer_and_inner_frame"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/bottom_port"
-                android:foreground="?attr/selectableItemBackgroundBorderless" />
+                android:layout_below="@id/innerport_layout" />
 
         </RelativeLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tele_outer_and_inner_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true">
 
+            <ImageButton
+                android:id="@+id/tele_outerport_button_right"
+                android:layout_width="170dp"
+                android:layout_height="280dp"
+                android:layout_marginLeft="165dp"
+                android:background="@drawable/outerporthalf"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/tele_outerport_button_left"
+                android:layout_width="170dp"
+                android:layout_height="280dp"
+                android:layout_marginRight="165dp"
+                android:background="@drawable/outerporthalf"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/tele_innerport_button"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/innerport"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tele_bottomport_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tele_outer_and_inner_frame"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp">
+
+            <ImageButton
+                android:id="@+id/tele_bottomport_button_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="183dp"
+                android:background="@drawable/bottomporthalf"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/tele_bottomport_button_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="183dp"
+                android:background="@drawable/bottomporthalf"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </ScrollView>
 

@@ -35,8 +35,12 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     private EditText autoInnerText;
 
     //ImageButtons
-    private ImageButton bottomPortButton;
-    private ImageButton outerPortButton;
+    private ImageButton bottomPortButtonRight;
+    private ImageButton bottomPortButtonLeft;
+
+    private ImageButton outerPortButtonRight;
+    private ImageButton outerPortButtonLeft;
+
     private ImageButton innerPortButton;
     private ImageButton autoLineButton;
 
@@ -67,19 +71,21 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
         View bottomPort = root.findViewById(R.id.bottomport_layout);
         autoBottomLabel = bottomPort.findViewById(R.id.textview);
         autoBottomText = bottomPort.findViewById(R.id.edittext);
-        bottomPortButton = root.findViewById(R.id.bottomport_button);
+        bottomPortButtonRight = root.findViewById(R.id.auto_bottomport_button_right);
+        bottomPortButtonLeft = root.findViewById(R.id.auto_bottomport_button_left);
 
         //Outer port Views
         View outerPort = root.findViewById(R.id.outerport_layout);
         autoOuterLabel = outerPort.findViewById(R.id.textview);
         autoOuterText = outerPort.findViewById(R.id.edittext);
-        outerPortButton = root.findViewById(R.id.outerport_button);
+        outerPortButtonRight = root.findViewById(R.id.auto_outerport_button_right);
+        outerPortButtonLeft = root.findViewById(R.id.auto_outerport_button_left);
 
         //Inner port Views
         View innerPort = root.findViewById(R.id.innerport_layout);
         autoInnerLabel = innerPort.findViewById(R.id.textview);
         autoInnerText = innerPort.findViewById(R.id.edittext);
-        innerPortButton = root.findViewById(R.id.innerport_button);
+        innerPortButton = root.findViewById(R.id.auto_innerport_button);
 
         autoLineButton = root.findViewById(R.id.autoline_button);
 
@@ -94,8 +100,12 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        bottomPortButton.setOnClickListener(this);
-        outerPortButton.setOnClickListener(this);
+        bottomPortButtonRight.setOnClickListener(this);
+        bottomPortButtonLeft.setOnClickListener(this);
+
+        outerPortButtonRight.setOnClickListener(this);
+        outerPortButtonLeft.setOnClickListener(this);
+
         innerPortButton.setOnClickListener(this);
         autoLineButton.setOnClickListener(this);
 
@@ -104,7 +114,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
                 if (autoBottomText.getText().toString().equals("")) {
                     autoBottomText.setText("0");
                 }
-
                 scoutingFormPresenter.saveData("Auto Bottom", autoBottomText.getText().toString());
                 Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
             }
@@ -138,6 +147,10 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
         autoBottomText.setText("0");
         autoOuterText.setText("0");
         autoInnerText.setText("0");
+
+        bottomPortButtonLeft.setRotation(180);
+        outerPortButtonLeft.setRotation(180);
+
     }
 
     private void initializeViewLabels() {
@@ -151,7 +164,7 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
 
         Integer value = 0;
         switch (v.getId()) {
-            case R.id.bottomport_button:
+            case R.id.auto_bottomport_button_right:
                 value = Integer.parseInt(autoBottomText.getText().toString()) + 1;
                 autoBottomText.setText(value.toString());
 
@@ -159,7 +172,18 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
 
                 Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
                 break;
-            case R.id.outerport_button:
+            case R.id.auto_bottomport_button_left:
+                value = Integer.parseInt(autoBottomText.getText().toString()) - 1;
+                if(value <= 0){
+                    value = 0;
+                }
+                autoBottomText.setText(value.toString());
+
+                scoutingFormPresenter.saveData("Auto Bottom", value.toString());
+
+                Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
+                break;
+            case R.id.auto_outerport_button_right:
                 value = Integer.parseInt(autoOuterText.getText().toString()) + 1;
                 autoOuterText.setText(value.toString());
 
@@ -167,7 +191,18 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
 
                 Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
                 break;
-            case R.id.innerport_button:
+            case R.id.auto_outerport_button_left:
+                value = Integer.parseInt(autoOuterText.getText().toString()) - 1;
+                if(value <= 0){
+                    value = 0;
+                }
+                autoOuterText.setText(value.toString());
+
+                scoutingFormPresenter.saveData("Auto Outer", value.toString());
+
+                Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
+                break;
+            case R.id.auto_innerport_button:
                 value = Integer.parseInt(autoInnerText.getText().toString()) + 1;
                 autoInnerText.setText(value.toString());
 
