@@ -18,6 +18,7 @@ import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFo
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class UIInfoFragment extends Fragment {
 
@@ -72,18 +73,21 @@ public class UIInfoFragment extends Fragment {
         matchNumberText.setOnFocusChangeListener((view, b) -> {
             if (!b) {
                 scoutingFormPresenter.saveData("matchNumber", matchNumberText.getText().toString());
+                Timber.d("shared Preferences: " + "Match Number" + ", " + scoutingFormPresenter.readData("matchNumber"));
             }
         });
 
         teamNumberText.setOnFocusChangeListener((view, b) -> {
             if (!b) {
                 scoutingFormPresenter.saveData("teamNumber", teamNumberText.getText().toString());
+                Timber.d("shared Preferences: " + "Team Number" + ", " + scoutingFormPresenter.readData("teamNumber"));
             }
         });
 
         nameText.setOnFocusChangeListener((view, b) -> {
             if (!b) {
                 scoutingFormPresenter.saveData("name", nameText.getText().toString());
+                Timber.d("shared Preferences: " + "Name" + ", " + scoutingFormPresenter.readData("name"));
             }
         });
 

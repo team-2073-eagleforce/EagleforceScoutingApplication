@@ -93,18 +93,11 @@
                 android:layout_height="wrap_content" />
 
             <include
-                android:id="@+id/innerport_layout"
-                layout="@layout/port_points_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/outerport_layout" />
-
-            <include
                 android:id="@+id/bottomport_layout"
                 layout="@layout/port_points_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/innerport_layout" />
+                android:layout_below="@id/outerport_layout" />
 
         </RelativeLayout>
 
@@ -135,17 +128,6 @@
                 android:layout_marginRight="165dp"
                 android:background="@drawable/outerporthalf"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/tele_innerport_button"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="@drawable/innerport"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

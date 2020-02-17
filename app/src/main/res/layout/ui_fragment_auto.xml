@@ -31,18 +31,11 @@
                 android:layout_height="wrap_content" />
 
             <include
-                android:id="@+id/innerport_layout"
-                layout="@layout/port_points_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/outerport_layout" />
-
-            <include
                 android:id="@+id/bottomport_layout"
                 layout="@layout/port_points_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/innerport_layout"/>
+                android:layout_below="@id/outerport_layout" />
 
         </RelativeLayout>
 
@@ -76,18 +69,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:layout_marginRight="165dp"
-                />
-
-            <ImageButton
-                android:id="@+id/auto_innerport_button"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="@drawable/innerport"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

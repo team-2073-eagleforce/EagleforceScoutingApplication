@@ -35,16 +35,11 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     private TextView teleOuterLabel;
     private EditText teleOuterText;
 
-    private TextView teleInnerLabel;
-    private EditText teleInnerText;
-
     private ImageButton bottomPortButtonRight;
     private ImageButton bottomPortButtonLeft;
 
     private ImageButton outerPortButtonRight;
     private ImageButton outerPortButtonLeft;
-
-    private ImageButton innerPortButton;
 
     private Button rControlButton;
     private Button pControlButton;
@@ -73,7 +68,6 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.ui_fragment_teleop, container, false);
 
-        //Instantiate bottom port views
         //Bottom Port Views
         View bottomPort = root.findViewById(R.id.bottomport_layout);
         teleBottomLabel = bottomPort.findViewById(R.id.textview);
@@ -81,20 +75,12 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
         bottomPortButtonRight = root.findViewById(R.id.tele_bottomport_button_right);
         bottomPortButtonLeft = root.findViewById(R.id.tele_bottomport_button_left);
 
-        //Instantiate bottom port views
         //Outer port Views
         View outerPort = root.findViewById(R.id.outerport_layout);
         teleOuterLabel = outerPort.findViewById(R.id.textview);
         teleOuterText = outerPort.findViewById(R.id.edittext);
         outerPortButtonRight = root.findViewById(R.id.tele_outerport_button_right);
         outerPortButtonLeft = root.findViewById(R.id.tele_outerport_button_left);
-
-        //Instantiate bottom port views
-        //Inner port Views
-        View innerPort = root.findViewById(R.id.innerport_layout);
-        teleInnerLabel = innerPort.findViewById(R.id.textview);
-        teleInnerText = innerPort.findViewById(R.id.edittext);
-        innerPortButton = root.findViewById(R.id.tele_innerport_button);
 
         rControlButton = root.findViewById(R.id.rotationControlButton);
         pControlButton = root.findViewById(R.id.positionControlButton);
@@ -118,7 +104,6 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
         outerPortButtonRight.setOnClickListener(this);
         outerPortButtonLeft.setOnClickListener(this);
 
-        innerPortButton.setOnClickListener(this);
         rControlButton.setOnClickListener(this);
         pControlButton.setOnClickListener(this);
         rControlButton.setOnClickListener(this);
@@ -143,19 +128,9 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
                 Timber.d("shared Preferences: " + "Teleop Outer" + ", " + scoutingFormPresenter.readData("Teleop Outer"));
             }
         });
-        teleInnerText.setOnFocusChangeListener((view, b) -> {
-            if (!b) {
-                if (teleInnerText.getText().toString().equals("")) {
-                    teleInnerText.setText("0");
-                }
-                scoutingFormPresenter.saveData("Teleop Inner", teleInnerText.getText().toString());
-                Timber.d("shared Preferences: " + "Teleop Inner" + ", " + scoutingFormPresenter.readData("Teleop Inner"));
-            }
-        });
     }
 
     private void initFields() {
-        scoutingFormPresenter.saveData("Teleop Inner", "0");
         scoutingFormPresenter.saveData("Teleop Outer", "0");
         scoutingFormPresenter.saveData("Teleop Bottom", "0");
 
@@ -164,7 +139,6 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
 
         teleBottomText.setText("0");
         teleOuterText.setText("0");
-        teleInnerText.setText("0");
 
         bottomPortButtonLeft.setRotation(180);
         outerPortButtonLeft.setRotation(180);
@@ -173,7 +147,6 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     private void initializeViewLabels() {
         teleBottomLabel.setText(getResources().getString(R.string.num_cells_bottom_label));
         teleOuterLabel.setText(getResources().getString(R.string.num_cells_outer_label));
-        teleInnerLabel.setText(getResources().getString(R.string.num_cells_inner_label));
     }
 
     @Override
@@ -217,14 +190,6 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
                 scoutingFormPresenter.saveData("Teleop Outer", value.toString());
 
                 Timber.d("shared Preferences: " + "Teleop Outer" + ", " + scoutingFormPresenter.readData("Teleop Outer"));
-                break;
-            case R.id.tele_innerport_button:
-                value = Integer.parseInt(teleInnerText.getText().toString()) + 1;
-                teleInnerText.setText(value.toString());
-
-                scoutingFormPresenter.saveData("Auto Inner", value.toString());
-
-                Timber.d("shared Preferences: " + "Teleop Inner" + ", " + scoutingFormPresenter.readData("Teleop Inner"));
                 break;
             case R.id.rotationControlButton:
                 value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Control Panel Rotation")) - 1);

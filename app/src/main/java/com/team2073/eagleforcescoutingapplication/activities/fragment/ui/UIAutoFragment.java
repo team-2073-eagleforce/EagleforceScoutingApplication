@@ -31,9 +31,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     private TextView autoOuterLabel;
     private EditText autoOuterText;
 
-    private TextView autoInnerLabel;
-    private EditText autoInnerText;
-
     //ImageButtons
     private ImageButton bottomPortButtonRight;
     private ImageButton bottomPortButtonLeft;
@@ -41,7 +38,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     private ImageButton outerPortButtonRight;
     private ImageButton outerPortButtonLeft;
 
-    private ImageButton innerPortButton;
     private ImageButton autoLineButton;
 
     public static UIAutoFragment newInstance(int index) {
@@ -81,12 +77,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
         outerPortButtonRight = root.findViewById(R.id.auto_outerport_button_right);
         outerPortButtonLeft = root.findViewById(R.id.auto_outerport_button_left);
 
-        //Inner port Views
-        View innerPort = root.findViewById(R.id.innerport_layout);
-        autoInnerLabel = innerPort.findViewById(R.id.textview);
-        autoInnerText = innerPort.findViewById(R.id.edittext);
-        innerPortButton = root.findViewById(R.id.auto_innerport_button);
-
         autoLineButton = root.findViewById(R.id.autoline_button);
 
         initializeViewLabels();
@@ -106,7 +96,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
         outerPortButtonRight.setOnClickListener(this);
         outerPortButtonLeft.setOnClickListener(this);
 
-        innerPortButton.setOnClickListener(this);
         autoLineButton.setOnClickListener(this);
 
         autoBottomText.setOnFocusChangeListener((view, b) -> {
@@ -127,15 +116,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
                 Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
             }
         });
-        autoInnerText.setOnFocusChangeListener((view, b) -> {
-            if (!b) {
-                if (autoInnerText.getText().toString().equals("")) {
-                    autoInnerText.setText("0");
-                }
-                scoutingFormPresenter.saveData("Auto Inner", autoInnerText.getText().toString());
-                Timber.d("shared Preferences: " + "Auto Inner" + ", " + scoutingFormPresenter.readData("Auto Inner"));
-            }
-        });
     }
 
     private void initFields() {
@@ -146,7 +126,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
 
         autoBottomText.setText("0");
         autoOuterText.setText("0");
-        autoInnerText.setText("0");
 
         bottomPortButtonLeft.setRotation(180);
         outerPortButtonLeft.setRotation(180);
@@ -156,7 +135,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     private void initializeViewLabels() {
         autoBottomLabel.setText(getResources().getString(R.string.num_cells_bottom_label));
         autoOuterLabel.setText(getResources().getString(R.string.num_cells_outer_label));
-        autoInnerLabel.setText(getResources().getString(R.string.num_cells_inner_label));
     }
 
     @Override
@@ -201,14 +179,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
                 scoutingFormPresenter.saveData("Auto Outer", value.toString());
 
                 Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
-                break;
-            case R.id.auto_innerport_button:
-                value = Integer.parseInt(autoInnerText.getText().toString()) + 1;
-                autoInnerText.setText(value.toString());
-
-                scoutingFormPresenter.saveData("Auto Inner", value.toString());
-
-                Timber.d("shared Preferences: " + "Auto Inner" + ", " + scoutingFormPresenter.readData("Auto Inner"));
                 break;
             case R.id.autoline_button:
                 value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Auto Cross")) - 1);
