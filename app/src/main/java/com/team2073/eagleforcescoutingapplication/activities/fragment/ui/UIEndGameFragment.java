@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
+import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import timber.log.Timber;
@@ -26,6 +28,8 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
 
+
+    private TextView teamNumberText;
     private ImageView unleveled;
     private ImageView leveled;
 
@@ -61,6 +65,7 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.ui_fragment_endgame, container, false);
 
+        teamNumberText = root.findViewById(R.id.teamNumber);
         leveled = root.findViewById(R.id.climb_bar_straight);
         unleveled = root.findViewById(R.id.climb_bar_tilt);
 
@@ -81,6 +86,7 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        teamNumberText.setText(scoutingFormPresenter.readData("teamNumber"));
 
         changeLevelButton.setOnClickListener(this);
         climbButton.setOnClickListener(this);
@@ -90,6 +96,7 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
     private void initFields() {
         scoutingFormPresenter.saveData("Climb", "0");
         scoutingFormPresenter.saveData("Level", "0");
+
 
         leveled.setVisibility(View.GONE);
         unleveled.setVisibility(View.GONE);

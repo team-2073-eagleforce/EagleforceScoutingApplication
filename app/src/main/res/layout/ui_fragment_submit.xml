@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -21,10 +19,11 @@
 
         <TextView
             android:id="@+id/uiAutoPerformanceText"
-            android:layout_width="115dp"
-            android:layout_height="23dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:text="Auto Performance"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/defaultTextColor"
             app:layout_constraintBottom_toBottomOf="@+id/uiAutoPerformanceProgress"
             app:layout_constraintEnd_toStartOf="@+id/uiAutoPerformanceProgress"
@@ -47,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:text="Driver Performance"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/defaultTextColor"
             app:layout_constraintBottom_toBottomOf="@+id/uiDriverPerformanceProgress"
             app:layout_constraintEnd_toStartOf="@+id/uiDriverPerformanceProgress"

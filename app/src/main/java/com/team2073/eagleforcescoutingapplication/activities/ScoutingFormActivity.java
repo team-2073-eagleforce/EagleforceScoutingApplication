@@ -73,5 +73,6 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
 
         scoutingFormPresenter.clearPreferences();
         startActivity(new Intent(this, ScoutingFormActivity.class));
+        finish();
     }
 }

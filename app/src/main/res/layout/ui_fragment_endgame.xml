@@ -103,6 +103,18 @@
             android:layout_marginTop="80dp"
             />
 
+        <TextView
+            android:id="@+id/teamNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="500dp"
+            android:height="80dp"
+            android:text="TextView"
+            android:textSize="50dp"
+            android:background="@color/md_yellow_50"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
