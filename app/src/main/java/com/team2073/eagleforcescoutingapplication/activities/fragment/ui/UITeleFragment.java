@@ -32,6 +32,8 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     private TextView teleBottomLabel;
     private EditText teleBottomText;
 
+    private TextView teamNumberText;
+
     private TextView teleOuterLabel;
     private EditText teleOuterText;
 
@@ -75,6 +77,7 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
         bottomPortButtonRight = root.findViewById(R.id.tele_bottomport_button_right);
         bottomPortButtonLeft = root.findViewById(R.id.tele_bottomport_button_left);
 
+        teamNumberText = root.findViewById(R.id.teamNumber);
         //Outer port Views
         View outerPort = root.findViewById(R.id.outerport_layout);
         teleOuterLabel = outerPort.findViewById(R.id.textview);
@@ -97,6 +100,8 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        teamNumberText.setText(scoutingFormPresenter.readData("teamNumber"));
+
 
         bottomPortButtonRight.setOnClickListener(this);
         bottomPortButtonLeft.setOnClickListener(this);
