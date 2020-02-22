@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,13 +27,8 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
 
-    private TextView rText;
-    private TextView pText;
-
     private TextView teleBottomLabel;
     private EditText teleBottomText;
-
-    private TextView teamNumberText;
 
     private TextView teleOuterLabel;
     private EditText teleOuterText;
@@ -45,6 +41,11 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
 
     private Button rControlButton;
     private Button pControlButton;
+
+    private ImageView halfFirst;
+    private ImageView halfSecond;
+    private ImageView darkHalfFirst;
+    private ImageView darkHalfSecond;
 
     public static UITeleFragment newInstance(int index) {
         UITeleFragment fragment = new UITeleFragment();
@@ -77,7 +78,6 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
         bottomPortButtonRight = root.findViewById(R.id.tele_bottomport_button_right);
         bottomPortButtonLeft = root.findViewById(R.id.tele_bottomport_button_left);
 
-        teamNumberText = root.findViewById(R.id.teamNumber);
         //Outer port Views
         View outerPort = root.findViewById(R.id.outerport_layout);
         teleOuterLabel = outerPort.findViewById(R.id.textview);
@@ -88,8 +88,11 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
         rControlButton = root.findViewById(R.id.rotationControlButton);
         pControlButton = root.findViewById(R.id.positionControlButton);
 
-        rText = root.findViewById(R.id.rotationText);
-        pText = root.findViewById(R.id.positionText);
+        halfFirst = root.findViewById(R.id.wofHalfFirst);
+        halfSecond = root.findViewById(R.id.wofHalfSecond);
+        darkHalfFirst = root.findViewById(R.id.wofDarkHalfFirst);
+        darkHalfSecond = root.findViewById(R.id.wofDarkHalfSecond);
+
 
         initializeViewLabels();
         initFields();
@@ -100,7 +103,11 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        teamNumberText.setText(scoutingFormPresenter.readData("teamNumber"));
+
+        darkHalfFirst.setVisibility(View.VISIBLE);
+        darkHalfSecond.setVisibility(View.VISIBLE);
+        halfFirst.setVisibility(View.INVISIBLE);
+        halfSecond.setVisibility(View.INVISIBLE);
 
 
         bottomPortButtonRight.setOnClickListener(this);
@@ -111,8 +118,7 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
 
         rControlButton.setOnClickListener(this);
         pControlButton.setOnClickListener(this);
-        rControlButton.setOnClickListener(this);
-        pControlButton.setOnClickListener(this);
+
 
         teleBottomText.setOnFocusChangeListener((view, b) -> {
             if (!b) {
@@ -200,9 +206,16 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
                 value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Control Panel Rotation")) - 1);
                 if (value == 1) {
                     //TODO find a cleaner way to display ON/OFF
-                    rText.setText("On");
+                    //First PNG of darkened WOF set OFF
+                    //First PNG of normal WOF set ON
+                    darkHalfFirst.setVisibility(View.INVISIBLE);
+                    halfFirst.setVisibility(View.VISIBLE);
                 } else {
-                    rText.setText("Off");
+                    //First PNG of darkened WOF set ON
+                    //First PNG of normal WOF set OFF
+                    darkHalfFirst.setVisibility(View.VISIBLE);
+                    halfFirst.setVisibility(View.INVISIBLE);
+
                 }
                 scoutingFormPresenter.saveData("Control Panel Rotation", value.toString());
 
@@ -211,9 +224,15 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
             case R.id.positionControlButton:
                 value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Control Panel Position")) - 1);
                 if (value == 1) {
-                    pText.setText("On");
+                    // Second first PNG of darkened WOF set OFF
+                    // First PNG of normal WOF set ON
+                    darkHalfSecond.setVisibility(View.INVISIBLE);
+                    halfSecond.setVisibility(View.VISIBLE);
                 } else {
-                    pText.setText("Off");
+                    // //First PNG of darkened WOF set ON
+                    //First PNG of normal WOF set OFF
+                    darkHalfSecond.setVisibility(View.VISIBLE);
+                    halfSecond.setVisibility(View.INVISIBLE);
                 }
                 scoutingFormPresenter.saveData("Control Panel Position", value.toString());
 

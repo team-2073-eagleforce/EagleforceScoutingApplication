@@ -104,18 +104,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/teamNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:width="150dp"
-            android:height="80dp"
-            android:text="TextView"
-            android:textSize="50dp"
-            android:textColor="@color/md_white_1000"
-            android:background="@color/cardViewBackgroundColor"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </RelativeLayout>
 
 </ScrollView>

@@ -28,7 +28,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     private TextView autoBottomLabel;
     private EditText autoBottomText;
 
-    private TextView teamNumberText;
     private TextView autoOuterLabel;
     private EditText autoOuterText;
 
@@ -71,7 +70,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
         bottomPortButtonRight = root.findViewById(R.id.auto_bottomport_button_right);
         bottomPortButtonLeft = root.findViewById(R.id.auto_bottomport_button_left);
 
-        teamNumberText = root.findViewById(R.id.teamNumber);
         //Outer port Views
         View outerPort = root.findViewById(R.id.outerport_layout);
         autoOuterLabel = outerPort.findViewById(R.id.textview);
@@ -94,8 +92,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
 
         bottomPortButtonRight.setOnClickListener(this);
         bottomPortButtonLeft.setOnClickListener(this);
-
-        teamNumberText.setText(scoutingFormPresenter.readData("teamNumber"));
 
         outerPortButtonRight.setOnClickListener(this);
         outerPortButtonLeft.setOnClickListener(this);

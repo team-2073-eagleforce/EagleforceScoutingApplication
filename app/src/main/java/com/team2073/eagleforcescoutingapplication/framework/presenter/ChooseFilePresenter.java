@@ -45,9 +45,11 @@ public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
                 String tempID = DocumentsContract.getDocumentId(uri);
                 String[] split = tempID.split(":");
                 String id = split[1];
-//              File file = new File("/sdcard/Documents" +"/"+id);
+
+                File file = new File("/sdcard/Download/Match_Schedule.csv");
 //              for emulation
-                File file = new File("/sdcard/" + id);
+
+//                File file = new File("/sdcard/" + id);
 
                 FileManager.getInstance(mActivity).setScheduleFile(file);
 
