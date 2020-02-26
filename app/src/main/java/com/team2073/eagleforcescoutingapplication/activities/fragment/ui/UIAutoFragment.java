@@ -25,6 +25,8 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
 
+    private TextView teamNumberText;
+
     private TextView autoBottomLabel;
     private EditText autoBottomText;
 
@@ -63,6 +65,8 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.ui_fragment_auto, container, false);
 
+        teamNumberText = root.findViewById(R.id.teamNumber_auto);
+
         //Bottom Port Views
         View bottomPort = root.findViewById(R.id.bottomport_layout);
         autoBottomLabel = bottomPort.findViewById(R.id.textview);
@@ -89,6 +93,8 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        teamNumberText.setText("Team " + scoutingFormPresenter.readData("teamNumber"));
 
         bottomPortButtonRight.setOnClickListener(this);
         bottomPortButtonLeft.setOnClickListener(this);

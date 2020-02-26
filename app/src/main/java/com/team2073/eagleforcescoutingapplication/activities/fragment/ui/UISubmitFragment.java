@@ -80,6 +80,8 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener, 
         driverPerformanceBar.setProgress(0);
 
         root.findViewById(R.id.uiSubmitButton).setOnClickListener(this);
+        root.findViewById(R.id.uiSubmitButton).setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
         autoPerformanceBar.setOnSeekBarChangeListener(this);
         driverPerformanceBar.setOnSeekBarChangeListener(this);
 
