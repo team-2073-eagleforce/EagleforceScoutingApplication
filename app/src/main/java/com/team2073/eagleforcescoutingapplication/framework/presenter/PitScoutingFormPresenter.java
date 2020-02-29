@@ -39,7 +39,7 @@ public class PitScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     }
 
     public void sendOverBluetooth() {
-        csvManager.sendOverBluetooth();
+        csvManager.sendOverBluetooth(mActivity);
     }
 
     public void clearPreferences() {

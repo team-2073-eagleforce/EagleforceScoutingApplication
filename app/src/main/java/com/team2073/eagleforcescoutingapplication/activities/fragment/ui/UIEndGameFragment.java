@@ -91,6 +91,7 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
         scoutingFormPresenter.saveData("Climb", "0");
         scoutingFormPresenter.saveData("Level", "0");
 
+
         leveled.setVisibility(View.GONE);
         unleveled.setVisibility(View.GONE);
         climb1.setVisibility(View.GONE);

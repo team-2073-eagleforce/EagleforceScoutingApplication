@@ -18,6 +18,7 @@ import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFo
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class UIInfoFragment extends Fragment {
 
@@ -26,6 +27,7 @@ public class UIInfoFragment extends Fragment {
     @BindView(R.id.uiName) EditText nameText;
     @BindView(R.id.uiPersonalInfoDisplay)
     TextView personalInfoText;
+    private TextView teamNumberTextView;
 
     private static final String ARG_SECTION_NUMBER = "Start";
     private PageViewModel pageViewModel;
@@ -57,6 +59,8 @@ public class UIInfoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.ui_fragment_info, container, false);
         ButterKnife.bind(this, root);
+        teamNumberTextView = getActivity().findViewById(R.id.scoutingTeamNumberTextView);
+        teamNumberTextView.setText("Team: " + scoutingFormPresenter.readData("teamNumber"));
 
         if (!scoutingFormPresenter.readData("teamNumber").equals("0")
                 && !scoutingFormPresenter.readData("teamNumber").equals(lastTeamNumber)) {
@@ -72,18 +76,22 @@ public class UIInfoFragment extends Fragment {
         matchNumberText.setOnFocusChangeListener((view, b) -> {
             if (!b) {
                 scoutingFormPresenter.saveData("matchNumber", matchNumberText.getText().toString());
+                Timber.d("shared Preferences: " + "Match Number" + ", " + scoutingFormPresenter.readData("matchNumber"));
             }
         });
 
         teamNumberText.setOnFocusChangeListener((view, b) -> {
             if (!b) {
                 scoutingFormPresenter.saveData("teamNumber", teamNumberText.getText().toString());
+                Timber.d("shared Preferences: " + "Team Number" + ", " + scoutingFormPresenter.readData("teamNumber"));
+                teamNumberTextView.setText("Team: " + scoutingFormPresenter.readData("teamNumber"));
             }
         });
 
         nameText.setOnFocusChangeListener((view, b) -> {
             if (!b) {
                 scoutingFormPresenter.saveData("name", nameText.getText().toString());
+                Timber.d("shared Preferences: " + "Name" + ", " + scoutingFormPresenter.readData("name"));
             }
         });
 

@@ -1,13 +1,9 @@
 package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.os.Environment;
 import android.widget.Toast;
 
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -18,16 +14,15 @@ import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivit
 import com.team2073.eagleforcescoutingapplication.activities.SettingsActivity;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PagerAdapterFactory;
 import com.team2073.eagleforcescoutingapplication.framework.form.InfiniteRechargeScoutingForm;
-import com.team2073.eagleforcescoutingapplication.util.Match;
 import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
+import com.team2073.eagleforcescoutingapplication.util.Match;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import timber.log.Timber;
 
@@ -83,7 +78,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
      * Handles sending a csv file to another device through bluetooth.
      */
     public void sendOverBluetooth() {
-        csvManager.sendOverBluetooth();
+        csvManager.sendOverBluetooth(mActivity);
     }
 
     public void writeCSV() {

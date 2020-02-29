@@ -12,33 +12,27 @@ public class InfiniteRechargeScoutingForm implements ScoutingForm {
 
     public InfiniteRechargeScoutingForm() {
         fieldNames.add("Auto Cross");
-        fieldNames.add("Auto Inner");
         fieldNames.add("Auto Outer");
         fieldNames.add("Auto Bottom");
 
         autoNames.add("Auto Cross");
-        autoNames.add("Auto Inner");
         autoNames.add("Auto Outer");
         autoNames.add("Auto Bottom");
 
         clearNames.add("Auto Cross");
-        clearNames.add("Auto Inner");
         clearNames.add("Auto Outer");
         clearNames.add("Auto Bottom");
 
-        fieldNames.add("Teleop Inner");
         fieldNames.add("Teleop Outer");
         fieldNames.add("Teleop Bottom");
         fieldNames.add("Control Panel Rotation");
         fieldNames.add("Control Panel Position");
 
-        teleNames.add("Teleop Inner");
         teleNames.add("Teleop Outer");
         teleNames.add("Teleop Bottom");
         teleNames.add("Control Panel Rotation");
         teleNames.add("Control Panel Position");
 
-        clearNames.add("Teleop Inner");
         clearNames.add("Teleop Outer");
         clearNames.add("Teleop Bottom");
         clearNames.add("Control Panel Rotation");

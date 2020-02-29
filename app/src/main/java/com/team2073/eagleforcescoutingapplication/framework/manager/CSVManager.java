@@ -13,7 +13,6 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 import com.team2073.eagleforcescoutingapplication.util.Match;
-import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.io.File;
 import java.io.FileReader;
@@ -130,7 +129,8 @@ public class CSVManager {
         return scheduleList;
     }
 
-    public void sendOverBluetooth() {
+    public void sendOverBluetooth(Activity activity) {
+        mActivity = activity;
         if (BluetoothAdapter.getDefaultAdapter() == null) {
             return;
         }

@@ -60,6 +60,7 @@ public class RecyclerSubmitFragment extends Fragment implements View.OnClickList
         }
 
         root.findViewById(R.id.rFormSubmitButton).setOnClickListener(this);
+        root.findViewById(R.id.rFormSubmitButton).setBackgroundColor(getResources().getColor(R.color.accent));
 
         return root;
     }

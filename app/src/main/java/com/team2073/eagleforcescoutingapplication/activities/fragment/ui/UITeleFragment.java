@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,24 +27,25 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
 
-    private TextView rText;
-    private TextView pText;
-
     private TextView teleBottomLabel;
     private EditText teleBottomText;
 
     private TextView teleOuterLabel;
     private EditText teleOuterText;
 
-    private TextView teleInnerLabel;
-    private EditText teleInnerText;
+    private ImageButton bottomPortButtonRight;
+    private ImageButton bottomPortButtonLeft;
 
-    private ImageButton bottomPortButton;
-    private ImageButton outerPortButton;
-    private ImageButton innerPortButton;
+    private ImageButton outerPortButtonRight;
+    private ImageButton outerPortButtonLeft;
 
     private Button rControlButton;
     private Button pControlButton;
+
+    private ImageView halfFirst;
+    private ImageView halfSecond;
+    private ImageView darkHalfFirst;
+    private ImageView darkHalfSecond;
 
     public static UITeleFragment newInstance(int index) {
         UITeleFragment fragment = new UITeleFragment();
@@ -69,32 +71,28 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.ui_fragment_teleop, container, false);
 
-        //Instantiate bottom port views
         //Bottom Port Views
         View bottomPort = root.findViewById(R.id.bottomport_layout);
         teleBottomLabel = bottomPort.findViewById(R.id.textview);
         teleBottomText = bottomPort.findViewById(R.id.edittext);
-        bottomPortButton = root.findViewById(R.id.bottomport_button);
+        bottomPortButtonRight = root.findViewById(R.id.tele_bottomport_button_right);
+        bottomPortButtonLeft = root.findViewById(R.id.tele_bottomport_button_left);
 
-        //Instantiate bottom port views
         //Outer port Views
         View outerPort = root.findViewById(R.id.outerport_layout);
         teleOuterLabel = outerPort.findViewById(R.id.textview);
         teleOuterText = outerPort.findViewById(R.id.edittext);
-        outerPortButton = root.findViewById(R.id.outerport_button);
-
-        //Instantiate bottom port views
-        //Inner port Views
-        View innerPort = root.findViewById(R.id.innerport_layout);
-        teleInnerLabel = innerPort.findViewById(R.id.textview);
-        teleInnerText = innerPort.findViewById(R.id.edittext);
-        innerPortButton = root.findViewById(R.id.innerport_button);
+        outerPortButtonRight = root.findViewById(R.id.tele_outerport_button_right);
+        outerPortButtonLeft = root.findViewById(R.id.tele_outerport_button_left);
 
         rControlButton = root.findViewById(R.id.rotationControlButton);
         pControlButton = root.findViewById(R.id.positionControlButton);
 
-        rText = root.findViewById(R.id.rotationText);
-        pText = root.findViewById(R.id.positionText);
+        halfFirst = root.findViewById(R.id.wofHalfFirst);
+        halfSecond = root.findViewById(R.id.wofHalfSecond);
+        darkHalfFirst = root.findViewById(R.id.wofDarkHalfFirst);
+        darkHalfSecond = root.findViewById(R.id.wofDarkHalfSecond);
+
 
         initializeViewLabels();
         initFields();
@@ -106,13 +104,21 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        bottomPortButton.setOnClickListener(this);
-        outerPortButton.setOnClickListener(this);
-        innerPortButton.setOnClickListener(this);
+        darkHalfFirst.setVisibility(View.VISIBLE);
+        darkHalfSecond.setVisibility(View.VISIBLE);
+        halfFirst.setVisibility(View.INVISIBLE);
+        halfSecond.setVisibility(View.INVISIBLE);
+
+
+        bottomPortButtonRight.setOnClickListener(this);
+        bottomPortButtonLeft.setOnClickListener(this);
+
+        outerPortButtonRight.setOnClickListener(this);
+        outerPortButtonLeft.setOnClickListener(this);
+
         rControlButton.setOnClickListener(this);
         pControlButton.setOnClickListener(this);
-        rControlButton.setOnClickListener(this);
-        pControlButton.setOnClickListener(this);
+
 
         teleBottomText.setOnFocusChangeListener((view, b) -> {
             if (!b) {
@@ -133,19 +139,9 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
                 Timber.d("shared Preferences: " + "Teleop Outer" + ", " + scoutingFormPresenter.readData("Teleop Outer"));
             }
         });
-        teleInnerText.setOnFocusChangeListener((view, b) -> {
-            if (!b) {
-                if (teleInnerText.getText().toString().equals("")) {
-                    teleInnerText.setText("0");
-                }
-                scoutingFormPresenter.saveData("Teleop Inner", teleInnerText.getText().toString());
-                Timber.d("shared Preferences: " + "Teleop Inner" + ", " + scoutingFormPresenter.readData("Teleop Inner"));
-            }
-        });
     }
 
     private void initFields() {
-        scoutingFormPresenter.saveData("Teleop Inner", "0");
         scoutingFormPresenter.saveData("Teleop Outer", "0");
         scoutingFormPresenter.saveData("Teleop Bottom", "0");
 
@@ -154,20 +150,21 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
 
         teleBottomText.setText("0");
         teleOuterText.setText("0");
-        teleInnerText.setText("0");
+
+        bottomPortButtonLeft.setRotation(180);
+        outerPortButtonLeft.setRotation(180);
     }
 
     private void initializeViewLabels() {
         teleBottomLabel.setText(getResources().getString(R.string.num_cells_bottom_label));
         teleOuterLabel.setText(getResources().getString(R.string.num_cells_outer_label));
-        teleInnerLabel.setText(getResources().getString(R.string.num_cells_inner_label));
     }
 
     @Override
     public void onClick(View v) {
         Integer value = 0;
         switch (v.getId()) {
-            case R.id.bottomport_button:
+            case R.id.tele_bottomport_button_right:
                 value = Integer.parseInt(teleBottomText.getText().toString()) + 1;
                 teleBottomText.setText(value.toString());
 
@@ -175,7 +172,18 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
 
                 Timber.d("shared Preferences: " + "Teleop Bottom" + ", " + scoutingFormPresenter.readData("Teleop Bottom"));
                 break;
-            case R.id.outerport_button:
+            case R.id.tele_bottomport_button_left:
+                value = Integer.parseInt(teleBottomText.getText().toString()) - 1;
+                if (value <= 0) {
+                    value = 0;
+                }
+                teleBottomText.setText(value.toString());
+
+                scoutingFormPresenter.saveData("Teleop Bottom", value.toString());
+
+                Timber.d("shared Preferences: " + "Teleop Bottom" + ", " + scoutingFormPresenter.readData("Teleop Bottom"));
+                break;
+            case R.id.tele_outerport_button_right:
                 value = Integer.parseInt(teleOuterText.getText().toString()) + 1;
                 teleOuterText.setText(value.toString());
 
@@ -183,21 +191,31 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
 
                 Timber.d("shared Preferences: " + "Teleop Outer" + ", " + scoutingFormPresenter.readData("Teleop Outer"));
                 break;
-            case R.id.innerport_button:
-                value = Integer.parseInt(teleInnerText.getText().toString()) + 1;
-                teleInnerText.setText(value.toString());
+            case R.id.tele_outerport_button_left:
+                value = Integer.parseInt(teleOuterText.getText().toString()) - 1;
+                if (value <= 0) {
+                    value = 0;
+                }
+                teleOuterText.setText(value.toString());
 
-                scoutingFormPresenter.saveData("Auto Inner", value.toString());
+                scoutingFormPresenter.saveData("Teleop Outer", value.toString());
 
-                Timber.d("shared Preferences: " + "Teleop Inner" + ", " + scoutingFormPresenter.readData("Teleop Inner"));
+                Timber.d("shared Preferences: " + "Teleop Outer" + ", " + scoutingFormPresenter.readData("Teleop Outer"));
                 break;
             case R.id.rotationControlButton:
                 value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Control Panel Rotation")) - 1);
                 if (value == 1) {
                     //TODO find a cleaner way to display ON/OFF
-                    rText.setText("On");
+                    //First PNG of darkened WOF set OFF
+                    //First PNG of normal WOF set ON
+                    darkHalfFirst.setVisibility(View.INVISIBLE);
+                    halfFirst.setVisibility(View.VISIBLE);
                 } else {
-                    rText.setText("Off");
+                    //First PNG of darkened WOF set ON
+                    //First PNG of normal WOF set OFF
+                    darkHalfFirst.setVisibility(View.VISIBLE);
+                    halfFirst.setVisibility(View.INVISIBLE);
+
                 }
                 scoutingFormPresenter.saveData("Control Panel Rotation", value.toString());
 
@@ -206,9 +224,15 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
             case R.id.positionControlButton:
                 value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Control Panel Position")) - 1);
                 if (value == 1) {
-                    pText.setText("On");
+                    // Second first PNG of darkened WOF set OFF
+                    // First PNG of normal WOF set ON
+                    darkHalfSecond.setVisibility(View.INVISIBLE);
+                    halfSecond.setVisibility(View.VISIBLE);
                 } else {
-                    pText.setText("Off");
+                    // //First PNG of darkened WOF set ON
+                    //First PNG of normal WOF set OFF
+                    darkHalfSecond.setVisibility(View.VISIBLE);
+                    halfSecond.setVisibility(View.INVISIBLE);
                 }
                 scoutingFormPresenter.saveData("Control Panel Position", value.toString());
 
