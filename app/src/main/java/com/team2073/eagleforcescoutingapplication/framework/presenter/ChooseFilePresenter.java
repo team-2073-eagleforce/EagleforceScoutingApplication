@@ -16,6 +16,7 @@ public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
     private Activity mActivity;
     private FileManager fileManager;
     private static final int READ_REQUEST_CODE = 42;
+    private Class activityClass = SettingsActivity.class;
 
     public ChooseFilePresenter(Activity activity) {
         this.mActivity = activity;
@@ -29,13 +30,19 @@ public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
         mActivity.startActivityForResult(intent, READ_REQUEST_CODE);
     }
 
+    public void chooseFile(Class activityClass) {
+        this.activityClass = activityClass;
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        mActivity.startActivityForResult(intent, READ_REQUEST_CODE);
+    }
+
     /**
-     *
      * @param requestCode
      * @param resultCode
-     * @param resultData
-     *
-     * Stores filepath of the chosen CSV file
+     * @param resultData  Stores filepath of the chosen CSV file
      */
     public void saveScheduleFile(int requestCode, int resultCode, Intent resultData) {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -55,7 +62,8 @@ public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
 
                 Toast.makeText(mActivity, "schedule file saved: " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
 
-                mActivity.startActivity(new Intent(mActivity, SettingsActivity.class));
+                mActivity.startActivity(new Intent(mActivity, activityClass));
+                mActivity.finish();
             }
         }
     }
