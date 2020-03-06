@@ -7,7 +7,6 @@ import com.team2073.eagleforcescoutingapplication.activities.fragment.list.Recyc
 import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIPagerAdapter;
 
 public class PagerAdapterFactory {
-
     private RecyclerPagerAdapter recyclerPagerAdapter;
     private UIPagerAdapter uiPagerAdapter;
 
@@ -31,5 +30,19 @@ public class PagerAdapterFactory {
                 return uiPagerAdapter;
         }
         return null;
+    }
+
+    public RecyclerPagerAdapter getRecyclerPagerAdapter(FragmentActivity activity) {
+        if (recyclerPagerAdapter == null) {
+            recyclerPagerAdapter = new RecyclerPagerAdapter(activity, activity.getSupportFragmentManager());
+        }
+        return recyclerPagerAdapter;
+    }
+
+    public UIPagerAdapter getUiPagerAdapter(FragmentActivity activity) {
+        if (uiPagerAdapter == null) {
+            uiPagerAdapter = new UIPagerAdapter(activity, activity.getSupportFragmentManager());
+        }
+        return uiPagerAdapter;
     }
 }

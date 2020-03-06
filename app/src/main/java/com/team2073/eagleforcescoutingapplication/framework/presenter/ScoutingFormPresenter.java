@@ -105,10 +105,16 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
 
     /**
      * Creates the tabbed interface for the {@link ScoutingFormActivity} based on the scouting mode chosen in the {@link SettingsActivity}
+     * Defaults to the UI interface
      */
     public void createTabs() {
         PagerAdapterFactory pagerAdapterFactory = new PagerAdapterFactory();
-        FragmentPagerAdapter sectionsPagerAdapter = pagerAdapterFactory.getAdapter(readData("scoutingMode"), (FragmentActivity) mActivity);
+        FragmentPagerAdapter sectionsPagerAdapter;
+        if (!(pagerAdapterFactory.getAdapter(readData("scoutingMode"), (FragmentActivity) mActivity) == null)) {
+            sectionsPagerAdapter = pagerAdapterFactory.getAdapter(readData("scoutingMode"), (FragmentActivity) mActivity);
+        } else {
+            sectionsPagerAdapter = pagerAdapterFactory.getUiPagerAdapter((FragmentActivity) mActivity);
+        }
         ViewPager viewPager = mActivity.findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         viewPager.setOffscreenPageLimit(3);
