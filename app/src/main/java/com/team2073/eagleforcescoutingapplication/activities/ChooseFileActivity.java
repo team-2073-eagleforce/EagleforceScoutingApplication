@@ -16,6 +16,7 @@ public class ChooseFileActivity extends BaseActivity implements ChooseFileView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         chooseFilePresenter.chooseFile();
     }
 

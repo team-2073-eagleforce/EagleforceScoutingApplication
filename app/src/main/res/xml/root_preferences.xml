@@ -19,13 +19,6 @@
 
     <PreferenceCategory app:title="@string/setup_header">
 
-        <PreferenceScreen
-            app:key="schedule"
-            android:summary="Choose"
-            android:title="Schedule File">
-            <intent android:action="com.team2073.eagleforcescoutingapplication.activities.ChooseFileActivity" />
-        </PreferenceScreen>
-
         <EditTextPreference
             app:key="name"
             app:title="@string/signature_title"
@@ -44,6 +37,12 @@
             android:key="scoutingMode"
             android:title="UI Mode"
             app:useSimpleSummaryProvider="true"/>
+        <PreferenceScreen
+            app:key="schedule"
+            android:summary="Choose"
+            android:title="Schedule File">
+            <intent android:action="com.team2073.eagleforcescoutingapplication.activities.ChooseFileActivity" />
+        </PreferenceScreen>
 
     </PreferenceCategory>
 

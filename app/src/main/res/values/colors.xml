@@ -52,7 +52,7 @@
 
     <color name="notificationIconColor">#1565C0</color>
 
-    <color name="defaultTextColor">#B3FFFFFF</color>
+    <color name="defaultTextColor">@color/primaryTextColor</color>
 
     <color name="greyTabBackgroundColor">#282828</color>
 

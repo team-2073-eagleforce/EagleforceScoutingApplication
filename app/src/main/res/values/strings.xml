@@ -29,7 +29,7 @@
     <string name="num_cells_inner_label"># Inner Port</string>
 
     <!-- Preference Titles -->
-    <string name="setup_header">Setup</string>
+    <string name="setup_header">Settings</string>
     <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->

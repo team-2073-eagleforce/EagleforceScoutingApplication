@@ -1,17 +1,20 @@
 package com.team2073.eagleforcescoutingapplication.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.team2073.eagleforcescoutingapplication.util.Match;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.adapters.ScheduleRecyclerViewAdapter;
 import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;
+import com.team2073.eagleforcescoutingapplication.framework.presenter.ChooseFilePresenter;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ViewSchedulePresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.ViewScheduleView;
+import com.team2073.eagleforcescoutingapplication.util.Match;
 
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
     private ScheduleRecyclerViewAdapter adapter;
     private List<Match> matchList;
     private PrefsDataManager prefsDataManager;
+    private ChooseFilePresenter chooseFilePresenter;
 
 
     @Override
@@ -31,9 +35,11 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
 
         viewSchedulePresenter.makeDrawer();
         prefsDataManager = PrefsDataManager.getInstance(this);
+        chooseFilePresenter = new ChooseFilePresenter(this);
 
         if(viewSchedulePresenter.getScheduleFile() == null) {
             Toast.makeText(this, "Select a Schedule File", Toast.LENGTH_SHORT).show();
+            chooseFilePresenter.chooseFile(ViewScheduleActivity.class);
             return;
         }
 
@@ -65,5 +71,11 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
     protected void bindView() {
         viewSchedulePresenter = new ViewSchedulePresenter(this);
         viewSchedulePresenter.bindView(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        chooseFilePresenter.saveScheduleFile(requestCode, resultCode, data);
     }
 }

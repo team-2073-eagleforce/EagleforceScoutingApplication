@@ -2,24 +2,16 @@ package com.team2073.eagleforcescoutingapplication.framework.manager;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.PitScoutingFormActivity;
 import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity;
 import com.team2073.eagleforcescoutingapplication.activities.SettingsActivity;
 import com.team2073.eagleforcescoutingapplication.activities.ViewScheduleActivity;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.team2073.eagleforcescoutingapplication.framework.form.PitScoutingForm;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class DrawerManager {
 
@@ -70,7 +62,7 @@ public class DrawerManager {
                     }
                     return false;
                 })
-                .withSliderBackgroundColor(activity.getColor(R.color.grey))
+                .withSliderBackgroundColor(activity.getColor(R.color.colorAccent))
                 .build();
     }
 
