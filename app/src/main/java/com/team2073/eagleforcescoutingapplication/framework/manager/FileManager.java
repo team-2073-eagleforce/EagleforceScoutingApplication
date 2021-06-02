@@ -4,6 +4,9 @@ import android.app.Activity;
 
 import java.io.File;
 
+/**
+ * Manages which file is used to pull from for creating the match schedule.
+ */
 public class FileManager {
 
     public static FileManager INSTANCE;

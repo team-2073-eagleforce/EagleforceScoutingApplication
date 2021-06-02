@@ -48,11 +48,10 @@ public class CSVManager {
     }
 
     /**
-     *
      * @param root directory which csv will be saved
      * @param fileName
-     *
-     * Creates a CSV from the scouting form
+
+     * Creates a CSV.
      */
     public void createCSV(String root, String fileName) {
         File mainDir = new File(root + "/" + "ScoutingDataApplication");
@@ -74,6 +73,10 @@ public class CSVManager {
         }
     }
 
+    /**
+     * Writes data from Scouts to a CSV file.
+     * @param data
+     */
     public void writeData(Object[] data) {
         try {
             CSVWriter csvWriter = new CSVWriter(new FileWriter(csvFile));

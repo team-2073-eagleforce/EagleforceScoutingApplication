@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 
+/**
+ * Managers data with the SharedPreferences (short-term data storage).
+ */
 public class PrefsDataManager {
 
     private static PrefsDataManager INSTANCE;

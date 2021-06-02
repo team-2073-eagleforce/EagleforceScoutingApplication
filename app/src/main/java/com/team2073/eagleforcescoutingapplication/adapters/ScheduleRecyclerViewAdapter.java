@@ -20,6 +20,9 @@ import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataMan
 
 import java.util.List;
 
+/**
+ * Manages all the ViewHolder objects for the schedule. Uses the ViewHolder that's instantiated in this class.
+ */
 public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
@@ -43,6 +46,11 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         return viewHolder;
     }
 
+    /**
+     *  Binds the schedule's ViewHolder instances to specific data.
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Integer matchNumber = position + 1;
@@ -91,9 +99,11 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         return listOfTeams.size();
     }
 
-
+    /**
+     * Creates a ViewHolder for the cells of the schedule.
+     * Based on a view called match_cell.xml found in the directory res/layout.
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         RelativeLayout matchLayout;
         Button red1;
         Button red2;
