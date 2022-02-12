@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,11 +13,14 @@
 
         <ImageButton
             android:id="@+id/autoline_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/autoline"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:layout_centerHorizontal="true"/>
+            android:layout_width="287dp"
+            android:layout_height="202dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="62dp"
+            android:background="@drawable/tarmac"
+            android:foreground="?attr/selectableItemBackgroundBorderless" />
 
         <RelativeLayout
             android:id="@+id/auto_cell_score_count"
@@ -25,17 +29,17 @@
             android:layout_below="@id/auto_bottomport_button">
 
             <include
-                android:id="@+id/outerport_layout"
+                android:id="@+id/upperhub_layout"
                 layout="@layout/port_points_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <include
-                android:id="@+id/bottomport_layout"
+                android:id="@+id/lowerhub_layout"
                 layout="@layout/port_points_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/outerport_layout" />
+                android:layout_below="@id/upperhub_layout" />
 
         </RelativeLayout>
 
@@ -43,33 +47,34 @@
             android:id="@+id/auto_outer_and_inner_frame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/autoline_button"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="30dp"
-            android:layout_below="@id/autoline_button">
+            android:layout_marginBottom="30dp">
 
             <ImageButton
                 android:id="@+id/auto_outerport_button_right"
                 android:layout_width="170dp"
-                android:layout_height="280dp"
-                android:background="@drawable/outer_port_half"
+                android:layout_height="260dp"
+                android:layout_marginLeft="185dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/upperright"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginLeft="165dp"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/auto_outerport_button_left"
                 android:layout_width="170dp"
-                android:layout_height="280dp"
-                android:background="@drawable/outer_port_half_shaded"
+                android:layout_height="260dp"
+                android:layout_marginRight="185dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/upperleft"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginRight="165dp"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -84,20 +89,21 @@
                 android:id="@+id/auto_bottomport_button_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bottomporthalf"
+                android:background="@drawable/lowerright"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginLeft="185dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginLeft="183dp"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/auto_bottomport_button_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="183dp"
-                android:background="@drawable/bottom_port_half_shaded"
+                android:layout_marginRight="185dp"
+                android:background="@drawable/lowerleft"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
