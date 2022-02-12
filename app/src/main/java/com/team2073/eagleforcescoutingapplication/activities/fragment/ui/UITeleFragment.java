@@ -19,6 +19,8 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
+import org.w3c.dom.Text;
+
 import timber.log.Timber;
 
 public class UITeleFragment extends Fragment implements View.OnClickListener {
@@ -27,17 +29,17 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
 
-    private TextView teleBottomLabel;
-    private EditText teleBottomText;
+    private TextView teleUpperLabel;
+    private EditText teleUpperText;
 
-    private TextView teleOuterLabel;
-    private EditText teleOuterText;
+    private TextView teleLowerLabel;
+    private EditText teleLowerText;
 
-    private ImageButton bottomPortButtonRight;
-    private ImageButton bottomPortButtonLeft;
+    private ImageButton upperHubButtonRight;
+    private ImageButton upperHubButtonLeft;
 
-    private ImageButton outerPortButtonRight;
-    private ImageButton outerPortButtonLeft;
+    private ImageButton lowerHubButtonRight;
+    private ImageButton lowerHubButtonLeft;
 
     private Button rControlButton;
     private Button pControlButton;
@@ -73,17 +75,17 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
 
         //Bottom Port Views
         View bottomPort = root.findViewById(R.id.bottomport_layout);
-        teleBottomLabel = bottomPort.findViewById(R.id.textview);
-        teleBottomText = bottomPort.findViewById(R.id.edittext);
-        bottomPortButtonRight = root.findViewById(R.id.tele_bottomport_button_right);
-        bottomPortButtonLeft = root.findViewById(R.id.tele_bottomport_button_left);
+        teleUpperLabel = bottomPort.findViewById(R.id.textview);
+        teleUpperText = bottomPort.findViewById(R.id.edittext);
+        upperHubButtonRight = root.findViewById(R.id.tele_bottomport_button_right);
+        upperHubButtonLeft = root.findViewById(R.id.tele_bottomport_button_left);
 
         //Outer port Views
         View outerPort = root.findViewById(R.id.outerport_layout);
-        teleOuterLabel = outerPort.findViewById(R.id.textview);
-        teleOuterText = outerPort.findViewById(R.id.edittext);
-        outerPortButtonRight = root.findViewById(R.id.tele_outerport_button_right);
-        outerPortButtonLeft = root.findViewById(R.id.tele_outerport_button_left);
+        teleLowerLabel = outerPort.findViewById(R.id.textview);
+        teleLowerText = outerPort.findViewById(R.id.edittext);
+        lowerHubButtonRight = root.findViewById(R.id.tele_outerport_button_right);
+        lowerHubButtonLeft = root.findViewById(R.id.tele_outerport_button_left);
 
         rControlButton = root.findViewById(R.id.rotationControlButton);
         pControlButton = root.findViewById(R.id.positionControlButton);
@@ -110,54 +112,54 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
         halfSecond.setVisibility(View.INVISIBLE);
 
 
-        bottomPortButtonRight.setOnClickListener(this);
-        bottomPortButtonLeft.setOnClickListener(this);
+        upperHubButtonRight.setOnClickListener(this);
+        upperHubButtonLeft.setOnClickListener(this);
 
-        outerPortButtonRight.setOnClickListener(this);
-        outerPortButtonLeft.setOnClickListener(this);
+        lowerHubButtonRight.setOnClickListener(this);
+        lowerHubButtonLeft.setOnClickListener(this);
 
         rControlButton.setOnClickListener(this);
         pControlButton.setOnClickListener(this);
 
 
-        teleBottomText.setOnFocusChangeListener((view, b) -> {
+        teleUpperText.setOnFocusChangeListener((view, b) -> {
             if (!b) {
-                if (teleBottomText.getText().toString().equals("")) {
-                    teleBottomText.setText("0");
+                if (teleUpperText.getText().toString().equals("")) {
+                    teleUpperText.setText("0");
                 }
 
-                scoutingFormPresenter.saveData("Teleop Bottom", teleBottomText.getText().toString());
+                scoutingFormPresenter.saveData("Teleop Bottom", teleUpperText.getText().toString());
                 Timber.d("shared Preferences: " + "Teleop Bottom" + ", " + scoutingFormPresenter.readData("Teleop Bottom"));
             }
         });
-        teleOuterText.setOnFocusChangeListener((view, b) -> {
+        teleLowerText.setOnFocusChangeListener((view, b) -> {
             if (!b) {
-                if (teleOuterText.getText().toString().equals("")) {
-                    teleOuterText.setText("0");
+                if (teleLowerText.getText().toString().equals("")) {
+                    teleLowerText.setText("0");
                 }
-                scoutingFormPresenter.saveData("Teleop Outer", teleOuterText.getText().toString());
+                scoutingFormPresenter.saveData("Teleop Outer", teleLowerText.getText().toString());
                 Timber.d("shared Preferences: " + "Teleop Outer" + ", " + scoutingFormPresenter.readData("Teleop Outer"));
             }
         });
     }
 
     private void initFields() {
-        scoutingFormPresenter.saveData("Teleop Outer", "0");
-        scoutingFormPresenter.saveData("Teleop Bottom", "0");
+        scoutingFormPresenter.saveData("Teleop Lower", "0");
+        scoutingFormPresenter.saveData("Teleop Upper", "0");
 
         scoutingFormPresenter.saveData("Control Panel Rotation", "0");
         scoutingFormPresenter.saveData("Control Panel Position", "0");
 
-        teleBottomText.setText("0");
-        teleOuterText.setText("0");
+        teleUpperText.setText("0");
+        teleLowerText.setText("0");
 
-        bottomPortButtonLeft.setRotation(180);
-        outerPortButtonLeft.setRotation(180);
+        upperHubButtonLeft.setRotation(180);
+        lowerHubButtonLeft.setRotation(180);
     }
 
     private void initializeViewLabels() {
-        teleBottomLabel.setText(getResources().getString(R.string.num_cells_bottom_label));
-        teleOuterLabel.setText(getResources().getString(R.string.num_cells_outer_label));
+        teleUpperLabel.setText(getResources().getString(R.string.num_cargo_upper_hub_label));
+        teleLowerLabel.setText(getResources().getString(R.string.num_cargo_lower_hub_label));
     }
 
     @Override
@@ -165,38 +167,38 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
         Integer value = 0;
         switch (v.getId()) {
             case R.id.tele_bottomport_button_right:
-                value = Integer.parseInt(teleBottomText.getText().toString()) + 1;
-                teleBottomText.setText(value.toString());
+                value = Integer.parseInt(teleUpperText.getText().toString()) + 1;
+                teleUpperText.setText(value.toString());
 
                 scoutingFormPresenter.saveData("Teleop Bottom", value.toString());
 
                 Timber.d("shared Preferences: " + "Teleop Bottom" + ", " + scoutingFormPresenter.readData("Teleop Bottom"));
                 break;
             case R.id.tele_bottomport_button_left:
-                value = Integer.parseInt(teleBottomText.getText().toString()) - 1;
+                value = Integer.parseInt(teleUpperText.getText().toString()) - 1;
                 if (value <= 0) {
                     value = 0;
                 }
-                teleBottomText.setText(value.toString());
+                teleUpperText.setText(value.toString());
 
                 scoutingFormPresenter.saveData("Teleop Bottom", value.toString());
 
                 Timber.d("shared Preferences: " + "Teleop Bottom" + ", " + scoutingFormPresenter.readData("Teleop Bottom"));
                 break;
             case R.id.tele_outerport_button_right:
-                value = Integer.parseInt(teleOuterText.getText().toString()) + 1;
-                teleOuterText.setText(value.toString());
+                value = Integer.parseInt(teleLowerText.getText().toString()) + 1;
+                teleLowerText.setText(value.toString());
 
                 scoutingFormPresenter.saveData("Teleop Outer", value.toString());
 
                 Timber.d("shared Preferences: " + "Teleop Outer" + ", " + scoutingFormPresenter.readData("Teleop Outer"));
                 break;
             case R.id.tele_outerport_button_left:
-                value = Integer.parseInt(teleOuterText.getText().toString()) - 1;
+                value = Integer.parseInt(teleLowerText.getText().toString()) - 1;
                 if (value <= 0) {
                     value = 0;
                 }
-                teleOuterText.setText(value.toString());
+                teleLowerText.setText(value.toString());
 
                 scoutingFormPresenter.saveData("Teleop Outer", value.toString());
 

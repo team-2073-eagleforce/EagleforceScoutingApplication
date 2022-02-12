@@ -25,18 +25,18 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
 
-    private TextView autoBottomLabel;
-    private EditText autoBottomText;
+    private TextView autoUpperLabel;
+    private EditText autoUpperText;
 
-    private TextView autoOuterLabel;
-    private EditText autoOuterText;
+    private TextView autoLowerLabel;
+    private EditText autoLowerText;
 
     //ImageButtons
-    private ImageButton bottomPortButtonRight;
-    private ImageButton bottomPortButtonLeft;
+    private ImageButton upperHubButtonRight;
+    private ImageButton upperHubButtonLeft;
 
-    private ImageButton outerPortButtonRight;
-    private ImageButton outerPortButtonLeft;
+    private ImageButton lowerHubButtonRight;
+    private ImageButton lowerHubButtonLeft;
 
     private ImageButton autoLineButton;
 
@@ -65,17 +65,17 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
 
         //Bottom Port Views
         View bottomPort = root.findViewById(R.id.bottomport_layout);
-        autoBottomLabel = bottomPort.findViewById(R.id.textview);
-        autoBottomText = bottomPort.findViewById(R.id.edittext);
-        bottomPortButtonRight = root.findViewById(R.id.auto_bottomport_button_right);
-        bottomPortButtonLeft = root.findViewById(R.id.auto_bottomport_button_left);
+        autoUpperLabel = bottomPort.findViewById(R.id.textview);
+        autoUpperText = bottomPort.findViewById(R.id.edittext);
+        upperHubButtonRight = root.findViewById(R.id.auto_bottomport_button_right);
+        upperHubButtonLeft = root.findViewById(R.id.auto_bottomport_button_left);
 
         //Outer port Views
         View outerPort = root.findViewById(R.id.outerport_layout);
-        autoOuterLabel = outerPort.findViewById(R.id.textview);
-        autoOuterText = outerPort.findViewById(R.id.edittext);
-        outerPortButtonRight = root.findViewById(R.id.auto_outerport_button_right);
-        outerPortButtonLeft = root.findViewById(R.id.auto_outerport_button_left);
+        autoLowerLabel = outerPort.findViewById(R.id.textview);
+        autoLowerText = outerPort.findViewById(R.id.edittext);
+        lowerHubButtonRight = root.findViewById(R.id.auto_outerport_button_right);
+        lowerHubButtonLeft = root.findViewById(R.id.auto_outerport_button_left);
 
         autoLineButton = root.findViewById(R.id.autoline_button);
 
@@ -90,29 +90,29 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        bottomPortButtonRight.setOnClickListener(this);
-        bottomPortButtonLeft.setOnClickListener(this);
+        upperHubButtonRight.setOnClickListener(this);
+        upperHubButtonLeft.setOnClickListener(this);
 
-        outerPortButtonRight.setOnClickListener(this);
-        outerPortButtonLeft.setOnClickListener(this);
+        lowerHubButtonRight.setOnClickListener(this);
+        lowerHubButtonLeft.setOnClickListener(this);
 
         autoLineButton.setOnClickListener(this);
 
-        autoBottomText.setOnFocusChangeListener((view, b) -> {
+        autoUpperText.setOnFocusChangeListener((view, b) -> {
             if (!b) {
-                if (autoBottomText.getText().toString().equals("")) {
-                    autoBottomText.setText("0");
+                if (autoUpperText.getText().toString().equals("")) {
+                    autoUpperText.setText("0");
                 }
-                scoutingFormPresenter.saveData("Auto Bottom", autoBottomText.getText().toString());
+                scoutingFormPresenter.saveData("Auto Bottom", autoUpperText.getText().toString());
                 Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
             }
         });
-        autoOuterText.setOnFocusChangeListener((view, b) -> {
+        autoLowerText.setOnFocusChangeListener((view, b) -> {
             if (!b) {
-                if (autoOuterText.getText().toString().equals("")) {
-                    autoOuterText.setText("0");
+                if (autoLowerText.getText().toString().equals("")) {
+                    autoLowerText.setText("0");
                 }
-                scoutingFormPresenter.saveData("Auto Outer", autoOuterText.getText().toString());
+                scoutingFormPresenter.saveData("Auto Outer", autoLowerText.getText().toString());
                 Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
             }
         });
@@ -124,17 +124,17 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
         scoutingFormPresenter.saveData("Auto Outer", "0");
         scoutingFormPresenter.saveData("Auto Bottom", "0");
 
-        autoBottomText.setText("0");
-        autoOuterText.setText("0");
+        autoUpperText.setText("0");
+        autoLowerText.setText("0");
 
-        bottomPortButtonLeft.setRotation(180);
-        outerPortButtonLeft.setRotation(180);
+        upperHubButtonLeft.setRotation(180);
+        upperHubButtonLeft.setRotation(180);
 
     }
 
     private void initializeViewLabels() {
-        autoBottomLabel.setText(getResources().getString(R.string.num_cells_bottom_label));
-        autoOuterLabel.setText(getResources().getString(R.string.num_cells_outer_label));
+        autoUpperLabel.setText(getResources().getString(R.string.num_cargo_upper_hub_label));
+        autoLowerLabel.setText(getResources().getString(R.string.num_cargo_lower_hub_label));
     }
 
     @Override
@@ -143,38 +143,38 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
         Integer value = 0;
         switch (v.getId()) {
             case R.id.auto_bottomport_button_right:
-                value = Integer.parseInt(autoBottomText.getText().toString()) + 1;
-                autoBottomText.setText(value.toString());
+                value = Integer.parseInt(autoUpperText.getText().toString()) + 1;
+                autoUpperText.setText(value.toString());
 
                 scoutingFormPresenter.saveData("Auto Bottom", value.toString());
 
                 Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
                 break;
             case R.id.auto_bottomport_button_left:
-                value = Integer.parseInt(autoBottomText.getText().toString()) - 1;
+                value = Integer.parseInt(autoUpperText.getText().toString()) - 1;
                 if(value <= 0){
                     value = 0;
                 }
-                autoBottomText.setText(value.toString());
+                autoUpperText.setText(value.toString());
 
                 scoutingFormPresenter.saveData("Auto Bottom", value.toString());
 
                 Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
                 break;
             case R.id.auto_outerport_button_right:
-                value = Integer.parseInt(autoOuterText.getText().toString()) + 1;
-                autoOuterText.setText(value.toString());
+                value = Integer.parseInt(autoLowerText.getText().toString()) + 1;
+                autoLowerText.setText(value.toString());
 
                 scoutingFormPresenter.saveData("Auto Outer", value.toString());
 
                 Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
                 break;
             case R.id.auto_outerport_button_left:
-                value = Integer.parseInt(autoOuterText.getText().toString()) - 1;
+                value = Integer.parseInt(autoLowerText.getText().toString()) - 1;
                 if(value <= 0){
                     value = 0;
                 }
-                autoOuterText.setText(value.toString());
+                autoLowerText.setText(value.toString());
 
                 scoutingFormPresenter.saveData("Auto Outer", value.toString());
 
