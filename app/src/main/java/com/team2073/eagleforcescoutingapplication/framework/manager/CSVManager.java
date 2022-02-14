@@ -116,13 +116,13 @@ public class CSVManager {
             String[] nextRecord;
             while ((nextRecord = csvReader.readNext()) != null) {
                 Match match = new Match(
+                        nextRecord[0],
                         nextRecord[1],
+                        nextRecord[2],
                         nextRecord[3],
                         nextRecord[4],
                         nextRecord[5],
-                        nextRecord[6],
-                        nextRecord[7],
-                        nextRecord[8]);
+                        nextRecord[6]);
                 scheduleList.add(match);
             }
 

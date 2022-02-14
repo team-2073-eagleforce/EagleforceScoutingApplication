@@ -30,13 +30,6 @@
             android:key="position"
             android:title="Position"
             app:useSimpleSummaryProvider="true"/>
-        <ListPreference
-            android:defaultValue="1"
-            android:entries="@array/scouting_mode"
-            android:entryValues="@array/scouting_mode"
-            android:key="scoutingMode"
-            android:title="UI Mode"
-            app:useSimpleSummaryProvider="true"/>
         <PreferenceScreen
             app:key="schedule"
             android:summary="Choose"

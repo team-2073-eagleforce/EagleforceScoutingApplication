@@ -45,6 +45,7 @@
     <string name="drawerScoutingFormText">Scouting Form</string>
     <string name="drawerScheduleText">Schedule</string>
 
+    <string name="drawerInsightText">Insight</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="drawerPitScoutingFormText">Pit Scouting</string>

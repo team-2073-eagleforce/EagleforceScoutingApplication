@@ -67,7 +67,7 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener, 
         index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
 
-        formComments = getActivity().findViewById(R.id.rFormComments);
+        formComments = getActivity().findViewById(R.id.uiComments);
     }
 
     @Nullable
