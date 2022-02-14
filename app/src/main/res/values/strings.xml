@@ -24,9 +24,11 @@
     <string name="title_activity_settings2">Settings</string>
 
     <!-- Game Specific Titles -->
-    <string name="num_cells_bottom_label"># Bottom Port</string>
-    <string name="num_cells_outer_label"># Outer Port</string>
+    <string name="num_cells_bottom_label"># Lower Port</string>
+    <string name="num_cells_outer_label"># Upper Port</string>
     <string name="num_cells_inner_label"># Inner Port</string>
+    <string name="num_cargo_upper_hub_label"># Upper Hub</string>
+    <string name="num_cargo_lower_hub_label"># Lower Hub</string>
 
     <!-- Preference Titles -->
     <string name="setup_header">Settings</string>
