@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 32
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId 'com.team2073.eagleforcescoutingapplication'
         minSdkVersion 25
-        targetSdkVersion 29
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -39,12 +39,12 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'io.reactivex:rxjava:1.2.0'
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    implementation group: 'com.opencsv', name: 'opencsv', version: '5.0'
+    implementation group: 'com.opencsv', name: 'opencsv', version: '5.5.2'
 
     implementation "com.mikepenz:materialdrawer:6.1.2"
 
@@ -55,15 +55,15 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0-alpha03'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
 
-    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'androidx.preference:preference:1.2.0'
 
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    implementation 'com.android.support:cardview-v7:29.0.0'
+    implementation 'com.android.support:cardview-v7:32.0.0'
 
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'

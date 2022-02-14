@@ -23,6 +23,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
+/**
+ * Manages all the view holder objects for the the scouting form. Uses the ViewHolder, called DataViewHolder, that's instantiated in this class.
+ */
 public class ScoutingFormRecyclerViewAdapter extends RecyclerView.Adapter<ScoutingFormRecyclerViewAdapter.DataViewHolder> {
 
     private ArrayList<String> fieldName;
@@ -42,6 +45,12 @@ public class ScoutingFormRecyclerViewAdapter extends RecyclerView.Adapter<Scouti
         return new DataViewHolder(view);
     }
 
+    /**
+     * Binds the scouting forms's ViewHolder instances to specific data.
+     * We are giving each child view in the ViewHolder a piece of data to display.
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
         Timber.d("onBindViewHolder: called");

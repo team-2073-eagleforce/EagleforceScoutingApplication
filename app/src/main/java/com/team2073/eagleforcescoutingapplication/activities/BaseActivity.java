@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.framework.view.BaseView;
 
+/**
+ * Includes base elements/methods for other activity classes to inherit.
+ */
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 
     @Override

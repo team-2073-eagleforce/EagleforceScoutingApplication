@@ -18,6 +18,10 @@ import com.team2073.eagleforcescoutingapplication.util.Match;
 
 import java.util.List;
 
+/**
+ * An activity is basically a window for you to place your User Interface.
+ * This is for holding the UI of the match schedule.
+ */
 public class ViewScheduleActivity extends BaseActivity implements ViewScheduleView {
 
     private ViewSchedulePresenter viewSchedulePresenter;

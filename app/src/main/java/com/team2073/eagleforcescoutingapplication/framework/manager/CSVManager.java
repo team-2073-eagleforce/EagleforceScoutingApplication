@@ -48,11 +48,10 @@ public class CSVManager {
     }
 
     /**
-     *
      * @param root directory which csv will be saved
      * @param fileName
-     *
-     * Creates a CSV from the scouting form
+
+     * Creates a CSV.
      */
     public void createCSV(String root, String fileName) {
         File mainDir = new File(root + "/" + "ScoutingDataApplication");
@@ -74,6 +73,10 @@ public class CSVManager {
         }
     }
 
+    /**
+     * Writes data from Scouts to a CSV file.
+     * @param data
+     */
     public void writeData(Object[] data) {
         try {
             CSVWriter csvWriter = new CSVWriter(new FileWriter(csvFile));
@@ -113,13 +116,13 @@ public class CSVManager {
             String[] nextRecord;
             while ((nextRecord = csvReader.readNext()) != null) {
                 Match match = new Match(
+                        nextRecord[0],
                         nextRecord[1],
+                        nextRecord[2],
                         nextRecord[3],
                         nextRecord[4],
                         nextRecord[5],
-                        nextRecord[6],
-                        nextRecord[7],
-                        nextRecord[8]);
+                        nextRecord[6]);
                 scheduleList.add(match);
             }
 

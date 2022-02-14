@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.team2073.eagleforcescoutingapplication">
 
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,11 +19,14 @@
         android:launchMode="singleTop"
         android:theme="@style/AppTheme"
         tools:targetApi="O_MR1">
-        <activity android:name=".activities.PitScoutingFormActivity"></activity>
+        <activity
+            android:name=".activities.InsightActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.ViewScheduleActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activities.ChooseFileActivity">
+        <activity android:name=".activities.ChooseFileActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.team2073.eagleforcescoutingapplication.activities.ChooseFileActivity" />
 
@@ -41,7 +45,8 @@
         <activity
             android:name=".activities.ScoutingFormActivity"
             android:label="@string/title_activity_scouting_form"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

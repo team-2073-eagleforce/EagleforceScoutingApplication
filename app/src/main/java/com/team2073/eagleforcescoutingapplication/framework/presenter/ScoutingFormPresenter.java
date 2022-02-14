@@ -5,14 +5,13 @@ import android.os.Environment;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity;
 import com.team2073.eagleforcescoutingapplication.activities.SettingsActivity;
-import com.team2073.eagleforcescoutingapplication.activities.fragment.PagerAdapterFactory;
+import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIPagerAdapter;
 import com.team2073.eagleforcescoutingapplication.framework.form.InfiniteRechargeScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
@@ -33,6 +32,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     private FileManager fileManager;
     private DrawerManager drawerManager;
     private PrefsDataManager prefsDataManager;
+    private UIPagerAdapter uiPagerAdapter;
     private ScoutingForm scoutingForm = new InfiniteRechargeScoutingForm();
 
     public ScoutingFormPresenter(Activity activity) {
@@ -108,13 +108,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
      * Defaults to the UI interface
      */
     public void createTabs() {
-        PagerAdapterFactory pagerAdapterFactory = new PagerAdapterFactory();
-        FragmentPagerAdapter sectionsPagerAdapter;
-        if (!(pagerAdapterFactory.getAdapter(readData("scoutingMode"), (FragmentActivity) mActivity) == null)) {
-            sectionsPagerAdapter = pagerAdapterFactory.getAdapter(readData("scoutingMode"), (FragmentActivity) mActivity);
-        } else {
-            sectionsPagerAdapter = pagerAdapterFactory.getUiPagerAdapter((FragmentActivity) mActivity);
-        }
+        UIPagerAdapter sectionsPagerAdapter = new UIPagerAdapter(mActivity, ((FragmentActivity) mActivity).getSupportFragmentManager());
         ViewPager viewPager = mActivity.findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         viewPager.setOffscreenPageLimit(3);
