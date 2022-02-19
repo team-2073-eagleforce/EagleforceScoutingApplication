@@ -41,14 +41,6 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     private ImageButton lowerHubButtonRight;
     private ImageButton lowerHubButtonLeft;
 
-    private Button rControlButton;
-    private Button pControlButton;
-
-    private ImageView halfFirst;
-    private ImageView halfSecond;
-    private ImageView darkHalfFirst;
-    private ImageView darkHalfSecond;
-
     public static UITeleFragment newInstance(int index) {
         UITeleFragment fragment = new UITeleFragment();
         Bundle bundle = new Bundle();
@@ -74,27 +66,18 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
         View root = inflater.inflate(R.layout.ui_fragment_teleop, container, false);
 
         //Bottom Port Views
-        View bottomPort = root.findViewById(R.id.bottomport_layout);
+        View bottomPort = root.findViewById(R.id.upperhub_layout);
         teleUpperLabel = bottomPort.findViewById(R.id.textview);
         teleUpperText = bottomPort.findViewById(R.id.edittext);
-        upperHubButtonRight = root.findViewById(R.id.tele_bottomport_button_right);
-        upperHubButtonLeft = root.findViewById(R.id.tele_bottomport_button_left);
+        upperHubButtonRight = root.findViewById(R.id.teleop_bottomport_button_right);
+        upperHubButtonLeft = root.findViewById(R.id.teleop_bottomport_button_left);
 
         //Outer port Views
-        View outerPort = root.findViewById(R.id.outerport_layout);
+        View outerPort = root.findViewById(R.id.lowerhub_layout);
         teleLowerLabel = outerPort.findViewById(R.id.textview);
         teleLowerText = outerPort.findViewById(R.id.edittext);
-        lowerHubButtonRight = root.findViewById(R.id.tele_outerport_button_right);
-        lowerHubButtonLeft = root.findViewById(R.id.tele_outerport_button_left);
-
-        rControlButton = root.findViewById(R.id.rotationControlButton);
-        pControlButton = root.findViewById(R.id.positionControlButton);
-
-        halfFirst = root.findViewById(R.id.wofHalfFirst);
-        halfSecond = root.findViewById(R.id.wofHalfSecond);
-        darkHalfFirst = root.findViewById(R.id.wofDarkHalfFirst);
-        darkHalfSecond = root.findViewById(R.id.wofDarkHalfSecond);
-
+        lowerHubButtonRight = root.findViewById(R.id.teleop_outerport_button_right);
+        lowerHubButtonLeft = root.findViewById(R.id.teleop_outerport_button_left);
 
         initializeViewLabels();
         initFields();
@@ -106,20 +89,11 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        darkHalfFirst.setVisibility(View.VISIBLE);
-        darkHalfSecond.setVisibility(View.VISIBLE);
-        halfFirst.setVisibility(View.INVISIBLE);
-        halfSecond.setVisibility(View.INVISIBLE);
-
-
         upperHubButtonRight.setOnClickListener(this);
         upperHubButtonLeft.setOnClickListener(this);
 
         lowerHubButtonRight.setOnClickListener(this);
         lowerHubButtonLeft.setOnClickListener(this);
-
-        rControlButton.setOnClickListener(this);
-        pControlButton.setOnClickListener(this);
 
 
         teleUpperText.setOnFocusChangeListener((view, b) -> {
@@ -147,14 +121,9 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
         scoutingFormPresenter.saveData("Teleop Lower", "0");
         scoutingFormPresenter.saveData("Teleop Upper", "0");
 
-        scoutingFormPresenter.saveData("Control Panel Rotation", "0");
-        scoutingFormPresenter.saveData("Control Panel Position", "0");
-
         teleUpperText.setText("0");
         teleLowerText.setText("0");
 
-        upperHubButtonLeft.setRotation(180);
-        lowerHubButtonLeft.setRotation(180);
     }
 
     private void initializeViewLabels() {
@@ -166,83 +135,47 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         Integer value = 0;
         switch (v.getId()) {
-            case R.id.tele_bottomport_button_right:
-                value = Integer.parseInt(teleUpperText.getText().toString()) + 1;
-                teleUpperText.setText(value.toString());
-
-                scoutingFormPresenter.saveData("Teleop Bottom", value.toString());
-
-                Timber.d("shared Preferences: " + "Teleop Bottom" + ", " + scoutingFormPresenter.readData("Teleop Bottom"));
-                break;
-            case R.id.tele_bottomport_button_left:
-                value = Integer.parseInt(teleUpperText.getText().toString()) - 1;
-                if (value <= 0) {
-                    value = 0;
-                }
-                teleUpperText.setText(value.toString());
-
-                scoutingFormPresenter.saveData("Teleop Bottom", value.toString());
-
-                Timber.d("shared Preferences: " + "Teleop Bottom" + ", " + scoutingFormPresenter.readData("Teleop Bottom"));
-                break;
-            case R.id.tele_outerport_button_right:
+            case R.id.teleop_bottomport_button_right:
                 value = Integer.parseInt(teleLowerText.getText().toString()) + 1;
                 teleLowerText.setText(value.toString());
 
-                scoutingFormPresenter.saveData("Teleop Outer", value.toString());
+                scoutingFormPresenter.saveData("Teleop Bottom", value.toString());
 
-                Timber.d("shared Preferences: " + "Teleop Outer" + ", " + scoutingFormPresenter.readData("Teleop Outer"));
+                Timber.d("shared Preferences: " + "Teleop Bottom" + ", " + scoutingFormPresenter.readData("Teleop Bottom"));
                 break;
-            case R.id.tele_outerport_button_left:
+            case R.id.teleop_bottomport_button_left:
                 value = Integer.parseInt(teleLowerText.getText().toString()) - 1;
                 if (value <= 0) {
                     value = 0;
                 }
                 teleLowerText.setText(value.toString());
 
+                scoutingFormPresenter.saveData("Teleop Bottom", value.toString());
+
+                Timber.d("shared Preferences: " + "Teleop Bottom" + ", " + scoutingFormPresenter.readData("Teleop Bottom"));
+                break;
+            case R.id.teleop_outerport_button_right:
+                value = Integer.parseInt(teleUpperText.getText().toString()) + 1;
+                teleUpperText.setText(value.toString());
+
                 scoutingFormPresenter.saveData("Teleop Outer", value.toString());
 
                 Timber.d("shared Preferences: " + "Teleop Outer" + ", " + scoutingFormPresenter.readData("Teleop Outer"));
                 break;
-            case R.id.rotationControlButton:
-                value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Control Panel Rotation")) - 1);
-                if (value == 1) {
-                    //TODO find a cleaner way to display ON/OFF
-                    //First PNG of darkened WOF set OFF
-                    //First PNG of normal WOF set ON
-                    darkHalfFirst.setVisibility(View.INVISIBLE);
-                    halfFirst.setVisibility(View.VISIBLE);
-                } else {
-                    //First PNG of darkened WOF set ON
-                    //First PNG of normal WOF set OFF
-                    darkHalfFirst.setVisibility(View.VISIBLE);
-                    halfFirst.setVisibility(View.INVISIBLE);
-
+            case R.id.teleop_outerport_button_left:
+                value = Integer.parseInt(teleUpperText.getText().toString()) - 1;
+                if (value <= 0) {
+                    value = 0;
                 }
-                scoutingFormPresenter.saveData("Control Panel Rotation", value.toString());
+                teleUpperText.setText(value.toString());
 
-                Timber.d("shared Preferences: " + "Control Panel Rotation" + ", " + scoutingFormPresenter.readData("Control Panel Rotation"));
-                break;
-            case R.id.positionControlButton:
-                value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Control Panel Position")) - 1);
-                if (value == 1) {
-                    // Second first PNG of darkened WOF set OFF
-                    // First PNG of normal WOF set ON
-                    darkHalfSecond.setVisibility(View.INVISIBLE);
-                    halfSecond.setVisibility(View.VISIBLE);
-                } else {
-                    // //First PNG of darkened WOF set ON
-                    //First PNG of normal WOF set OFF
-                    darkHalfSecond.setVisibility(View.VISIBLE);
-                    halfSecond.setVisibility(View.INVISIBLE);
-                }
-                scoutingFormPresenter.saveData("Control Panel Position", value.toString());
+                scoutingFormPresenter.saveData("Teleop Outer", value.toString());
 
-                Timber.d("shared Preferences: " + "Control Panel Position" + ", " + scoutingFormPresenter.readData("Control Panel Position"));
+                Timber.d("shared Preferences: " + "Teleop Outer" + ", " + scoutingFormPresenter.readData("Teleop Outer"));
                 break;
+            }
         }
     }
-}
 
 
 

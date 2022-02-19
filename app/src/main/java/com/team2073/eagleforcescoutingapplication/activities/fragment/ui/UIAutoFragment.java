@@ -64,14 +64,14 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
         View root = inflater.inflate(R.layout.ui_fragment_auto, container, false);
 
         //Bottom Port Views
-        View bottomPort = root.findViewById(R.id.bottomport_layout);
+        View bottomPort = root.findViewById(R.id.upperhub_layout);
         autoUpperLabel = bottomPort.findViewById(R.id.textview);
         autoUpperText = bottomPort.findViewById(R.id.edittext);
         upperHubButtonRight = root.findViewById(R.id.auto_bottomport_button_right);
         upperHubButtonLeft = root.findViewById(R.id.auto_bottomport_button_left);
 
         //Outer port Views
-        View outerPort = root.findViewById(R.id.outerport_layout);
+        View outerPort = root.findViewById(R.id.lowerhub_layout);
         autoLowerLabel = outerPort.findViewById(R.id.textview);
         autoLowerText = outerPort.findViewById(R.id.edittext);
         lowerHubButtonRight = root.findViewById(R.id.auto_outerport_button_right);
@@ -127,9 +127,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
         autoUpperText.setText("0");
         autoLowerText.setText("0");
 
-        upperHubButtonLeft.setRotation(180);
-        upperHubButtonLeft.setRotation(180);
-
     }
 
     private void initializeViewLabels() {
@@ -143,38 +140,38 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
         Integer value = 0;
         switch (v.getId()) {
             case R.id.auto_bottomport_button_right:
-                value = Integer.parseInt(autoUpperText.getText().toString()) + 1;
-                autoUpperText.setText(value.toString());
+                value = Integer.parseInt(autoLowerText.getText().toString()) + 1;
+                autoLowerText.setText(value.toString());
 
                 scoutingFormPresenter.saveData("Auto Bottom", value.toString());
 
                 Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
                 break;
             case R.id.auto_bottomport_button_left:
-                value = Integer.parseInt(autoUpperText.getText().toString()) - 1;
+                value = Integer.parseInt(autoLowerText.getText().toString()) - 1;
                 if(value <= 0){
                     value = 0;
                 }
-                autoUpperText.setText(value.toString());
+                autoLowerText.setText(value.toString());
 
                 scoutingFormPresenter.saveData("Auto Bottom", value.toString());
 
                 Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
                 break;
             case R.id.auto_outerport_button_right:
-                value = Integer.parseInt(autoLowerText.getText().toString()) + 1;
-                autoLowerText.setText(value.toString());
+                value = Integer.parseInt(autoUpperText.getText().toString()) + 1;
+                autoUpperText.setText(value.toString());
 
                 scoutingFormPresenter.saveData("Auto Outer", value.toString());
 
                 Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
                 break;
             case R.id.auto_outerport_button_left:
-                value = Integer.parseInt(autoLowerText.getText().toString()) - 1;
+                value = Integer.parseInt(autoUpperText.getText().toString()) - 1;
                 if(value <= 0){
                     value = 0;
                 }
-                autoLowerText.setText(value.toString());
+                autoUpperText.setText(value.toString());
 
                 scoutingFormPresenter.saveData("Auto Outer", value.toString());
 
@@ -183,9 +180,9 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
             case R.id.autoline_button:
                 value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Auto Cross")) - 1);
                 if (value == 1) {
-                    autoLineButton.setImageResource(R.drawable.autoline_clicked);
+                    autoLineButton.setImageResource(R.drawable.tarmac);
                 } else {
-                    autoLineButton.setImageResource(R.drawable.autoline);
+                    autoLineButton.setImageResource(R.drawable.tarmac_yellow);
                 }
                 scoutingFormPresenter.saveData("Auto Cross", value.toString());
 

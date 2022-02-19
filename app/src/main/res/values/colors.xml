@@ -8,7 +8,9 @@
 
     <color name="gold">#FFC107</color>
 
-    <color name="primaryTextColor">#FDD835</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="primaryTextColor">#C00000</color>
 
     <color name="colorPrimaryDarkDayNightTheme">#1E88E5</color>
 
@@ -61,4 +63,5 @@
     <color name="blueAlliance">#B9EFF7</color>
 
     <color name="scheduleMatchHeadColor">#424242</color>
+
 </resources>

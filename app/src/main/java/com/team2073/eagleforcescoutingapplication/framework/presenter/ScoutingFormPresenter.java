@@ -56,7 +56,6 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     }
 
     public void createCSV() {
-
         String match = prefsDataManager.readFromPreferences("matchNumber");
         String team = prefsDataManager.readFromPreferences("teamNumber");
 

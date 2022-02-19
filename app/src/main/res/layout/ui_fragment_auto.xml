@@ -9,37 +9,40 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
         <ImageButton
             android:id="@+id/autoline_button"
-            android:layout_width="287dp"
-            android:layout_height="202dp"
+            android:layout_width="300dp"
+            android:layout_height="175dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="62dp"
             android:background="@drawable/tarmac"
             android:foreground="?attr/selectableItemBackgroundBorderless" />
 
         <RelativeLayout
             android:id="@+id/auto_cell_score_count"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/auto_bottomport_button">
+            android:layout_below="@id/auto_bottomport_button"
+            android:layout_marginTop="20dp">
 
             <include
                 android:id="@+id/upperhub_layout"
                 layout="@layout/port_points_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" />
 
             <include
                 android:id="@+id/lowerhub_layout"
                 layout="@layout/port_points_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/upperhub_layout" />
+                android:layout_below="@id/upperhub_layout"
+                android:layout_centerHorizontal="true" />
 
         </RelativeLayout>
 
@@ -53,22 +56,23 @@
 
             <ImageButton
                 android:id="@+id/auto_outerport_button_right"
-                android:layout_width="170dp"
-                android:layout_height="260dp"
-                android:layout_marginLeft="185dp"
+                android:layout_width="200dp"
+                android:layout_height="275dp"
+                android:layout_marginStart="195dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/upperright"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintHorizontal_bias="0.971"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/auto_outerport_button_left"
-                android:layout_width="170dp"
-                android:layout_height="260dp"
-                android:layout_marginRight="185dp"
+                android:layout_width="200dp"
+                android:layout_height="275dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="195dp"
                 android:background="@drawable/upperleft"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -87,11 +91,11 @@
 
             <ImageButton
                 android:id="@+id/auto_bottomport_button_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="140dp"
                 android:background="@drawable/lowerright"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginLeft="185dp"
+                android:layout_marginStart="250dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -100,9 +104,9 @@
 
             <ImageButton
                 android:id="@+id/auto_bottomport_button_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="185dp"
+                android:layout_width="250dp"
+                android:layout_height="140dp"
+                android:layout_marginEnd="245dp"
                 android:background="@drawable/lowerleft"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintLeft_toLeftOf="parent"

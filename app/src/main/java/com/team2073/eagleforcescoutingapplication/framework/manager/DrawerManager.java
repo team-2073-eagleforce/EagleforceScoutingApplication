@@ -2,11 +2,16 @@ package com.team2073.eagleforcescoutingapplication.framework.manager;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.View;
 
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.InsightActivity;
 import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity;
@@ -36,6 +41,14 @@ public class DrawerManager {
      */
 
     public void makeDrawer() {
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(activity)
+                .withHeaderBackground(R.drawable.accountheader)
+                .addProfiles(
+                        new ProfileDrawerItem().withName("EagleForce").withIcon(R.drawable.eagleforce_logo)
+                )
+                .build();
+
         PrimaryDrawerItem scoutingForm = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.drawerScoutingFormText);
         PrimaryDrawerItem schedule = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.drawerScheduleText);
         PrimaryDrawerItem insight = new PrimaryDrawerItem().withIdentifier(3).withName(R.string.drawerInsightText);
@@ -45,6 +58,7 @@ public class DrawerManager {
                 .withActivity(activity)
                 .withActionBarDrawerToggle(true)
                 .withActionBarDrawerToggleAnimated(true)
+                .withAccountHeader(headerResult)
                 .withCloseOnClick(true)
                 .withSelectedItem(-1)
                 .addDrawerItems(scoutingForm, new DividerDrawerItem(),
@@ -63,7 +77,7 @@ public class DrawerManager {
                     }
                     return false;
                 })
-                .withSliderBackgroundColor(activity.getColor(R.color.colorAccent))
+                .withSliderBackgroundColor(activity.getColor(R.color.white))
                 .build();
     }
 

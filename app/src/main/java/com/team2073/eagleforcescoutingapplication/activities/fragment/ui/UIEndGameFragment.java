@@ -2,12 +2,14 @@ package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,16 +28,10 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
     private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
 
-    private ImageView unleveled;
-    private ImageView leveled;
-
-    private ImageView climb1;
-    private ImageView climb2;
-    private ImageView climb3;
-    private ImageView climb4;
-
-    private Button changeLevelButton;
-    private ImageButton climbButton;
+    private ImageButton bottomClimb;
+    private ImageButton middleClimb;
+    private ImageButton middleClimb2;
+    private ImageButton topClimb;
 
 
     public static UIEndGameFragment newInstance(int index) {
@@ -61,17 +57,10 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.ui_fragment_endgame, container, false);
 
-        leveled = root.findViewById(R.id.climb_bar_straight);
-        unleveled = root.findViewById(R.id.climb_bar_tilt);
-
-        climb1 = root.findViewById(R.id.climb1);
-        climb2 = root.findViewById(R.id.climb2);
-        climb3 = root.findViewById(R.id.climb3);
-        climb4 = root.findViewById(R.id.climb4);
-
-        climbButton = root.findViewById(R.id.climb_button);
-        changeLevelButton = root.findViewById(R.id.level_button);
-        changeLevelButton.setBackgroundColor(Color.TRANSPARENT);
+        bottomClimb = root.findViewById(R.id.BottomBar);
+        middleClimb = root.findViewById(R.id.MiddleBar);
+        middleClimb2 = root.findViewById(R.id.MiddleBarTwo);
+        topClimb = root.findViewById(R.id.TopBar);
 
         initFields();
 
@@ -82,105 +71,106 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        changeLevelButton.setOnClickListener(this);
-        climbButton.setOnClickListener(this);
+        bottomClimb.setOnClickListener(this);
+        bottomClimb.setTag("0");
+
+        middleClimb.setOnClickListener(this);
+        middleClimb.setTag("0");
+
+        middleClimb2.setOnClickListener(this);
+        middleClimb2.setTag("0");
+
+        topClimb.setOnClickListener(this);
+        topClimb.setTag("0");
 
     }
 
     private void initFields() {
         scoutingFormPresenter.saveData("Climb", "0");
-        scoutingFormPresenter.saveData("Level", "0");
+    }
 
+    public void reset(){
+        bottomClimb.setImageResource(R.drawable.climberbutton);
+        bottomClimb.setTag("0");
 
-        leveled.setVisibility(View.GONE);
-        unleveled.setVisibility(View.GONE);
-        climb1.setVisibility(View.GONE);
-        climb2.setVisibility(View.GONE);
-        climb3.setVisibility(View.GONE);
-        climb4.setVisibility(View.GONE);
+        middleClimb.setImageResource(R.drawable.climberbutton);
+        middleClimb.setTag("0");
 
-        unleveled.setRotation(20);
-        unleveled.setVisibility(View.GONE);
+        middleClimb2.setImageResource(R.drawable.climberbutton);
+        middleClimb2.setTag("0");
 
-        climbButton.setVisibility(View.VISIBLE);
+        topClimb.setImageResource(R.drawable.climbertopbutton);
+        topClimb.setTag("0");
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View v) {
         Integer value = 0;
-        switch (view.getId()) {
-            case R.id.level_button:
-                value = Integer.parseInt(scoutingFormPresenter.readData("Level")) + 1;
 
-                if (Integer.parseInt(scoutingFormPresenter.readData("Climb")) == 0 || Integer.parseInt(scoutingFormPresenter.readData("Climb")) == 1) {
-                    scoutingFormPresenter.saveData("Level", "0");
-                    unleveled.setVisibility(View.GONE);
-                    leveled.setVisibility(View.GONE);
-                } else {
-                    if (value == 0 || value == 3) {
-                        value = 1;
-                        scoutingFormPresenter.saveData("Level", "1");
-                    }
-                    if (value == 1) {
-                        unleveled.setVisibility(View.VISIBLE);
-                        leveled.setVisibility(View.GONE);
-                    } else if (value == 2) {
-                        leveled.setVisibility(View.VISIBLE);
-                        unleveled.setVisibility(View.GONE);
-                    } else {
-                        leveled.setVisibility(View.GONE);
-                        unleveled.setVisibility(View.GONE);
-                    }
-                    scoutingFormPresenter.saveData("Level", value.toString());
-                }
+        switch (v.getId()){
 
-                Timber.d("shared Preferences: " + "Level" + ", " + scoutingFormPresenter.readData("Level"));
-                break;
-            case R.id.climb_button:
-                value = Integer.parseInt(scoutingFormPresenter.readData("Climb")) + 1;
-                if (value == 5) {
+            case R.id.BottomBar:
+                if (bottomClimb.getTag()=="1"){
+                    reset();
                     value = 0;
-                }
-                if (value == 0) {
-                    climb1.setVisibility(View.GONE);
-                    climb2.setVisibility(View.GONE);
-                    climb3.setVisibility(View.GONE);
-                    climb4.setVisibility(View.GONE);
-
-                    unleveled.setVisibility(View.GONE);
-                    leveled.setVisibility(View.GONE);
-                } else if (value == 1) {
-                    climb1.setVisibility(View.VISIBLE);
-                    climb2.setVisibility(View.GONE);
-                    climb3.setVisibility(View.GONE);
-                    climb4.setVisibility(View.GONE);
-                } else if (value == 2) {
-                    climb1.setVisibility(View.GONE);
-                    climb2.setVisibility(View.VISIBLE);
-                    climb3.setVisibility(View.GONE);
-                    climb4.setVisibility(View.GONE);
-
-                    unleveled.setVisibility(View.VISIBLE);
-                    leveled.setVisibility(View.GONE);
-                    scoutingFormPresenter.saveData("Level", "1");
-                    Timber.d("shared Preferences: " + "Level" + ", " + scoutingFormPresenter.readData("Level"));
-
-                } else if (value == 3) {
-                    climb1.setVisibility(View.GONE);
-                    climb2.setVisibility(View.VISIBLE);
-                    climb3.setVisibility(View.VISIBLE);
-                    climb4.setVisibility(View.GONE);
-                } else if (value == 4) {
-                    climb1.setVisibility(View.GONE);
-                    climb2.setVisibility(View.VISIBLE);
-                    climb3.setVisibility(View.VISIBLE);
-                    climb4.setVisibility(View.VISIBLE);
+                } else {
+                    reset();
+                    bottomClimb.setImageResource(R.drawable.climberbutton_yellow);
+                    bottomClimb.setTag("1");
+                    value = 1;
                 }
                 scoutingFormPresenter.saveData("Climb", value.toString());
+
                 Timber.d("shared Preferences: " + "Climb" + ", " + scoutingFormPresenter.readData("Climb"));
+                break;
+
+            case R.id.MiddleBar:
+                if (middleClimb.getTag()=="1"){
+                    reset();
+                    value = 0;
+                } else {
+                    reset();
+                    middleClimb.setImageResource(R.drawable.climberbutton_yellow);
+                    middleClimb.setTag("1");
+                    value = 2;
+                }
+                scoutingFormPresenter.saveData("Climb", value.toString());
+
+                Timber.d("shared Preferences: " + "Climb" + ", " + scoutingFormPresenter.readData("Climb"));
+                break;
+
+            case R.id.MiddleBarTwo:
+                if (middleClimb2.getTag()=="1"){
+                    reset();
+                    value = 0;
+                } else {
+                    reset();
+                    middleClimb2.setImageResource(R.drawable.climberbutton_yellow);
+                    middleClimb2.setTag("1");
+                    value = 3;
+                }
+
+                scoutingFormPresenter.saveData("Climb", value.toString());
+
+                Timber.d("shared Preferences: " + "Climb" + ", " + scoutingFormPresenter.readData("Climb"));
+                break;
+
+            case R.id.TopBar:
+                if (topClimb.getTag()=="1"){
+                    reset();
+                    value = 0;
+                } else {
+                    reset();
+                    topClimb.setImageResource(R.drawable.climberbutton_yellow);
+                    topClimb.setTag("1");
+                    value = 4;
+                }
+                scoutingFormPresenter.saveData("Climb", value.toString());
+
+                Timber.d("shared Preferences: " + "Climb" + ", " + scoutingFormPresenter.readData("Climb"));
+                break;
+
         }
-        System.out.println("Climb: " + scoutingFormPresenter.readData("Climb"));
-        System.out.println("Level " + scoutingFormPresenter.readData("Level"));
 
     }
 }
