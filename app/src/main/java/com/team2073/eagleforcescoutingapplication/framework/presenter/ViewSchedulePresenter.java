@@ -2,6 +2,8 @@ package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
 import android.app.Activity;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.team2073.eagleforcescoutingapplication.util.Match;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;
@@ -25,8 +27,8 @@ public class ViewSchedulePresenter extends BasePresenter<ViewScheduleView> {
         fileManager = FileManager.getInstance(activity);
     }
 
-    public void makeDrawer(){
-        drawerManager.makeDrawer();
+    public void makeDrawer(Toolbar toolbar) {
+        drawerManager.makeDrawer(toolbar);
     }
 
     public List getAllTeamsPerMatch(){

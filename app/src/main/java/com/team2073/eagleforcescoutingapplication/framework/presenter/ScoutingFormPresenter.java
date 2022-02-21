@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Environment;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -43,8 +44,8 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         prefsDataManager = PrefsDataManager.getInstance(mActivity);
     }
 
-    public void makeDrawer() {
-        drawerManager.makeDrawer();
+    public void makeDrawer(Toolbar toolbar) {
+        drawerManager.makeDrawer(toolbar);
     }
 
     public void saveData(String key, String data) {

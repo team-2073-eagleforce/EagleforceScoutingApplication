@@ -9,17 +9,15 @@
         android:layout_height="wrap_content"
         android:textColor="@color/primaryTextColor"
         android:textSize="25sp"
-        android:layout_centerVertical="true"
-        />
+        android:layout_centerVertical="true" />
 
-    <EditText
-        android:id="@+id/edittext"
+    <TextView
+        android:id="@+id/pointDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="15dp"
         android:layout_toEndOf="@id/textview"
         android:textColor="@color/primaryTextColor"
-        android:inputType="number"
         android:textSize="25sp" />
 </RelativeLayout>

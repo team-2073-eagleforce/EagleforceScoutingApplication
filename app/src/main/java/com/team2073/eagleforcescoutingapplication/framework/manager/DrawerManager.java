@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -40,7 +42,10 @@ public class DrawerManager {
      * Creates the default material drawer for the application. Should be called in each activity
      */
 
-    public void makeDrawer() {
+    public void makeDrawer(Toolbar toolbar) {
+
+        toolbar.setTitle("EagleForce Scouting App");
+
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(activity)
                 .withHeaderBackground(R.drawable.accountheader)
@@ -59,6 +64,7 @@ public class DrawerManager {
                 .withActionBarDrawerToggle(true)
                 .withActionBarDrawerToggleAnimated(true)
                 .withAccountHeader(headerResult)
+                .withToolbar(toolbar)
                 .withCloseOnClick(true)
                 .withSelectedItem(-1)
                 .addDrawerItems(scoutingForm, new DividerDrawerItem(),

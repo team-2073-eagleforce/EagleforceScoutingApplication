@@ -2,8 +2,10 @@ package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
 import com.team2073.eagleforcescoutingapplication.R;
@@ -38,7 +40,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         prefsDataManager.writeToPreferences(key, value);
     }
 
-    public void makeDrawer(){
-        drawerManager.makeDrawer();
+    public void makeDrawer(Toolbar toolbar) {
+        drawerManager.makeDrawer(toolbar);
     }
 }

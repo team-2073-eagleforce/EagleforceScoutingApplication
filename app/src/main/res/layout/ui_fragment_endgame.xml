@@ -16,41 +16,41 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true">
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/BottomClimb"
-                android:layout_width="350dp"
-                android:layout_height="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/climb_p1"
+                android:background="@drawable/bottomclimb"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <ImageButton
                 android:id="@+id/BottomBar"
-                android:layout_width="350dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/climberbutton"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/BottomClimb"/>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/MiddleClimb"
-                android:layout_width="350dp"
-                android:layout_height="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="500dp"
-                android:background="@drawable/climb_p3"
+                android:background="@drawable/climb_part2"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/BottomBar"/>
 
             <ImageButton
                 android:id="@+id/MiddleBar"
-                android:layout_width="350dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="450dp"
                 android:background="@drawable/climberbutton"
@@ -58,21 +58,21 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/MiddleClimb"/>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/MiddleClimb2"
-                android:layout_width="350dp"
-                android:layout_height="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="300dp"
-                android:background="@drawable/climb_p2"
+                android:background="@drawable/climb_part3"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/MiddleBar"/>
 
             <ImageButton
                 android:id="@+id/MiddleBarTwo"
-                android:layout_width="350dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="250dp"
                 android:background="@drawable/climberbutton"
@@ -80,21 +80,22 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/MiddleClimb2"/>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/TopClimb"
-                android:layout_width="350dp"
-                android:layout_height="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="100dp"
-                android:background="@drawable/climb_p3"
+                android:background="@drawable/climb_part4"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/MiddleBarTwo"/>
+                app:layout_constraintBottom_toTopOf="@id/MiddleBarTwo"
+                />
 
             <ImageButton
                 android:id="@+id/TopBar"
-                android:layout_width="350dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
                 android:background="@drawable/climbertopbutton"

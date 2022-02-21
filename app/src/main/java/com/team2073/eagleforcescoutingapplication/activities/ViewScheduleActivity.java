@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,8 +37,8 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        viewSchedulePresenter.makeDrawer();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
+        viewSchedulePresenter.makeDrawer(toolbar);
         prefsDataManager = PrefsDataManager.getInstance(this);
         chooseFilePresenter = new ChooseFilePresenter(this);
 

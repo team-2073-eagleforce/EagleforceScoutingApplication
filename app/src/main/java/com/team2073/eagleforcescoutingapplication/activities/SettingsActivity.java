@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
@@ -24,9 +25,10 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        settingsPresenter.makeSettings(getSupportFragmentManager(), getSupportActionBar());
-        settingsPresenter.makeDrawer();
+        Toolbar toolbar = findViewById(R.id.toolbarMain);
+        settingsPresenter.makeDrawer(toolbar);
 
+        settingsPresenter.makeSettings(getSupportFragmentManager(), getSupportActionBar());
     }
 
     @Override

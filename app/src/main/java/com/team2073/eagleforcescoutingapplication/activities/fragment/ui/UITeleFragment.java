@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,8 +17,6 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
-import org.w3c.dom.Text;
-
 import timber.log.Timber;
 
 public class UITeleFragment extends Fragment implements View.OnClickListener {
@@ -30,10 +26,10 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
     private ScoutingFormPresenter scoutingFormPresenter;
 
     private TextView teleUpperLabel;
-    private EditText teleUpperText;
+    private TextView teleUpperText;
 
     private TextView teleLowerLabel;
-    private EditText teleLowerText;
+    private TextView teleLowerText;
 
     private ImageButton upperHubButtonRight;
     private ImageButton upperHubButtonLeft;
@@ -68,14 +64,14 @@ public class UITeleFragment extends Fragment implements View.OnClickListener {
         //Bottom Port Views
         View bottomPort = root.findViewById(R.id.upperhub_layout);
         teleUpperLabel = bottomPort.findViewById(R.id.textview);
-        teleUpperText = bottomPort.findViewById(R.id.edittext);
+        teleUpperText = bottomPort.findViewById(R.id.pointDisplay);
         upperHubButtonRight = root.findViewById(R.id.teleop_bottomport_button_right);
         upperHubButtonLeft = root.findViewById(R.id.teleop_bottomport_button_left);
 
         //Outer port Views
         View outerPort = root.findViewById(R.id.lowerhub_layout);
         teleLowerLabel = outerPort.findViewById(R.id.textview);
-        teleLowerText = outerPort.findViewById(R.id.edittext);
+        teleLowerText = outerPort.findViewById(R.id.pointDisplay);
         lowerHubButtonRight = root.findViewById(R.id.teleop_outerport_button_right);
         lowerHubButtonLeft = root.findViewById(R.id.teleop_outerport_button_left);
 

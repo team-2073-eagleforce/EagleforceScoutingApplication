@@ -33,6 +33,11 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
     private ImageButton middleClimb2;
     private ImageButton topClimb;
 
+    private ImageButton bottomBar;
+    private ImageButton middleBar;
+    private ImageButton middleBar2;
+    private ImageButton topBar;
+
 
     public static UIEndGameFragment newInstance(int index) {
         UIEndGameFragment fragment = new UIEndGameFragment();
@@ -57,10 +62,15 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.ui_fragment_endgame, container, false);
 
-        bottomClimb = root.findViewById(R.id.BottomBar);
-        middleClimb = root.findViewById(R.id.MiddleBar);
-        middleClimb2 = root.findViewById(R.id.MiddleBarTwo);
-        topClimb = root.findViewById(R.id.TopBar);
+        bottomClimb = root.findViewById(R.id.BottomClimb);
+        middleClimb = root.findViewById(R.id.MiddleClimb);
+        middleClimb2 = root.findViewById(R.id.MiddleClimb2);
+        topClimb = root.findViewById(R.id.TopClimb);
+
+        bottomBar = root.findViewById(R.id.BottomBar);
+        middleBar = root.findViewById(R.id.MiddleBar);
+        middleBar2 = root.findViewById(R.id.MiddleBarTwo);
+        topBar = root.findViewById(R.id.TopBar);
 
         initFields();
 
@@ -72,15 +82,19 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
         super.onActivityCreated(savedInstanceState);
 
         bottomClimb.setOnClickListener(this);
+        bottomBar.setOnClickListener(this);
         bottomClimb.setTag("0");
 
         middleClimb.setOnClickListener(this);
+        middleBar.setOnClickListener(this);
         middleClimb.setTag("0");
 
         middleClimb2.setOnClickListener(this);
+        middleBar2.setOnClickListener(this);
         middleClimb2.setTag("0");
 
         topClimb.setOnClickListener(this);
+        topBar.setOnClickListener(this);
         topClimb.setTag("0");
 
     }
@@ -90,16 +104,16 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
     }
 
     public void reset(){
-        bottomClimb.setImageResource(R.drawable.climberbutton);
+        bottomBar.setImageResource(R.drawable.climberbutton);
         bottomClimb.setTag("0");
 
-        middleClimb.setImageResource(R.drawable.climberbutton);
+        middleBar.setImageResource(R.drawable.climberbutton);
         middleClimb.setTag("0");
 
-        middleClimb2.setImageResource(R.drawable.climberbutton);
+        middleBar2.setImageResource(R.drawable.climberbutton);
         middleClimb2.setTag("0");
 
-        topClimb.setImageResource(R.drawable.climbertopbutton);
+        topBar.setImageResource(R.drawable.climbertopbutton);
         topClimb.setTag("0");
     }
 
@@ -109,13 +123,14 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
 
         switch (v.getId()){
 
+            case R.id.BottomClimb:
             case R.id.BottomBar:
                 if (bottomClimb.getTag()=="1"){
                     reset();
                     value = 0;
                 } else {
                     reset();
-                    bottomClimb.setImageResource(R.drawable.climberbutton_yellow);
+                    bottomBar.setImageResource(R.drawable.climberbutton_yellow);
                     bottomClimb.setTag("1");
                     value = 1;
                 }
@@ -124,13 +139,14 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
                 Timber.d("shared Preferences: " + "Climb" + ", " + scoutingFormPresenter.readData("Climb"));
                 break;
 
+            case R.id.MiddleClimb:
             case R.id.MiddleBar:
                 if (middleClimb.getTag()=="1"){
                     reset();
                     value = 0;
                 } else {
                     reset();
-                    middleClimb.setImageResource(R.drawable.climberbutton_yellow);
+                    middleBar.setImageResource(R.drawable.climberbutton_yellow);
                     middleClimb.setTag("1");
                     value = 2;
                 }
@@ -139,13 +155,14 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
                 Timber.d("shared Preferences: " + "Climb" + ", " + scoutingFormPresenter.readData("Climb"));
                 break;
 
+            case R.id.MiddleClimb2:
             case R.id.MiddleBarTwo:
                 if (middleClimb2.getTag()=="1"){
                     reset();
                     value = 0;
                 } else {
                     reset();
-                    middleClimb2.setImageResource(R.drawable.climberbutton_yellow);
+                    middleBar2.setImageResource(R.drawable.climberbutton_yellow);
                     middleClimb2.setTag("1");
                     value = 3;
                 }
@@ -155,13 +172,14 @@ public class UIEndGameFragment extends Fragment implements View.OnClickListener 
                 Timber.d("shared Preferences: " + "Climb" + ", " + scoutingFormPresenter.readData("Climb"));
                 break;
 
+            case R.id.TopClimb:
             case R.id.TopBar:
                 if (topClimb.getTag()=="1"){
                     reset();
                     value = 0;
                 } else {
                     reset();
-                    topClimb.setImageResource(R.drawable.climberbutton_yellow);
+                    topBar.setImageResource(R.drawable.climberbutton_yellow);
                     topClimb.setTag("1");
                     value = 4;
                 }

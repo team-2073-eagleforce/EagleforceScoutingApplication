@@ -26,10 +26,10 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     private ScoutingFormPresenter scoutingFormPresenter;
 
     private TextView autoUpperLabel;
-    private EditText autoUpperText;
+    private TextView autoUpperText;
 
     private TextView autoLowerLabel;
-    private EditText autoLowerText;
+    private TextView autoLowerText;
 
     //ImageButtons
     private ImageButton upperHubButtonRight;
@@ -66,14 +66,14 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
         //Bottom Port Views
         View bottomPort = root.findViewById(R.id.upperhub_layout);
         autoUpperLabel = bottomPort.findViewById(R.id.textview);
-        autoUpperText = bottomPort.findViewById(R.id.edittext);
+        autoUpperText = bottomPort.findViewById(R.id.pointDisplay);
         upperHubButtonRight = root.findViewById(R.id.auto_bottomport_button_right);
         upperHubButtonLeft = root.findViewById(R.id.auto_bottomport_button_left);
 
         //Outer port Views
         View outerPort = root.findViewById(R.id.lowerhub_layout);
         autoLowerLabel = outerPort.findViewById(R.id.textview);
-        autoLowerText = outerPort.findViewById(R.id.edittext);
+        autoLowerText = outerPort.findViewById(R.id.pointDisplay);
         lowerHubButtonRight = root.findViewById(R.id.auto_outerport_button_right);
         lowerHubButtonLeft = root.findViewById(R.id.auto_outerport_button_left);
 
@@ -180,9 +180,9 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
             case R.id.autoline_button:
                 value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Auto Cross")) - 1);
                 if (value == 1) {
-                    autoLineButton.setImageResource(R.drawable.tarmac);
-                } else {
                     autoLineButton.setImageResource(R.drawable.tarmac_yellow);
+                } else {
+                    autoLineButton.setImageResource(R.drawable.tarmac);
                 }
                 scoutingFormPresenter.saveData("Auto Cross", value.toString());
 

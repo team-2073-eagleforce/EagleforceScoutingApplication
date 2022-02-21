@@ -14,8 +14,8 @@
 
         <ImageButton
             android:id="@+id/autoline_button"
-            android:layout_width="300dp"
-            android:layout_height="175dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/auto_bottomport_button"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
             <include
                 android:id="@+id/upperhub_layout"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/autoline_button"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="30dp">
+            android:layout_marginBottom="10dp">
 
             <ImageButton
                 android:id="@+id/auto_outerport_button_right"
@@ -106,7 +106,7 @@
                 android:id="@+id/auto_bottomport_button_left"
                 android:layout_width="250dp"
                 android:layout_height="140dp"
-                android:layout_marginEnd="245dp"
+                android:layout_marginEnd="250dp"
                 android:background="@drawable/lowerleft"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintLeft_toLeftOf="parent"
