@@ -30,6 +30,9 @@
     <string name="num_cargo_upper_hub_label"># Upper Hub</string>
     <string name="num_cargo_lower_hub_label"># Lower Hub</string>
 
+    <string name="driver_performance">Driver Performance</string>
+    <string name="auto_performance">Auto Performance</string>
+
     <!-- Preference Titles -->
     <string name="setup_header">Settings</string>
     <string name="sync_header">Sync</string>

@@ -6,7 +6,9 @@ import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -19,31 +21,28 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
+import org.w3c.dom.Text;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
-public class UISubmitFragment extends Fragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+public class UISubmitFragment extends Fragment implements View.OnClickListener {
 
     private ScoutingFormPresenter scoutingFormPresenter;
 
-    @BindView(R.id.uiComments)
-    EditText formComments;
+    @BindView(R.id.uiComments) EditText formComments;
 
-    @BindView(R.id.uiAutoPerformanceBar)
-    SeekBar autoPerformanceBar;
-    @BindView(R.id.uiAutoPerformanceText)
-    TextView autoPerformanceText;
-    @BindView(R.id.uiAutoPerformanceProgress)
-    TextView autoPerformanceProgress;
+    private TextView autoPerformance;
+    private ImageButton addAuto;
+    private TextView autoScore;
+    private ImageButton subtractAuto;
 
-    @BindView(R.id.uiDriverPerformanceBar)
-    SeekBar driverPerformanceBar;
-    @BindView(R.id.uiDriverPerformanceText)
-    TextView driverPerformanceText;
-    @BindView(R.id.uiDriverPerformanceProgress)
-    TextView uiDriverPerformanceProgress;
-
+    private TextView driverPerformance;
+    private ImageButton addDriver;
+    private TextView driverScore;
+    private ImageButton subtractDriver;
 
     String state = Environment.getExternalStorageState();
 
@@ -76,62 +75,112 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener, 
         View root = inflater.inflate(R.layout.ui_fragment_submit, container, false);
         ButterKnife.bind(this, root);
 
-        autoPerformanceBar.setProgress(0);
-        driverPerformanceBar.setProgress(0);
+        View autoPerform = root.findViewById(R.id.Auto_Performance);
+        autoPerformance = autoPerform.findViewById(R.id.formField);
+        addAuto = autoPerform.findViewById(R.id.formAdd);
+        autoScore = autoPerform.findViewById(R.id.formScore);
+        subtractAuto = autoPerform.findViewById(R.id.formSubtract);
+
+        View driverPerform = root.findViewById(R.id.Driver_Performance);
+        driverPerformance = driverPerform.findViewById(R.id.formField);
+        addDriver = driverPerform.findViewById(R.id.formAdd);
+        driverScore = driverPerform.findViewById(R.id.formScore);
+        subtractDriver = driverPerform.findViewById(R.id.formSubtract);
 
         root.findViewById(R.id.uiSubmitButton).setOnClickListener(this);
         root.findViewById(R.id.uiSubmitButton).setBackgroundColor(getResources().getColor(R.color.colorAccent));
 
-        autoPerformanceBar.setOnSeekBarChangeListener(this);
-        driverPerformanceBar.setOnSeekBarChangeListener(this);
-
-        autoPerformanceBar.setMax(5);
-        driverPerformanceBar.setMax(5);
+        initializeViewLabels();
+        initFields();
 
         return root;
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        addAuto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int value = Integer.parseInt(autoScore.getText().toString()) + 1;
+                if (value >= 5) {
+                    value = 5;
+                }
+                autoScore.setText(String.valueOf(value));
+
+                scoutingFormPresenter.saveData("Auto Performance", String.valueOf(value));
+
+                Timber.d("shared Preferences: " + "Auto Performance" + ", " + scoutingFormPresenter.readData("Auto Performance"));
+            }
+        });
+        subtractAuto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int value = Integer.parseInt(autoScore.getText().toString()) - 1;
+                if (value <= 0) {
+                    value = 0;
+                }
+                autoScore.setText(String.valueOf(value));
+
+                scoutingFormPresenter.saveData("Auto Performance", String.valueOf(value));
+
+                Timber.d("shared Preferences: " + "Auto Performance" + ", " + scoutingFormPresenter.readData("Auto Performance"));
+            }
+        });
+
+        addDriver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int value = Integer.parseInt(driverScore.getText().toString()) + 1;
+                if (value >= 5) {
+                    value = 5;
+                }
+                driverScore.setText(String.valueOf(value));
+
+                scoutingFormPresenter.saveData("Driver Performance", String.valueOf(value));
+
+                Timber.d("shared Preferences: " + "Driver Performance" + ", " + scoutingFormPresenter.readData("Driver Performance"));
+            }
+        });
+        subtractDriver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int value = Integer.parseInt(driverScore.getText().toString()) - 1;
+                if (value <= 0) {
+                    value = 0;
+                }
+                driverScore.setText(String.valueOf(value));
+
+                scoutingFormPresenter.saveData("Driver Performance", String.valueOf(value));
+
+                Timber.d("shared Preferences: " + "Driver Performance" + ", " + scoutingFormPresenter.readData("Driver Performance"));
+            }
+        });
+    }
+
+    private void initFields() {
+        scoutingFormPresenter.saveData("Auto Performance", "0");
+        driverScore.setText("0");
+
+        scoutingFormPresenter.saveData("Driver Performance", "0");
+        autoScore.setText("0");
+    }
+
+    private void initializeViewLabels() {
+        driverPerformance.setText(getResources().getString(R.string.driver_performance));
+        autoPerformance.setText(getResources().getString(R.string.auto_performance));
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.uiSubmitButton: {
+            case R.id.uiSubmitButton:
                 scoutingFormPresenter.saveData("comments", formComments.getText().toString());
                 scoutingFormPresenter.createCSV();
                 scoutingFormPresenter.advanceOnSubmit();
                 UISubmitFragment.BluetoothSend bluetoothSend = new UISubmitFragment.BluetoothSend(scoutingFormPresenter);
                 bluetoothSend.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        switch (seekBar.getId()) {
-            case R.id.uiAutoPerformanceBar:
-                autoPerformanceProgress.setText(Integer.toString(progress));
-                break;
-            case R.id.uiDriverPerformanceBar:
-                uiDriverPerformanceProgress.setText(Integer.toString(progress));
-                break;
-        }
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-        switch (seekBar.getId()) {
-            case R.id.uiAutoPerformanceBar:
-                scoutingFormPresenter.saveData("Auto Performance", Integer.toString(seekBar.getProgress()));
-                Timber.d("shared Preferences: " + "Auto Performance" + ", " + scoutingFormPresenter.readData("Auto Performance"));
-                break;
-            case R.id.uiDriverPerformanceBar:
-                scoutingFormPresenter.saveData("Driver Performance", Integer.toString(seekBar.getProgress()));
-                Timber.d("shared Preferences: " + "Driver Performance" + ", " + scoutingFormPresenter.readData("Driver Performance"));
                 break;
         }
     }

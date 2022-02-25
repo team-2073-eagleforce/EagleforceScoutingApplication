@@ -30,7 +30,7 @@ public class InsightActivity extends BaseActivity implements InsightView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
+        Toolbar toolbar = findViewById(R.id.toolbarMain);
         insightPresenter.makeDrawer(toolbar);
 
     }

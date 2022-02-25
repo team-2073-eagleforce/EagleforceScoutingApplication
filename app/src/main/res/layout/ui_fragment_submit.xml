@@ -4,101 +4,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
-        <SeekBar
-            android:id="@+id/uiAutoPerformanceBar"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="28dp"
-            app:layout_constraintEnd_toEndOf="@+id/uiDriverPerformanceBar"
-            app:layout_constraintStart_toStartOf="@+id/uiDriverPerformanceBar"
-            app:layout_constraintTop_toBottomOf="@+id/uiDriverPerformanceText" />
-
-        <TextView
-            android:id="@+id/uiAutoPerformanceText"
+        <include
+            android:id="@+id/Driver_Performance"
+            layout="@layout/add_subtract_values"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="Auto Performance"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/defaultTextColor"
-            app:layout_constraintBottom_toBottomOf="@+id/uiAutoPerformanceProgress"
-            app:layout_constraintEnd_toStartOf="@+id/uiAutoPerformanceProgress"
-            app:layout_constraintStart_toStartOf="@+id/uiDriverPerformanceText" />
+            android:layout_below="@+id/Auto_Performance"
+            android:layout_marginTop="25dp"
+            android:laysout_centerHorizontal="true"/>
 
-        <TextView
-            android:id="@+id/uiAutoPerformanceProgress"
+        <include
+            android:id="@+id/Auto_Performance"
+            layout="@layout/add_subtract_values"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="TextView"
-            android:textColor="@color/defaultTextColor"
-            app:layout_constraintBottom_toBottomOf="@+id/uiAutoPerformanceBar"
-            app:layout_constraintEnd_toEndOf="@+id/uiDriverPerformanceProgress"
-            app:layout_constraintStart_toStartOf="@+id/uiDriverPerformanceProgress" />
-
-        <TextView
-            android:id="@+id/uiDriverPerformanceText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="Driver Performance"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/defaultTextColor"
-            app:layout_constraintBottom_toBottomOf="@+id/uiDriverPerformanceProgress"
-            app:layout_constraintEnd_toStartOf="@+id/uiDriverPerformanceProgress"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/uiDriverPerformanceProgress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="20dp"
-            android:text="TextView"
-            android:textColor="@color/defaultTextColor"
-            app:layout_constraintBottom_toBottomOf="@+id/uiDriverPerformanceBar"
-            app:layout_constraintEnd_toStartOf="@+id/uiDriverPerformanceBar" />
-
-        <SeekBar
-            android:id="@+id/uiDriverPerformanceBar"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_centerHorizontal="true" />
 
         <EditText
             android:id="@+id/uiComments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_below="@+id/Driver_Performance"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:layout_marginEnd="50dp"
             android:ems="10"
             android:hint="Comments"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/uiAutoPerformanceBar" />
+            android:inputType="text" />
 
         <Button
             android:id="@+id/uiSubmitButton"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="200dp"
             android:layout_height="60dp"
-            android:layout_marginStart="50dp"
             android:layout_marginTop="50dp"
-            android:layout_marginEnd="50dp"
+            android:layout_centerHorizontal="true"
             android:text="Submit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/uiComments" />
+            android:layout_below="@id/uiComments" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </ScrollView>

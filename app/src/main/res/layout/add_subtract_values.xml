@@ -6,13 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/formEditText"
-        android:layout_width="75dp"
+    <TextView
+        android:id="@+id/formScore"
+        android:layout_width="10dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
-        android:text="0"
         android:textAlignment="center"
         android:typeface="sans"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,13 +25,13 @@
         android:layout_height="70dp"
         android:background="#00000000"
         android:gravity="center"
-        android:src="@drawable/vector_add_white"
-        android:text="+"
+        android:src="@drawable/ic_baseline_add_circle_outline_24"
         android:textColor="@color/defaultTextColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/formEditText"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/formScore"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/formScore"/>
 
     <ImageButton
         android:id="@+id/formSubtract"
@@ -40,15 +39,15 @@
         android:layout_height="75dp"
         android:background="#00000000"
         android:gravity="center"
-        android:src="@drawable/vector_minus_white"
-        android:text="--"
+        android:src="@drawable/ic_baseline_remove_circle_outline_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/formField"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/formScore"/>
 
     <TextView
         android:id="@+id/formField"
-        android:layout_width="126dp"
+        android:layout_width="200dp"
         android:layout_height="92dp"
         android:autoSizeTextType="none"
         android:text="Field"

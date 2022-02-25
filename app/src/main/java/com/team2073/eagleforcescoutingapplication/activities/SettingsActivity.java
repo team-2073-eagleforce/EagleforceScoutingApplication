@@ -25,10 +25,10 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toolbar toolbar = findViewById(R.id.toolbarMain);
-        settingsPresenter.makeDrawer(toolbar);
 
         settingsPresenter.makeSettings(getSupportFragmentManager(), getSupportActionBar());
+        Toolbar toolbar = findViewById(R.id.toolbarMain);
+        settingsPresenter.makeDrawer(toolbar);
     }
 
     @Override
