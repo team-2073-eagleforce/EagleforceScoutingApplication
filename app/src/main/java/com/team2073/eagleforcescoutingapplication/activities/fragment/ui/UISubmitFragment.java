@@ -6,10 +6,8 @@ import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,11 +19,8 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
-import org.w3c.dom.Text;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import timber.log.Timber;
 
 public class UISubmitFragment extends Fragment implements View.OnClickListener {
@@ -34,10 +29,10 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
 
     @BindView(R.id.uiComments) EditText formComments;
 
-    private TextView autoPerformance;
-    private ImageButton addAuto;
-    private TextView autoScore;
-    private ImageButton subtractAuto;
+    private TextView defensePerformance;
+    private ImageButton addDefense;
+    private TextView defenseScore;
+    private ImageButton subtractDefense;
 
     private TextView driverPerformance;
     private ImageButton addDriver;
@@ -75,11 +70,11 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
         View root = inflater.inflate(R.layout.ui_fragment_submit, container, false);
         ButterKnife.bind(this, root);
 
-        View autoPerform = root.findViewById(R.id.Auto_Performance);
-        autoPerformance = autoPerform.findViewById(R.id.formField);
-        addAuto = autoPerform.findViewById(R.id.formAdd);
-        autoScore = autoPerform.findViewById(R.id.formScore);
-        subtractAuto = autoPerform.findViewById(R.id.formSubtract);
+        View autoPerform = root.findViewById(R.id.Defense_Performance);
+        defensePerformance = autoPerform.findViewById(R.id.formField);
+        addDefense = autoPerform.findViewById(R.id.formAdd);
+        defenseScore = autoPerform.findViewById(R.id.formScore);
+        subtractDefense = autoPerform.findViewById(R.id.formSubtract);
 
         View driverPerform = root.findViewById(R.id.Driver_Performance);
         driverPerformance = driverPerform.findViewById(R.id.formField);
@@ -100,32 +95,32 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        addAuto.setOnClickListener(new View.OnClickListener() {
+        addDefense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int value = Integer.parseInt(autoScore.getText().toString()) + 1;
-                if (value >= 5) {
-                    value = 5;
+                int value = Integer.parseInt(defenseScore.getText().toString()) + 1;
+                if (value >= 3) {
+                    value = 3;
                 }
-                autoScore.setText(String.valueOf(value));
+                defenseScore.setText(String.valueOf(value));
 
-                scoutingFormPresenter.saveData("Auto Performance", String.valueOf(value));
+                scoutingFormPresenter.saveData("Defense Performance", String.valueOf(value));
 
-                Timber.d("shared Preferences: " + "Auto Performance" + ", " + scoutingFormPresenter.readData("Auto Performance"));
+                Timber.d("shared Preferences: " + "Defense Performance" + ", " + scoutingFormPresenter.readData("Defense Performance"));
             }
         });
-        subtractAuto.setOnClickListener(new View.OnClickListener() {
+        subtractDefense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int value = Integer.parseInt(autoScore.getText().toString()) - 1;
+                int value = Integer.parseInt(defenseScore.getText().toString()) - 1;
                 if (value <= 0) {
                     value = 0;
                 }
-                autoScore.setText(String.valueOf(value));
+                defenseScore.setText(String.valueOf(value));
 
-                scoutingFormPresenter.saveData("Auto Performance", String.valueOf(value));
+                scoutingFormPresenter.saveData("Defense Performance", String.valueOf(value));
 
-                Timber.d("shared Preferences: " + "Auto Performance" + ", " + scoutingFormPresenter.readData("Auto Performance"));
+                Timber.d("shared Preferences: " + "Defense Performance" + ", " + scoutingFormPresenter.readData("Defense Performance"));
             }
         });
 
@@ -133,8 +128,8 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 int value = Integer.parseInt(driverScore.getText().toString()) + 1;
-                if (value >= 5) {
-                    value = 5;
+                if (value >= 3) {
+                    value = 3;
                 }
                 driverScore.setText(String.valueOf(value));
 
@@ -160,16 +155,16 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initFields() {
-        scoutingFormPresenter.saveData("Auto Performance", "0");
+        scoutingFormPresenter.saveData("Defense Performance", "0");
         driverScore.setText("0");
 
         scoutingFormPresenter.saveData("Driver Performance", "0");
-        autoScore.setText("0");
+        defenseScore.setText("0");
     }
 
     private void initializeViewLabels() {
         driverPerformance.setText(getResources().getString(R.string.driver_performance));
-        autoPerformance.setText(getResources().getString(R.string.auto_performance));
+        defensePerformance.setText(getResources().getString(R.string.defense_performance));
     }
 
     @Override

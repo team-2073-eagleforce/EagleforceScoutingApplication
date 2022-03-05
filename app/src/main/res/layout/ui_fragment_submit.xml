@@ -14,12 +14,12 @@
             layout="@layout/add_subtract_values"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/Auto_Performance"
+            android:layout_below="@+id/Defense_Performance"
             android:layout_marginTop="25dp"
-            android:laysout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"/>
 
         <include
-            android:id="@+id/Auto_Performance"
+            android:id="@+id/Defense_Performance"
             layout="@layout/add_subtract_values"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

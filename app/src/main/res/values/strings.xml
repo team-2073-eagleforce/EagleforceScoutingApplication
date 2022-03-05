@@ -31,7 +31,7 @@
     <string name="num_cargo_lower_hub_label"># Lower Hub</string>
 
     <string name="driver_performance">Driver Performance</string>
-    <string name="auto_performance">Auto Performance</string>
+    <string name="defense_performance">Defense Performance</string>
 
     <!-- Preference Titles -->
     <string name="setup_header">Settings</string>
