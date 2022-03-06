@@ -119,8 +119,7 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initFields() {
-        scoutingFormPresenter.saveData("Auto Cross", "0");
-        scoutingFormPresenter.saveData("Auto Inner", "0");
+        scoutingFormPresenter.saveData("Tarmac", "0");
         scoutingFormPresenter.saveData("Auto Outer", "0");
         scoutingFormPresenter.saveData("Auto Bottom", "0");
 
@@ -178,15 +177,15 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
                 Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
                 break;
             case R.id.autoline_button:
-                value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Auto Cross")) - 1);
+                value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Tarmac")) - 1);
                 if (value == 1) {
                     autoLineButton.setImageResource(R.drawable.tarmac_yellow);
                 } else {
                     autoLineButton.setImageResource(R.drawable.tarmac);
                 }
-                scoutingFormPresenter.saveData("Auto Cross", value.toString());
+                scoutingFormPresenter.saveData("Tarmac", value.toString());
 
-                Timber.d("shared Preferences: " + "Auto Cross" + ", " + scoutingFormPresenter.readData("Auto Cross"));
+                Timber.d("shared Preferences: " + "Tarmac" + ", " + scoutingFormPresenter.readData("Tarmac"));
                 break;
         }
     }

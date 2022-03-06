@@ -14,6 +14,7 @@ import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivit
 import com.team2073.eagleforcescoutingapplication.activities.SettingsActivity;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIPagerAdapter;
 import com.team2073.eagleforcescoutingapplication.framework.form.InfiniteRechargeScoutingForm;
+import com.team2073.eagleforcescoutingapplication.framework.form.RapidReactScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;
@@ -34,7 +35,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     private DrawerManager drawerManager;
     private PrefsDataManager prefsDataManager;
     private UIPagerAdapter uiPagerAdapter;
-    private ScoutingForm scoutingForm = new InfiniteRechargeScoutingForm();
+    private ScoutingForm scoutingForm = new RapidReactScoutingForm();
 
     public ScoutingFormPresenter(Activity activity) {
         this.mActivity = activity;
