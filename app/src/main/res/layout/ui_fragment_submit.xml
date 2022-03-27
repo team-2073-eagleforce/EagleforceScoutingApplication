@@ -27,24 +27,25 @@
 
         <EditText
             android:id="@+id/uiComments"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/Driver_Performance"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
+            android:ellipsize="start"
             android:ems="10"
             android:hint="Comments"
-            android:inputType="text" />
+            android:inputType="textMultiLine" />
 
         <Button
             android:id="@+id/uiSubmitButton"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="200dp"
             android:layout_height="60dp"
-            android:layout_marginTop="50dp"
+            android:layout_below="@id/uiComments"
             android:layout_centerHorizontal="true"
-            android:text="Submit"
-            android:layout_below="@id/uiComments" />
+            android:layout_marginTop="50dp"
+            android:text="Submit" />
 
     </RelativeLayout>
 

@@ -155,11 +155,17 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initFields() {
-        scoutingFormPresenter.saveData("Defense Performance", "0");
-        driverScore.setText("0");
+        if (scoutingFormPresenter.readData("Defense Performance").equals("0")){
+            defenseScore.setText("0");
+        } else {
+            defenseScore.setText(scoutingFormPresenter.readData("Defense Performance"));
+        }
 
-        scoutingFormPresenter.saveData("Driver Performance", "0");
-        defenseScore.setText("0");
+        if (scoutingFormPresenter.readData("Driver Performance").equals("0")){
+            driverScore.setText("0");
+        } else {
+            driverScore.setText(scoutingFormPresenter.readData("Driver Performance"));
+        }
     }
 
     private void initializeViewLabels() {

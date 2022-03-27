@@ -1,6 +1,10 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -141,7 +145,6 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
             case R.id.auto_bottomport_button_right:
                 value = Integer.parseInt(autoLowerText.getText().toString()) + 1;
                 autoLowerText.setText(value.toString());
-
                 scoutingFormPresenter.saveData("Auto Bottom", value.toString());
 
                 Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
