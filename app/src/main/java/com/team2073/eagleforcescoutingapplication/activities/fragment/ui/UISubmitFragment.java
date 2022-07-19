@@ -1,6 +1,7 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
-import android.os.AsyncTask;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.activities.QrGeneratorActivity;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
@@ -178,26 +180,28 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()){
             case R.id.uiSubmitButton:
                 scoutingFormPresenter.saveData("comments", formComments.getText().toString());
-                scoutingFormPresenter.createCSV();
-                scoutingFormPresenter.advanceOnSubmit();
-                UISubmitFragment.BluetoothSend bluetoothSend = new UISubmitFragment.BluetoothSend(scoutingFormPresenter);
-                bluetoothSend.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+                Intent i = new Intent(getActivity(), QrGeneratorActivity.class);
+                startActivity(i);
+                ((Activity) getActivity()).overridePendingTransition(0, 0);
+//                UISubmitFragment.BluetoothSend bluetoothSend = new UISubmitFragment.BluetoothSend(scoutingFormPresenter);
+//                bluetoothSend.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
                 break;
         }
     }
 
-    private static class BluetoothSend extends AsyncTask<Void, Void, Void> {
 
-        private ScoutingFormPresenter scoutingFormPresenter;
-
-        public BluetoothSend(ScoutingFormPresenter scoutingFormPresenter){
-            this.scoutingFormPresenter = scoutingFormPresenter;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            scoutingFormPresenter.sendOverBluetooth();
-            return null;
-        }
-    }
+//    private static class BluetoothSend extends AsyncTask<Void, Void, Void> {
+//
+//        private ScoutingFormPresenter scoutingFormPresenter;
+//
+//        public BluetoothSend(ScoutingFormPresenter scoutingFormPresenter){
+//            this.scoutingFormPresenter = scoutingFormPresenter;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            scoutingFormPresenter.sendOverBluetooth();
+//            return null;
+//        }
+//    }
 }

@@ -3,6 +3,7 @@ package com.team2073.eagleforcescoutingapplication.framework.presenter;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.widget.Toast;
 
@@ -48,15 +49,21 @@ public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
                 Uri uri = resultData.getData();
-
+                File file;
                 String tempID = DocumentsContract.getDocumentId(uri);
+                System.out.println(tempID);
                 String[] split = tempID.split(":");
                 String id = split[1];
+                System.out.println(id);
 
 //                File file = new File("/sdcard/Download/Match_Schedule.csv");
 //              for emulation
 
-                File file = new File("/sdcard/" + id);
+                if (id.startsWith("/storage/emulated/0/")) {
+                    file = new File(id);
+                } else {
+                    file = new File(Environment.getExternalStorageDirectory().getPath() + "/"+ id);
+                }
 
                 FileManager.getInstance(mActivity).setScheduleFile(file);
 

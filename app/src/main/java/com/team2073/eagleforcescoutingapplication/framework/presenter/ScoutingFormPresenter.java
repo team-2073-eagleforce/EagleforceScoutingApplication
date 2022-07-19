@@ -60,43 +60,47 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         return prefsDataManager.readFromPreferences(key);
     }
 
-    public void createCSV() {
-        String match = prefsDataManager.readFromPreferences("matchNumber");
-        String team = prefsDataManager.readFromPreferences("teamNumber");
-
-        if (match.equals("")) {
-            match = "0";
-        }
-
-        if (team.equals("")) {
-            team = "0";
-        }
-
-        String fileName = team + "-" + match + ".csv";
-
-        csvManager.createCSV(getRootDirectory(), fileName);
-        writeCSV();
+    public ArrayList<String> qrGenerator(){
+        return prefsDataManager.readFromPreferences(scoutingForm.getFieldNames());
     }
+
+//    public void createCSV() {
+//        String match = prefsDataManager.readFromPreferences("matchNumber");
+//        String team = prefsDataManager.readFromPreferences("teamNumber");
+//
+//        if (match.equals("")) {
+//            match = "0";
+//        }
+//
+//        if (team.equals("")) {
+//            team = "0";
+//        }
+//
+//        String fileName = team + "-" + match + ".csv";
+//
+//        csvManager.createCSV(getRootDirectory(), fileName);
+////        writeCSV();
+//    }
 
     /**
      * Handles sending a csv file to another device through bluetooth.
      */
-    public void sendOverBluetooth() {
-        csvManager.sendOverBluetooth(mActivity);
-    }
+//    public void sendOverBluetooth() {
+//        csvManager.sendOverBluetooth(mActivity);
+//    }
 
-    public void writeCSV() {
-        ArrayList<String> formData = prefsDataManager.readFromPreferences(scoutingForm.getFieldNames());
-        csvManager.writeData(formData.toArray());
-    }
+//    public void writeCSV() {
+//        ArrayList<String> formData = prefsDataManager.readFromPreferences(scoutingForm.getFieldNames());
+//        csvManager.writeData(formData.toArray());
+//    }
 
-    public String getRootDirectory() {
-        return Environment.getExternalStorageDirectory().getAbsolutePath();
-    }
+//    public String getRootDirectory() {
+//        return Environment.getExternalStorageDirectory().getAbsolutePath();
+//    }
 
-    public ScoutingForm getScoutingForm() {
-        return scoutingForm;
-    }
+//    public ScoutingForm getScoutingForm() {
+//        return scoutingForm;
+//    }
 
     public void clearPreferences() {
         prefsDataManager.clearPreferences(scoutingForm.getClearNames());
@@ -131,7 +135,6 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         }
 
         String position = prefsDataManager.readFromPreferences("position");
-        // ArrayList<Match> list = csvManager.readScheduleFile(new File("C:\\Users\\Afraz Hameed\\AndroidStudioProjects\\EagleforceScoutingApplication\\Match_Schedule.csv"));
         ArrayList<Match> scheduleList = csvManager.readScheduleFile(fileManager.getScheduleFile());
         Integer matchNumber = Integer.parseInt(prefsDataManager.readFromPreferences("matchNumber")) + 1;
         String teamNumber;

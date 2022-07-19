@@ -11,12 +11,14 @@
     <string name="recycler_tab_text_3">TeleOp</string>
     <string name="recycler_tab_text_4">Details</string>
     <string name="recycler_tab_text_5">Submit</string>
+    <string name="recycler_tab_text_6">QRCode</string>
 
     <string name="ui_tab_text_1">Info</string>
     <string name="ui_tab_text_2">Auto</string>
     <string name="ui_tab_text_3">TeleOp</string>
     <string name="ui_tab_text_4">EndGame</string>
     <string name="ui_tab_text_5">Submit</string>
+    <string name="ui_tab_text_6">QRCode</string>
 
     <string name="formCommentsKey">comments</string>
     <string name="formNameKey">name</string>

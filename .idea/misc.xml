@@ -6,6 +6,7 @@
         <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.1545" />
         <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/activity_choose_file.xml" value="0.1" />
         <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/activity_insight.xml" value="0.1" />
+        <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/activity_qr_generator.xml" value="0.1" />
         <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/activity_scouting_form.xml" value="0.1" />
         <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/activity_settings.xml" value="0.1" />
         <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/activity_view_schedule.xml" value="0.25" />
@@ -15,10 +16,11 @@
         <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/port_points_layout.xml" value="0.1" />
         <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/recycler_fragment_scouting_form_submit.xml" value="0.1" />
         <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/toolbar.xml" value="0.1" />
-        <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_auto.xml" value="0.3333333333333333" />
+        <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_auto.xml" value="0.1" />
         <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_endgame.xml" value="0.22333333333333336" />
         <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_info.xml" value="0.1" />
-        <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_submit.xml" value="0.3" />
+        <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_qr.xml" value="0.1" />
+        <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_submit.xml" value="0.1" />
         <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_teleop.xml" value="0.25" />
         <entry key="..\:/EagleforceScoutingApplication/app/src/main/res/xml/root_preferences.xml" value="0.1" />
         <entry key="..\:/Users/Kent Young/AndroidStudioProjects/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_auto.xml" value="0.33" />

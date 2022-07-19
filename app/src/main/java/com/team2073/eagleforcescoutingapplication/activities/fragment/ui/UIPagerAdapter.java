@@ -30,9 +30,9 @@ public class UIPagerAdapter extends FragmentPagerAdapter {
                 return UIAutoFragment.newInstance(position+1);
             } case 2: {
                 return UITeleFragment.newInstance(position+1);
-            }case 3: {
+            } case 3: {
                 return UIEndGameFragment.newInstance(position+1);
-            }case 4: {
+            } case 4: {
                 return UISubmitFragment.newInstance(position+1);
             }
         }
