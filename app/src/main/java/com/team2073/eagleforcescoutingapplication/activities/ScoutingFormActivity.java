@@ -34,7 +34,7 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
         scoutingFormPresenter.makeDrawer(toolbar);
 
         scoutingFormPresenter.clearPreferences();
-        scoutingFormPresenter.advanceOnSubmit();
+//        scoutingFormPresenter.advanceOnSubmit();
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -79,7 +79,7 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        scoutingFormPresenter.clearPreferences();
+        scoutingFormPresenter.clearPreferences();
         startActivity(new Intent(this, ScoutingFormActivity.class));
         finish();
     }

@@ -22,4 +22,8 @@
         <item>Icons</item>
         <item>List</item>
     </string-array>
+    <string-array name="comp_code">
+        <item>2022mttd</item>
+        <item>2022caelk</item>
+    </string-array>
 </resources>

@@ -1,6 +1,7 @@
 package com.team2073.eagleforcescoutingapplication.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;
@@ -76,7 +78,9 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
-            findPreference("position");
+            if (findPreference("position") == null) {
+                settingsPresenter.writeToPreferences("position", "red1");
+            }
         }
 
         @Override
@@ -94,6 +98,12 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                 CharSequence currText = listPreference.getEntry();
                 String currValue = listPreference.getValue();
                 settingsPresenter.writeToPreferences("position", currValue);
+            }
+            if (s.equals("comp_code")) {
+                ListPreference listPreference = findPreference("comp_code");
+                CharSequence currText = listPreference.getEntry();
+                String currValue = listPreference.getValue();
+                settingsPresenter.writeToPreferences("comp_code", currValue);
             }
 
         }

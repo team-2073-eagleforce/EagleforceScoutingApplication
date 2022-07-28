@@ -7,6 +7,7 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.QrGeneratorPresenter;
+import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.QrGeneratorView;
 
 import android.content.Context;
@@ -50,7 +51,6 @@ public class QrGeneratorActivity extends BaseActivity implements QrGeneratorView
 
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
-            System.out.println(qrGeneratorPresenter.fetchAllData());
             BitMatrix matrix = writer.encode(qrGeneratorPresenter.fetchAllData(), BarcodeFormat.QR_CODE, 150, 150);
             BarcodeEncoder encoder  = new BarcodeEncoder();
             Bitmap bitmap = encoder.createBitmap(matrix);
@@ -66,6 +66,7 @@ public class QrGeneratorActivity extends BaseActivity implements QrGeneratorView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ScoutingFormActivity.class);
+                qrGeneratorPresenter.advanceOnSubmit();
                 startActivity(intent);
             }
         });

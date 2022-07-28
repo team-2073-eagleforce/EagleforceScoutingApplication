@@ -1,6 +1,8 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,11 +81,22 @@ public class UIInfoFragment extends Fragment {
             }
         });
 
-        teamNumberText.setOnFocusChangeListener((view, b) -> {
-            if (!b) {
+        teamNumberText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 scoutingFormPresenter.saveData("teamNumber", teamNumberText.getText().toString());
                 Timber.d("shared Preferences: " + "Team Number" + ", " + scoutingFormPresenter.readData("teamNumber"));
                 teamNumberTextView.setText("Team: " + scoutingFormPresenter.readData("teamNumber"));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 

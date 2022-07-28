@@ -24,18 +24,25 @@
             app:title="@string/signature_title"
             app:useSimpleSummaryProvider="true" />
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="red1"
             android:entries="@array/scouting_positions"
             android:entryValues="@array/scouting_positions"
             android:key="position"
             android:title="Position"
-            app:useSimpleSummaryProvider="true"/>
+            app:useSimpleSummaryProvider="true" />
         <PreferenceScreen
-            app:key="schedule"
             android:summary="Choose"
-            android:title="Schedule File">
+            android:title="Schedule File"
+            app:key="schedule">
             <intent android:action="com.team2073.eagleforcescoutingapplication.activities.ChooseFileActivity" />
         </PreferenceScreen>
+        <ListPreference
+            android:defaultValue="Madtown Throwdown_2022mttd"
+            android:entries="@array/comp_code"
+            android:entryValues="@array/comp_code"
+            android:key="comp_code"
+            android:title="Competition"
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 

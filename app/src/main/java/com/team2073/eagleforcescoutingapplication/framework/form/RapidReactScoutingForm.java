@@ -50,6 +50,8 @@ public class RapidReactScoutingForm implements ScoutingForm {
 
         fieldNames.add("name");
         fieldNames.add("comments");
+
+        fieldNames.add("comp_code");
     }
 
     @Override

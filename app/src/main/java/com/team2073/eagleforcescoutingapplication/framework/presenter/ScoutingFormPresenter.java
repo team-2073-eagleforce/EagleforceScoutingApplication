@@ -60,9 +60,6 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         return prefsDataManager.readFromPreferences(key);
     }
 
-    public ArrayList<String> qrGenerator(){
-        return prefsDataManager.readFromPreferences(scoutingForm.getFieldNames());
-    }
 
 //    public void createCSV() {
 //        String match = prefsDataManager.readFromPreferences("matchNumber");
@@ -124,46 +121,4 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         tabs.setupWithViewPager(viewPager);
     }
 
-    /**
-     * After submit button is pressed, advances the team number and match number for the next scouting form automatically based on the tablet position
-     */
-    public void advanceOnSubmit() {
-        if(fileManager.getScheduleFile() == null) {
-            Timber.e("no schedule file for auto advance");
-            Toast.makeText(mActivity, "Please select a schedule file", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        String position = prefsDataManager.readFromPreferences("position");
-        ArrayList<Match> scheduleList = csvManager.readScheduleFile(fileManager.getScheduleFile());
-        Integer matchNumber = Integer.parseInt(prefsDataManager.readFromPreferences("matchNumber")) + 1;
-        String teamNumber;
-        Match currentMatch = scheduleList.get(matchNumber - 1);
-        switch (position) {
-            case "red1":
-                teamNumber = currentMatch.getRed1();
-                break;
-            case "red2":
-                teamNumber = currentMatch.getRed2();
-                break;
-            case "red3":
-                teamNumber = currentMatch.getRed3();
-                break;
-            case "blue1":
-                teamNumber = currentMatch.getBlue1();
-                break;
-            case "blue2":
-                teamNumber = currentMatch.getBlue2();
-                break;
-            case "blue3":
-                teamNumber = currentMatch.getBlue3();
-                break;
-
-            default:
-                throw new IllegalStateException("Unexpected value: " + "position");
-        }
-        prefsDataManager.writeToPreferences("matchNumber", matchNumber.toString());
-        prefsDataManager.writeToPreferences("teamNumber", teamNumber);
-
-    }
 }

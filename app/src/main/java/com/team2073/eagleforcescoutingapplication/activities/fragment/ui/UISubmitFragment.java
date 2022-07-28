@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +29,7 @@ import timber.log.Timber;
 public class UISubmitFragment extends Fragment implements View.OnClickListener {
 
     private ScoutingFormPresenter scoutingFormPresenter;
+    private Activity mActivity;
 
     @BindView(R.id.uiComments) EditText formComments;
 
@@ -180,11 +182,15 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()){
             case R.id.uiSubmitButton:
                 scoutingFormPresenter.saveData("comments", formComments.getText().toString());
-                Intent i = new Intent(getActivity(), QrGeneratorActivity.class);
-                startActivity(i);
-                ((Activity) getActivity()).overridePendingTransition(0, 0);
+                if (scoutingFormPresenter.readData("comments").length() == 0 || scoutingFormPresenter.readData("name").length() == 0){
+                    Toast.makeText(this.getActivity(), "Some Fields are Empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent i = new Intent(getActivity(), QrGeneratorActivity.class);
+                    startActivity(i);
+                    ((Activity) getActivity()).overridePendingTransition(0, 0);
 //                UISubmitFragment.BluetoothSend bluetoothSend = new UISubmitFragment.BluetoothSend(scoutingFormPresenter);
 //                bluetoothSend.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+                }
                 break;
         }
     }
