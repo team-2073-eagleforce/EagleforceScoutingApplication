@@ -50,7 +50,13 @@ public class QrGeneratorPresenter extends BasePresenter<QrGeneratorView> {
     }
 
     public String fetchAllData(){
-        return allData.toString();
+        String toList = allData.toString();
+
+        toList = toList.replace("[", "")
+                .replace("]", "")
+                .replace(" ", "");
+
+        return toList;
     }
 
     public String fetchTeamAndMatch(){

@@ -51,6 +51,7 @@ public class QrGeneratorActivity extends BaseActivity implements QrGeneratorView
 
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
+            System.out.println(qrGeneratorPresenter.fetchAllData());
             BitMatrix matrix = writer.encode(qrGeneratorPresenter.fetchAllData(), BarcodeFormat.QR_CODE, 150, 150);
             BarcodeEncoder encoder  = new BarcodeEncoder();
             Bitmap bitmap = encoder.createBitmap(matrix);
