@@ -54,7 +54,7 @@ public class QrGeneratorPresenter extends BasePresenter<QrGeneratorView> {
 
         toList = toList.replace("[", "")
                 .replace("]", "")
-                .replace(" ", "");
+                .replace(", ", ",");
 
         return toList;
     }

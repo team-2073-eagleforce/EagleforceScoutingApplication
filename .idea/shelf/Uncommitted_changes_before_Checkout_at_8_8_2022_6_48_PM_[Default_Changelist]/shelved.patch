@@ -1,0 +1,55 @@
+Index: app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/QrGeneratorActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.team2073.eagleforcescoutingapplication.activities;\r\n\r\nimport com.google.zxing.BarcodeFormat;\r\nimport com.google.zxing.MultiFormatWriter;\r\nimport com.google.zxing.WriterException;\r\nimport com.google.zxing.common.BitMatrix;\r\nimport com.journeyapps.barcodescanner.BarcodeEncoder;\r\nimport com.team2073.eagleforcescoutingapplication.R;\r\nimport com.team2073.eagleforcescoutingapplication.framework.presenter.QrGeneratorPresenter;\r\nimport com.team2073.eagleforcescoutingapplication.framework.view.QrGeneratorView;\r\n\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.graphics.Bitmap;\r\nimport android.os.Build;\r\nimport android.os.Bundle;\r\nimport android.util.AttributeSet;\r\nimport android.view.View;\r\nimport android.view.inputmethod.InputMethodManager;\r\nimport android.widget.Button;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.annotation.RequiresApi;\r\nimport androidx.appcompat.widget.Toolbar;\r\n\r\n\r\npublic class QrGeneratorActivity extends BaseActivity implements QrGeneratorView {\r\n\r\n    private QrGeneratorPresenter qrGeneratorPresenter;\r\n\r\n    ImageView qrOutput;\r\n    TextView matchAndTeam;\r\n    Button finishedScan;\r\n\r\n    @RequiresApi(api = Build.VERSION_CODES.O)\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        Toolbar toolbar = findViewById(R.id.toolbarMain);\r\n        qrGeneratorPresenter.makeDrawer(toolbar);\r\n\r\n        qrOutput = findViewById(R.id.QROutput);\r\n        matchAndTeam = findViewById(R.id.MatchAndTeam);\r\n        finishedScan = findViewById(R.id.FinishScan);\r\n\r\n        matchAndTeam.setText(qrGeneratorPresenter.fetchTeamAndMatch());\r\n\r\n        MultiFormatWriter writer = new MultiFormatWriter();\r\n        try {\r\n            System.out.println(qrGeneratorPresenter.fetchAllData());\r\n            BitMatrix matrix = writer.encode(qrGeneratorPresenter.fetchAllData(), BarcodeFormat.QR_CODE, 150, 150);\r\n            BarcodeEncoder encoder  = new BarcodeEncoder();\r\n            Bitmap bitmap = encoder.createBitmap(matrix);\r\n            qrOutput.setImageBitmap(bitmap);\r\n\r\n            InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);\r\n            manager.hideSoftInputFromWindow(qrOutput.getApplicationWindowToken(), 0);\r\n        } catch (WriterException e){\r\n            e.printStackTrace();\r\n        }\r\n\r\n        finishedScan.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                Intent intent = new Intent(getApplicationContext(), ScoutingFormActivity.class);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n    }\r\n\r\n    @Override\r\n    protected int getLayoutResourceId() {\r\n        return R.layout.activity_qr_generator;\r\n    }\r\n\r\n    @Override\r\n    protected void initEvent() {\r\n\r\n    }\r\n\r\n    @Override\r\n    protected void initView() {\r\n\r\n    }\r\n\r\n    @Override\r\n    protected void bindView() {\r\n        qrGeneratorPresenter = new QrGeneratorPresenter(this);\r\n        qrGeneratorPresenter.bindView(this);\r\n    }\r\n\r\n    @Override\r\n    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {\r\n        super.onActivityResult(requestCode, resultCode, data);\r\n        startActivity(new Intent(this, QrGeneratorActivity.class));\r\n        finish();\r\n    }\r\n\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/QrGeneratorActivity.java b/app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/QrGeneratorActivity.java
+--- a/app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/QrGeneratorActivity.java	
++++ b/app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/QrGeneratorActivity.java	
+@@ -12,8 +12,10 @@
+ import android.content.Context;
+ import android.content.Intent;
+ import android.graphics.Bitmap;
++import android.graphics.Canvas;
+ import android.os.Build;
+ import android.os.Bundle;
++import android.os.Environment;
+ import android.util.AttributeSet;
+ import android.view.View;
+ import android.view.inputmethod.InputMethodManager;
+@@ -26,11 +28,16 @@
+ import androidx.annotation.RequiresApi;
+ import androidx.appcompat.widget.Toolbar;
+ 
++import java.io.File;
++import java.io.FileOutputStream;
++import java.util.Date;
++
+ 
+ public class QrGeneratorActivity extends BaseActivity implements QrGeneratorView {
+ 
+     private QrGeneratorPresenter qrGeneratorPresenter;
+ 
++
+     ImageView qrOutput;
+     TextView matchAndTeam;
+     Button finishedScan;
+@@ -62,9 +69,18 @@
+             e.printStackTrace();
+         }
+ 
++        public Bitmap screenShot(View view) {
++            Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),
++                    view.getHeight(), Bitmap.Config.ARGB_8888);
++            Canvas canvas = new Canvas(bitmap);
++            view.draw(canvas);
++            return bitmap;
++        }
+         finishedScan.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
++                View v1 = getWindow().getDecorView.getRootView();
++                screenShot(v1);
+                 Intent intent = new Intent(getApplicationContext(), ScoutingFormActivity.class);
+                 startActivity(intent);
+             }
