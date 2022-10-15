@@ -181,7 +181,8 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.uiSubmitButton:
-                scoutingFormPresenter.saveData("comments", formComments.getText().toString());
+                String comments = formComments.getText().toString().replace(',', ';');
+                scoutingFormPresenter.saveData("comments", comments);
                 if (scoutingFormPresenter.readData("comments").length() == 0 || scoutingFormPresenter.readData("name").length() == 0){
                     Toast.makeText(this.getActivity(), "Some Fields are Empty", Toast.LENGTH_SHORT).show();
                 } else {
