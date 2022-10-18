@@ -118,9 +118,11 @@
     </style>
 
     <style name="PreferenceScreen" parent="AppTheme">
+        <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/primaryTextColor</item>
         <item name="android:textColorPrimary">@color/md_black_1000</item>
         <item name="android:subtitleTextAppearance">@color/colorAccent</item>
+        <item name="android:backgroundTint">@color/white</item>
     </style>
 
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
