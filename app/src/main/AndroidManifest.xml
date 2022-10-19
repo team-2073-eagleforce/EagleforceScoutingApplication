@@ -21,9 +21,6 @@
         android:theme="@style/AppTheme"
         tools:targetApi="O_MR1">
         <activity
-            android:name=".activities.InsightActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.ViewScheduleActivity"
             android:theme="@style/AppTheme" />
         <activity

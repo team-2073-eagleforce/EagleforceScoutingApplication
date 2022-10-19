@@ -2,7 +2,6 @@ package com.team2073.eagleforcescoutingapplication.framework.manager;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -13,9 +12,7 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.activities.InsightActivity;
 import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity;
 import com.team2073.eagleforcescoutingapplication.activities.SettingsActivity;
 import com.team2073.eagleforcescoutingapplication.activities.ViewScheduleActivity;
@@ -48,7 +45,6 @@ public class DrawerManager {
 
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(activity)
-                .withHeaderBackground(R.drawable.accountheader)
                 .addProfiles(
                         new ProfileDrawerItem().withName("EagleForce").withIcon(R.drawable.eagleforce_logo)
                 )
@@ -56,7 +52,6 @@ public class DrawerManager {
 
         PrimaryDrawerItem scoutingForm = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.drawerScoutingFormText);
         PrimaryDrawerItem schedule = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.drawerScheduleText);
-        PrimaryDrawerItem insight = new PrimaryDrawerItem().withIdentifier(3).withName(R.string.drawerInsightText);
         PrimaryDrawerItem settings = new PrimaryDrawerItem().withIdentifier(4).withName(R.string.drawerSettingsText);
 
         drawer = new DrawerBuilder()
@@ -69,15 +64,12 @@ public class DrawerManager {
                 .withSelectedItem(-1)
                 .addDrawerItems(scoutingForm, new DividerDrawerItem(),
                         schedule, new DividerDrawerItem(),
-                        insight, new DividerDrawerItem(),
                         settings, new DividerDrawerItem())
                 .withOnDrawerItemClickListener((view, position, drawerItem) -> {
                     if (scoutingForm.equals(drawerItem)) {
                         activity.startActivity(new Intent(activity, ScoutingFormActivity.class));
                     } else if (schedule.equals(drawerItem)) {
                         activity.startActivity(new Intent(activity, ViewScheduleActivity.class));
-                    } else if (insight.equals(drawerItem)){
-                        activity.startActivity(new Intent(activity, InsightActivity.class));
                     } else if (settings.equals(drawerItem)){
                         activity.startActivity(new Intent(activity, SettingsActivity.class));
                     }
