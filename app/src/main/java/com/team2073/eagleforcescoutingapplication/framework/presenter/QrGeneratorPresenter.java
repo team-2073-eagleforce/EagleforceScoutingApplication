@@ -26,6 +26,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import timber.log.Timber;
 
@@ -58,9 +60,10 @@ public class QrGeneratorPresenter extends BasePresenter<QrGeneratorView> {
     }
 
     public Bitmap createQR() throws WriterException {
-        MultiFormatWriter writer = new MultiFormatWriter();
+        String concatenatedData = allData.stream().collect(Collectors.joining(","));
 
-        BitMatrix matrix = writer.encode(String.join(",", allData), BarcodeFormat.QR_CODE, 150, 150);
+        MultiFormatWriter writer = new MultiFormatWriter();
+        BitMatrix matrix = writer.encode(concatenatedData, BarcodeFormat.QR_CODE, 150, 150);
         BarcodeEncoder encoder = new BarcodeEncoder();
         return encoder.createBitmap(matrix);
     }

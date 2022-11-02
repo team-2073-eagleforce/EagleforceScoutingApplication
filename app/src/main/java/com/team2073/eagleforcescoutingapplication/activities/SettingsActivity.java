@@ -1,7 +1,6 @@
 package com.team2073.eagleforcescoutingapplication.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,7 +12,6 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;
@@ -65,9 +63,9 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-        private Activity activity;
-        private FileManager fileManager;
-        private SettingsPresenter settingsPresenter;
+        private final Activity activity;
+        private final FileManager fileManager;
+        private final SettingsPresenter settingsPresenter;
 
         public SettingsFragment(Activity activity) {
             this.activity = activity;
@@ -81,29 +79,32 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
             if (findPreference("position") == null) {
                 settingsPresenter.writeToPreferences("position", "red1");
             }
+            if (findPreference("comp_code") == null) {
+                settingsPresenter.writeToPreferences("comp_code", "testing");
+            }
         }
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-            if (s.equals("Schedule File")) {
-                findPreference(s).setSummary(fileManager.getScheduleFile().getAbsolutePath());
-            }
-            if (s.equals("name")) {
-                Preference name = findPreference("name");
-                EditTextPreference mName = (EditTextPreference) name;
-                settingsPresenter.writeToPreferences("name", ((EditTextPreference) name).getText());
-            }
-            if (s.equals("position")) {
-                ListPreference listPreference = findPreference("position");
-                CharSequence currText = listPreference.getEntry();
-                String currValue = listPreference.getValue();
-                settingsPresenter.writeToPreferences("position", currValue);
-            }
-            if (s.equals("comp_code")) {
-                ListPreference listPreference = findPreference("comp_code");
-                CharSequence currText = listPreference.getEntry();
-                String currValue = listPreference.getValue();
-                settingsPresenter.writeToPreferences("comp_code", currValue);
+            switch (s) {
+                case "Schedule File":
+                    findPreference(s).setSummary(fileManager.getScheduleFile().getAbsolutePath());
+                    break;
+                case "name":
+                    Preference namePreference = findPreference("name");
+                    EditTextPreference mName = (EditTextPreference) namePreference;
+                    settingsPresenter.writeToPreferences("name", ((EditTextPreference) namePreference).getText());
+                    break;
+                case "position":
+                    ListPreference positionPreference = findPreference("position");
+                    String positionPreferenceValue = positionPreference.getValue();
+                    settingsPresenter.writeToPreferences("position", positionPreferenceValue);
+                    break;
+                case "comp_code":
+                    ListPreference compPreference = findPreference("comp_code");
+                    String compPreferenceValue = compPreference.getValue();
+                    settingsPresenter.writeToPreferences("comp_code", compPreferenceValue);
+                    break;
             }
 
         }
