@@ -22,6 +22,8 @@ import com.team2073.eagleforcescoutingapplication.activities.QrGeneratorActivity
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -179,42 +181,23 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.uiSubmitButton:
-                if (scoutingFormPresenter.readData("position").equals("0")) {
-                    scoutingFormPresenter.saveData("position", "red1");
-                }
-                if (scoutingFormPresenter.readData("comp_code").equals("0")) {
-                    scoutingFormPresenter.saveData("comp_code", "2022mttd");
-                }
-                String comments = formComments.getText().toString().replace(',', ';');
-                scoutingFormPresenter.saveData("comments", comments);
-                if (scoutingFormPresenter.readData("comments").length() == 0 || scoutingFormPresenter.readData("name").length() == 0){
-                    Toast.makeText(this.getActivity(), "Some Fields are Empty", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent i = new Intent(getActivity(), QrGeneratorActivity.class);
-                    startActivity(i);
-                    ((Activity) getActivity()).overridePendingTransition(0, 0);
-//                UISubmitFragment.BluetoothSend bluetoothSend = new UISubmitFragment.BluetoothSend(scoutingFormPresenter);
-//                bluetoothSend.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-                }
-                break;
+        if (view.getId() == R.id.uiSubmitButton) {
+            if (scoutingFormPresenter.readData("position").equals("0")) {
+                scoutingFormPresenter.saveData("position", "red1");
+            }
+            if (scoutingFormPresenter.readData("comp_code").equals("0")) {
+                scoutingFormPresenter.saveData("comp_code", "2022mttd");
+            }
+            String comments = formComments.getText().toString().replace(',', ';');
+            scoutingFormPresenter.saveData("comments", comments);
+            if (scoutingFormPresenter.readData("comments").length() == 0 || scoutingFormPresenter.readData("name").length() == 0) {
+                Toast.makeText(this.getActivity(), "Some Fields are Empty", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent i = new Intent(getActivity(), QrGeneratorActivity.class);
+                startActivity(i);
+                ((Activity) requireActivity()).overridePendingTransition(0, 0);
+            }
         }
     }
 
-
-//    private static class BluetoothSend extends AsyncTask<Void, Void, Void> {
-//
-//        private ScoutingFormPresenter scoutingFormPresenter;
-//
-//        public BluetoothSend(ScoutingFormPresenter scoutingFormPresenter){
-//            this.scoutingFormPresenter = scoutingFormPresenter;
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Void... voids) {
-//            scoutingFormPresenter.sendOverBluetooth();
-//            return null;
-//        }
-//    }
 }

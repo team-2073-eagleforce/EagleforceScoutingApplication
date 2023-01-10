@@ -34,7 +34,6 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
         scoutingFormPresenter.makeDrawer(toolbar);
 
         scoutingFormPresenter.clearPreferences();
-//        scoutingFormPresenter.advanceOnSubmit();
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {

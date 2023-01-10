@@ -61,44 +61,6 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     }
 
 
-//    public void createCSV() {
-//        String match = prefsDataManager.readFromPreferences("matchNumber");
-//        String team = prefsDataManager.readFromPreferences("teamNumber");
-//
-//        if (match.equals("")) {
-//            match = "0";
-//        }
-//
-//        if (team.equals("")) {
-//            team = "0";
-//        }
-//
-//        String fileName = team + "-" + match + ".csv";
-//
-//        csvManager.createCSV(getRootDirectory(), fileName);
-////        writeCSV();
-//    }
-
-    /**
-     * Handles sending a csv file to another device through bluetooth.
-     */
-//    public void sendOverBluetooth() {
-//        csvManager.sendOverBluetooth(mActivity);
-//    }
-
-//    public void writeCSV() {
-//        ArrayList<String> formData = prefsDataManager.readFromPreferences(scoutingForm.getFieldNames());
-//        csvManager.writeData(formData.toArray());
-//    }
-
-//    public String getRootDirectory() {
-//        return Environment.getExternalStorageDirectory().getAbsolutePath();
-//    }
-
-//    public ScoutingForm getScoutingForm() {
-//        return scoutingForm;
-//    }
-
     public void clearPreferences() {
         prefsDataManager.clearPreferences(scoutingForm.getClearNames());
     }
