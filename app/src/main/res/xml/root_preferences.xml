@@ -37,7 +37,7 @@
             <intent android:action="com.team2073.eagleforcescoutingapplication.activities.ChooseFileActivity" />
         </PreferenceScreen>
         <ListPreference
-            android:defaultValue="Madtown Throwdown_2022mttd"
+            android:defaultValue="2022mttd"
             android:entries="@array/comp_code"
             android:entryValues="@array/comp_code"
             android:key="comp_code"

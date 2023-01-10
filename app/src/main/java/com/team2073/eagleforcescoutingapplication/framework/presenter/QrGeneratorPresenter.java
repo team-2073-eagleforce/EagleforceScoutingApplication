@@ -104,6 +104,7 @@ public class QrGeneratorPresenter extends BasePresenter<QrGeneratorView> {
                 break;
 
             default:
+                System.out.println(position);
                 throw new IllegalStateException("Unexpected value: " + "position");
         }
         prefsDataManager.writeToPreferences("matchNumber", Integer.toString(matchNumber));

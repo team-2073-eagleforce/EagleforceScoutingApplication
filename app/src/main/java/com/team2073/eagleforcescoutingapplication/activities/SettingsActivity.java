@@ -76,12 +76,6 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
-            if (findPreference("position") == null) {
-                settingsPresenter.writeToPreferences("position", "red1");
-            }
-            if (findPreference("comp_code") == null) {
-                settingsPresenter.writeToPreferences("comp_code", "testing");
-            }
         }
 
         @Override

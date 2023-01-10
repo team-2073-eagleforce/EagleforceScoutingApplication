@@ -43,4 +43,5 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     public void makeDrawer(Toolbar toolbar) {
         drawerManager.makeDrawer(toolbar);
     }
+
 }
