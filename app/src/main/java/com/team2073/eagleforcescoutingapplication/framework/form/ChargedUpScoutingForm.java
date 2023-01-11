@@ -15,11 +15,16 @@ public class ChargedUpScoutingForm implements ScoutingForm {
         //General Info
         fieldNames.add("teamNumber");
         fieldNames.add("matchNumber");
+        clearNames.add("teamNumber");
+        clearNames.add("matchNumber");
 
         fieldNames.add("name");
         fieldNames.add("comment");
+        clearNames.add("name");
+        clearNames.add("comment");
 
         fieldNames.add("compCode");
+        clearNames.add("compCode");
 
         //Autos
         fieldNames.add("mobility");
@@ -27,17 +32,28 @@ public class ChargedUpScoutingForm implements ScoutingForm {
         fieldNames.add("autoMiddle");
         fieldNames.add("autoTop");
         fieldNames.add("autoChargingStation");
+        clearNames.add("mobility");
+        clearNames.add("autoBottom");
+        clearNames.add("autoMiddle");
+        clearNames.add("autoTop");
+        clearNames.add("autoChargingStation");
 
         //Teleop
         fieldNames.add("teleBottom");
         fieldNames.add("teleMiddle");
         fieldNames.add("teleTop");
+        clearNames.add("teleBottom");
+        clearNames.add("teleMiddle");
+        clearNames.add("teleTop");
 
         fieldNames.add("coneTransport");
         fieldNames.add("cubeTransport");
+        clearNames.add("coneTransport");
+        clearNames.add("cubeTransport");
 
         //Endgame
         fieldNames.add("teleChargingStation");
+        clearNames.add("teleChargingStation");
     }
 
     @Override
