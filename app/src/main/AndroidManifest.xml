@@ -9,7 +9,6 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
 
     <dist:module dist:instant="true" />
 
@@ -46,7 +45,8 @@
             android:name=".activities.ScoutingFormActivity"
             android:exported="true"
             android:label="@string/title_activity_scouting_form"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
