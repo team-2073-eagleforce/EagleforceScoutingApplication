@@ -92,7 +92,7 @@
             android:layout_toEndOf="@+id/gridThreeTopCube"
             android:layout_alignParentTop="true"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/gridRightEdge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
 
         <!--MiddleRow-->
         <ImageButton
-            android:id="@+id/gridOneBottomLeftCone"
+            android:id="@+id/gridOneMiddleLeftCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_bottom_left_cone"
@@ -110,67 +110,67 @@
             android:layout_below="@+id/gridOneTopLeftCone"/>
 
         <ImageButton
-            android:id="@+id/gridOneBottomCube"
+            android:id="@+id/gridOneMiddleCube"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_bottom_cube"
-            android:layout_toEndOf="@+id/gridOneBottomLeftCone"
+            android:layout_toEndOf="@+id/gridOneMiddleLeftCone"
             android:layout_below="@id/gridOneTopCube"/>
 
         <ImageButton
-            android:id="@+id/gridOneBottomRightCone"
+            android:id="@+id/gridOneMiddleRightCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_bottom_right_cone"
-            android:layout_toEndOf="@+id/gridOneBottomCube"
+            android:layout_toEndOf="@+id/gridOneMiddleCube"
             android:layout_below="@id/gridOneTopRightCone"/>
 
         <ImageButton
-            android:id="@+id/gridTwoBottomLeftCone"
+            android:id="@+id/gridTwoMiddleLeftCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_bottom_left_cone"
-            android:layout_toEndOf="@+id/gridOneBottomRightCone"
+            android:layout_toEndOf="@+id/gridOneMiddleRightCone"
             android:layout_below="@id/gridTwoTopLeftCone"/>
 
         <ImageButton
-            android:id="@+id/gridTwoBottomCube"
+            android:id="@+id/gridTwoMiddleCube"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_bottom_cube"
-            android:layout_toEndOf="@+id/gridTwoBottomLeftCone"
+            android:layout_toEndOf="@+id/gridTwoMiddleLeftCone"
             android:layout_below="@id/gridTwoTopCube"/>
 
         <ImageButton
-            android:id="@+id/gridTwoBottomRightCone"
+            android:id="@+id/gridTwoMiddleRightCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_bottom_right_cone"
-            android:layout_toEndOf="@+id/gridTwoBottomCube"
+            android:layout_toEndOf="@+id/gridTwoMiddleCube"
             android:layout_below="@id/gridOneTopRightCone"/>
 
         <ImageButton
-            android:id="@+id/gridThreeBottomLeftCone"
+            android:id="@+id/gridThreeMiddleLeftCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_bottom_left_cone"
-            android:layout_toEndOf="@+id/gridTwoBottomRightCone"
+            android:layout_toEndOf="@+id/gridTwoMiddleRightCone"
             android:layout_below="@id/gridThreeTopLeftCone"/>
 
         <ImageButton
-            android:id="@+id/gridThreeBottomCube"
+            android:id="@+id/gridThreeMiddleCube"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_bottom_cube"
-            android:layout_toEndOf="@+id/gridThreeBottomLeftCone"
+            android:layout_toEndOf="@+id/gridThreeMiddleLeftCone"
             android:layout_below="@id/gridThreeTopCube"/>
 
         <ImageButton
-            android:id="@+id/gridThreeBottomRightCone"
+            android:id="@+id/gridThreeMiddleRightCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_bottom_right_cone"
-            android:layout_toEndOf="@+id/gridThreeBottomCube"
+            android:layout_toEndOf="@+id/gridThreeMiddleCube"
             android:layout_below="@id/gridThreeTopRightCone"/>
 
         <!--BottomRow-->
@@ -180,7 +180,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_bottom_left_hybrid"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/gridOneBottomLeftCone"
+            android:layout_below="@+id/gridOneMiddleLeftCone"
             android:layout_alignParentBottom="true"/>
 
         <ImageButton
@@ -189,7 +189,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_bottom_middle_hybrid"
             android:layout_toEndOf="@+id/gridOneBottomLeftHybrid"
-            android:layout_below="@+id/gridOneBottomCube"
+            android:layout_below="@+id/gridOneMiddleCube"
             android:layout_alignParentBottom="true"/>
 
         <ImageButton
@@ -198,7 +198,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_bottom_right_hybrid"
             android:layout_toEndOf="@+id/gridOneBottomMiddleHybrid"
-            android:layout_below="@+id/gridOneBottomRightCone"
+            android:layout_below="@+id/gridOneMiddleRightCone"
             android:layout_alignParentBottom="true"/>
 
         <ImageButton
@@ -207,7 +207,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_bottom_left_hybrid"
             android:layout_toEndOf="@+id/gridOneBottomRightHybrid"
-            android:layout_below="@+id/gridTwoBottomLeftCone"
+            android:layout_below="@+id/gridTwoMiddleLeftCone"
             android:layout_alignParentBottom="true"/>
 
         <ImageButton
@@ -216,7 +216,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_bottom_middle_hybrid"
             android:layout_toEndOf="@+id/gridTwoBottomLeftHybrid"
-            android:layout_below="@+id/gridTwoBottomCube"
+            android:layout_below="@+id/gridTwoMiddleCube"
             android:layout_alignParentBottom="true"/>
 
         <ImageButton
@@ -225,7 +225,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_bottom_right_hybrid"
             android:layout_toEndOf="@+id/gridTwoBottomMiddleHybrid"
-            android:layout_below="@+id/gridTwoBottomRightCone"
+            android:layout_below="@+id/gridTwoMiddleRightCone"
             android:layout_alignParentBottom="true"/>
 
         <ImageButton
@@ -234,7 +234,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_bottom_left_hybrid"
             android:layout_toEndOf="@+id/gridTwoBottomRightHybrid"
-            android:layout_below="@+id/gridThreeBottomLeftCone"
+            android:layout_below="@+id/gridThreeMiddleLeftCone"
             android:layout_alignParentBottom="true"/>
 
         <ImageButton
@@ -243,7 +243,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_bottom_middle_hybrid"
             android:layout_toEndOf="@+id/gridThreeBottomLeftHybrid"
-            android:layout_below="@+id/gridThreeBottomCube"
+            android:layout_below="@+id/gridThreeMiddleCube"
             android:layout_alignParentBottom="true"/>
 
         <ImageButton
@@ -252,7 +252,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_bottom_right_hybrid"
             android:layout_toEndOf="@+id/gridThreeBottomMiddleHybrid"
-            android:layout_below="@+id/gridThreeBottomRightCone"
+            android:layout_below="@+id/gridThreeMiddleRightCone"
             android:layout_alignParentBottom="true"/>
 
 
