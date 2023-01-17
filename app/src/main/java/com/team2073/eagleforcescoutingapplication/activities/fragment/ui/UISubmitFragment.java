@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.team2073.eagleforcescoutingapplication.R;
@@ -48,7 +49,6 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
     String state = Environment.getExternalStorageState();
 
     private static final String ARG_SECTION_NUMBER = "Submit";
-    private PageViewModel pageViewModel;
 
     public static UISubmitFragment newInstance(int index){
         UISubmitFragment fragment = new UISubmitFragment();
@@ -60,13 +60,10 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        scoutingFormPresenter = new ScoutingFormPresenter(getActivity());
-
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
-        int index;
-        index = getArguments().getInt(ARG_SECTION_NUMBER);
+        PageViewModel pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
+        int index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
-
+        scoutingFormPresenter = new ScoutingFormPresenter(getActivity());
         formComments = getActivity().findViewById(R.id.uiComments);
     }
 

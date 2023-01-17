@@ -1,32 +1,24 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
-import timber.log.Timber;
-
 public class UIAutoFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_SECTION_NUMBER = "Auto";
-    private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
 
     private TextView autoUpperLabel;
@@ -55,9 +47,8 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
-        int index = 1;
-        index = getArguments().getInt(ARG_SECTION_NUMBER);
+        PageViewModel pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
+        int index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());
     }

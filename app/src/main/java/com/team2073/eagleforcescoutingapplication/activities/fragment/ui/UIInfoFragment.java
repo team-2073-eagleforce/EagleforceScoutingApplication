@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.team2073.eagleforcescoutingapplication.R;
@@ -32,7 +33,6 @@ public class UIInfoFragment extends Fragment {
     private TextView teamNumberTextView;
 
     private static final String ARG_SECTION_NUMBER = "Start";
-    private PageViewModel pageViewModel;
     private ScoutingFormPresenter scoutingFormPresenter;
 
     public static UIInfoFragment newInstance(int index) {
@@ -46,7 +46,7 @@ public class UIInfoFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+        PageViewModel pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
         int index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());

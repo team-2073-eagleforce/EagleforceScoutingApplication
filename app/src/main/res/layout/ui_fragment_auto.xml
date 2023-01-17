@@ -16,7 +16,7 @@
             android:id="@+id/gridLeftEdge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/img2"
+            android:background="@drawable/grid_left_edge"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"/>
 
