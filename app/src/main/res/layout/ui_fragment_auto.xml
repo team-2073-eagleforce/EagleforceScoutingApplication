@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,109 +8,253 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <!--TopRow-->
+        <ImageView
+            android:id="@+id/gridLeftEdge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/img2"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"/>
 
         <ImageButton
-            android:id="@+id/autoline_button"
+            android:id="@+id/gridOneTopLeftCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/grid_one_top_left_cone"
+            android:layout_toEndOf="@+id/gridLeftEdge"
+            android:layout_alignParentTop="true"/>
+
+        <ImageButton
+            android:id="@+id/gridOneTopCube"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_one_top_cube"
+            android:layout_toEndOf="@+id/gridOneTopLeftCone"
+            android:layout_alignParentTop="true"/>
+
+        <ImageButton
+            android:id="@+id/gridOneTopRightCone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_one_top_right_cone"
+            android:layout_toEndOf="@+id/gridOneTopCube"
+            android:layout_alignParentTop="true"/>
+
+        <ImageButton
+            android:id="@+id/gridTwoTopLeftCone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_two_top_left_cone"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/tarmac"
-            android:foreground="?attr/selectableItemBackgroundBorderless" />
+            android:layout_toEndOf="@+id/gridOneTopRightCone" />
 
-        <RelativeLayout
-            android:id="@+id/auto_cell_score_count"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/auto_bottomport_button"
-            android:layout_marginTop="10dp">
-
-            <include
-                android:id="@+id/upperhub_layout"
-                layout="@layout/port_points_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true" />
-
-            <include
-                android:id="@+id/lowerhub_layout"
-                layout="@layout/port_points_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/upperhub_layout"
-                android:layout_centerHorizontal="true" />
-
-        </RelativeLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/auto_outer_and_inner_frame"
+        <ImageButton
+            android:id="@+id/gridTwoTopCube"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/autoline_button"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp">
+            android:background="@drawable/grid_two_top_cube"
+            android:layout_toEndOf="@+id/gridTwoTopLeftCone"
+            android:layout_alignParentTop="true"/>
 
-            <ImageButton
-                android:id="@+id/auto_outerport_button_right"
-                android:layout_width="200dp"
-                android:layout_height="275dp"
-                android:layout_marginStart="205dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/upper_plus"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                app:layout_constraintHorizontal_bias="0.971"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/auto_outerport_button_left"
-                android:layout_width="200dp"
-                android:layout_height="275dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="205dp"
-                android:background="@drawable/upper_minus"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/auto_bottomport_button"
+        <ImageButton
+            android:id="@+id/gridTwoTopRightCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/auto_outer_and_inner_frame"
-            android:layout_centerHorizontal="true">
+            android:background="@drawable/grid_two_top_right_cone"
+            android:layout_toEndOf="@+id/gridTwoTopCube"
+            android:layout_alignParentTop="true"/>
 
-            <ImageButton
-                android:id="@+id/auto_bottomport_button_right"
-                android:layout_width="250dp"
-                android:layout_height="140dp"
-                android:background="@drawable/bottom_plus"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginStart="255dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <ImageButton
+            android:id="@+id/gridThreeTopLeftCone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_three_top_left_cone"
+            android:layout_toEndOf="@+id/gridTwoTopRightCone"
+            android:layout_alignParentTop="true"/>
 
-            <ImageButton
-                android:id="@+id/auto_bottomport_button_left"
-                android:layout_width="250dp"
-                android:layout_height="140dp"
-                android:layout_marginEnd="255dp"
-                android:background="@drawable/lower_minus__2_"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageButton
+            android:id="@+id/gridThreeTopCube"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_three_top_cube"
+            android:layout_toEndOf="@+id/gridThreeTopLeftCone"
+            android:layout_alignParentTop="true"/>
+
+        <ImageButton
+            android:id="@+id/gridThreeTopRightCone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_three_top_right_cone"
+            android:layout_toEndOf="@+id/gridThreeTopCube"
+            android:layout_alignParentTop="true"/>
+
+        <ImageButton
+            android:id="@+id/gridRightEdge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_right_edge"
+            android:layout_toEndOf="@+id/gridThreeTopRightCone"
+            android:layout_alignParentTop="true"/>
+
+        <!--MiddleRow-->
+        <ImageButton
+            android:id="@+id/gridOneBottomLeftCone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_one_bottom_left_cone"
+            android:layout_toEndOf="@+id/gridLeftEdge"
+            android:layout_below="@+id/gridOneTopLeftCone"/>
+
+        <ImageButton
+            android:id="@+id/gridOneBottomCube"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_one_bottom_cube"
+            android:layout_toEndOf="@+id/gridOneBottomLeftCone"
+            android:layout_below="@id/gridOneTopCube"/>
+
+        <ImageButton
+            android:id="@+id/gridOneBottomRightCone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_one_bottom_right_cone"
+            android:layout_toEndOf="@+id/gridOneBottomCube"
+            android:layout_below="@id/gridOneTopRightCone"/>
+
+        <ImageButton
+            android:id="@+id/gridTwoBottomLeftCone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_two_bottom_left_cone"
+            android:layout_toEndOf="@+id/gridOneBottomRightCone"
+            android:layout_below="@id/gridTwoTopLeftCone"/>
+
+        <ImageButton
+            android:id="@+id/gridTwoBottomCube"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_two_bottom_cube"
+            android:layout_toEndOf="@+id/gridTwoBottomLeftCone"
+            android:layout_below="@id/gridTwoTopCube"/>
+
+        <ImageButton
+            android:id="@+id/gridTwoBottomRightCone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_two_bottom_right_cone"
+            android:layout_toEndOf="@+id/gridTwoBottomCube"
+            android:layout_below="@id/gridOneTopRightCone"/>
+
+        <ImageButton
+            android:id="@+id/gridThreeBottomLeftCone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_three_bottom_left_cone"
+            android:layout_toEndOf="@+id/gridTwoBottomRightCone"
+            android:layout_below="@id/gridThreeTopLeftCone"/>
+
+        <ImageButton
+            android:id="@+id/gridThreeBottomCube"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_three_bottom_cube"
+            android:layout_toEndOf="@+id/gridThreeBottomLeftCone"
+            android:layout_below="@id/gridThreeTopCube"/>
+
+        <ImageButton
+            android:id="@+id/gridThreeBottomRightCone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_three_bottom_right_cone"
+            android:layout_toEndOf="@+id/gridThreeBottomCube"
+            android:layout_below="@id/gridThreeTopRightCone"/>
+
+        <!--BottomRow-->
+        <ImageButton
+            android:id="@+id/gridOneBottomLeftHybrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_one_bottom_left_hybrid"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/gridOneBottomLeftCone"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageButton
+            android:id="@+id/gridOneBottomMiddleHybrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_one_bottom_middle_hybrid"
+            android:layout_toEndOf="@+id/gridOneBottomLeftHybrid"
+            android:layout_below="@+id/gridOneBottomCube"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageButton
+            android:id="@+id/gridOneBottomRightHybrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_one_bottom_right_hybrid"
+            android:layout_toEndOf="@+id/gridOneBottomMiddleHybrid"
+            android:layout_below="@+id/gridOneBottomRightCone"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageButton
+            android:id="@+id/gridTwoBottomLeftHybrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_two_bottom_left_hybrid"
+            android:layout_toEndOf="@+id/gridOneBottomRightHybrid"
+            android:layout_below="@+id/gridTwoBottomLeftCone"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageButton
+            android:id="@+id/gridTwoBottomMiddleHybrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_two_bottom_middle_hybrid"
+            android:layout_toEndOf="@+id/gridTwoBottomLeftHybrid"
+            android:layout_below="@+id/gridTwoBottomCube"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageButton
+            android:id="@+id/gridTwoBottomRightHybrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_one_bottom_right_hybrid"
+            android:layout_toEndOf="@+id/gridTwoBottomMiddleHybrid"
+            android:layout_below="@+id/gridTwoBottomRightCone"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageButton
+            android:id="@+id/gridThreeBottomLeftHybrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_three_bottom_left_hybrid"
+            android:layout_toEndOf="@+id/gridTwoBottomRightHybrid"
+            android:layout_below="@+id/gridThreeBottomLeftCone"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageButton
+            android:id="@+id/gridThreeBottomMiddleHybrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_three_bottom_middle_hybrid"
+            android:layout_toEndOf="@+id/gridThreeBottomLeftHybrid"
+            android:layout_below="@+id/gridThreeBottomCube"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageButton
+            android:id="@+id/gridThreeBottomRightHybrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grid_three_bottom_right_hybrid"
+            android:layout_toEndOf="@+id/gridThreeBottomMiddleHybrid"
+            android:layout_below="@+id/gridThreeBottomRightCone"
+            android:layout_alignParentBottom="true"/>
+
 
     </RelativeLayout>
 

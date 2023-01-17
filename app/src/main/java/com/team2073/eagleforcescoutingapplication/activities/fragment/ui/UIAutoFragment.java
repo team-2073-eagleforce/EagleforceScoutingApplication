@@ -67,24 +67,24 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.ui_fragment_auto, container, false);
 
-        //Bottom Port Views
-        View bottomPort = root.findViewById(R.id.upperhub_layout);
-        autoUpperLabel = bottomPort.findViewById(R.id.textview);
-        autoUpperText = bottomPort.findViewById(R.id.pointDisplay);
-        upperHubButtonRight = root.findViewById(R.id.auto_bottomport_button_right);
-        upperHubButtonLeft = root.findViewById(R.id.auto_bottomport_button_left);
+//        //Bottom Port Views
+//        View bottomPort = root.findViewById(R.id.upperhub_layout);
+//        autoUpperLabel = bottomPort.findViewById(R.id.textview);
+//        autoUpperText = bottomPort.findViewById(R.id.pointDisplay);
+//        upperHubButtonRight = root.findViewById(R.id.auto_bottomport_button_right);
+//        upperHubButtonLeft = root.findViewById(R.id.auto_bottomport_button_left);
+//
+//        //Outer port Views
+//        View outerPort = root.findViewById(R.id.lowerhub_layout);
+//        autoLowerLabel = outerPort.findViewById(R.id.textview);
+//        autoLowerText = outerPort.findViewById(R.id.pointDisplay);
+//        lowerHubButtonRight = root.findViewById(R.id.auto_outerport_button_right);
+//        lowerHubButtonLeft = root.findViewById(R.id.auto_outerport_button_left);
+//
+//        autoLineButton = root.findViewById(R.id.autoline_button);
 
-        //Outer port Views
-        View outerPort = root.findViewById(R.id.lowerhub_layout);
-        autoLowerLabel = outerPort.findViewById(R.id.textview);
-        autoLowerText = outerPort.findViewById(R.id.pointDisplay);
-        lowerHubButtonRight = root.findViewById(R.id.auto_outerport_button_right);
-        lowerHubButtonLeft = root.findViewById(R.id.auto_outerport_button_left);
-
-        autoLineButton = root.findViewById(R.id.autoline_button);
-
-        initializeViewLabels();
-        initFields();
+//        initializeViewLabels();
+//        initFields();
 
         return root;
 
@@ -94,102 +94,102 @@ public class UIAutoFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        upperHubButtonRight.setOnClickListener(this);
-        upperHubButtonLeft.setOnClickListener(this);
-
-        lowerHubButtonRight.setOnClickListener(this);
-        lowerHubButtonLeft.setOnClickListener(this);
-
-        autoLineButton.setOnClickListener(this);
-
-        autoUpperText.setOnFocusChangeListener((view, b) -> {
-            if (!b) {
-                if (autoUpperText.getText().toString().equals("")) {
-                    autoUpperText.setText("0");
-                }
-                scoutingFormPresenter.saveData("Auto Bottom", autoUpperText.getText().toString());
-                Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
-            }
-        });
-        autoLowerText.setOnFocusChangeListener((view, b) -> {
-            if (!b) {
-                if (autoLowerText.getText().toString().equals("")) {
-                    autoLowerText.setText("0");
-                }
-                scoutingFormPresenter.saveData("Auto Outer", autoLowerText.getText().toString());
-                Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
-            }
-        });
+//        upperHubButtonRight.setOnClickListener(this);
+//        upperHubButtonLeft.setOnClickListener(this);
+//
+//        lowerHubButtonRight.setOnClickListener(this);
+//        lowerHubButtonLeft.setOnClickListener(this);
+//
+//        autoLineButton.setOnClickListener(this);
+//
+//        autoUpperText.setOnFocusChangeListener((view, b) -> {
+//            if (!b) {
+//                if (autoUpperText.getText().toString().equals("")) {
+//                    autoUpperText.setText("0");
+//                }
+//                scoutingFormPresenter.saveData("Auto Bottom", autoUpperText.getText().toString());
+//                Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
+//            }
+//        });
+//        autoLowerText.setOnFocusChangeListener((view, b) -> {
+//            if (!b) {
+//                if (autoLowerText.getText().toString().equals("")) {
+//                    autoLowerText.setText("0");
+//                }
+//                scoutingFormPresenter.saveData("Auto Outer", autoLowerText.getText().toString());
+//                Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
+//            }
+//        });
     }
 
     private void initFields() {
-        scoutingFormPresenter.saveData("Tarmac", "0");
-        scoutingFormPresenter.saveData("Auto Outer", "0");
-        scoutingFormPresenter.saveData("Auto Bottom", "0");
-
-        autoUpperText.setText("0");
-        autoLowerText.setText("0");
+//        scoutingFormPresenter.saveData("Tarmac", "0");
+//        scoutingFormPresenter.saveData("Auto Outer", "0");
+//        scoutingFormPresenter.saveData("Auto Bottom", "0");
+//
+//        autoUpperText.setText("0");
+//        autoLowerText.setText("0");
 
     }
 
     private void initializeViewLabels() {
-        autoUpperLabel.setText(getResources().getString(R.string.num_cargo_upper_hub_label));
-        autoLowerLabel.setText(getResources().getString(R.string.num_cargo_lower_hub_label));
+//        autoUpperLabel.setText(getResources().getString(R.string.num_cargo_upper_hub_label));
+//        autoLowerLabel.setText(getResources().getString(R.string.num_cargo_lower_hub_label));
     }
 
     @Override
     public void onClick(View v) {
 
-        Integer value = 0;
-        switch (v.getId()) {
-            case R.id.auto_bottomport_button_right:
-                value = Integer.parseInt(autoLowerText.getText().toString()) + 1;
-                autoLowerText.setText(value.toString());
-                scoutingFormPresenter.saveData("Auto Bottom", value.toString());
-
-                Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
-                break;
-            case R.id.auto_bottomport_button_left:
-                value = Integer.parseInt(autoLowerText.getText().toString()) - 1;
-                if(value <= 0){
-                    value = 0;
-                }
-                autoLowerText.setText(value.toString());
-
-                scoutingFormPresenter.saveData("Auto Bottom", value.toString());
-
-                Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
-                break;
-            case R.id.auto_outerport_button_right:
-                value = Integer.parseInt(autoUpperText.getText().toString()) + 1;
-                autoUpperText.setText(value.toString());
-
-                scoutingFormPresenter.saveData("Auto Outer", value.toString());
-
-                Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
-                break;
-            case R.id.auto_outerport_button_left:
-                value = Integer.parseInt(autoUpperText.getText().toString()) - 1;
-                if(value <= 0){
-                    value = 0;
-                }
-                autoUpperText.setText(value.toString());
-
-                scoutingFormPresenter.saveData("Auto Outer", value.toString());
-
-                Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
-                break;
-            case R.id.autoline_button:
-                value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Tarmac")) - 1);
-                if (value == 1) {
-                    autoLineButton.setImageResource(R.drawable.tarmac_yellow);
-                } else {
-                    autoLineButton.setImageResource(R.drawable.tarmac);
-                }
-                scoutingFormPresenter.saveData("Tarmac", value.toString());
-
-                Timber.d("shared Preferences: " + "Tarmac" + ", " + scoutingFormPresenter.readData("Tarmac"));
-                break;
-        }
+//        Integer value = 0;
+//        switch (v.getId()) {
+//            case R.id.auto_bottomport_button_right:
+//                value = Integer.parseInt(autoLowerText.getText().toString()) + 1;
+//                autoLowerText.setText(value.toString());
+//                scoutingFormPresenter.saveData("Auto Bottom", value.toString());
+//
+//                Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
+//                break;
+//            case R.id.auto_bottomport_button_left:
+//                value = Integer.parseInt(autoLowerText.getText().toString()) - 1;
+//                if(value <= 0){
+//                    value = 0;
+//                }
+//                autoLowerText.setText(value.toString());
+//
+//                scoutingFormPresenter.saveData("Auto Bottom", value.toString());
+//
+//                Timber.d("shared Preferences: " + "Auto Bottom" + ", " + scoutingFormPresenter.readData("Auto Bottom"));
+//                break;
+//            case R.id.auto_outerport_button_right:
+//                value = Integer.parseInt(autoUpperText.getText().toString()) + 1;
+//                autoUpperText.setText(value.toString());
+//
+//                scoutingFormPresenter.saveData("Auto Outer", value.toString());
+//
+//                Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
+//                break;
+//            case R.id.auto_outerport_button_left:
+//                value = Integer.parseInt(autoUpperText.getText().toString()) - 1;
+//                if(value <= 0){
+//                    value = 0;
+//                }
+//                autoUpperText.setText(value.toString());
+//
+//                scoutingFormPresenter.saveData("Auto Outer", value.toString());
+//
+//                Timber.d("shared Preferences: " + "Auto Outer" + ", " + scoutingFormPresenter.readData("Auto Outer"));
+//                break;
+//            case R.id.autoline_button:
+//                value = Math.abs(Integer.parseInt(scoutingFormPresenter.readData("Tarmac")) - 1);
+//                if (value == 1) {
+//                    autoLineButton.setImageResource(R.drawable.tarmac_yellow);
+//                } else {
+//                    autoLineButton.setImageResource(R.drawable.tarmac);
+//                }
+//                scoutingFormPresenter.saveData("Tarmac", value.toString());
+//
+//                Timber.d("shared Preferences: " + "Tarmac" + ", " + scoutingFormPresenter.readData("Tarmac"));
+//                break;
+//        }
     }
 }
