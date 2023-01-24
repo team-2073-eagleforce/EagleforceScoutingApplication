@@ -46,6 +46,7 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
     private TextView driverScore;
     private ImageButton subtractDriver;
 
+
     String state = Environment.getExternalStorageState();
 
     private static final String ARG_SECTION_NUMBER = "Submit";
