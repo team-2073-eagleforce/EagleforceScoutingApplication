@@ -29,6 +29,7 @@
             android:layout_alignParentTop="true"/>
 
         <ImageButton
+            android:tag="gridOneTopCube"
             android:id="@+id/gridOneTopCube"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

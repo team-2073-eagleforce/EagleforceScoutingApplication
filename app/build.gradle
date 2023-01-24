@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 32
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '33.0.1'
     defaultConfig {
         applicationId 'com.team2073.eagleforcescoutingapplication'
         minSdkVersion 25
@@ -35,6 +35,11 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/library-core_release.kotlin_module'
     }
+
+    buildFeatures {
+        viewBinding true
+    }
+
 }
 
 dependencies {
@@ -68,5 +73,5 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 
-    implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 }
