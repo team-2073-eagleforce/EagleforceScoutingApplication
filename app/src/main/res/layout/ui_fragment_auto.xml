@@ -117,7 +117,7 @@
             android:id="@+id/gridOneMiddleLeftCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/grid_one_bottom_left_cone"
+            android:background="@drawable/grid_one_middle_left_cone"
             android:layout_toEndOf="@+id/gridLeftEdge"
             android:layout_below="@+id/gridOneTopLeftCone"/>
 
@@ -126,7 +126,7 @@
             android:id="@+id/gridOneMiddleCube"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/grid_one_bottom_cube"
+            android:background="@drawable/grid_one_middle_cube"
             android:layout_toEndOf="@+id/gridOneMiddleLeftCone"
             android:layout_below="@id/gridOneTopCube"/>
 
@@ -135,7 +135,7 @@
             android:id="@+id/gridOneMiddleRightCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/grid_one_bottom_right_cone"
+            android:background="@drawable/grid_one_middle_right_cone"
             android:layout_toEndOf="@+id/gridOneMiddleCube"
             android:layout_below="@id/gridOneTopRightCone"/>
 
@@ -144,7 +144,7 @@
             android:id="@+id/gridTwoMiddleLeftCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/grid_two_bottom_left_cone"
+            android:background="@drawable/grid_two_middle_left_cone"
             android:layout_toEndOf="@+id/gridOneMiddleRightCone"
             android:layout_below="@id/gridTwoTopLeftCone"/>
 
@@ -153,7 +153,7 @@
             android:id="@+id/gridTwoMiddleCube"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/grid_two_bottom_cube"
+            android:background="@drawable/grid_two_middle_cube"
             android:layout_toEndOf="@+id/gridTwoMiddleLeftCone"
             android:layout_below="@id/gridTwoTopCube"/>
 
@@ -162,7 +162,7 @@
             android:id="@+id/gridTwoMiddleRightCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/grid_two_bottom_right_cone"
+            android:background="@drawable/grid_two_middle_right_cone"
             android:layout_toEndOf="@+id/gridTwoMiddleCube"
             android:layout_below="@id/gridOneTopRightCone"/>
 
@@ -171,7 +171,7 @@
             android:id="@+id/gridThreeMiddleLeftCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/grid_three_bottom_left_cone"
+            android:background="@drawable/grid_three_middle_left_cone"
             android:layout_toEndOf="@+id/gridTwoMiddleRightCone"
             android:layout_below="@id/gridThreeTopLeftCone"/>
 
@@ -180,7 +180,7 @@
             android:id="@+id/gridThreeMiddleCube"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/grid_three_bottom_cube"
+            android:background="@drawable/grid_three_middle_cube"
             android:layout_toEndOf="@+id/gridThreeMiddleLeftCone"
             android:layout_below="@id/gridThreeTopCube"/>
 
@@ -189,7 +189,7 @@
             android:id="@+id/gridThreeMiddleRightCone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/grid_three_bottom_right_cone"
+            android:background="@drawable/grid_three_middle_right_cone"
             android:layout_toEndOf="@+id/gridThreeMiddleCube"
             android:layout_below="@id/gridThreeTopRightCone"/>
 
