@@ -20,6 +20,7 @@ import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFo
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Properties;
 
 public class UIAutoFragment extends Fragment {
@@ -88,12 +89,14 @@ public class UIAutoFragment extends Fragment {
                 toggleElement((ImageButton) gridOneTopCube, "Cube"));
         fragmentAutoBinding.gridOneTopRightCone.setOnClickListener(gridOneTopRightCone ->
                 toggleElement((ImageButton) gridOneTopRightCone, "Cone"));
+
         fragmentAutoBinding.gridTwoTopLeftCone.setOnClickListener(gridTwoTopLeftCone ->
                 toggleElement((ImageButton) gridTwoTopLeftCone, "Cone"));
         fragmentAutoBinding.gridTwoTopCube.setOnClickListener(gridTwoTopCube ->
                 toggleElement((ImageButton) gridTwoTopCube, "Cube"));
         fragmentAutoBinding.gridTwoTopRightCone.setOnClickListener(gridTwoTopRightCone ->
                 toggleElement((ImageButton) gridTwoTopRightCone, "Cone"));
+
         fragmentAutoBinding.gridThreeTopLeftCone.setOnClickListener(gridThreeTopLeftCone ->
                 toggleElement((ImageButton) gridThreeTopLeftCone, "Cone"));
         fragmentAutoBinding.gridThreeTopCube.setOnClickListener(gridThreeTopCube ->
@@ -108,12 +111,14 @@ public class UIAutoFragment extends Fragment {
                 toggleElement((ImageButton) gridOneTopCube, "Cube"));
         fragmentAutoBinding.gridOneMiddleRightCone.setOnClickListener(gridOneTopRightCone ->
                 toggleElement((ImageButton) gridOneTopRightCone, "Cone"));
+
         fragmentAutoBinding.gridTwoMiddleLeftCone.setOnClickListener(gridTwoTopLeftCone ->
                 toggleElement((ImageButton) gridTwoTopLeftCone, "Cone"));
         fragmentAutoBinding.gridTwoMiddleCube.setOnClickListener(gridTwoTopCube ->
                 toggleElement((ImageButton) gridTwoTopCube, "Cube"));
         fragmentAutoBinding.gridTwoMiddleRightCone.setOnClickListener(gridTwoTopRightCone ->
-                toggleElement((ImageButton) gridTwoTopRightCone, "Cube"));
+                toggleElement((ImageButton) gridTwoTopRightCone, "Cone"));
+
         fragmentAutoBinding.gridThreeMiddleLeftCone.setOnClickListener(gridThreeTopLeftCone ->
                 toggleElement((ImageButton) gridThreeTopLeftCone, "Cone"));
         fragmentAutoBinding.gridThreeTopCube.setOnClickListener(gridThreeTopCube ->
@@ -149,49 +154,52 @@ public class UIAutoFragment extends Fragment {
         String retrievedImage = "";
         int id;
 
-        if(indicator.equals("cube")){
-            switch (scoutingFormPresenter.readData(imageButtonName)) {
-                case "0":
-                    scoutingFormPresenter.saveData(imageButtonName, "2");
-                    imageButtonName += "2";
-                    break;
-                case "2":
-                    scoutingFormPresenter.saveData(imageButtonName, "0");
-                    imageButtonName += "0";
-                    break;
-            }
-        } else if(indicator.equals("cone")){
-            switch (scoutingFormPresenter.readData(imageButtonName)) {
-                case "0":
-                    scoutingFormPresenter.saveData(imageButtonName, "1");
-                    imageButtonName += "1";
-                    break;
-                case "1":
-                    scoutingFormPresenter.saveData(imageButtonName, "0");
-                    imageButtonName += "0";
-                    break;
-            }
-        } else {
-            switch (scoutingFormPresenter.readData(imageButtonName)) {
-                case "0":
-                    scoutingFormPresenter.saveData(imageButtonName,"1");
-                    imageButtonName += "1";
-                    break;
-                case "1":
-                    scoutingFormPresenter.saveData(imageButtonName, "2");
-                    imageButtonName += "2";
-                    break;
-                case "2":
-                    scoutingFormPresenter.saveData(imageButtonName, "0");
-                    imageButtonName += "0";
-                    break;
-            }
+        switch (indicator) {
+            case "Cube":
+                switch (scoutingFormPresenter.readData(imageButtonName)) {
+                    case "0":
+                        scoutingFormPresenter.saveData(imageButtonName, "2");
+                        imageButtonName += "2";
+                        break;
+                    case "2":
+                        scoutingFormPresenter.saveData(imageButtonName, "0");
+                        imageButtonName += "0";
+                        break;
+                }
+                break;
+            case "Cone":
+                switch (scoutingFormPresenter.readData(imageButtonName)) {
+                    case "0":
+                        scoutingFormPresenter.saveData(imageButtonName, "1");
+                        imageButtonName += "1";
+                        break;
+                    case "1":
+                        scoutingFormPresenter.saveData(imageButtonName, "0");
+                        imageButtonName += "0";
+                        break;
+                }
+                break;
+            case "Hybrid":
+                switch (scoutingFormPresenter.readData(imageButtonName)) {
+                    case "0":
+                        scoutingFormPresenter.saveData(imageButtonName,"1");
+                        imageButtonName += "1";
+                        break;
+                    case "1":
+                        scoutingFormPresenter.saveData(imageButtonName, "2");
+                        imageButtonName += "2";
+                        break;
+                    case "2":
+                        scoutingFormPresenter.saveData(imageButtonName, "0");
+                        imageButtonName += "0";
+                        break;
+                }
+                break;
         }
-        System.out.println(imageButtonName);
-        //TODO Move to Scouting Presenter or separate class
+
         try {
             Properties properties = new Properties();
-            AssetManager assetManager = getContext().getAssets();
+            AssetManager assetManager = requireContext().getAssets();
             InputStream inputStream = assetManager.open("grid.properties");
             properties.load(inputStream);
             retrievedImage = properties.getProperty(imageButtonName);
