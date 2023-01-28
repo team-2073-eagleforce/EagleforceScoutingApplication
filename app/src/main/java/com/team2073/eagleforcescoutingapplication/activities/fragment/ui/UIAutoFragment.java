@@ -105,26 +105,26 @@ public class UIAutoFragment extends Fragment {
                 toggleElement((ImageButton) gridThreeTopRightCone, "Cone"));
 
         //Middle Grid
-        fragmentAutoBinding.gridOneMiddleLeftCone.setOnClickListener(gridOneTopLeftCone ->
-                toggleElement((ImageButton) gridOneTopLeftCone, "Cone"));
-        fragmentAutoBinding.gridOneMiddleCube.setOnClickListener(gridOneTopCube ->
-                toggleElement((ImageButton) gridOneTopCube, "Cube"));
-        fragmentAutoBinding.gridOneMiddleRightCone.setOnClickListener(gridOneTopRightCone ->
-                toggleElement((ImageButton) gridOneTopRightCone, "Cone"));
+        fragmentAutoBinding.gridOneMiddleLeftCone.setOnClickListener(gridOneMiddleLeftCone ->
+                toggleElement((ImageButton) gridOneMiddleLeftCone, "Cone"));
+        fragmentAutoBinding.gridOneMiddleCube.setOnClickListener(gridOneMiddleCube ->
+                toggleElement((ImageButton) gridOneMiddleCube, "Cube"));
+        fragmentAutoBinding.gridOneMiddleRightCone.setOnClickListener(gridOneMiddleRightCone ->
+                toggleElement((ImageButton) gridOneMiddleRightCone, "Cone"));
 
-        fragmentAutoBinding.gridTwoMiddleLeftCone.setOnClickListener(gridTwoTopLeftCone ->
-                toggleElement((ImageButton) gridTwoTopLeftCone, "Cone"));
-        fragmentAutoBinding.gridTwoMiddleCube.setOnClickListener(gridTwoTopCube ->
-                toggleElement((ImageButton) gridTwoTopCube, "Cube"));
-        fragmentAutoBinding.gridTwoMiddleRightCone.setOnClickListener(gridTwoTopRightCone ->
-                toggleElement((ImageButton) gridTwoTopRightCone, "Cone"));
+        fragmentAutoBinding.gridTwoMiddleLeftCone.setOnClickListener(gridTwoMiddleLeftCone ->
+                toggleElement((ImageButton) gridTwoMiddleLeftCone, "Cone"));
+        fragmentAutoBinding.gridTwoMiddleCube.setOnClickListener(gridTwoMiddleCube ->
+                toggleElement((ImageButton) gridTwoMiddleCube, "Cube"));
+        fragmentAutoBinding.gridTwoMiddleRightCone.setOnClickListener(gridTwoMiddleRightCone ->
+                toggleElement((ImageButton) gridTwoMiddleRightCone, "Cone"));
 
         fragmentAutoBinding.gridThreeMiddleLeftCone.setOnClickListener(gridThreeTopLeftCone ->
                 toggleElement((ImageButton) gridThreeTopLeftCone, "Cone"));
-        fragmentAutoBinding.gridThreeTopCube.setOnClickListener(gridThreeTopCube ->
-                toggleElement((ImageButton) gridThreeTopCube, "Cube"));
-        fragmentAutoBinding.gridThreeTopRightCone.setOnClickListener(gridThreeTopRightCone ->
-                toggleElement((ImageButton) gridThreeTopRightCone, "Cone"));
+        fragmentAutoBinding.gridThreeMiddleCube.setOnClickListener(gridThreeMiddleCube ->
+                toggleElement((ImageButton) gridThreeMiddleCube, "Cube"));
+        fragmentAutoBinding.gridThreeMiddleRightCone.setOnClickListener(gridThreeMiddleRightCone ->
+                toggleElement((ImageButton) gridThreeMiddleRightCone, "Cone"));
 
         //Bottom Grid
         fragmentAutoBinding.gridOneBottomLeftHybrid.setOnClickListener(gridOneBottomLeftHybrid ->

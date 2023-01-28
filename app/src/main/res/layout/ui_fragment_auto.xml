@@ -6,20 +6,20 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="1290dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center">
 
         <!--TopRow-->
         <ImageView
-
             android:id="@+id/gridLeftEdge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/grid_left_edge"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridOneTopLeftCone"
@@ -28,7 +28,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_top_left_cone"
             android:layout_toEndOf="@+id/gridLeftEdge"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridOneTopCube"
@@ -37,7 +38,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_top_cube"
             android:layout_toEndOf="@+id/gridOneTopLeftCone"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridOneTopRightCone"
@@ -46,7 +48,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_top_right_cone"
             android:layout_toEndOf="@+id/gridOneTopCube"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridTwoTopLeftCone"
@@ -55,16 +58,18 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_top_left_cone"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/gridOneTopRightCone" />
+            android:layout_toEndOf="@+id/gridOneTopRightCone"
+            android:scaleType="fitXY"/>
 
         <ImageButton
-            android:tag="id/gridTwoTopCube"
+            android:tag="gridTwoTopCube"
             android:id="@+id/gridTwoTopCube"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_top_cube"
             android:layout_toEndOf="@+id/gridTwoTopLeftCone"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridTwoTopRightCone"
@@ -73,7 +78,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_top_right_cone"
             android:layout_toEndOf="@+id/gridTwoTopCube"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridThreeTopLeftCone"
@@ -82,7 +88,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_top_left_cone"
             android:layout_toEndOf="@+id/gridTwoTopRightCone"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridThreeTopCube"
@@ -91,7 +98,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_top_cube"
             android:layout_toEndOf="@+id/gridThreeTopLeftCone"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridThreeTopRightCone"
@@ -100,7 +108,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_top_right_cone"
             android:layout_toEndOf="@+id/gridThreeTopCube"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"/>
 
         <ImageView
             android:tag="gridRightEdge"
@@ -109,7 +118,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_right_edge"
             android:layout_toEndOf="@+id/gridThreeTopRightCone"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"/>
 
         <!--MiddleRow-->
         <ImageButton
@@ -119,7 +129,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_middle_left_cone"
             android:layout_toEndOf="@+id/gridLeftEdge"
-            android:layout_below="@+id/gridOneTopLeftCone"/>
+            android:layout_below="@+id/gridOneTopLeftCone"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridOneMiddleCube"
@@ -128,7 +139,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_middle_cube"
             android:layout_toEndOf="@+id/gridOneMiddleLeftCone"
-            android:layout_below="@id/gridOneTopCube"/>
+            android:layout_below="@id/gridOneTopCube"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridOneMiddleRightCone"
@@ -137,7 +149,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_middle_right_cone"
             android:layout_toEndOf="@+id/gridOneMiddleCube"
-            android:layout_below="@id/gridOneTopRightCone"/>
+            android:layout_below="@id/gridOneTopRightCone"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridTwoMiddleLeftCone"
@@ -146,7 +159,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_middle_left_cone"
             android:layout_toEndOf="@+id/gridOneMiddleRightCone"
-            android:layout_below="@id/gridTwoTopLeftCone"/>
+            android:layout_below="@id/gridTwoTopLeftCone"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridTwoMiddleCube"
@@ -155,7 +169,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_middle_cube"
             android:layout_toEndOf="@+id/gridTwoMiddleLeftCone"
-            android:layout_below="@id/gridTwoTopCube"/>
+            android:layout_below="@id/gridTwoTopCube"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridTwoMiddleRightCone"
@@ -164,7 +179,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_middle_right_cone"
             android:layout_toEndOf="@+id/gridTwoMiddleCube"
-            android:layout_below="@id/gridOneTopRightCone"/>
+            android:layout_below="@id/gridOneTopRightCone"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridThreeMiddleLeftCone"
@@ -173,7 +189,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_middle_left_cone"
             android:layout_toEndOf="@+id/gridTwoMiddleRightCone"
-            android:layout_below="@id/gridThreeTopLeftCone"/>
+            android:layout_below="@id/gridThreeTopLeftCone"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridThreeMiddleCube"
@@ -182,7 +199,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_middle_cube"
             android:layout_toEndOf="@+id/gridThreeMiddleLeftCone"
-            android:layout_below="@id/gridThreeTopCube"/>
+            android:layout_below="@id/gridThreeTopCube"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridThreeMiddleRightCone"
@@ -191,7 +209,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_middle_right_cone"
             android:layout_toEndOf="@+id/gridThreeMiddleCube"
-            android:layout_below="@id/gridThreeTopRightCone"/>
+            android:layout_below="@id/gridThreeTopRightCone"
+            android:scaleType="fitXY"/>
 
         <!--BottomRow-->
         <ImageButton
@@ -202,7 +221,8 @@
             android:background="@drawable/grid_one_bottom_left_hybrid"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/gridOneMiddleLeftCone"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridOneBottomMiddleHybrid"
@@ -212,7 +232,8 @@
             android:background="@drawable/grid_one_bottom_middle_hybrid"
             android:layout_toEndOf="@+id/gridOneBottomLeftHybrid"
             android:layout_below="@+id/gridOneMiddleCube"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridOneBottomRightHybrid"
@@ -222,7 +243,8 @@
             android:background="@drawable/grid_one_bottom_right_hybrid"
             android:layout_toEndOf="@+id/gridOneBottomMiddleHybrid"
             android:layout_below="@+id/gridOneMiddleRightCone"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridTwoBottomLeftHybrid"
@@ -232,7 +254,8 @@
             android:background="@drawable/grid_two_bottom_left_hybrid"
             android:layout_toEndOf="@+id/gridOneBottomRightHybrid"
             android:layout_below="@+id/gridTwoMiddleLeftCone"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridTwoBottomMiddleHybrid"
@@ -242,7 +265,8 @@
             android:background="@drawable/grid_two_bottom_middle_hybrid"
             android:layout_toEndOf="@+id/gridTwoBottomLeftHybrid"
             android:layout_below="@+id/gridTwoMiddleCube"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridTwoBottomRightHybrid"
@@ -252,7 +276,8 @@
             android:background="@drawable/grid_one_bottom_right_hybrid"
             android:layout_toEndOf="@+id/gridTwoBottomMiddleHybrid"
             android:layout_below="@+id/gridTwoMiddleRightCone"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridThreeBottomLeftHybrid"
@@ -262,7 +287,8 @@
             android:background="@drawable/grid_three_bottom_left_hybrid"
             android:layout_toEndOf="@+id/gridTwoBottomRightHybrid"
             android:layout_below="@+id/gridThreeMiddleLeftCone"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridThreeBottomMiddleHybrid"
@@ -272,7 +298,8 @@
             android:background="@drawable/grid_three_bottom_middle_hybrid"
             android:layout_toEndOf="@+id/gridThreeBottomLeftHybrid"
             android:layout_below="@+id/gridThreeMiddleCube"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:tag="gridThreeBottomRightHybrid"
@@ -282,7 +309,8 @@
             android:background="@drawable/grid_three_bottom_right_hybrid"
             android:layout_toEndOf="@+id/gridThreeBottomMiddleHybrid"
             android:layout_below="@+id/gridThreeMiddleRightCone"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"/>
 
 
     </RelativeLayout>
