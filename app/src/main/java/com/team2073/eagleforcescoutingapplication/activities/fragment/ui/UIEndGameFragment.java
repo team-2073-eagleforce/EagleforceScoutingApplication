@@ -73,11 +73,11 @@ public class UIEndGameFragment extends Fragment {
                 scoutingFormPresenter.saveData("Charging Station", "1");
                 break;
             case "1":
-                fragmentEndgameBinding.chargingStation.setImageResource(R.drawable.chargestation1);
+                fragmentEndgameBinding.chargingStation.setImageResource(R.drawable.docked);
                 scoutingFormPresenter.saveData("Charging Station", "2");
                 break;
             case "2":
-                fragmentEndgameBinding.chargingStation.setImageResource(R.drawable.balanced);
+                fragmentEndgameBinding.chargingStation.setImageResource(R.drawable.engaged);
                 scoutingFormPresenter.saveData("Charging Station", "3");
                 break;
             case "3":
