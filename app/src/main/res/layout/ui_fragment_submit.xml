@@ -46,6 +46,19 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
             android:text="Submit" />
+        <EditText
+            android:id="@+id/defenseTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+             />
 
     </RelativeLayout>
 
