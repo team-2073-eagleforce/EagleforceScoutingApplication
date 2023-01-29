@@ -1,10 +1,13 @@
 package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -26,7 +29,10 @@ import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataMan
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
 import com.team2073.eagleforcescoutingapplication.util.Match;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import timber.log.Timber;
 
@@ -83,4 +89,61 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         tabs.setupWithViewPager(viewPager);
     }
 
+    public String fetchGridImageFile(String imageButtonName, String indicator, String fragmentName, Context context) {
+        String savedDataName = imageButtonName + fragmentName;
+        String retrievedImage = "";
+        switch (indicator) {
+            case "Cube":
+                switch (readData(savedDataName)) {
+                    case "0":
+                        saveData(savedDataName, "2");
+                        imageButtonName += "2";
+                        break;
+                    case "2":
+                        saveData(savedDataName, "0");
+                        imageButtonName += "0";
+                        break;
+                }
+                break;
+            case "Cone":
+                switch (readData(savedDataName)) {
+                    case "0":
+                        saveData(savedDataName, "1");
+                        imageButtonName += "1";
+                        break;
+                    case "1":
+                        saveData(savedDataName, "0");
+                        imageButtonName += "0";
+                        break;
+                }
+                break;
+            case "Hybrid":
+                switch (readData(savedDataName)) {
+                    case "0":
+                        saveData(savedDataName, "1");
+                        imageButtonName += "1";
+                        break;
+                    case "1":
+                        saveData(savedDataName, "2");
+                        imageButtonName += "2";
+                        break;
+                    case "2":
+                        saveData(savedDataName, "0");
+                        imageButtonName += "0";
+                        break;
+                }
+                break;
+        }
+
+        try {
+            Properties properties = new Properties();
+            AssetManager assetManager = context.getAssets();
+            InputStream inputStream = assetManager.open("grid.properties");
+            properties.load(inputStream);
+            retrievedImage = properties.getProperty(imageButtonName);
+        } catch (IOException e) {
+            e.fillInStackTrace();
+        }
+        return retrievedImage;
+    }
 }

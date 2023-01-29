@@ -72,6 +72,7 @@ public class UIAutoFragment extends Fragment {
 
         String[] gridViews = getResources().getStringArray(R.array.gridViews);
         for (String gridView : gridViews) {
+            gridView += ARG_SECTION_NUMBER;
             scoutingFormPresenter.saveData(gridView, "0");
         }
     }
@@ -164,63 +165,8 @@ public class UIAutoFragment extends Fragment {
 
     private void toggleElement(ImageButton elementImage, String indicator){
         String imageButtonName = elementImage.getTag().toString();
-        String retrievedImage = "";
-        int id;
-
-        switch (indicator) {
-            case "Cube":
-                switch (scoutingFormPresenter.readData(imageButtonName)) {
-                    case "0":
-                        scoutingFormPresenter.saveData(imageButtonName, "2");
-                        imageButtonName += "2";
-                        break;
-                    case "2":
-                        scoutingFormPresenter.saveData(imageButtonName, "0");
-                        imageButtonName += "0";
-                        break;
-                }
-                break;
-            case "Cone":
-                switch (scoutingFormPresenter.readData(imageButtonName)) {
-                    case "0":
-                        scoutingFormPresenter.saveData(imageButtonName, "1");
-                        imageButtonName += "1";
-                        break;
-                    case "1":
-                        scoutingFormPresenter.saveData(imageButtonName, "0");
-                        imageButtonName += "0";
-                        break;
-                }
-                break;
-            case "Hybrid":
-                switch (scoutingFormPresenter.readData(imageButtonName)) {
-                    case "0":
-                        scoutingFormPresenter.saveData(imageButtonName,"1");
-                        imageButtonName += "1";
-                        break;
-                    case "1":
-                        scoutingFormPresenter.saveData(imageButtonName, "2");
-                        imageButtonName += "2";
-                        break;
-                    case "2":
-                        scoutingFormPresenter.saveData(imageButtonName, "0");
-                        imageButtonName += "0";
-                        break;
-                }
-                break;
-        }
-
-        try {
-            Properties properties = new Properties();
-            AssetManager assetManager = requireContext().getAssets();
-            InputStream inputStream = assetManager.open("grid.properties");
-            properties.load(inputStream);
-            retrievedImage = properties.getProperty(imageButtonName);
-        } catch (IOException e) {
-            e.fillInStackTrace();
-        }
-
-        id = getResources().getIdentifier(retrievedImage, "drawable", requireContext().getPackageName());
+        String retrievedImage = scoutingFormPresenter.fetchGridImageFile(imageButtonName, indicator, ARG_SECTION_NUMBER, requireContext());
+        int id = getResources().getIdentifier(retrievedImage, "drawable", requireContext().getPackageName());
         elementImage.setImageResource(id);
     }
 
