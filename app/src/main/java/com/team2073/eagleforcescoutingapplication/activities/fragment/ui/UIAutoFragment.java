@@ -57,9 +57,7 @@ public class UIAutoFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         initDataFields();
-        initViewLabels();
         initViewImageButtons();
     }
 
@@ -70,18 +68,17 @@ public class UIAutoFragment extends Fragment {
     }
 
     private void initDataFields() {
+        scoutingFormPresenter.saveData("autoClimb", "0");
+
         String[] gridViews = getResources().getStringArray(R.array.gridViews);
         for (String gridView : gridViews) {
             scoutingFormPresenter.saveData(gridView, "0");
         }
     }
 
-    private void initViewLabels() {
-//        autoUpperLabel.setText(getResources().getString(R.string.num_cargo_upper_hub_label));
-//        autoLowerLabel.setText(getResources().getString(R.string.num_cargo_lower_hub_label));
-    }
-
     private void initViewImageButtons() {
+        fragmentAutoBinding.autoClimb.setOnClickListener(autoClimb -> toggleClimb((ImageButton) autoClimb));
+
         //Top Grid
         fragmentAutoBinding.gridOneTopLeftCone.setOnClickListener(gridOneTopLeftCone ->
                 toggleElement((ImageButton) gridOneTopLeftCone, "Cone"));
@@ -149,6 +146,22 @@ public class UIAutoFragment extends Fragment {
                 toggleElement((ImageButton) gridThreeBottomRightHybrid, "Hybrid"));
     }
 
+    private void toggleClimb(ImageButton climbImage){
+        switch (scoutingFormPresenter.readData("autoClimb")){
+            case "0":
+                scoutingFormPresenter.saveData("autoClimb", "1");
+                climbImage.setImageResource(R.drawable.auto_docked);
+                break;
+            case "1":
+                scoutingFormPresenter.saveData("autoClimb", "2");
+                climbImage.setImageResource(R.drawable.auto_engaged);
+                break;
+            case "2":
+                scoutingFormPresenter.saveData("autoClimb", "0");
+                climbImage.setImageResource(R.drawable.auto_none);
+        }
+    }
+
     private void toggleElement(ImageButton elementImage, String indicator){
         String imageButtonName = elementImage.getTag().toString();
         String retrievedImage = "";
@@ -209,40 +222,6 @@ public class UIAutoFragment extends Fragment {
 
         id = getResources().getIdentifier(retrievedImage, "drawable", requireContext().getPackageName());
         elementImage.setImageResource(id);
-    }
-
-//    private void toggleCube(ImageButton cubeImage) {
-//        String imageButtonName = cubeImage.getTag().toString();
-//        String retrievedImage = "";
-//        int id;
-//
-//        switch (scoutingFormPresenter.readData(imageButtonName)) {
-//            case "0":
-//                scoutingFormPresenter.saveData(imageButtonName, "2");
-//                imageButtonName += "2";
-//                break;
-//            case "2":
-//                scoutingFormPresenter.saveData(imageButtonName, "0");
-//                imageButtonName += "0";
-//                break;
-//        }
-//        System.out.println(imageButtonName);
-//        //TODO Move to Scouting Presenter or separate class
-//        try {
-//            Properties properties = new Properties();
-//            AssetManager assetManager = getContext().getAssets();
-//            InputStream inputStream = assetManager.open("grid.properties");
-//            properties.load(inputStream);
-//            retrievedImage = properties.getProperty(imageButtonName);
-//        } catch (IOException e) {
-//            e.fillInStackTrace();
-//        }
-//
-//        id = getResources().getIdentifier(retrievedImage, "drawable", requireContext().getPackageName());
-//        cubeImage.setImageResource(id);
-//    }
-
-    private void toggleElement(ImageButton hybridImage) {
     }
 
 }

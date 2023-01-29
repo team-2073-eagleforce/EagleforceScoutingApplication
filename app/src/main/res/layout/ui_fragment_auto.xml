@@ -6,10 +6,19 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="1290dp"
+        android:layout_width="1280dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/autoClimb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/auto_none"
+            android:layout_alignParentTop="true"
+            android:layout_marginHorizontal="170dp"
+            android:layout_marginBottom="15dp"/>
 
         <!--TopRow-->
         <ImageView
@@ -18,7 +27,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_left_edge"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/autoClimb"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -28,7 +37,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_top_left_cone"
             android:layout_toEndOf="@+id/gridLeftEdge"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/autoClimb"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -38,7 +47,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_top_cube"
             android:layout_toEndOf="@+id/gridOneTopLeftCone"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/autoClimb"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -48,7 +57,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_top_right_cone"
             android:layout_toEndOf="@+id/gridOneTopCube"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/autoClimb"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -57,8 +66,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_top_left_cone"
-            android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/gridOneTopRightCone"
+            android:layout_below="@id/autoClimb"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -68,7 +77,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_top_cube"
             android:layout_toEndOf="@+id/gridTwoTopLeftCone"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/autoClimb"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -78,7 +87,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_top_right_cone"
             android:layout_toEndOf="@+id/gridTwoTopCube"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/autoClimb"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -88,7 +97,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_top_left_cone"
             android:layout_toEndOf="@+id/gridTwoTopRightCone"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/autoClimb"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -98,7 +107,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_top_cube"
             android:layout_toEndOf="@+id/gridThreeTopLeftCone"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/autoClimb"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -108,7 +117,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_top_right_cone"
             android:layout_toEndOf="@+id/gridThreeTopCube"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/autoClimb"
             android:scaleType="fitXY"/>
 
         <ImageView
@@ -118,7 +127,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_right_edge"
             android:layout_toEndOf="@+id/gridThreeTopRightCone"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/autoClimb"
             android:scaleType="fitXY"/>
 
         <!--MiddleRow-->
