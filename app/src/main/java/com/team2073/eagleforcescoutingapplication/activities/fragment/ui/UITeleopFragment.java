@@ -15,6 +15,8 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.TransportDisplayLayoutBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentTeleopBinding;
+import com.team2073.eagleforcescoutingapplication.framework.form.ChargedUpScoutingForm;
+import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import timber.log.Timber;
@@ -26,6 +28,8 @@ public class UITeleopFragment extends Fragment {
     private UiFragmentTeleopBinding fragmentTeleopBinding;
     private TransportDisplayLayoutBinding coneTransportBinding;
     private TransportDisplayLayoutBinding cubeTransportBinding;
+
+    private ScoutingForm scoutingForm = new ChargedUpScoutingForm();
 
 
     public static UITeleopFragment newInstance(int index) {
@@ -71,10 +75,8 @@ public class UITeleopFragment extends Fragment {
         scoutingFormPresenter.saveData("coneTransport", "0");
         scoutingFormPresenter.saveData("cubeTransport", "0");
 
-        String[] gridViews = getResources().getStringArray(R.array.gridViews);
-        for (String gridView : gridViews) {
-            gridView += ARG_SECTION_NUMBER;
-            scoutingFormPresenter.saveData(gridView, "0");
+        for (String teleGridPoint: scoutingForm.getTeleFieldNames()) {
+            scoutingFormPresenter.saveData(teleGridPoint, "0");
         }
     }
 

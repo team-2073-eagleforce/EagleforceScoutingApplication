@@ -30,36 +30,4 @@
         <item>testing</item>
     </string-array>
 
-    <string-array name="gridViews">
-        <item>gridOneTopLeftCone</item>
-        <item>gridOneTopCube</item>
-        <item>gridOneTopRightCone</item>
-        <item>gridTwoTopLeftCone</item>
-        <item>gridTwoTopCube</item>
-        <item>gridTwoTopRightCone</item>
-        <item>gridThreeTopLeftCone</item>
-        <item>gridThreeTopCube</item>
-        <item>gridThreeTopRightCone</item>
-
-        <item>gridOneMiddleLeftCone</item>
-        <item>gridOneMiddleCube</item>
-        <item>gridOneMiddleRightCone</item>
-        <item>gridTwoMiddleLeftCone</item>
-        <item>gridTwoMiddleCube</item>
-        <item>gridTwoMiddleRightCone</item>
-        <item>gridThreeMiddleLeftCone</item>
-        <item>gridThreeTopCube</item>
-        <item>gridThreeTopRightCone</item>
-
-        <item>gridOneBottomLeftHybrid</item>
-        <item>gridOneBottomMiddleHybrid</item>
-        <item>gridOneBottomRightHybrid</item>
-        <item>gridTwoBottomLeftHybrid</item>
-        <item>gridTwoBottomMiddleHybrid</item>
-        <item>gridTwoBottomRightHybrid</item>
-        <item>gridThreeBottomLeftHybrid</item>
-        <item>gridThreeBottomMiddleHybrid</item>
-        <item>gridThreeBottomRightHybrid</item>
-    </string-array>
-
 </resources>
