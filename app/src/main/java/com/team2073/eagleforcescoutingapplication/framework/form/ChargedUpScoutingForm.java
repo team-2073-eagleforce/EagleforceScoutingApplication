@@ -26,35 +26,9 @@ public class ChargedUpScoutingForm implements ScoutingForm {
         fieldNames.add("compCode");
 
         //Autos TODO Rename autoClimb to autoChargingStation
-        fieldNames.add("gridOneTopLeftConeAuto");
-        fieldNames.add("gridOneTopCubeAuto");
-        fieldNames.add("gridOneTopRightConeAuto");
-        fieldNames.add("gridTwoTopLeftConeAuto");
-        fieldNames.add("gridTwoTopCubeAuto");
-        fieldNames.add("gridTwoTopRightConeAuto");
-        fieldNames.add("gridThreeTopLeftConeAuto");
-        fieldNames.add("gridThreeTopCubeAuto");
-        fieldNames.add("gridThreeTopRightConeAuto");
-        fieldNames.add("gridOneMiddleLeftConeAuto");
-        fieldNames.add("gridOneMiddleCubeAuto");
-        fieldNames.add("gridOneMiddleRightConeAuto");
-        fieldNames.add("gridTwoMiddleLeftConeAuto");
-        fieldNames.add("gridTwoMiddleCubeAuto");
-        fieldNames.add("gridTwoMiddleRightConeAuto");
-        fieldNames.add("gridThreeMiddleLeftConeAuto");
-        fieldNames.add("gridThreeMiddleCubeAuto");
-        fieldNames.add("gridThreeMiddleRightConeAuto");
-        fieldNames.add("gridOneBottomLeftHybridAuto");
-        fieldNames.add("gridOneBottomMiddleHybridAuto");
-        fieldNames.add("gridOneBottomRightHybridAuto");
-        fieldNames.add("gridTwoBottomLeftHybridAuto");
-        fieldNames.add("gridTwoBottomMiddleHybridAuto");
-        fieldNames.add("gridTwoBottomRightHybridAuto");
-        fieldNames.add("gridThreeBottomLeftHybridAuto");
-        fieldNames.add("gridThreeBottomMiddleHybridAuto");
-        fieldNames.add("gridThreeBottomRightHybridAuto");
         fieldNames.add("autoClimb");
 
+        fieldNames.add("gridValuesAuto");
         autoNames.add("gridOneTopLeftConeAuto");
         autoNames.add("gridOneTopCubeAuto");
         autoNames.add("gridOneTopRightConeAuto");
@@ -113,34 +87,7 @@ public class ChargedUpScoutingForm implements ScoutingForm {
         clearNames.add("autoClimb");
 
         //Teleop
-        fieldNames.add("gridOneTopLeftConeTeleOp");
-        fieldNames.add("gridOneTopCubeTeleOp");
-        fieldNames.add("gridOneTopRightConeTeleOp");
-        fieldNames.add("gridTwoTopLeftConeTeleOp");
-        fieldNames.add("gridTwoTopCubeTeleOp");
-        fieldNames.add("gridTwoTopRightConeTeleOp");
-        fieldNames.add("gridThreeTopLeftConeTeleOp");
-        fieldNames.add("gridThreeTopCubeTeleOp");
-        fieldNames.add("gridThreeTopRightConeTeleOp");
-        fieldNames.add("gridOneMiddleLeftConeTeleOp");
-        fieldNames.add("gridOneMiddleCubeTeleOp");
-        fieldNames.add("gridOneMiddleRightConeTeleOp");
-        fieldNames.add("gridTwoMiddleLeftConeTeleOp");
-        fieldNames.add("gridTwoMiddleCubeTeleOp");
-        fieldNames.add("gridTwoMiddleRightConeTeleOp");
-        fieldNames.add("gridThreeMiddleLeftConeTeleOp");
-        fieldNames.add("gridThreeMiddleCubeTeleOp");
-        fieldNames.add("gridThreeMiddleRightConeTeleOp");
-        fieldNames.add("gridOneBottomLeftHybridTeleOp");
-        fieldNames.add("gridOneBottomMiddleHybridTeleOp");
-        fieldNames.add("gridOneBottomRightHybridTeleOp");
-        fieldNames.add("gridTwoBottomLeftHybridTeleOp");
-        fieldNames.add("gridTwoBottomMiddleHybridTeleOp");
-        fieldNames.add("gridTwoBottomRightHybridTeleOp");
-        fieldNames.add("gridThreeBottomLeftHybridTeleOp");
-        fieldNames.add("gridThreeBottomMiddleHybridTeleOp");
-        fieldNames.add("gridThreeBottomRightHybridTeleOp");
-
+        fieldNames.add("gridValuesTeleOp");
         teleNames.add("gridOneTopLeftConeTeleOp");
         teleNames.add("gridOneTopCubeTeleOp");
         teleNames.add("gridOneTopRightConeTeleOp");

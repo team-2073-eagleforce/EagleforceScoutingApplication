@@ -13,6 +13,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.team2073.eagleforcescoutingapplication.framework.form.ChargedUpScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.form.RapidReactScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
@@ -22,12 +23,13 @@ import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataMan
 import com.team2073.eagleforcescoutingapplication.framework.view.QrGeneratorView;
 import com.team2073.eagleforcescoutingapplication.util.Match;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import timber.log.Timber;
 
@@ -38,8 +40,9 @@ public class QrGeneratorPresenter extends BasePresenter<QrGeneratorView> {
     private final FileManager fileManager;
     private final DrawerManager drawerManager;
     private final PrefsDataManager prefsDataManager;
-    private final ScoutingForm scoutingForm = new RapidReactScoutingForm();
-    private final ArrayList<String> allData;
+    private final ScoutingForm scoutingForm = new ChargedUpScoutingForm();
+
+    private final ArrayList<String> allFieldNames = scoutingForm.getFieldNames();
 
     public QrGeneratorPresenter(Activity activity) {
         this.mActivity = activity;
@@ -47,8 +50,6 @@ public class QrGeneratorPresenter extends BasePresenter<QrGeneratorView> {
         fileManager = FileManager.getInstance(mActivity);
         drawerManager = DrawerManager.getInstance(mActivity);
         prefsDataManager = PrefsDataManager.getInstance(mActivity);
-
-        allData = prefsDataManager.readFromPreferences(scoutingForm.getFieldNames());
     }
 
     public void makeDrawer(Toolbar toolbar) {
@@ -56,16 +57,51 @@ public class QrGeneratorPresenter extends BasePresenter<QrGeneratorView> {
     }
 
     public String fetchTeamAndMatch() {
-        return "Team: " + allData.get(0) + " Match: " + allData.get(1);
+        return "Team: " + prefsDataManager.readFromPreferences(allFieldNames.get(0)) + " Match: " +
+                prefsDataManager.readFromPreferences(allFieldNames.get(1));
+    }
+
+    private String gridArrayConverter(ArrayList<String> gridNames) {
+        ArrayList<String> gridValuesToConvert = prefsDataManager.readFromPreferences(gridNames);
+        String[][] gridValuesArray = new String[3][9];
+        for (int gridRow = 0; gridRow < 3; gridRow++) {
+            for (int gridElement = 0; gridElement < 9; gridElement++) {
+                int gridElementNumber = 9 * gridRow + gridElement;
+                gridValuesArray[gridRow][gridElement] = gridValuesToConvert.get(gridElementNumber);
+            }
+        }
+        System.out.println(Arrays.deepToString(gridValuesArray));
+        return Arrays.deepToString(gridValuesArray);
+    }
+
+    public JSONObject dataToJSON() throws JSONException {
+        JSONObject jsonData = new JSONObject();
+        try {
+            for (String fieldData : allFieldNames) {
+                if (fieldData.equals("gridValuesAuto")) {
+                    jsonData.put("gridValuesAuto", gridArrayConverter(scoutingForm.getAutoFieldNames()));
+                } else if (fieldData.equals("gridValuesTeleOp")) {
+                    jsonData.put("gridValuesTeleOp", gridArrayConverter(scoutingForm.getTeleFieldNames()));
+                } else {
+                    jsonData.put(fieldData, prefsDataManager.readFromPreferences(fieldData));
+                }
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        Timber.tag("json_data: ").d(jsonData.toString());
+        return jsonData;
     }
 
     public Bitmap createQR() throws WriterException {
-        String concatenatedData = allData.stream().collect(Collectors.joining(","));
-
-        MultiFormatWriter writer = new MultiFormatWriter();
-        BitMatrix matrix = writer.encode(concatenatedData, BarcodeFormat.QR_CODE, 150, 150);
-        BarcodeEncoder encoder = new BarcodeEncoder();
-        return encoder.createBitmap(matrix);
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(String.valueOf(dataToJSON()), BarcodeFormat.QR_CODE, 400, 400);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            return barcodeEncoder.createBitmap(bitMatrix);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentAutoBinding;
+import com.team2073.eagleforcescoutingapplication.framework.form.ChargedUpScoutingForm;
+import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.io.IOException;
@@ -28,7 +30,7 @@ public class UIAutoFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "Auto";
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentAutoBinding fragmentAutoBinding;
-    private Context context;
+    private final ScoutingForm scoutingForm = new ChargedUpScoutingForm();
 
 
     public static UIAutoFragment newInstance(int index) {
@@ -70,10 +72,8 @@ public class UIAutoFragment extends Fragment {
     private void initDataFields() {
         scoutingFormPresenter.saveData("autoClimb", "0");
 
-        String[] gridViews = getResources().getStringArray(R.array.gridViews);
-        for (String gridView : gridViews) {
-            gridView += ARG_SECTION_NUMBER;
-            scoutingFormPresenter.saveData(gridView, "0");
+        for (String autoGridPoint: scoutingForm.getAutoFieldNames()) {
+            scoutingFormPresenter.saveData(autoGridPoint, "0");
         }
     }
 
