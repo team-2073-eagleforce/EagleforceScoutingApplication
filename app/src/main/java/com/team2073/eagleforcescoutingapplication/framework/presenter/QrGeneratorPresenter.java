@@ -78,10 +78,10 @@ public class QrGeneratorPresenter extends BasePresenter<QrGeneratorView> {
         JSONObject jsonData = new JSONObject();
         try {
             for (String fieldData : allFieldNames) {
-                if (fieldData.equals("gridValuesAuto")) {
-                    jsonData.put("gridValuesAuto", gridArrayConverter(scoutingForm.getAutoFieldNames()));
-                } else if (fieldData.equals("gridValuesTeleOp")) {
-                    jsonData.put("gridValuesTeleOp", gridArrayConverter(scoutingForm.getTeleFieldNames()));
+                if (fieldData.equals("autoGrid")) {
+                    jsonData.put("autoGrid", gridArrayConverter(scoutingForm.getAutoFieldNames()));
+                } else if (fieldData.equals("teleGrid")) {
+                    jsonData.put("teleGrid", gridArrayConverter(scoutingForm.getTeleFieldNames()));
                 } else {
                     jsonData.put(fieldData, prefsDataManager.readFromPreferences(fieldData));
                 }

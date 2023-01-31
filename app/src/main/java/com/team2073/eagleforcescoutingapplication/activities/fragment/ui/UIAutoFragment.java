@@ -70,7 +70,7 @@ public class UIAutoFragment extends Fragment {
     }
 
     private void initDataFields() {
-        scoutingFormPresenter.saveData("autoClimb", "0");
+        scoutingFormPresenter.saveData("autoChargingStation", "0");
 
         for (String autoGridPoint: scoutingForm.getAutoFieldNames()) {
             scoutingFormPresenter.saveData(autoGridPoint, "0");
@@ -78,7 +78,7 @@ public class UIAutoFragment extends Fragment {
     }
 
     private void initViewImageButtons() {
-        fragmentAutoBinding.autoClimb.setOnClickListener(autoClimb -> toggleClimb((ImageButton) autoClimb));
+        fragmentAutoBinding.autoChargingStation.setOnClickListener(autoChargingStation -> toggleClimb((ImageButton) autoChargingStation));
 
         //Top Grid
         fragmentAutoBinding.gridOneTopLeftCone.setOnClickListener(gridOneTopLeftCone ->
@@ -148,17 +148,17 @@ public class UIAutoFragment extends Fragment {
     }
 
     private void toggleClimb(ImageButton climbImage){
-        switch (scoutingFormPresenter.readData("autoClimb")){
+        switch (scoutingFormPresenter.readData("autoChargingStation")){
             case "0":
-                scoutingFormPresenter.saveData("autoClimb", "1");
+                scoutingFormPresenter.saveData("autoChargingStation", "1");
                 climbImage.setImageResource(R.drawable.auto_docked);
                 break;
             case "1":
-                scoutingFormPresenter.saveData("autoClimb", "2");
+                scoutingFormPresenter.saveData("autoChargingStation", "2");
                 climbImage.setImageResource(R.drawable.auto_engaged);
                 break;
             case "2":
-                scoutingFormPresenter.saveData("autoClimb", "0");
+                scoutingFormPresenter.saveData("autoChargingStation", "0");
                 climbImage.setImageResource(R.drawable.auto_none);
         }
     }

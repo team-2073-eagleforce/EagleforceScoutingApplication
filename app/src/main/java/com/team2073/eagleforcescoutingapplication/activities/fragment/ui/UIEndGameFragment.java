@@ -63,26 +63,26 @@ public class UIEndGameFragment extends Fragment {
     }
 
     private void initFields() {
-        scoutingFormPresenter.saveData("Charging Station", "0");
+        scoutingFormPresenter.saveData("endChargingStation", "0");
     }
 
     public void changeEndState() {
-        switch (scoutingFormPresenter.readData("Charging Station")){
+        switch (scoutingFormPresenter.readData("endChargingStation")){
             case "0":
                 fragmentEndgameBinding.chargingStation.setImageResource(R.drawable.community_zone);
-                scoutingFormPresenter.saveData("Charging Station", "1");
+                scoutingFormPresenter.saveData("endChargingStation", "1");
                 break;
             case "1":
                 fragmentEndgameBinding.chargingStation.setImageResource(R.drawable.docked);
-                scoutingFormPresenter.saveData("Charging Station", "2");
+                scoutingFormPresenter.saveData("endChargingStation", "2");
                 break;
             case "2":
                 fragmentEndgameBinding.chargingStation.setImageResource(R.drawable.engaged);
-                scoutingFormPresenter.saveData("Charging Station", "3");
+                scoutingFormPresenter.saveData("endChargingStation", "3");
                 break;
             case "3":
                 fragmentEndgameBinding.chargingStation.setImageResource(R.drawable.dotted_box2);
-                scoutingFormPresenter.saveData("Charging Station", "0");
+                scoutingFormPresenter.saveData("endChargingStation", "0");
                 break;
         }
 

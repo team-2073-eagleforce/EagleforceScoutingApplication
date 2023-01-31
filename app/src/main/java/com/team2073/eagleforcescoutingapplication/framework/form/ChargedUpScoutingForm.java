@@ -13,22 +13,20 @@ public class ChargedUpScoutingForm implements ScoutingForm {
 
     public ChargedUpScoutingForm() {
         //General Info
+        fieldNames.add("compCode");
+
+        fieldNames.add("name");
+        clearNames.add("name");
+
         fieldNames.add("teamNumber");
         fieldNames.add("matchNumber");
         clearNames.add("teamNumber");
         clearNames.add("matchNumber");
 
-        fieldNames.add("name");
-        fieldNames.add("comment");
-        clearNames.add("name");
-        clearNames.add("comment");
+        //Autos
+        fieldNames.add("autoChargingStation");
 
-        fieldNames.add("compCode");
-
-        //Autos TODO Rename autoClimb to autoChargingStation
-        fieldNames.add("autoClimb");
-
-        fieldNames.add("gridValuesAuto");
+        fieldNames.add("autoGrid");
         autoNames.add("gridOneTopLeftConeAuto");
         autoNames.add("gridOneTopCubeAuto");
         autoNames.add("gridOneTopRightConeAuto");
@@ -84,10 +82,10 @@ public class ChargedUpScoutingForm implements ScoutingForm {
         clearNames.add("gridThreeBottomLeftHybridAuto");
         clearNames.add("gridThreeBottomMiddleHybridAuto");
         clearNames.add("gridThreeBottomRightHybridAuto");
-        clearNames.add("autoClimb");
+        clearNames.add("autoChargingStation");
 
         //Teleop
-        fieldNames.add("gridValuesTeleOp");
+        fieldNames.add("teleGrid");
         teleNames.add("gridOneTopLeftConeTeleOp");
         teleNames.add("gridOneTopCubeTeleOp");
         teleNames.add("gridOneTopRightConeTeleOp");
@@ -149,9 +147,17 @@ public class ChargedUpScoutingForm implements ScoutingForm {
         clearNames.add("coneTransport");
         clearNames.add("cubeTransport");
 
-        //Endgame TODO Rename to endgameChargingStation
-        fieldNames.add("Charging Station");
-        clearNames.add("Charging Station");
+        //Endgame
+        fieldNames.add("endChargingStation");
+        clearNames.add("endChargingStation");
+
+        //Submit
+        fieldNames.add("driverRanking");
+        fieldNames.add("defenseRanking");
+        fieldNames.add("comment");
+        clearNames.add("driverRanking");
+        clearNames.add("defenseRanking");
+        clearNames.add("comment");
     }
 
     @Override
