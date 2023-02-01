@@ -21,6 +21,9 @@ import androidx.lifecycle.ViewModelProviders;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.QrGeneratorActivity;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
+import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentAutoBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentSubmitBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.util.Objects;
@@ -34,30 +37,26 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
     private ScoutingFormPresenter scoutingFormPresenter;
     private Activity mActivity;
 
-    @BindView(R.id.uiComments) EditText formComments;
+    @BindView(R.id.uiComments)
+    EditText formComments;
 
-    private TextView defensePerformance;
-    private ImageButton addDefense;
-    private TextView defenseScore;
-    private ImageButton subtractDefense;
-
-    private TextView driverPerformance;
-    private ImageButton addDriver;
-    private TextView driverScore;
-    private ImageButton subtractDriver;
+    private UiFragmentSubmitBinding fragmentSubmitBinding;
+    private AddSubtractValuesBinding defensePerform;
+    private AddSubtractValuesBinding driverPerform;
 
 
     String state = Environment.getExternalStorageState();
 
     private static final String ARG_SECTION_NUMBER = "Submit";
 
-    public static UISubmitFragment newInstance(int index){
+    public static UISubmitFragment newInstance(int index) {
         UISubmitFragment fragment = new UISubmitFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
         return fragment;
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,120 +70,110 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.ui_fragment_submit, container, false);
-        ButterKnife.bind(this, root);
-
-        View autoPerform = root.findViewById(R.id.Defense_Performance);
-        defensePerformance = autoPerform.findViewById(R.id.formField);
-        addDefense = autoPerform.findViewById(R.id.formAdd);
-        defenseScore = autoPerform.findViewById(R.id.formScore);
-        subtractDefense = autoPerform.findViewById(R.id.formSubtract);
-
-        View driverPerform = root.findViewById(R.id.Driver_Performance);
-        driverPerformance = driverPerform.findViewById(R.id.formField);
-        addDriver = driverPerform.findViewById(R.id.formAdd);
-        driverScore = driverPerform.findViewById(R.id.formScore);
-        subtractDriver = driverPerform.findViewById(R.id.formSubtract);
-
-        root.findViewById(R.id.uiSubmitButton).setOnClickListener(this);
-        root.findViewById(R.id.uiSubmitButton).setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        fragmentSubmitBinding = UiFragmentSubmitBinding.inflate(inflater, container, false);
+        driverPerform = fragmentSubmitBinding.driverPerformance;
+        defensePerform = fragmentSubmitBinding.defensePerformance;
 
         initializeViewLabels();
-        initFields();
+        initDataFields();
 
-        return root;
+        return fragmentSubmitBinding.getRoot();
+
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        addDefense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int value = Integer.parseInt(defenseScore.getText().toString()) + 1;
-                if (value >= 3) {
-                    value = 3;
-                }
-                defenseScore.setText(String.valueOf(value));
-
-                scoutingFormPresenter.saveData("Defense Performance", String.valueOf(value));
-
-                Timber.d("shared Preferences: " + "Defense Performance" + ", " + scoutingFormPresenter.readData("Defense Performance"));
-            }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        defensePerform.formAdd.setOnClickListener(view1 -> {
+            addDefense();
         });
-        subtractDefense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int value = Integer.parseInt(defenseScore.getText().toString()) - 1;
-                if (value <= 0) {
-                    value = 0;
-                }
-                defenseScore.setText(String.valueOf(value));
-
-                scoutingFormPresenter.saveData("Defense Performance", String.valueOf(value));
-
-                Timber.d("shared Preferences: " + "Defense Performance" + ", " + scoutingFormPresenter.readData("Defense Performance"));
-            }
+        defensePerform.formSubtract.setOnClickListener(view1 -> {
+            subtractDefense();
         });
-
-        addDriver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int value = Integer.parseInt(driverScore.getText().toString()) + 1;
-                if (value >= 3) {
-                    value = 3;
-                }
-                driverScore.setText(String.valueOf(value));
-
-                scoutingFormPresenter.saveData("Driver Performance", String.valueOf(value));
-
-                Timber.d("shared Preferences: " + "Driver Performance" + ", " + scoutingFormPresenter.readData("Driver Performance"));
-            }
+        driverPerform.formAdd.setOnClickListener(view1 -> {
+            addDriver();
         });
-        subtractDriver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int value = Integer.parseInt(driverScore.getText().toString()) - 1;
-                if (value <= 0) {
-                    value = 0;
-                }
-                driverScore.setText(String.valueOf(value));
-
-                scoutingFormPresenter.saveData("Driver Performance", String.valueOf(value));
-
-                Timber.d("shared Preferences: " + "Driver Performance" + ", " + scoutingFormPresenter.readData("Driver Performance"));
-            }
+        driverPerform.formSubtract.setOnClickListener(view1 -> {
+            subtractDriver();
         });
     }
 
-    private void initFields() {
+
+    public void addDefense() {
+        int value = Integer.parseInt(defensePerform.formScore.getText().toString()) + 1;
+        if (value >= 5) {
+            value = 5;
+        }
+        defensePerform.formScore.setText(String.valueOf(value));
+
+        scoutingFormPresenter.saveData("Defense Performance", String.valueOf(value));
+
+        Timber.d("shared Preferences: " + "Defense Performance" + ", " + scoutingFormPresenter.readData("Defense Performance"));
+    }
+
+    public void subtractDefense() {
+        int value = Integer.parseInt(defensePerform.formField.getText().toString()) - 1;
+        if (value <= 0) {
+            value = 0;
+        }
+        defensePerform.formField.setText(String.valueOf(value));
+
+        scoutingFormPresenter.saveData("Defense Performance", String.valueOf(value));
+
+        Timber.d("shared Preferences: " + "Defense Performance" + ", " + scoutingFormPresenter.readData("Defense Performance"));
+    }
+
+
+    public void addDriver() {
+        int value = Integer.parseInt(driverPerform.formScore.getText().toString()) + 1;
+        if (value >= 5) {
+            value = 5;
+        }
+        driverPerform.formScore.setText(String.valueOf(value));
+
+        scoutingFormPresenter.saveData("Driver Performance", String.valueOf(value));
+
+        Timber.d("shared Preferences: " + "Driver Performance" + ", " + scoutingFormPresenter.readData("Driver Performance"));
+    }
+
+    public void subtractDriver() {
+        int value = Integer.parseInt(driverPerform.formField.getText().toString()) - 1;
+        if (value <= 0) {
+            value = 0;
+        }
+        driverPerform.formField.setText(String.valueOf(value));
+
+        scoutingFormPresenter.saveData("Driver Performance", String.valueOf(value));
+
+        Timber.d("shared Preferences: " + "Driver Performance" + ", " + scoutingFormPresenter.readData("Driver Performance"));
+    }
+
+
+
+    private void initDataFields() {
         if (scoutingFormPresenter.readData("Defense Performance").equals("0")){
-            defenseScore.setText("0");
+            defensePerform.formField.setText("0");
         } else {
-            defenseScore.setText(scoutingFormPresenter.readData("Defense Performance"));
+            defensePerform.formField.setText(scoutingFormPresenter.readData("Defense Performance"));
         }
 
         if (scoutingFormPresenter.readData("Driver Performance").equals("0")){
-            driverScore.setText("0");
+            driverPerform.formField.setText("0");
         } else {
-            driverScore.setText(scoutingFormPresenter.readData("Driver Performance"));
+            driverPerform.formField.setText(scoutingFormPresenter.readData("Driver Performance"));
         }
     }
 
     private void initializeViewLabels() {
-        driverPerformance.setText(getResources().getString(R.string.driver_performance));
-        defensePerformance.setText(getResources().getString(R.string.defense_performance));
+        driverPerform.formField.setText(getResources().getString(R.string.driver_performance));
+        defensePerform.formField.setText(getResources().getString(R.string.defense_performance));
     }
 
-    @Override
     public void onClick(View view) {
         if (view.getId() == R.id.uiSubmitButton) {
             if (scoutingFormPresenter.readData("position").equals("0")) {
                 scoutingFormPresenter.saveData("position", "red1");
             }
             if (scoutingFormPresenter.readData("comp_code").equals("0")) {
-                scoutingFormPresenter.saveData("comp_code", "2022mttd");
+                scoutingFormPresenter.saveData("comp_code", "test");
             }
             String comments = formComments.getText().toString().replace(',', ';');
             scoutingFormPresenter.saveData("comments", comments);

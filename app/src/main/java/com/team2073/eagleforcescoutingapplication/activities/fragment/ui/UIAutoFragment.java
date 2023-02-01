@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentAutoBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentSubmitBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.io.IOException;

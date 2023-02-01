@@ -10,16 +10,16 @@
         android:layout_gravity="center">
 
         <include
-            android:id="@+id/Driver_Performance"
+            android:id="@+id/driverPerformance"
             layout="@layout/add_subtract_values"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/Defense_Performance"
+            android:layout_below="@+id/defensePerformance"
             android:layout_marginTop="25dp"
             android:layout_centerHorizontal="true"/>
 
         <include
-            android:id="@+id/Defense_Performance"
+            android:id="@+id/defensePerformance"
             layout="@layout/add_subtract_values"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             android:id="@+id/uiComments"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/Driver_Performance"
+            android:layout_below="@+id/driverPerformance"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
             android:ellipsize="start"
@@ -46,19 +46,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
             android:text="Submit" />
-        <EditText
-            android:id="@+id/defenseTeam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="32dp"
-            android:ems="10"
-            android:hint="Name"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-             />
 
     </RelativeLayout>
 
