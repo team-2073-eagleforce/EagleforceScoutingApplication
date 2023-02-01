@@ -82,16 +82,16 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        defensePerform.formAdd.setOnClickListener(view1 -> {
+        defensePerform.formAdd.setOnClickListener(addDefense -> {
             addDefense();
         });
-        defensePerform.formSubtract.setOnClickListener(view1 -> {
+        defensePerform.formSubtract.setOnClickListener(subtractDefense -> {
             subtractDefense();
         });
-        driverPerform.formAdd.setOnClickListener(view1 -> {
+        driverPerform.formAdd.setOnClickListener(addDriver -> {
             addDriver();
         });
-        driverPerform.formSubtract.setOnClickListener(view1 -> {
+        driverPerform.formSubtract.setOnClickListener(subtractDriver -> {
             subtractDriver();
         });
     }
@@ -110,11 +110,11 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
     }
 
     public void subtractDefense() {
-        int value = Integer.parseInt(defensePerform.formField.getText().toString()) - 1;
+        int value = Integer.parseInt(defensePerform.formScore.getText().toString()) - 1;
         if (value <= 0) {
             value = 0;
         }
-        defensePerform.formField.setText(String.valueOf(value));
+        defensePerform.formScore.setText(String.valueOf(value));
 
         scoutingFormPresenter.saveData("Defense Performance", String.valueOf(value));
 
@@ -135,11 +135,11 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
     }
 
     public void subtractDriver() {
-        int value = Integer.parseInt(driverPerform.formField.getText().toString()) - 1;
+        int value = Integer.parseInt(driverPerform.formScore.getText().toString()) - 1;
         if (value <= 0) {
             value = 0;
         }
-        driverPerform.formField.setText(String.valueOf(value));
+        driverPerform.formScore.setText(String.valueOf(value));
 
         scoutingFormPresenter.saveData("Driver Performance", String.valueOf(value));
 
@@ -150,15 +150,15 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
 
     private void initDataFields() {
         if (scoutingFormPresenter.readData("Defense Performance").equals("0")){
-            defensePerform.formField.setText("0");
+            defensePerform.formScore.setText("0");
         } else {
-            defensePerform.formField.setText(scoutingFormPresenter.readData("Defense Performance"));
+            defensePerform.formScore.setText(scoutingFormPresenter.readData("Defense Performance"));
         }
 
         if (scoutingFormPresenter.readData("Driver Performance").equals("0")){
-            driverPerform.formField.setText("0");
+            driverPerform.formScore.setText("0");
         } else {
-            driverPerform.formField.setText(scoutingFormPresenter.readData("Driver Performance"));
+            driverPerform.formScore.setText(scoutingFormPresenter.readData("Driver Performance"));
         }
     }
 
