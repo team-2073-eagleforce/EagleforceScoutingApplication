@@ -1,5 +1,6 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -23,6 +26,7 @@ import timber.log.Timber;
 
 public class UITeleopFragment extends Fragment {
 
+    private Context context;
     private static final String ARG_SECTION_NUMBER = "TeleOp";
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentTeleopBinding fragmentTeleopBinding;
@@ -81,10 +85,15 @@ public class UITeleopFragment extends Fragment {
 
     private void initTextFields() {
         coneTransportBinding.formField.setText("Cone");
+        coneTransportBinding.formField.setTextColor(ResourcesCompat.getColor(getResources(), R.color.coneColor, null));
         coneTransportBinding.formScore.setText("0");
+        coneTransportBinding.formScore.setTextColor(ResourcesCompat.getColor(getResources(), R.color.coneColor, null));
 
         cubeTransportBinding.formField.setText("Cube");
+        cubeTransportBinding.formField.setTextColor(ResourcesCompat.getColor(getResources(), R.color.cubeColor, null));
         cubeTransportBinding.formScore.setText("0");
+        cubeTransportBinding.formScore.setTextColor(ResourcesCompat.getColor(getResources(), R.color.cubeColor, null));
+
     }
 
     private void initViewImageButtons() {

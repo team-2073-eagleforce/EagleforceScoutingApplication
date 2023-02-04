@@ -144,6 +144,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         } catch (IOException e) {
             e.fillInStackTrace();
         }
+        Timber.d("%s %s", savedDataName, readData(savedDataName));
         return retrievedImage;
     }
 }

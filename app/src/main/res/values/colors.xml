@@ -64,4 +64,8 @@
 
     <color name="scheduleMatchHeadColor">#424242</color>
 
+    <color name="coneColor">#ffe500</color>
+
+    <color name="cubeColor">#8c52ff</color>
+
 </resources>
