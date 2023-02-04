@@ -48,6 +48,15 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         drawerManager.makeDrawer(toolbar);
     }
 
+    public void createTabs() {
+        UIPagerAdapter sectionsPagerAdapter = new UIPagerAdapter(mActivity, ((FragmentActivity) mActivity).getSupportFragmentManager());
+        ViewPager viewPager = mActivity.findViewById(R.id.view_pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
+        TabLayout tabs = mActivity.findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
+    }
+
     public void saveData(String key, String data) {
         prefsDataManager.writeToPreferences(key, data);
     }
@@ -66,19 +75,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     }
 
 
-    /**
-     * Creates the tabbed interface for the {@link ScoutingFormActivity} based on the scouting mode chosen in the {@link SettingsActivity}
-     * Defaults to the UI interface
-     */
-    public void createTabs() {
-        UIPagerAdapter sectionsPagerAdapter = new UIPagerAdapter(mActivity, ((FragmentActivity) mActivity).getSupportFragmentManager());
-        ViewPager viewPager = mActivity.findViewById(R.id.view_pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setOffscreenPageLimit(3);
-        TabLayout tabs = mActivity.findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
-    }
-
+    //Fragment Related Logic
     public String fetchGridImageFile(String imageButtonName, String indicator, String fragmentName, Context context) {
         String savedDataName = imageButtonName + fragmentName;
         String retrievedImage = "";
@@ -136,5 +133,23 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         }
         Timber.d("%s %s", savedDataName, readData(savedDataName));
         return retrievedImage;
+    }
+
+    public int toggleClimb(String climbStationKey) {
+        switch (readData(climbStationKey)) {
+            case "0":
+                saveData(climbStationKey, "1");
+                return R.drawable.auto_mobility;
+            case "1":
+                saveData(climbStationKey, "2");
+                 return R.drawable.auto_docked;
+            case "2":
+                saveData(climbStationKey, "3");
+                return R.drawable.auto_engaged;
+            case "3":
+                saveData(climbStationKey, "0");
+                return R.drawable.auto_none;
+        }
+        return 0;
     }
 }
