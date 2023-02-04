@@ -14,9 +14,9 @@ import com.team2073.eagleforcescoutingapplication.framework.view.ChooseFileView;
 import java.io.File;
 
 public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
-    private Activity mActivity;
-    private FileManager fileManager;
     private static final int READ_REQUEST_CODE = 42;
+    private final Activity mActivity;
+    private final FileManager fileManager;
     private Class activityClass = SettingsActivity.class;
 
     public ChooseFilePresenter(Activity activity) {
@@ -56,13 +56,10 @@ public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
                 String id = split[1];
                 System.out.println(id);
 
-//                File file = new File("/sdcard/Download/Match_Schedule.csv");
-//              for emulation
-
                 if (id.startsWith("/storage/emulated/0/")) {
                     file = new File(id);
                 } else {
-                    file = new File(Environment.getExternalStorageDirectory().getPath() + "/"+ id);
+                    file = new File(Environment.getExternalStorageDirectory().getPath() + "/" + id);
                 }
 
                 FileManager.getInstance(mActivity).setScheduleFile(file);

@@ -32,7 +32,7 @@ public class UITeleopFragment extends Fragment {
     private UiFragmentTeleopBinding fragmentTeleopBinding;
     private TransportDisplayLayoutBinding coneTransportBinding;
     private TransportDisplayLayoutBinding cubeTransportBinding;
-    private ScoutingForm scoutingForm = new ChargedUpScoutingForm();
+    private final ScoutingForm scoutingForm = new ChargedUpScoutingForm();
 
 
     public static UITeleopFragment newInstance(int index) {

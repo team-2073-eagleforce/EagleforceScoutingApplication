@@ -1,8 +1,6 @@
 package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
@@ -15,28 +13,28 @@ import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataMan
 import com.team2073.eagleforcescoutingapplication.framework.view.SettingsView;
 
 public class SettingsPresenter extends BasePresenter<SettingsView> {
-    private Activity mActivity;
-    private DrawerManager drawerManager;
-    private PrefsDataManager prefsDataManager;
+    private final Activity mActivity;
+    private final DrawerManager drawerManager;
+    private final PrefsDataManager prefsDataManager;
 
-    public SettingsPresenter(Activity activity){
+    public SettingsPresenter(Activity activity) {
         this.mActivity = activity;
         drawerManager = DrawerManager.getInstance(activity);
         prefsDataManager = PrefsDataManager.getInstance(activity);
     }
 
-    public void makeSettings(FragmentManager fragmentManager, ActionBar actionBar){
+    public void makeSettings(FragmentManager fragmentManager, ActionBar actionBar) {
         mActivity.setContentView(R.layout.activity_settings);
         fragmentManager
                 .beginTransaction()
-                .replace(R.id.settings , new SettingsActivity.SettingsFragment(mActivity))
+                .replace(R.id.settings, new SettingsActivity.SettingsFragment(mActivity))
                 .commit();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
-    public void writeToPreferences (String key, String value) {
+    public void writeToPreferences(String key, String value) {
         prefsDataManager.writeToPreferences(key, value);
     }
 

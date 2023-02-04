@@ -3,12 +3,6 @@ package com.team2073.eagleforcescoutingapplication.framework.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.os.Build;
-import android.os.Environment;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
@@ -19,32 +13,28 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity;
 import com.team2073.eagleforcescoutingapplication.activities.SettingsActivity;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIPagerAdapter;
-import com.team2073.eagleforcescoutingapplication.framework.form.InfiniteRechargeScoutingForm;
-import com.team2073.eagleforcescoutingapplication.framework.form.RapidReactScoutingForm;
+import com.team2073.eagleforcescoutingapplication.framework.form.ChargedUpScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
-import com.team2073.eagleforcescoutingapplication.util.Match;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Properties;
 
 import timber.log.Timber;
 
 public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
 
-    private Activity mActivity;
-    private CSVManager csvManager;
-    private FileManager fileManager;
-    private DrawerManager drawerManager;
-    private PrefsDataManager prefsDataManager;
-    private UIPagerAdapter uiPagerAdapter;
-    private ScoutingForm scoutingForm = new RapidReactScoutingForm();
+    private final Activity mActivity;
+    private final CSVManager csvManager;
+    private final FileManager fileManager;
+    private final DrawerManager drawerManager;
+    private final PrefsDataManager prefsDataManager;
+    private final ScoutingForm scoutingForm = new ChargedUpScoutingForm();
 
     public ScoutingFormPresenter(Activity activity) {
         this.mActivity = activity;
