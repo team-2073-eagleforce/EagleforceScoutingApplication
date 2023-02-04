@@ -6,13 +6,6 @@
     <string name="processing">Processing...</string>
     <string name="title_activity_scouting_form">ScoutingFormActivity</string>
 
-    <string name="recycler_tab_text_1">Start</string>
-    <string name="recycler_tab_text_2">Auto</string>
-    <string name="recycler_tab_text_3">TeleOp</string>
-    <string name="recycler_tab_text_4">Details</string>
-    <string name="recycler_tab_text_5">Submit</string>
-    <string name="recycler_tab_text_6">QRCode</string>
-
     <string name="ui_tab_text_1">Info</string>
     <string name="ui_tab_text_2">Auto</string>
     <string name="ui_tab_text_3">TeleOp</string>
@@ -26,11 +19,7 @@
     <string name="title_activity_settings2">Settings</string>
 
     <!-- Game Specific Titles -->
-    <string name="num_cells_bottom_label"># Lower Port</string>
-    <string name="num_cells_outer_label"># Upper Port</string>
-    <string name="num_cells_inner_label"># Inner Port</string>
-    <string name="num_cargo_upper_hub_label"># Upper Hub</string>
-    <string name="num_cargo_lower_hub_label"># Lower Hub</string>
+    <string name="team_number">Team Number</string>
 
     <string name="driver_performance">Driver Performance</string>
     <string name="defense_performance">Defense Performance</string>
@@ -46,14 +35,8 @@
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="drawerScoutingFormText">Scouting Form</string>
     <string name="drawerScheduleText">Schedule</string>
-
-    <string name="drawerInsightText">Insight</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="drawerPitScoutingFormText">Pit Scouting</string>
 </resources>

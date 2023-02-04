@@ -25,7 +25,6 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         settingsPresenter.makeSettings(getSupportFragmentManager(), getSupportActionBar());
         Toolbar toolbar = findViewById(R.id.toolbarMain);
         settingsPresenter.makeDrawer(toolbar);
@@ -63,12 +62,12 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-        private final Activity activity;
+        private final Activity mActivity;
         private final FileManager fileManager;
         private final SettingsPresenter settingsPresenter;
 
         public SettingsFragment(Activity activity) {
-            this.activity = activity;
+            this.mActivity = activity;
             fileManager = FileManager.getInstance(activity);
             settingsPresenter = new SettingsPresenter(activity);
         }
