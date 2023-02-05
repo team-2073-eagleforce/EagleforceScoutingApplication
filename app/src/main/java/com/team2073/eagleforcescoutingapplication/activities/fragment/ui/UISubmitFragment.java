@@ -8,46 +8,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.activities.QrGeneratorActivity;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentAutoBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentSubmitBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
-import java.util.Objects;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class UISubmitFragment extends Fragment implements View.OnClickListener {
 
-    private ScoutingFormPresenter scoutingFormPresenter;
-    private Activity mActivity;
-
+    private static final String ARG_SECTION_NUMBER = "Submit";
     @BindView(R.id.uiComments)
     EditText formComments;
-
+    String state = Environment.getExternalStorageState();
+    private ScoutingFormPresenter scoutingFormPresenter;
+    private Activity mActivity;
     private UiFragmentSubmitBinding fragmentSubmitBinding;
     private AddSubtractValuesBinding defensePerform;
     private AddSubtractValuesBinding driverPerform;
-
-
-    String state = Environment.getExternalStorageState();
-
-    private static final String ARG_SECTION_NUMBER = "Submit";
 
     public static UISubmitFragment newInstance(int index) {
         UISubmitFragment fragment = new UISubmitFragment();
@@ -147,15 +134,14 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
     private void initDataFields() {
-        if (scoutingFormPresenter.readData("Defense Performance").equals("0")){
+        if (scoutingFormPresenter.readData("Defense Performance").equals("0")) {
             defensePerform.formField.setText("0");
         } else {
             defensePerform.formField.setText(scoutingFormPresenter.readData("Defense Performance"));
         }
 
-        if (scoutingFormPresenter.readData("Driver Performance").equals("0")){
+        if (scoutingFormPresenter.readData("Driver Performance").equals("0")) {
             driverPerform.formField.setText("0");
         } else {
             driverPerform.formField.setText(scoutingFormPresenter.readData("Driver Performance"));
@@ -179,10 +165,6 @@ public class UISubmitFragment extends Fragment implements View.OnClickListener {
             scoutingFormPresenter.saveData("comments", comments);
             if (scoutingFormPresenter.readData("comments").length() == 0 || scoutingFormPresenter.readData("name").length() == 0) {
                 Toast.makeText(this.getActivity(), "Some Fields are Empty", Toast.LENGTH_SHORT).show();
-            } else {
-                Intent i = new Intent(getActivity(), QrGeneratorActivity.class);
-                startActivity(i);
-                ((Activity) requireActivity()).overridePendingTransition(0, 0);
             }
         }
     }
