@@ -20,6 +20,10 @@ import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivit
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentQrcodeBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
+import com.team2073.eagleforcescoutingapplication.util.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class UIQRCodeFragment extends Fragment {
 
@@ -54,8 +58,20 @@ public class UIQRCodeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        generateQRCode();
+        generateQRCode(new MessageEvent());
         finishScan();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     @Override
@@ -64,7 +80,9 @@ public class UIQRCodeFragment extends Fragment {
         fragmentQrcodeBinding = null;
     }
 
-    public void generateQRCode() {
+    @Subscribe
+    public void generateQRCode(MessageEvent event) {
+        System.out.println("Works");
         try {
             fragmentQrcodeBinding.QROutput.setImageBitmap(scoutingFormPresenter.createQR());
         } catch (WriterException e) {

@@ -23,6 +23,9 @@ import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesB
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentQrcodeBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
+import com.team2073.eagleforcescoutingapplication.util.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import timber.log.Timber;
 
@@ -164,9 +167,7 @@ public class UIEndGameFragment extends Fragment {
             String comment = fragmentEndgameBinding.uiComments.getText().toString();
             scoutingFormPresenter.saveData("comment", comment);
 
-            UIQRCodeFragment uiqrCodeFragment = (UIQRCodeFragment) getParentFragmentManager().findFragmentById(R.id.view_pager);
-            System.out.println(uiqrCodeFragment);
-            uiqrCodeFragment.generateQRCode();
+            EventBus.getDefault().post(new MessageEvent());
         });
     }
 
