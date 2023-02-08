@@ -24,18 +24,18 @@ public class UIPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0: {
+            case 0:
                 return UIInfoFragment.newInstance(position+1);
-            } case 1: {
+            case 1:
                 return UIAutoFragment.newInstance(position+1);
-            } case 2: {
+            case 2:
                 return UITeleopFragment.newInstance(position+1);
-            } case 3: {
+            case 3:
                 return UIEndGameFragment.newInstance(position+1);
-            } case 4: {
-                return UISubmitFragment.newInstance(position+1);
-            }
+            case 4:
+                return UIQRCodeFragment.newInstance(position+1);
         }
+
         return null;
     }
 

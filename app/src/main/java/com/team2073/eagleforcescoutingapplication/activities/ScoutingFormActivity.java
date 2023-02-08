@@ -8,42 +8,36 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.PagerAdapter;
 
+import com.google.android.material.tabs.TabLayout;
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIPagerAdapter;
+import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIQRCodeFragment;
+import com.team2073.eagleforcescoutingapplication.databinding.ActivityScoutingFormBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
 
 public class ScoutingFormActivity extends BaseActivity implements ScoutingFormView {
 
     private ScoutingFormPresenter scoutingFormPresenter;
-
-    String[] externalStoragePermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    String[] bluetoothPermission = {Manifest.permission.BLUETOOTH};
-
+    private ActivityScoutingFormBinding activityScoutingFormBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toolbar toolbar = findViewById(R.id.toolbarMain);
+        activityScoutingFormBinding = ActivityScoutingFormBinding.inflate(getLayoutInflater());;
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         scoutingFormPresenter.makeDrawer(toolbar);
-
-        scoutingFormPresenter.clearPreferences();
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, externalStoragePermission, 23);
-        }
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, bluetoothPermission, 23);
-        }
     }
 
     @Override
@@ -64,22 +58,5 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
     protected void bindView() {
         scoutingFormPresenter = new ScoutingFormPresenter(this);
         scoutingFormPresenter.bindView(this);
-    }
-
-
-    /**
-     * gets called after bluetooth intent activity is started. Clears preferences for next activity and starts a new form
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        scoutingFormPresenter.clearPreferences();
-        startActivity(new Intent(this, ScoutingFormActivity.class));
-        finish();
     }
 }

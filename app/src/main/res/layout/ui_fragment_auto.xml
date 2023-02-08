@@ -11,15 +11,6 @@
         android:layout_gravity="center"
         android:gravity="center">
 
-        <ImageButton
-            android:id="@+id/autoChargingStation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/auto_none"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"/>
-
         <!--TopRow-->
         <ImageView
             android:id="@+id/gridLeftEdge"
@@ -27,7 +18,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_left_edge"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/autoChargingStation"
+            android:layout_alignParentTop="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -37,7 +28,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_top_left_cone"
             android:layout_toEndOf="@+id/gridLeftEdge"
-            android:layout_below="@id/autoChargingStation"
+            android:layout_alignParentTop="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -47,7 +38,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_top_cube"
             android:layout_toEndOf="@+id/gridOneTopLeftCone"
-            android:layout_below="@id/autoChargingStation"
+            android:layout_alignParentTop="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -57,7 +48,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_one_top_right_cone"
             android:layout_toEndOf="@+id/gridOneTopCube"
-            android:layout_below="@id/autoChargingStation"
+            android:layout_alignParentTop="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -67,7 +58,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_top_left_cone"
             android:layout_toEndOf="@+id/gridOneTopRightCone"
-            android:layout_below="@id/autoChargingStation"
+            android:layout_alignParentTop="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -77,7 +68,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_top_cube"
             android:layout_toEndOf="@+id/gridTwoTopLeftCone"
-            android:layout_below="@id/autoChargingStation"
+            android:layout_alignParentTop="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -87,7 +78,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_two_top_right_cone"
             android:layout_toEndOf="@+id/gridTwoTopCube"
-            android:layout_below="@id/autoChargingStation"
+            android:layout_alignParentTop="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -97,7 +88,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_top_left_cone"
             android:layout_toEndOf="@+id/gridTwoTopRightCone"
-            android:layout_below="@id/autoChargingStation"
+            android:layout_alignParentTop="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -107,7 +98,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_top_cube"
             android:layout_toEndOf="@+id/gridThreeTopLeftCone"
-            android:layout_below="@id/autoChargingStation"
+            android:layout_alignParentTop="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -117,7 +108,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_three_top_right_cone"
             android:layout_toEndOf="@+id/gridThreeTopCube"
-            android:layout_below="@id/autoChargingStation"
+            android:layout_alignParentTop="true"
             android:scaleType="fitXY"/>
 
         <ImageView
@@ -127,7 +118,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/grid_right_edge"
             android:layout_toEndOf="@+id/gridThreeTopRightCone"
-            android:layout_below="@id/autoChargingStation"
+            android:layout_alignParentTop="true"
             android:scaleType="fitXY"/>
 
         <!--MiddleRow-->
@@ -230,7 +221,6 @@
             android:background="@drawable/grid_one_bottom_left_hybrid"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/gridOneMiddleLeftCone"
-            android:layout_alignParentBottom="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -241,7 +231,6 @@
             android:background="@drawable/grid_one_bottom_middle_hybrid"
             android:layout_toEndOf="@+id/gridOneBottomLeftHybrid"
             android:layout_below="@+id/gridOneMiddleCube"
-            android:layout_alignParentBottom="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -252,7 +241,6 @@
             android:background="@drawable/grid_one_bottom_right_hybrid"
             android:layout_toEndOf="@+id/gridOneBottomMiddleHybrid"
             android:layout_below="@+id/gridOneMiddleRightCone"
-            android:layout_alignParentBottom="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -263,7 +251,6 @@
             android:background="@drawable/grid_two_bottom_left_hybrid"
             android:layout_toEndOf="@+id/gridOneBottomRightHybrid"
             android:layout_below="@+id/gridTwoMiddleLeftCone"
-            android:layout_alignParentBottom="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -274,7 +261,6 @@
             android:background="@drawable/grid_two_bottom_middle_hybrid"
             android:layout_toEndOf="@+id/gridTwoBottomLeftHybrid"
             android:layout_below="@+id/gridTwoMiddleCube"
-            android:layout_alignParentBottom="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -285,7 +271,6 @@
             android:background="@drawable/grid_one_bottom_right_hybrid"
             android:layout_toEndOf="@+id/gridTwoBottomMiddleHybrid"
             android:layout_below="@+id/gridTwoMiddleRightCone"
-            android:layout_alignParentBottom="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -296,7 +281,6 @@
             android:background="@drawable/grid_three_bottom_left_hybrid"
             android:layout_toEndOf="@+id/gridTwoBottomRightHybrid"
             android:layout_below="@+id/gridThreeMiddleLeftCone"
-            android:layout_alignParentBottom="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -307,7 +291,6 @@
             android:background="@drawable/grid_three_bottom_middle_hybrid"
             android:layout_toEndOf="@+id/gridThreeBottomLeftHybrid"
             android:layout_below="@+id/gridThreeMiddleCube"
-            android:layout_alignParentBottom="true"
             android:scaleType="fitXY"/>
 
         <ImageButton
@@ -318,10 +301,16 @@
             android:background="@drawable/grid_three_bottom_right_hybrid"
             android:layout_toEndOf="@+id/gridThreeBottomMiddleHybrid"
             android:layout_below="@+id/gridThreeMiddleRightCone"
-            android:layout_alignParentBottom="true"
             android:scaleType="fitXY"/>
 
-
+        <ImageButton
+            android:id="@+id/autoChargingStation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/auto_none"
+            android:layout_below="@+id/gridTwoBottomMiddleHybrid"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"/>
     </RelativeLayout>
 
 </ScrollView>

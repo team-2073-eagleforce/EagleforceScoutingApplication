@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import java.util.Properties;
 
 public class UIAutoFragment extends Fragment {
 
+    private Context context;
     private static final String ARG_SECTION_NUMBER = "Auto";
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentAutoBinding fragmentAutoBinding;
@@ -148,19 +150,7 @@ public class UIAutoFragment extends Fragment {
     }
 
     private void toggleClimb(ImageButton climbImage){
-        switch (scoutingFormPresenter.readData("autoChargingStation")){
-            case "0":
-                scoutingFormPresenter.saveData("autoChargingStation", "1");
-                climbImage.setImageResource(R.drawable.auto_docked);
-                break;
-            case "1":
-                scoutingFormPresenter.saveData("autoChargingStation", "2");
-                climbImage.setImageResource(R.drawable.auto_engaged);
-                break;
-            case "2":
-                scoutingFormPresenter.saveData("autoChargingStation", "0");
-                climbImage.setImageResource(R.drawable.auto_none);
-        }
+        climbImage.setImageResource(scoutingFormPresenter.toggleClimb("autoChargingStation"));
     }
 
     private void toggleElement(ImageButton elementImage, String indicator){

@@ -25,11 +25,11 @@ import timber.log.Timber;
 
 public class UIInfoFragment extends Fragment {
 
-    @BindView(R.id.uiMatchNumber) EditText matchNumberText;
-    @BindView(R.id.uiTeamNumber) EditText teamNumberText;
-    @BindView(R.id.uiName) EditText nameText;
-    @BindView(R.id.uiPersonalInfoDisplay)
-    TextView personalInfoText;
+    @BindView(R.id.editTextMatchNumber) EditText matchNumberText;
+    @BindView(R.id.editTextTeamNumber) EditText teamNumberText;
+    @BindView(R.id.editTextName) EditText nameText;
+    @BindView(R.id.textName)
+    TextView textName;
     private TextView teamNumberTextView;
 
     private static final String ARG_SECTION_NUMBER = "Start";

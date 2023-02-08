@@ -16,7 +16,6 @@ public class ChargedUpScoutingForm implements ScoutingForm {
         fieldNames.add("compCode");
 
         fieldNames.add("name");
-        clearNames.add("name");
 
         fieldNames.add("teamNumber");
         fieldNames.add("matchNumber");

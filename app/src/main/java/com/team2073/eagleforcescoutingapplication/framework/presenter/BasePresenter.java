@@ -1,18 +1,13 @@
 package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.view.View;
-
-import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.framework.view.BaseView;
+
 import rx.subscriptions.CompositeSubscription;
 
 public class BasePresenter<V extends BaseView> implements Presenter<V> {
 
-    private V view;
     protected CompositeSubscription subscription;
+    private V view;
 
     public void bindView(V view) {
         this.view = view;
