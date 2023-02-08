@@ -8,11 +8,12 @@
 
     <TextView
         android:id="@+id/formScore"
-        android:layout_width="10dp"
+        android:layout_width="15dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
         android:textAlignment="center"
+        android:textSize="25sp"
         android:typeface="sans"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/formAdd"
@@ -22,7 +23,7 @@
     <ImageButton
         android:id="@+id/formAdd"
         android:layout_width="100dp"
-        android:layout_height="70dp"
+        android:layout_height="75dp"
         android:background="#00000000"
         android:gravity="center"
         android:src="@drawable/ic_baseline_add_circle_outline_24"
@@ -48,7 +49,7 @@
     <TextView
         android:id="@+id/formField"
         android:layout_width="200dp"
-        android:layout_height="92dp"
+        android:layout_height="75dp"
         android:autoSizeTextType="none"
         android:text="Field"
         android:textColor="@color/defaultTextColor"

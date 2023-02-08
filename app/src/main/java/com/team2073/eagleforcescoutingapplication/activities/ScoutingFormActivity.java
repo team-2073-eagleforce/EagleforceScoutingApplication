@@ -8,25 +8,35 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.PagerAdapter;
 
+import com.google.android.material.tabs.TabLayout;
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIPagerAdapter;
+import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIQRCodeFragment;
+import com.team2073.eagleforcescoutingapplication.databinding.ActivityScoutingFormBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
 
 public class ScoutingFormActivity extends BaseActivity implements ScoutingFormView {
 
     private ScoutingFormPresenter scoutingFormPresenter;
+    private ActivityScoutingFormBinding activityScoutingFormBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toolbar toolbar = findViewById(R.id.toolbarMain);
+        activityScoutingFormBinding = ActivityScoutingFormBinding.inflate(getLayoutInflater());;
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         scoutingFormPresenter.makeDrawer(toolbar);
     }
 

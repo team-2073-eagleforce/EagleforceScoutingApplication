@@ -198,7 +198,11 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         switch (readData(climbStationKey)) {
             case "0":
                 saveData(climbStationKey, "1");
-                return R.drawable.auto_mobility;
+                if (climbStationKey.equals("autoChargingStation")) {
+                    return R.drawable.auto_mobility;
+                } else if (climbStationKey.equals("endChargingStation")) {
+                    return R.drawable.auto_docked;
+                }
             case "1":
                 saveData(climbStationKey, "2");
                  return R.drawable.auto_docked;

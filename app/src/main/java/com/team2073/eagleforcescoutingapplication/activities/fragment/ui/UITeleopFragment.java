@@ -34,7 +34,6 @@ public class UITeleopFragment extends Fragment {
     private TransportDisplayLayoutBinding cubeTransportBinding;
     private final ScoutingForm scoutingForm = new ChargedUpScoutingForm();
 
-
     public static UITeleopFragment newInstance(int index) {
         UITeleopFragment fragment = new UITeleopFragment();
         Bundle bundle = new Bundle();

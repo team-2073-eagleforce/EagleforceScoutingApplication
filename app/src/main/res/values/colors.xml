@@ -68,4 +68,8 @@
 
     <color name="cubeColor">#8c52ff</color>
 
+    <color name="success">#4BB543</color>
+
+    <color name="unclicked">#E22836</color>
+
 </resources>

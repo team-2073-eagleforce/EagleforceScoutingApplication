@@ -12,6 +12,7 @@
         android:theme="@style/AppTheme">
 
         <include
+            android:id="@+id/scoutingFormToolbar"
             layout="@layout/toolbar"/>
 
         <TextView

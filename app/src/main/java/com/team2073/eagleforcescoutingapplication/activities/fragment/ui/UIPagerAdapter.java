@@ -13,7 +13,7 @@ import com.team2073.eagleforcescoutingapplication.R;
 public class UIPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.ui_tab_text_1, R.string.ui_tab_text_2, R.string.ui_tab_text_3, R.string.ui_tab_text_4, R.string.ui_tab_text_5, R.string.ui_tab_text_6};
+    private static final int[] TAB_TITLES = new int[]{R.string.ui_tab_text_1, R.string.ui_tab_text_2, R.string.ui_tab_text_3, R.string.ui_tab_text_4, R.string.ui_tab_text_5};
     private final Context mContext;
 
     public UIPagerAdapter(Context context, FragmentManager fm) {
@@ -33,10 +33,9 @@ public class UIPagerAdapter extends FragmentPagerAdapter {
             case 3:
                 return UIEndGameFragment.newInstance(position+1);
             case 4:
-                return UISubmitFragment.newInstance(position+1);
-            case 5:
                 return UIQRCodeFragment.newInstance(position+1);
         }
+
         return null;
     }
 
@@ -48,6 +47,6 @@ public class UIPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 6;
+        return 5;
     }
 }

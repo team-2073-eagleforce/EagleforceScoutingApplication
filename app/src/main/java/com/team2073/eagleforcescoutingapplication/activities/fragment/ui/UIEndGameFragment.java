@@ -1,27 +1,38 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
+import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentQrcodeBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
+
+import timber.log.Timber;
 
 public class UIEndGameFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "Detail";
     private ScoutingFormPresenter scoutingFormPresenter;
-
     private UiFragmentEndgameBinding fragmentEndgameBinding;
+    private AddSubtractValuesBinding defensePerform;
+    private AddSubtractValuesBinding driverPerform;
 
 
     public static UIEndGameFragment newInstance(int index) {
@@ -41,19 +52,24 @@ public class UIEndGameFragment extends Fragment {
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentEndgameBinding = UiFragmentEndgameBinding.inflate(inflater, container, false);
-        View view = fragmentEndgameBinding.getRoot();
-        initFields();
-        return view;
+        driverPerform = fragmentEndgameBinding.driverPerformance;
+        defensePerform = fragmentEndgameBinding.defensePerformance;
+        return fragmentEndgameBinding.getRoot();
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        fragmentEndgameBinding.chargingStation.setOnClickListener(view1 -> {changeEndState();});
+        initDataFields();
+        initTextFields();
+        toggleClimb();
+        togglePerformanceRatings();
+        editTextToggle();
+        commentSaver();
     }
 
     @Override
@@ -62,30 +78,96 @@ public class UIEndGameFragment extends Fragment {
         fragmentEndgameBinding = null;
     }
 
-    private void initFields() {
+    private void initDataFields() {
         scoutingFormPresenter.saveData("endChargingStation", "0");
+
+        scoutingFormPresenter.saveData("driverRanking", "0");
+        scoutingFormPresenter.saveData("defenseRanking", "0");
     }
 
-    public void changeEndState() {
-        switch (scoutingFormPresenter.readData("endChargingStation")){
-            case "0":
-                fragmentEndgameBinding.chargingStation.setImageResource(R.drawable.community_zone);
-                scoutingFormPresenter.saveData("endChargingStation", "1");
-                break;
-            case "1":
-                fragmentEndgameBinding.chargingStation.setImageResource(R.drawable.docked);
-                scoutingFormPresenter.saveData("endChargingStation", "2");
-                break;
-            case "2":
-                fragmentEndgameBinding.chargingStation.setImageResource(R.drawable.engaged);
-                scoutingFormPresenter.saveData("endChargingStation", "3");
-                break;
-            case "3":
-                fragmentEndgameBinding.chargingStation.setImageResource(R.drawable.dotted_box2);
-                scoutingFormPresenter.saveData("endChargingStation", "0");
-                break;
-        }
+    private void initTextFields() {
+        driverPerform.formField.setText(getResources().getString(R.string.driver_performance));
+        driverPerform.formScore.setText("0");
 
+        defensePerform.formField.setText(getResources().getString(R.string.defense_performance));
+        defensePerform.formScore.setText("0");
+
+        fragmentEndgameBinding.saveComment.setText("Save Comment");
+    }
+
+    private void toggleClimb() {
+        fragmentEndgameBinding.endChargingStation.setOnClickListener(chargingStation ->
+                fragmentEndgameBinding.endChargingStation.setImageResource(scoutingFormPresenter.toggleClimb("endChargingStation")));
+    }
+
+    private void togglePerformanceRatings() {
+        driverPerform.formAdd.setOnClickListener(addDriverPerformance ->
+                addPerformanceValue(driverPerform.formScore, "driverRanking"));
+        driverPerform.formSubtract.setOnClickListener(subtractDriverPerformance ->
+                subtractPerformanceValue(driverPerform.formScore, "driverRanking"));
+
+        defensePerform.formAdd.setOnClickListener(addDefensePerformance ->
+                addPerformanceValue(defensePerform.formScore, "defenseRanking"));
+        defensePerform.formSubtract.setOnClickListener(subtractDefensePerformance ->
+                subtractPerformanceValue(defensePerform.formScore, "defenseRanking"));
+    }
+
+    private void addPerformanceValue(TextView formScore, String performanceType) {
+        int value = Integer.parseInt(formScore.getText().toString()) + 1;
+        if (value > 5) {
+            value = 5;
+        }
+        formScore.setText(String.valueOf(value));
+
+        scoutingFormPresenter.saveData(performanceType, String.valueOf(value));
+
+        Timber.d(performanceType + ", " + scoutingFormPresenter.readData(performanceType));
+    }
+
+    private void subtractPerformanceValue(TextView formScore, String performanceType) {
+        int value = Integer.parseInt(formScore.getText().toString()) - 1;
+        if (value < 0) {
+            value = 0;
+        }
+        formScore.setText(String.valueOf(value));
+
+        scoutingFormPresenter.saveData(performanceType, String.valueOf(value));
+
+        Timber.d(performanceType + ", " + scoutingFormPresenter.readData(performanceType));
+    }
+
+    private void editTextToggle() {
+        fragmentEndgameBinding.uiComments.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fragmentEndgameBinding.saveComment.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.unclicked, null));
+                fragmentEndgameBinding.saveComment.setText("Save Comment");
+            }
+        });
+    }
+
+    private void commentSaver() {
+        fragmentEndgameBinding.saveComment.setOnClickListener(saveComment -> {
+            fragmentEndgameBinding.saveComment.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.success, null));
+            fragmentEndgameBinding.saveComment.setText("Comment Saved!");
+
+            String comment = fragmentEndgameBinding.uiComments.getText().toString();
+            scoutingFormPresenter.saveData("comment", comment);
+
+            UIQRCodeFragment uiqrCodeFragment = (UIQRCodeFragment) getParentFragmentManager().findFragmentById(R.id.view_pager);
+            System.out.println(uiqrCodeFragment);
+            uiqrCodeFragment.generateQRCode();
+        });
     }
 
 }
