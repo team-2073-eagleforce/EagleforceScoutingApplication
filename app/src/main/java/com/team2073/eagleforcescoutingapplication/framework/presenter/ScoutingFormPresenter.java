@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.os.Environment;
-import android.widget.ImageView;
+import android.util.Base64;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -19,8 +20,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity;
-import com.team2073.eagleforcescoutingapplication.activities.SettingsActivity;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIPagerAdapter;
 import com.team2073.eagleforcescoutingapplication.framework.form.ChargedUpScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
@@ -34,6 +33,7 @@ import com.team2073.eagleforcescoutingapplication.util.Match;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -257,6 +257,36 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+    }
+    public String saveQR(Bitmap myBitmap) {
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+
+        byte[] byteArrayVar = bytes.toByteArray();
+
+        String  ConvertQR = Base64.encodeToString(byteArrayVar, Base64.DEFAULT);
+        File file = Environment.getExternalStorageDirectory();
+        File wallpaperDirectory = new File(file.getAbsolutePath() + "/Pictures/Screenshots");
+        String qrName = "Team: " + prefsDataManager.readFromPreferences("teamNumber") + " Match: " + prefsDataManager.readFromPreferences("matchNumber");
+
+        try {
+            File f = new File(wallpaperDirectory, qrName + ".jpg");
+            System.out.println("4");
+            FileOutputStream fo = new FileOutputStream(f);
+            System.out.println("5");
+            fo.write(bytes.toByteArray());
+            MediaScannerConnection.scanFile(this.mActivity.getBaseContext(), new String[]{f.getPath()},
+                    new String[]{"image/jpeg"}, null);
+            fo.close();
+
+            Toast.makeText(this.mActivity.getBaseContext(), "QR Saved to : "+ f.getAbsolutePath() , Toast.LENGTH_LONG).show();
+            return f.getAbsolutePath();
+        }
+        catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return "";
     }
 
 //    public void saveQRCode(ImageView qrCode) {

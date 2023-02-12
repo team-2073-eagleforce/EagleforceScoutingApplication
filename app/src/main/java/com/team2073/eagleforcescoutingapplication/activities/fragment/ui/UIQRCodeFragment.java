@@ -1,6 +1,5 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,14 +8,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.zxing.WriterException;
-import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentQrcodeBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
@@ -82,7 +77,6 @@ public class UIQRCodeFragment extends Fragment {
 
     @Subscribe
     public void generateQRCode(MessageEvent event) {
-        System.out.println("Works");
         try {
             fragmentQrcodeBinding.QROutput.setImageBitmap(scoutingFormPresenter.createQR());
         } catch (WriterException e) {
@@ -92,6 +86,11 @@ public class UIQRCodeFragment extends Fragment {
 
     private void finishScan() {
         fragmentQrcodeBinding.FinishScan.setOnClickListener(finishScan -> {
+            try {
+                scoutingFormPresenter.saveQR(scoutingFormPresenter.createQR());
+            } catch (WriterException e) {
+                throw new RuntimeException(e);
+            }
             scoutingFormPresenter.advanceOnSubmit();
             Intent intent = getActivity().getIntent();
             getActivity().overridePendingTransition(0, 0);
