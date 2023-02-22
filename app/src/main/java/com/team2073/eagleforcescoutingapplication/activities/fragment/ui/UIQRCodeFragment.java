@@ -1,10 +1,12 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +21,8 @@ import com.team2073.eagleforcescoutingapplication.util.MessageEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import timber.log.Timber;
 
 public class UIQRCodeFragment extends Fragment {
 
@@ -100,4 +104,16 @@ public class UIQRCodeFragment extends Fragment {
             startActivity(intent);
         });
     }
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            try {
+                InputMethodManager mImm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                mImm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+            } catch (Exception e) {
+                Timber.d( "setUserVisibleHint: QRCode ");
+            }
+        }
+    }
+
 }

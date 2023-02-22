@@ -1,27 +1,25 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.ViewPager;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentQrcodeBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 import com.team2073.eagleforcescoutingapplication.util.MessageEvent;
 
@@ -169,6 +167,17 @@ public class UIEndGameFragment extends Fragment {
 
             EventBus.getDefault().post(new MessageEvent());
         });
+    }
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            try {
+                InputMethodManager mImm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                mImm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+            } catch (Exception e) {
+                Timber.d( "setUserVisibleHint: EndGame ");
+            }
+        }
     }
 
 }

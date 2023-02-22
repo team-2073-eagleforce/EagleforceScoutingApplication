@@ -1,11 +1,13 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -13,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
@@ -50,6 +51,7 @@ public class UIInfoFragment extends Fragment {
         int index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());
+
 
     }
 
@@ -89,7 +91,6 @@ public class UIInfoFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                scoutingFormPresenter.saveData("teamNumber", teamNumberText.getText().toString());
                 Timber.d("shared Preferences: " + "Team Number" + ", " + scoutingFormPresenter.readData("teamNumber"));
                 teamNumberTextView.setText("Team: " + scoutingFormPresenter.readData("teamNumber"));
             }
@@ -102,6 +103,7 @@ public class UIInfoFragment extends Fragment {
 
         nameText.setOnFocusChangeListener((view, b) -> {
             if (!b) {
+
                 scoutingFormPresenter.saveData("name", nameText.getText().toString());
                 Timber.d("shared Preferences: " + "Name" + ", " + scoutingFormPresenter.readData("name"));
             }
@@ -109,6 +111,19 @@ public class UIInfoFragment extends Fragment {
 
         return root;
 
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            try {
+                InputMethodManager mImm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                mImm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+            } catch (Exception e) {
+                Timber.d( "setUserVisibleHint: Info ");
+            }
+        }
     }
 
 }
