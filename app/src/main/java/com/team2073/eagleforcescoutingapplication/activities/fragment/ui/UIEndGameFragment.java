@@ -6,26 +6,18 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.ViewPager;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentQrcodeBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
-import com.team2073.eagleforcescoutingapplication.util.MessageEvent;
-
-import org.greenrobot.eventbus.EventBus;
 
 import timber.log.Timber;
 
@@ -72,7 +64,6 @@ public class UIEndGameFragment extends Fragment {
         toggleClimb();
         togglePerformanceRatings();
         editTextToggle();
-        commentSaver();
     }
 
     @Override
@@ -94,8 +85,6 @@ public class UIEndGameFragment extends Fragment {
 
         defensePerform.formField.setText(getResources().getString(R.string.defense_performance));
         defensePerform.formScore.setText("0");
-
-        fragmentEndgameBinding.saveComment.setText("Save Comment");
     }
 
     private void toggleClimb() {
@@ -143,32 +132,19 @@ public class UIEndGameFragment extends Fragment {
         fragmentEndgameBinding.uiComments.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                scoutingFormPresenter.saveData("comment", fragmentEndgameBinding.uiComments.getText().toString());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                fragmentEndgameBinding.saveComment.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.unclicked, null));
-                fragmentEndgameBinding.saveComment.setText("Save Comment");
             }
         });
     }
 
-    private void commentSaver() {
-        fragmentEndgameBinding.saveComment.setOnClickListener(saveComment -> {
-            fragmentEndgameBinding.saveComment.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.success, null));
-            fragmentEndgameBinding.saveComment.setText("Comment Saved!");
-
-            String comment = fragmentEndgameBinding.uiComments.getText().toString();
-            scoutingFormPresenter.saveData("comment", comment);
-
-            EventBus.getDefault().post(new MessageEvent());
-        });
-    }
-
 }
+
+

@@ -258,7 +258,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
             throw new RuntimeException(e);
         }
     }
-    public String saveQR(Bitmap myBitmap) {
+    public void saveQR(Bitmap myBitmap) {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -281,31 +281,10 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
             fo.close();
 
             Toast.makeText(this.mActivity.getBaseContext(), "QR Saved to : "+ f.getAbsolutePath() , Toast.LENGTH_LONG).show();
-            return f.getAbsolutePath();
+            f.getAbsolutePath();
         }
         catch (IOException e1) {
             e1.printStackTrace();
         }
-        return "";
     }
-
-//    public void saveQRCode(ImageView qrCode) {
-//        qrCode.buildDrawingCache();
-//        Bitmap image = qrCode.getDrawingCache();
-//
-//        FileOutputStream outputStream = null;
-//        File file = Environment.getExternalStorageDirectory();
-//        File dir = new File(file.getAbsolutePath() + "/Pictures/Screenshots");
-//
-//        String filename = String.format("%s.png", fetchTeamAndMatch());
-//        File outFile = new File(dir, filename);
-//        try {
-//            outputStream = new FileOutputStream(outFile);
-//            image.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-//            outputStream.flush();
-//            outputStream.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

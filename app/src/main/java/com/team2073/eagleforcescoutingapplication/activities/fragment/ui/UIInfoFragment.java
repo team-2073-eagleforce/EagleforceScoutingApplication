@@ -6,34 +6,24 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
+import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentInfoBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class UIInfoFragment extends Fragment {
 
-    @BindView(R.id.editTextMatchNumber) EditText matchNumberText;
-    @BindView(R.id.editTextTeamNumber) EditText teamNumberText;
-    @BindView(R.id.editTextName) EditText nameText;
-    @BindView(R.id.textName)
-    TextView textName;
-    private TextView teamNumberTextView;
-
-    private static final String ARG_SECTION_NUMBER = "Start";
+    private static final String ARG_SECTION_NUMBER = "Info";
+    TextView teamNumberTextView;
     private ScoutingFormPresenter scoutingFormPresenter;
+    private UiFragmentInfoBinding fragmentInfoBinding;
 
     public static UIInfoFragment newInstance(int index) {
         UIInfoFragment fragment = new UIInfoFragment();
@@ -53,62 +43,79 @@ public class UIInfoFragment extends Fragment {
 
     }
 
-    private String lastTeamNumber;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.ui_fragment_info, container, false);
-        ButterKnife.bind(this, root);
+        fragmentInfoBinding = UiFragmentInfoBinding.inflate(inflater, container, false);
         teamNumberTextView = getActivity().findViewById(R.id.scoutingTeamNumberTextView);
-        teamNumberTextView.setText("Team: " + scoutingFormPresenter.readData("teamNumber"));
+        return fragmentInfoBinding.getRoot();
+    }
 
-        if (!scoutingFormPresenter.readData("teamNumber").equals("0")
-                && !scoutingFormPresenter.readData("teamNumber").equals(lastTeamNumber)) {
-            matchNumberText.setText(scoutingFormPresenter.readData("matchNumber"));
-            teamNumberText.setText(scoutingFormPresenter.readData("teamNumber"));
-            lastTeamNumber = scoutingFormPresenter.readData("teamNumber");
-        }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        initTextFields();
+        initOnChangeEditText();
+    }
 
-        if(!scoutingFormPresenter.readData("name").equals("0")) {
-            nameText.setText(scoutingFormPresenter.readData("name"));
-        }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        fragmentInfoBinding = null;
+    }
 
-        matchNumberText.setOnFocusChangeListener((view, b) -> {
-            if (!b) {
-                scoutingFormPresenter.saveData("matchNumber", matchNumberText.getText().toString());
-                Timber.d("shared Preferences: " + "Match Number" + ", " + scoutingFormPresenter.readData("matchNumber"));
-            }
-        });
+    public void initTextFields() {
+        fragmentInfoBinding.editTextName.setText(scoutingFormPresenter.readData("name").equals("0") ? "" : scoutingFormPresenter.readData("name"));
+        fragmentInfoBinding.editTextMatchNumber.setText(scoutingFormPresenter.readData("matchNumber").equals("0") ? "" : scoutingFormPresenter.readData("matchNumber"));
+        fragmentInfoBinding.editTextTeamNumber.setText(scoutingFormPresenter.readData("teamNumber").equals("0") ? "" : scoutingFormPresenter.readData("teamNumber"));
+    }
 
-        teamNumberText.addTextChangedListener(new TextWatcher() {
+    public void initOnChangeEditText() {
+        fragmentInfoBinding.editTextMatchNumber.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                scoutingFormPresenter.saveData("teamNumber", teamNumberText.getText().toString());
-                Timber.d("shared Preferences: " + "Team Number" + ", " + scoutingFormPresenter.readData("teamNumber"));
-                teamNumberTextView.setText("Team: " + scoutingFormPresenter.readData("teamNumber"));
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                scoutingFormPresenter.saveData("matchNumber", fragmentInfoBinding.editTextMatchNumber.getText().toString());
+            }
 
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
 
-        nameText.setOnFocusChangeListener((view, b) -> {
-            if (!b) {
-                scoutingFormPresenter.saveData("name", nameText.getText().toString());
-                Timber.d("shared Preferences: " + "Name" + ", " + scoutingFormPresenter.readData("name"));
+        fragmentInfoBinding.editTextName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                scoutingFormPresenter.saveData("name", fragmentInfoBinding.editTextName.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
 
-        return root;
+        fragmentInfoBinding.editTextTeamNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                scoutingFormPresenter.saveData("teamNumber", fragmentInfoBinding.editTextTeamNumber.getText().toString());
+                String team_number_display = String.format(getResources().getString(R.string.team_num), scoutingFormPresenter.readData("teamNumber"));
+                teamNumberTextView.setText(team_number_display);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
 }

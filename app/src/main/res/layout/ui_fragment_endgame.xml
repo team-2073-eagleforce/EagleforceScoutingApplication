@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/auto_none" />
 
         <include
@@ -45,16 +45,6 @@
             android:ems="10"
             android:gravity="center"
             android:inputType="textMultiLine" />
-
-        <Button
-            android:id="@+id/saveComment"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_below="@id/uiComments"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/unclicked"
-            android:textColor="@color/md_white_1000" />
 
     </RelativeLayout>
 
