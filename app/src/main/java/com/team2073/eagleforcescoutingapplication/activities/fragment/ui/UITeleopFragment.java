@@ -6,10 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,13 +26,13 @@ import timber.log.Timber;
 
 public class UITeleopFragment extends Fragment {
 
-    private Context context;
     private static final String ARG_SECTION_NUMBER = "TeleOp";
+    private final ScoutingForm scoutingForm = new ChargedUpScoutingForm();
+    private Context context;
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentTeleopBinding fragmentTeleopBinding;
     private TransportDisplayLayoutBinding coneTransportBinding;
     private TransportDisplayLayoutBinding cubeTransportBinding;
-    private final ScoutingForm scoutingForm = new ChargedUpScoutingForm();
 
     public static UITeleopFragment newInstance(int index) {
         UITeleopFragment fragment = new UITeleopFragment();
@@ -65,6 +65,7 @@ public class UITeleopFragment extends Fragment {
         initDataFields();
         initTextFields();
         initViewImageButtons();
+        toggleTransport();
     }
 
     @Override
@@ -77,7 +78,7 @@ public class UITeleopFragment extends Fragment {
         scoutingFormPresenter.saveData("coneTransport", "0");
         scoutingFormPresenter.saveData("cubeTransport", "0");
 
-        for (String teleGridPoint: scoutingForm.getTeleFieldNames()) {
+        for (String teleGridPoint : scoutingForm.getTeleFieldNames()) {
             scoutingFormPresenter.saveData(teleGridPoint, "0");
         }
     }
@@ -161,50 +162,42 @@ public class UITeleopFragment extends Fragment {
                 toggleElement((ImageButton) gridThreeBottomMiddleHybrid, "Hybrid"));
         fragmentTeleopBinding.gridThreeBottomRightHybrid.setOnClickListener(gridThreeBottomRightHybrid ->
                 toggleElement((ImageButton) gridThreeBottomRightHybrid, "Hybrid"));
-
-
-        //Transport
-        coneTransportBinding.formAdd.setOnClickListener(addCone -> {
-            int value = Integer.parseInt(coneTransportBinding.formScore.getText().toString()) + 1;
-            scoutingFormPresenter.saveData("coneTransport", String.valueOf(value));
-            coneTransportBinding.formScore.setText(String.valueOf(value));
-            Timber.d("Cone Transport:%s", scoutingFormPresenter.readData("coneTransport"));
-        });
-
-        coneTransportBinding.formSubtract.setOnClickListener(addCone -> {
-            int value = Integer.parseInt(coneTransportBinding.formScore.getText().toString()) - 1;
-            if (value <= 0) {
-                value = 0;
-            }
-            scoutingFormPresenter.saveData("coneTransport", String.valueOf(value));
-            coneTransportBinding.formScore.setText(String.valueOf(value));
-            Timber.d("Cone Transport:%s", scoutingFormPresenter.readData("coneTransport"));
-        });
-
-        cubeTransportBinding.formAdd.setOnClickListener(addCone -> {
-            int value = Integer.parseInt(cubeTransportBinding.formScore.getText().toString()) + 1;
-            scoutingFormPresenter.saveData("cubeTransport", String.valueOf(value));
-            cubeTransportBinding.formScore.setText(String.valueOf(value));
-            Timber.d("Cube Transport:%s", scoutingFormPresenter.readData("cubeTransport"));
-        });
-
-        cubeTransportBinding.formSubtract.setOnClickListener(addCone -> {
-            int value = Integer.parseInt(cubeTransportBinding.formScore.getText().toString()) - 1;
-            if (value <= 0) {
-                value = 0;
-            }
-            scoutingFormPresenter.saveData("cubeTransport", String.valueOf(value));
-            cubeTransportBinding.formScore.setText(String.valueOf(value));
-            Timber.d("Cube Transport:%s", scoutingFormPresenter.readData("cubeTransport"));
-        });
     }
 
+    private void toggleTransport() {
+        coneTransportBinding.formAdd.setOnClickListener(addCone ->
+                addTransportValue((TextView) coneTransportBinding.formScore, "coneTransport"));
+        coneTransportBinding.formSubtract.setOnClickListener(subtractCone ->
+                subtractTransportValue((TextView) coneTransportBinding.formScore, "coneTransport"));
+
+        cubeTransportBinding.formAdd.setOnClickListener(addCube ->
+                addTransportValue((TextView) cubeTransportBinding.formScore, "cubeTransport"));
+        cubeTransportBinding.formSubtract.setOnClickListener(subtractCube ->
+                subtractTransportValue((TextView) cubeTransportBinding.formScore, "cubeTransport"));
+    }
 
     private void toggleElement(ImageButton elementImage, String indicator) {
         String imageButtonName = elementImage.getTag().toString();
         String retrievedImage = scoutingFormPresenter.fetchGridImageFile(imageButtonName, indicator, ARG_SECTION_NUMBER, requireContext());
         int id = getResources().getIdentifier(retrievedImage, "drawable", requireContext().getPackageName());
         elementImage.setImageResource(id);
+    }
+
+    private void addTransportValue(TextView formScore, String transportType) {
+        int value = Integer.parseInt(formScore.getText().toString()) + 1;
+        scoutingFormPresenter.saveData(transportType, String.valueOf(value));
+        formScore.setText(String.valueOf(value));
+        Timber.d("%s:%s", transportType, scoutingFormPresenter.readData(transportType));
+    }
+
+    private void subtractTransportValue(TextView formScore, String transportType) {
+        int value = Integer.parseInt(formScore.getText().toString()) - 1;
+        if (value <= 0) {
+            value = 0;
+        }
+        scoutingFormPresenter.saveData(transportType, String.valueOf(value));
+        cubeTransportBinding.formScore.setText(String.valueOf(value));
+        Timber.d("%s:%s", transportType, scoutingFormPresenter.readData(transportType));
     }
 
 }

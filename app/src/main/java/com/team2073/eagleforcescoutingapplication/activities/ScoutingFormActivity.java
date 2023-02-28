@@ -46,7 +46,6 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
             @Override
             public void onPageSelected(int position) {
                 Fragment fragmentInstance = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + viewPager.getCurrentItem());
-                System.out.println(fragmentInstance);
                 if (fragmentInstance instanceof UIQRCodeFragment) {
                     ((UIQRCodeFragment) fragmentInstance).generateQRCode();
                 }
