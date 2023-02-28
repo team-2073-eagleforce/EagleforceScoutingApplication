@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -181,6 +182,18 @@ public class UITeleopFragment extends Fragment {
         String retrievedImage = scoutingFormPresenter.fetchGridImageFile(imageButtonName, indicator, ARG_SECTION_NUMBER, requireContext());
         int id = getResources().getIdentifier(retrievedImage, "drawable", requireContext().getPackageName());
         elementImage.setImageResource(id);
+    }
+
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            try {
+                InputMethodManager mImm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                mImm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+            } catch (Exception e) {
+                Timber.d("setUserVisibleHint: Teleop ");
+            }
+        }
     }
 
     private void addTransportValue(TextView formScore, String transportType) {

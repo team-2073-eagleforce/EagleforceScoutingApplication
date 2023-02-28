@@ -1,11 +1,13 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,8 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentInfoBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
+
+import timber.log.Timber;
 
 public class UIInfoFragment extends Fragment {
 
@@ -40,6 +44,7 @@ public class UIInfoFragment extends Fragment {
         int index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());
+
 
     }
 
@@ -116,6 +121,19 @@ public class UIInfoFragment extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            try {
+                InputMethodManager mImm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                mImm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+            } catch (Exception e) {
+                Timber.d("setUserVisibleHint: Info ");
+            }
+        }
     }
 
 }
