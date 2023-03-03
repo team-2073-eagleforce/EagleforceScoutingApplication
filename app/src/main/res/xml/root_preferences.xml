@@ -19,10 +19,6 @@
 
     <PreferenceCategory app:title="@string/setup_header">
 
-        <EditTextPreference
-            app:key="name"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
         <ListPreference
             android:defaultValue="red1"
             android:entries="@array/scouting_positions"
@@ -37,7 +33,7 @@
             <intent android:action="com.team2073.eagleforcescoutingapplication.activities.ChooseFileActivity" />
         </PreferenceScreen>
         <ListPreference
-            android:defaultValue="2022mttd"
+            android:defaultValue="testing"
             android:entries="@array/comp_code"
             android:entryValues="@array/comp_code"
             android:key="comp_code"

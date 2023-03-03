@@ -106,6 +106,23 @@ public class UIEndGameFragment extends Fragment {
                 subtractPerformanceValue(defensePerform.formScore, "defenseRanking"));
     }
 
+    private void editTextToggle() {
+        fragmentEndgameBinding.uiComments.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                scoutingFormPresenter.saveData("comment", fragmentEndgameBinding.uiComments.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
     private void addPerformanceValue(TextView formScore, String performanceType) {
         int value = Integer.parseInt(formScore.getText().toString()) + 1;
         if (value > 5) {
@@ -128,23 +145,6 @@ public class UIEndGameFragment extends Fragment {
         scoutingFormPresenter.saveData(performanceType, String.valueOf(value));
 
         Timber.d(performanceType + ", " + scoutingFormPresenter.readData(performanceType));
-    }
-
-    private void editTextToggle() {
-        fragmentEndgameBinding.uiComments.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                scoutingFormPresenter.saveData("comment", fragmentEndgameBinding.uiComments.getText().toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
     }
 
     public void setUserVisibleHint(boolean isVisibleToUser) {

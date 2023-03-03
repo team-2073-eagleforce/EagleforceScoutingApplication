@@ -209,7 +209,7 @@ public class UITeleopFragment extends Fragment {
             value = 0;
         }
         scoutingFormPresenter.saveData(transportType, String.valueOf(value));
-        cubeTransportBinding.formScore.setText(String.valueOf(value));
+        formScore.setText(String.valueOf(value));
         Timber.d("%s:%s", transportType, scoutingFormPresenter.readData(transportType));
     }
 

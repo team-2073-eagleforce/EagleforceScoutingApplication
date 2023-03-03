@@ -44,7 +44,8 @@
             android:ellipsize="start"
             android:ems="10"
             android:gravity="center"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:maxLength="115"/>
 
     </RelativeLayout>
 

@@ -233,12 +233,18 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         JSONObject jsonData = new JSONObject();
         try {
             for (String fieldData : allFieldNames) {
-                if (fieldData.equals("autoGrid")) {
-                    jsonData.put("autoGrid", gridArrayConverter(scoutingForm.getAutoFieldNames()));
-                } else if (fieldData.equals("teleGrid")) {
-                    jsonData.put("teleGrid", gridArrayConverter(scoutingForm.getTeleFieldNames()));
-                } else {
-                    jsonData.put(fieldData, prefsDataManager.readFromPreferences(fieldData));
+                switch (fieldData) {
+                    case "autoGrid":
+                        jsonData.put("autoGrid", gridArrayConverter(scoutingForm.getAutoFieldNames()));
+                        break;
+                    case "teleGrid":
+                        jsonData.put("teleGrid", gridArrayConverter(scoutingForm.getTeleFieldNames()));
+                        break;
+                    case "comp_code":
+                        jsonData.put("compCode", prefsDataManager.readFromPreferences("comp_code"));
+                        break;
+                    default:
+                        jsonData.put(fieldData, prefsDataManager.readFromPreferences(fieldData));
                 }
             }
         } catch (JSONException e) {

@@ -11,12 +11,12 @@
     </string-array>
 
     <string-array name="scouting_positions">
-        <item>red1</item>
-        <item>red2</item>
-        <item>red3</item>
-        <item>blue1</item>
-        <item>blue2</item>
-        <item>blue3</item>
+        <item>Red1</item>
+        <item>Red2</item>
+        <item>Red3</item>
+        <item>Blue1</item>
+        <item>Blue2</item>
+        <item>Blue3</item>
     </string-array>
 
     <string-array name="scouting_mode">
@@ -25,8 +25,8 @@
     </string-array>
 
     <string-array name="comp_code">
-        <item>2022mttd</item>
-        <item>2022cacc</item>
+        <item>2023azva</item>
+        <item>2023caav</item>
         <item>testing</item>
     </string-array>
 

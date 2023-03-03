@@ -13,7 +13,7 @@ public class ChargedUpScoutingForm implements ScoutingForm {
 
     public ChargedUpScoutingForm() {
         //General Info
-        fieldNames.add("compCode");
+        fieldNames.add("comp_code");
 
         fieldNames.add("name");
 

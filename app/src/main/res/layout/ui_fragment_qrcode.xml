@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/QROutput"
-        android:layout_width="275dp"
-        android:layout_height="275dp"
+        android:layout_width="285dp"
+        android:layout_height="285dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter" />
 
