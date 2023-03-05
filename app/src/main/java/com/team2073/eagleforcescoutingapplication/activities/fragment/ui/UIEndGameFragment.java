@@ -114,7 +114,11 @@ public class UIEndGameFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                scoutingFormPresenter.saveData("comment", fragmentEndgameBinding.uiComments.getText().toString());
+                String comment = fragmentEndgameBinding.uiComments.getText().toString();
+                if (comment.contains("'")) {
+                    comment = comment.replace("'", "\"");
+                }
+                scoutingFormPresenter.saveData("comment", comment);
             }
 
             @Override
