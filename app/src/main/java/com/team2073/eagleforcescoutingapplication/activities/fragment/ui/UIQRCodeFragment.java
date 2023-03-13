@@ -1,5 +1,6 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.zxing.WriterException;
+import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentQrcodeBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
@@ -72,20 +75,40 @@ public class UIQRCodeFragment extends Fragment {
 
     private void finishScan() {
         fragmentQrcodeBinding.FinishScan.setOnClickListener(finishScan -> {
-            try {
-                scoutingFormPresenter.saveQR(scoutingFormPresenter.createQR());
-            } catch (WriterException e) {
-                throw new RuntimeException(e);
-            }
-            scoutingFormPresenter.advanceOnSubmit();
-            Intent intent = getActivity().getIntent();
-            getActivity().overridePendingTransition(0, 0);
-            getActivity().finish();
+            boolean nameFieldFilled = scoutingFormPresenter.readData("name").equals("") || scoutingFormPresenter.readData("name").equals("0");
+            boolean matchFieldFilled = scoutingFormPresenter.readData("teamNumber").equals("") || scoutingFormPresenter.readData("teamNumber").equals("0");
+            boolean teamFieldFilled = scoutingFormPresenter.readData("matchNumber").equals("") || scoutingFormPresenter.readData("matchNumber").equals("0");
 
-            getActivity().overridePendingTransition(0, 0);
-            startActivity(intent);
+            if (!nameFieldFilled && !matchFieldFilled && !teamFieldFilled) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
+                builder.setTitle("Confirm Submit?");
+                builder.setPositiveButton("Yes", (dialog, which) -> {
+                    try {
+                        scoutingFormPresenter.saveQR(scoutingFormPresenter.createQR());
+                    } catch (WriterException e) {
+                        throw new RuntimeException(e);
+                    }
+                    scoutingFormPresenter.advanceOnSubmit();
+                    Intent intent = getActivity().getIntent();
+                    getActivity().overridePendingTransition(0, 0);
+                    getActivity().finish();
+
+                    getActivity().overridePendingTransition(0, 0);
+                    startActivity(intent);
+                }).setNegativeButton("No", (dialog, which) -> {
+                });
+                AlertDialog dialog = builder.create();
+                dialog.setOnShowListener(buttons -> {
+                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.md_black_1000));
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.md_black_1000));
+                });
+                dialog.show();
+            } else {
+                Toast.makeText(this.getActivity(), "Make sure Name, Team, and Match are Filled", Toast.LENGTH_SHORT).show();
+            }
         });
     }
+
 
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);

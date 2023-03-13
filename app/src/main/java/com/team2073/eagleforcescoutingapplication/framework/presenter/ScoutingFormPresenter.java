@@ -1,7 +1,9 @@
 package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
@@ -10,6 +12,7 @@ import android.util.Base64;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -241,6 +244,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
                         jsonData.put("teleGrid", gridArrayConverter(scoutingForm.getTeleFieldNames()));
                         break;
                     case "comp_code":
+                        checkCompCode();
                         jsonData.put("compCode", prefsDataManager.readFromPreferences("comp_code"));
                         break;
                     default:
@@ -278,9 +282,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
 
         try {
             File f = new File(wallpaperDirectory, qrName + ".jpg");
-            System.out.println("4");
             FileOutputStream fo = new FileOutputStream(f);
-            System.out.println("5");
             fo.write(bytes.toByteArray());
             MediaScannerConnection.scanFile(this.mActivity.getBaseContext(), new String[]{f.getPath()},
                     new String[]{"image/jpeg"}, null);
@@ -291,6 +293,20 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         }
         catch (IOException e1) {
             e1.printStackTrace();
+        }
+    }
+    public void checkCompCode(){
+        if(prefsDataManager.readFromPreferences("comp_code").equals("0")){
+            prefsDataManager.writeToPreferences("comp_code", "testing");
+        }
+    }
+
+    public void checkReadPermissions(){
+        String[] permissionsStorage = {Manifest.permission.READ_EXTERNAL_STORAGE};
+        int requestExternalStorage = 1;
+        int permission = ActivityCompat.checkSelfPermission(this.mActivity, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this.mActivity, permissionsStorage, requestExternalStorage);
         }
     }
 }
