@@ -97,6 +97,7 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                     ListPreference compPreference = findPreference("comp_code");
                     String compPreferenceValue = compPreference.getValue();
                     settingsPresenter.writeToPreferences("comp_code", compPreferenceValue);
+
                     break;
             }
 
