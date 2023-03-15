@@ -20,6 +20,9 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentQrcodeBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
+import com.team2073.eagleforcescoutingapplication.util.Match;
+
+import java.util.ArrayList;
 
 import timber.log.Timber;
 
@@ -88,13 +91,16 @@ public class UIQRCodeFragment extends Fragment {
                     } catch (WriterException e) {
                         throw new RuntimeException(e);
                     }
-                    scoutingFormPresenter.advanceOnSubmit();
                     Intent intent = getActivity().getIntent();
                     getActivity().overridePendingTransition(0, 0);
                     getActivity().finish();
-
                     getActivity().overridePendingTransition(0, 0);
                     startActivity(intent);
+
+                    String matchNum = scoutingFormPresenter.readData("matchNumber");
+                    ArrayList <Match> scheduleList = scoutingFormPresenter.getScheduleList();
+                    String position = scoutingFormPresenter.getPosition();
+                    scoutingFormPresenter.advanceOnSubmit(matchNum, scheduleList, position);
                 }).setNegativeButton("No", (dialog, which) -> {
                 });
                 AlertDialog dialog = builder.create();

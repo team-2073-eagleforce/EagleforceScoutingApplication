@@ -95,36 +95,34 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         prefsDataManager.clearPreferences();
     }
 
-    public void advanceOnSubmit() {
-        if (fileManager.getScheduleFile() == null) {
+    public void advanceOnSubmit(String matchNum, ArrayList<Match> scheduleList, String position) {
+        if (scheduleList == null) {
             Timber.e("no schedule file for auto advance");
             Toast.makeText(mActivity, "Please select a schedule file", Toast.LENGTH_SHORT).show();
             clearPreferences();
             return;
         }
 
-        String position = prefsDataManager.readFromPreferences("position");
-        ArrayList<Match> scheduleList = csvManager.readScheduleFile(fileManager.getScheduleFile());
-        int matchNumber = Integer.parseInt(prefsDataManager.readFromPreferences("matchNumber")) + 1;
+        int matchNumber = Integer.parseInt(matchNum);
         String teamNumber;
-        Match currentMatch = scheduleList.get(matchNumber - 1);
+        Match currentMatch = scheduleList.get(matchNumber);
         switch (position) {
-            case "red1":
+            case "Red1":
                 teamNumber = currentMatch.getRed1();
                 break;
-            case "red2":
+            case "Red2":
                 teamNumber = currentMatch.getRed2();
                 break;
-            case "red3":
+            case "Red3":
                 teamNumber = currentMatch.getRed3();
                 break;
-            case "blue1":
+            case "Blue1":
                 teamNumber = currentMatch.getBlue1();
                 break;
-            case "blue2":
+            case "Blue2":
                 teamNumber = currentMatch.getBlue2();
                 break;
-            case "blue3":
+            case "Blue3":
                 teamNumber = currentMatch.getBlue3();
                 break;
 
@@ -132,7 +130,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
                 throw new IllegalStateException("Unexpected value: " + "position");
         }
         clearPreferences();
-        prefsDataManager.writeToPreferences("matchNumber", Integer.toString(matchNumber));
+        prefsDataManager.writeToPreferences("matchNumber", Integer.toString(matchNumber + 1));
         prefsDataManager.writeToPreferences("teamNumber", teamNumber);
 
     }
@@ -308,5 +306,22 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         if (permission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this.mActivity, permissionsStorage, requestExternalStorage);
         }
+        permission = ActivityCompat.checkSelfPermission(this.mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this.mActivity, permissionsStorage, requestExternalStorage);
+        }
+    }
+
+    public ArrayList<Match> getScheduleList(){
+        if(fileManager.getScheduleFile() == null) {
+            return null;
+        }
+        return csvManager.readScheduleFile(fileManager.getScheduleFile());
+
+    }
+    public String getPosition(){
+        if(prefsDataManager.readFromPreferences("position") != null)
+        return prefsDataManager.readFromPreferences("position");
+        return "Red1";
     }
 }

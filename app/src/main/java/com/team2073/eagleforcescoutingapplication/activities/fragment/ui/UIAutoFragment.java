@@ -44,6 +44,7 @@ public class UIAutoFragment extends Fragment {
         int index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());
+        scoutingFormPresenter.checkReadPermissions();
     }
 
     @Nullable
