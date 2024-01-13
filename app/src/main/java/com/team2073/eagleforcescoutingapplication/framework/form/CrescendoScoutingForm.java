@@ -24,15 +24,18 @@ public class CrescendoScoutingForm implements ScoutingForm{
         //Autos
         autoNames.add("autoLeave");
         autoNames.add("autoAmp");
-        autoNames.add("autoSpeaker");
+        autoNames.add("autoSpeakerMake");
+        autoNames.add("autoSpeakerMiss");
 
         fieldNames.add("autoLeave");
         fieldNames.add("autoAmp");
-        fieldNames.add("autoSpeaker");
+        fieldNames.add("autoSpeakerMake");
+        fieldNames.add("autoSpeakerMiss");
 
         clearNames.add("autoLeave");
         clearNames.add("autoAmp");
-        clearNames.add("autoSpeaker");
+        clearNames.add("autoSpeakerMake");
+        clearNames.add("autoSpeakerMiss");
 
         //Teleop
         teleNames.add("autoAmp");

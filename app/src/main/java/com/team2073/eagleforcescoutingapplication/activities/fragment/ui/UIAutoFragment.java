@@ -6,14 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
+import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesAmpBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesSpeakerMakeBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesSpeakerMissBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentAutoBinding;
 import com.team2073.eagleforcescoutingapplication.framework.form.ChargedUpScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
@@ -25,9 +29,11 @@ public class UIAutoFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "Auto";
     private final ScoutingForm scoutingForm = new ChargedUpScoutingForm();
-    private Context context;
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentAutoBinding fragmentAutoBinding;
+    private AddSubtractValuesAmpBinding autoAmpBinding;
+    private AddSubtractValuesSpeakerMakeBinding autoSpeakerMakeBinding;
+    private AddSubtractValuesSpeakerMissBinding autoSpeakerMissBinding;
 
     public static UIAutoFragment newInstance(int index) {
         UIAutoFragment fragment = new UIAutoFragment();
@@ -51,12 +57,16 @@ public class UIAutoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentAutoBinding = UiFragmentAutoBinding.inflate(inflater, container, false);
+        autoAmpBinding = fragmentAutoBinding.autoAmp;
+        autoSpeakerMakeBinding = fragmentAutoBinding.autoSpeakerMake;
+        autoSpeakerMissBinding = fragmentAutoBinding.autoSpeakerMiss;
         return fragmentAutoBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initDataFields();
+        initTextFields();
         initViewImageButtons();
     }
 
@@ -67,94 +77,39 @@ public class UIAutoFragment extends Fragment {
     }
 
     private void initDataFields() {
-        scoutingFormPresenter.saveData("autoChargingStation", "0");
-
-        for (String autoGridPoint : scoutingForm.getAutoFieldNames()) {
-            scoutingFormPresenter.saveData(autoGridPoint, "0");
+        for (String autoField : scoutingForm.getAutoFieldNames()) {
+            scoutingFormPresenter.saveData(autoField, "0");
         }
     }
 
+    private void initTextFields() {
+        autoAmpBinding.formScore.setText("0");
+        autoSpeakerMakeBinding.formScore.setText("0");
+        autoSpeakerMissBinding.formScore.setText("0");
+    }
+
     private void initViewImageButtons() {
-        fragmentAutoBinding.autoChargingStation.setOnClickListener(autoChargingStation -> toggleClimb((ImageButton) autoChargingStation));
+        // Toggles Auto Leave
+        fragmentAutoBinding.autoChargingStation.setOnClickListener(autoLeave -> {
+            if (readData("autoLeave").equals("0")) {
+                fragmentAutoBinding.autoChargingStation.setImageResource(R.drawable.auto_leave);
+                saveData("autoLeave", "1");
+            } else {
+                fragmentAutoBinding.autoChargingStation.setImageResource(R.drawable.auto_none);
+                saveData("autoLeave", "0");
+            }
+        });
 
-        //Top Grid
-        fragmentAutoBinding.gridOneTopLeftCone.setOnClickListener(gridOneTopLeftCone ->
-                toggleElement((ImageButton) gridOneTopLeftCone, "Cone"));
-        fragmentAutoBinding.gridOneTopCube.setOnClickListener(gridOneTopCube ->
-                toggleElement((ImageButton) gridOneTopCube, "Cube"));
-        fragmentAutoBinding.gridOneTopRightCone.setOnClickListener(gridOneTopRightCone ->
-                toggleElement((ImageButton) gridOneTopRightCone, "Cone"));
+        // Calls add and subtract values for Amp, SpeakerMake, and SpeakerMiss respectively
+        autoAmpBinding.formAdd.setOnClickListener(autoAmpAdd -> addTransportValue(autoAmpBinding.formScore, "autoAmp"));
+        autoAmpBinding.formSubtract.setOnClickListener(autoAmpSubtract -> subtractTransportValue(autoAmpBinding.formScore, "autoAmp"));
 
-        fragmentAutoBinding.gridTwoTopLeftCone.setOnClickListener(gridTwoTopLeftCone ->
-                toggleElement((ImageButton) gridTwoTopLeftCone, "Cone"));
-        fragmentAutoBinding.gridTwoTopCube.setOnClickListener(gridTwoTopCube ->
-                toggleElement((ImageButton) gridTwoTopCube, "Cube"));
-        fragmentAutoBinding.gridTwoTopRightCone.setOnClickListener(gridTwoTopRightCone ->
-                toggleElement((ImageButton) gridTwoTopRightCone, "Cone"));
+        autoSpeakerMakeBinding.formAdd.setOnClickListener(autoSpeakerMakeAdd -> addTransportValue(autoSpeakerMakeBinding.formScore, "autoSpeakerMake"));
+        autoSpeakerMakeBinding.formSubtract.setOnClickListener(autoSpeakerMakeSubtract -> subtractTransportValue(autoSpeakerMakeBinding.formScore, "autoSpeakerMake"));
 
-        fragmentAutoBinding.gridThreeTopLeftCone.setOnClickListener(gridThreeTopLeftCone ->
-                toggleElement((ImageButton) gridThreeTopLeftCone, "Cone"));
-        fragmentAutoBinding.gridThreeTopCube.setOnClickListener(gridThreeTopCube ->
-                toggleElement((ImageButton) gridThreeTopCube, "Cube"));
-        fragmentAutoBinding.gridThreeTopRightCone.setOnClickListener(gridThreeTopRightCone ->
-                toggleElement((ImageButton) gridThreeTopRightCone, "Cone"));
-
-        //Middle Grid
-        fragmentAutoBinding.gridOneMiddleLeftCone.setOnClickListener(gridOneMiddleLeftCone ->
-                toggleElement((ImageButton) gridOneMiddleLeftCone, "Cone"));
-        fragmentAutoBinding.gridOneMiddleCube.setOnClickListener(gridOneMiddleCube ->
-                toggleElement((ImageButton) gridOneMiddleCube, "Cube"));
-        fragmentAutoBinding.gridOneMiddleRightCone.setOnClickListener(gridOneMiddleRightCone ->
-                toggleElement((ImageButton) gridOneMiddleRightCone, "Cone"));
-
-        fragmentAutoBinding.gridTwoMiddleLeftCone.setOnClickListener(gridTwoMiddleLeftCone ->
-                toggleElement((ImageButton) gridTwoMiddleLeftCone, "Cone"));
-        fragmentAutoBinding.gridTwoMiddleCube.setOnClickListener(gridTwoMiddleCube ->
-                toggleElement((ImageButton) gridTwoMiddleCube, "Cube"));
-        fragmentAutoBinding.gridTwoMiddleRightCone.setOnClickListener(gridTwoMiddleRightCone ->
-                toggleElement((ImageButton) gridTwoMiddleRightCone, "Cone"));
-
-        fragmentAutoBinding.gridThreeMiddleLeftCone.setOnClickListener(gridThreeTopLeftCone ->
-                toggleElement((ImageButton) gridThreeTopLeftCone, "Cone"));
-        fragmentAutoBinding.gridThreeMiddleCube.setOnClickListener(gridThreeMiddleCube ->
-                toggleElement((ImageButton) gridThreeMiddleCube, "Cube"));
-        fragmentAutoBinding.gridThreeMiddleRightCone.setOnClickListener(gridThreeMiddleRightCone ->
-                toggleElement((ImageButton) gridThreeMiddleRightCone, "Cone"));
-
-        //Bottom Grid
-        fragmentAutoBinding.gridOneBottomLeftHybrid.setOnClickListener(gridOneBottomLeftHybrid ->
-                toggleElement((ImageButton) gridOneBottomLeftHybrid, "Hybrid"));
-        fragmentAutoBinding.gridOneBottomMiddleHybrid.setOnClickListener(gridOneBottomMiddleHybrid ->
-                toggleElement((ImageButton) gridOneBottomMiddleHybrid, "Hybrid"));
-        fragmentAutoBinding.gridOneBottomRightHybrid.setOnClickListener(gridOneBottomRightHybrid ->
-                toggleElement((ImageButton) gridOneBottomRightHybrid, "Hybrid"));
-
-        fragmentAutoBinding.gridTwoBottomLeftHybrid.setOnClickListener(gridTwoBottomLeftHybrid ->
-                toggleElement((ImageButton) gridTwoBottomLeftHybrid, "Hybrid"));
-        fragmentAutoBinding.gridTwoBottomMiddleHybrid.setOnClickListener(gridTwoBottomMiddleHybrid ->
-                toggleElement((ImageButton) gridTwoBottomMiddleHybrid, "Hybrid"));
-        fragmentAutoBinding.gridTwoBottomRightHybrid.setOnClickListener(gridTwoBottomRightHybrid ->
-                toggleElement((ImageButton) gridTwoBottomRightHybrid, "Hybrid"));
-
-        fragmentAutoBinding.gridThreeBottomLeftHybrid.setOnClickListener(gridThreeBottomLeftHybrid ->
-                toggleElement((ImageButton) gridThreeBottomLeftHybrid, "Hybrid"));
-        fragmentAutoBinding.gridThreeBottomMiddleHybrid.setOnClickListener(gridThreeBottomMiddleHybrid ->
-                toggleElement((ImageButton) gridThreeBottomMiddleHybrid, "Hybrid"));
-        fragmentAutoBinding.gridThreeBottomRightHybrid.setOnClickListener(gridThreeBottomRightHybrid ->
-                toggleElement((ImageButton) gridThreeBottomRightHybrid, "Hybrid"));
+        autoSpeakerMissBinding.formAdd.setOnClickListener(autoSpeakerMissAdd -> addTransportValue(autoSpeakerMissBinding.formScore, "autoSpeakerMiss"));
+        autoSpeakerMissBinding.formSubtract.setOnClickListener(autoSpeakerMissSubtract -> subtractTransportValue(autoSpeakerMissBinding.formScore, "autoSpeakerMiss"));
     }
-
-    private void toggleClimb(ImageButton climbImage) {
-        climbImage.setImageResource(scoutingFormPresenter.toggleClimb("autoChargingStation"));
-    }
-
-    private void toggleElement(ImageButton elementImage, String indicator) {
-        String imageButtonName = elementImage.getTag().toString();
-        String retrievedImage = scoutingFormPresenter.fetchGridImageFile(imageButtonName, indicator, ARG_SECTION_NUMBER, requireContext());
-        int id = getResources().getIdentifier(retrievedImage, "drawable", requireContext().getPackageName());
-        elementImage.setImageResource(id);
-    }
-
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -167,6 +122,34 @@ public class UIAutoFragment extends Fragment {
                 Timber.d("setUserVisibleHint: Auto ");
             }
         }
+    }
+
+    private void addTransportValue(TextView formScore, String transportType) {
+        int value = Integer.parseInt(readData(transportType)) + 1;
+        if (value >= 100) {
+            value = 99;
+        }
+        saveData(transportType, String.valueOf(value));
+        formScore.setText(String.valueOf(value));
+        Timber.d("%s:%s", transportType, scoutingFormPresenter.readData(transportType));
+    }
+
+    private void subtractTransportValue(TextView formScore, String transportType) {
+        int value = Integer.parseInt(readData(transportType)) - 1;
+        if (value < 0) {
+            value = 0;
+        }
+        saveData(transportType, String.valueOf(value));
+        formScore.setText(String.valueOf(value));
+        Timber.d("%s:%s", transportType, scoutingFormPresenter.readData(transportType));
+    }
+
+    public String readData(String key) {
+        return scoutingFormPresenter.readData(key);
+    }
+
+    public void saveData(String key, String data) {
+        scoutingFormPresenter.saveData(key, data);
     }
 
 }
