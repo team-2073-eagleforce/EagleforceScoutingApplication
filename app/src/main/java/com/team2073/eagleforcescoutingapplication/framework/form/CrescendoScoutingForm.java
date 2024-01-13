@@ -38,19 +38,19 @@ public class CrescendoScoutingForm implements ScoutingForm{
         clearNames.add("autoSpeakerMiss");
 
         //Teleop
-        teleNames.add("autoAmp");
-        teleNames.add("teleSpeaker");
-        teleNames.add("teleTrap");
+        teleNames.add("teleopAmp");
+        teleNames.add("teleopSpeaker");
+        teleNames.add("teleopTrap");
         teleNames.add("coopertition");
 
-        fieldNames.add("autoAmp");
-        fieldNames.add("teleSpeaker");
-        fieldNames.add("teleTrap");
+        fieldNames.add("teleopAmp");
+        fieldNames.add("teleopSpeaker");
+        fieldNames.add("teleopTrap");
         fieldNames.add("coopertition");
 
-        clearNames.add("autoAmp");
-        clearNames.add("teleSpeaker");
-        clearNames.add("teleTrap");
+        clearNames.add("teleopAmp");
+        clearNames.add("teleopSpeaker");
+        clearNames.add("teleopTrap");
         clearNames.add("coopertition");
 
         //Endgame
