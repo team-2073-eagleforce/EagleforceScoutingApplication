@@ -39,34 +39,41 @@ public class CrescendoScoutingForm implements ScoutingForm{
 
         //Teleop
         teleNames.add("teleopAmp");
-        teleNames.add("teleopSpeaker");
-        teleNames.add("teleopTrap");
+        teleNames.add("teleopSpeakerMake");
+        teleNames.add("teleopSpeakerMiss");
         teleNames.add("coopertition");
 
         fieldNames.add("teleopAmp");
-        fieldNames.add("teleopSpeaker");
-        fieldNames.add("teleopTrap");
+        fieldNames.add("teleopSpeakerMake");
+        fieldNames.add("teleopSpeakerMiss");
         fieldNames.add("coopertition");
 
         clearNames.add("teleopAmp");
-        clearNames.add("teleopSpeaker");
-        clearNames.add("teleopTrap");
+        clearNames.add("teleopSpeakerMake");
+        clearNames.add("teleopSpeakerMiss");
         clearNames.add("coopertition");
 
         //Endgame
-        endgameNames.add("endTrap");
         endgameNames.add("endClimb");
 
-        fieldNames.add("endTrap");
         fieldNames.add("endClimb");
 
-        clearNames.add("endTrap");
         clearNames.add("endClimb");
+
+        //Trap
+        fieldNames.add("trapOne");
+        fieldNames.add("trapTwo");
+        fieldNames.add("trapThree");
+
+        clearNames.add("trapOne");
+        clearNames.add("trapTwo");
+        clearNames.add("trapThree");
 
         //Submit
         fieldNames.add("driverRanking");
         fieldNames.add("defenseRanking");
         fieldNames.add("comment");
+
         clearNames.add("driverRanking");
         clearNames.add("defenseRanking");
         clearNames.add("comment");

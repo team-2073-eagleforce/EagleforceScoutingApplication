@@ -6,314 +6,57 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center">
-
-        <!--TopRow-->
-        <ImageView
-            android:id="@+id/gridLeftEdge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:background="@drawable/grid_left_edge"
-            android:scaleType="fitXY" />
-
-        <ImageButton
-            android:id="@+id/gridOneTopLeftCone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/gridLeftEdge"
-            android:background="@drawable/grid_one_top_left_cone"
-            android:scaleType="fitXY"
-            android:tag="gridOneTopLeftCone" />
-
-        <ImageButton
-            android:id="@+id/gridOneTopCube"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/gridOneTopLeftCone"
-            android:background="@drawable/grid_one_top_cube"
-            android:scaleType="fitXY"
-            android:tag="gridOneTopCube" />
-
-        <ImageButton
-            android:id="@+id/gridOneTopRightCone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/gridOneTopCube"
-            android:background="@drawable/grid_one_top_right_cone"
-            android:scaleType="fitXY"
-            android:tag="gridOneTopRightCone" />
-
-        <ImageButton
-            android:id="@+id/gridTwoTopLeftCone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/gridOneTopRightCone"
-            android:background="@drawable/grid_two_top_left_cone"
-            android:scaleType="fitXY"
-            android:tag="gridTwoTopLeftCone" />
-
-        <ImageButton
-            android:id="@+id/gridTwoTopCube"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/gridTwoTopLeftCone"
-            android:background="@drawable/grid_two_top_cube"
-            android:scaleType="fitXY"
-            android:tag="gridTwoTopCube" />
-
-        <ImageButton
-            android:id="@+id/gridTwoTopRightCone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/gridTwoTopCube"
-            android:background="@drawable/grid_two_top_right_cone"
-            android:scaleType="fitXY"
-            android:tag="gridTwoTopRightCone" />
-
-        <ImageButton
-            android:id="@+id/gridThreeTopLeftCone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/gridTwoTopRightCone"
-            android:background="@drawable/grid_three_top_left_cone"
-            android:scaleType="fitXY"
-            android:tag="gridThreeTopLeftCone" />
-
-        <ImageButton
-            android:id="@+id/gridThreeTopCube"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/gridThreeTopLeftCone"
-            android:background="@drawable/grid_three_top_cube"
-            android:scaleType="fitXY"
-            android:tag="gridThreeTopCube" />
-
-        <ImageButton
-            android:id="@+id/gridThreeTopRightCone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/gridThreeTopCube"
-            android:background="@drawable/grid_three_top_right_cone"
-            android:scaleType="fitXY"
-            android:tag="gridThreeTopRightCone" />
-
-        <ImageView
-            android:id="@+id/gridRightEdge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/gridThreeTopRightCone"
-            android:background="@drawable/grid_right_edge"
-            android:scaleType="fitXY"
-            android:tag="gridRightEdge" />
-
-        <!--MiddleRow-->
-        <ImageButton
-            android:id="@+id/gridOneMiddleLeftCone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gridOneTopLeftCone"
-            android:layout_toEndOf="@+id/gridLeftEdge"
-            android:background="@drawable/grid_one_middle_left_cone"
-            android:scaleType="fitXY"
-            android:tag="gridOneMiddleLeftCone" />
-
-        <ImageButton
-            android:id="@+id/gridOneMiddleCube"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/gridOneTopCube"
-            android:layout_toEndOf="@+id/gridOneMiddleLeftCone"
-            android:background="@drawable/grid_one_middle_cube"
-            android:scaleType="fitXY"
-            android:tag="gridOneMiddleCube" />
-
-        <ImageButton
-            android:id="@+id/gridOneMiddleRightCone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/gridOneTopRightCone"
-            android:layout_toEndOf="@+id/gridOneMiddleCube"
-            android:background="@drawable/grid_one_middle_right_cone"
-            android:scaleType="fitXY"
-            android:tag="gridOneMiddleRightCone" />
-
-        <ImageButton
-            android:id="@+id/gridTwoMiddleLeftCone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/gridTwoTopLeftCone"
-            android:layout_toEndOf="@+id/gridOneMiddleRightCone"
-            android:background="@drawable/grid_two_middle_left_cone"
-            android:scaleType="fitXY"
-            android:tag="gridTwoMiddleLeftCone" />
-
-        <ImageButton
-            android:id="@+id/gridTwoMiddleCube"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/gridTwoTopCube"
-            android:layout_toEndOf="@+id/gridTwoMiddleLeftCone"
-            android:background="@drawable/grid_two_middle_cube"
-            android:scaleType="fitXY"
-            android:tag="gridTwoMiddleCube" />
-
-        <ImageButton
-            android:id="@+id/gridTwoMiddleRightCone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/gridOneTopRightCone"
-            android:layout_toEndOf="@+id/gridTwoMiddleCube"
-            android:background="@drawable/grid_two_middle_right_cone"
-            android:scaleType="fitXY"
-            android:tag="gridTwoMiddleRightCone" />
-
-        <ImageButton
-            android:id="@+id/gridThreeMiddleLeftCone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/gridThreeTopLeftCone"
-            android:layout_toEndOf="@+id/gridTwoMiddleRightCone"
-            android:background="@drawable/grid_three_middle_left_cone"
-            android:scaleType="fitXY"
-            android:tag="gridThreeMiddleLeftCone" />
-
-        <ImageButton
-            android:id="@+id/gridThreeMiddleCube"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/gridThreeTopCube"
-            android:layout_toEndOf="@+id/gridThreeMiddleLeftCone"
-            android:background="@drawable/grid_three_middle_cube"
-            android:scaleType="fitXY"
-            android:tag="gridThreeMiddleCube" />
-
-        <ImageButton
-            android:id="@+id/gridThreeMiddleRightCone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/gridThreeTopRightCone"
-            android:layout_toEndOf="@+id/gridThreeMiddleCube"
-            android:background="@drawable/grid_three_middle_right_cone"
-            android:scaleType="fitXY"
-            android:tag="gridThreeMiddleRightCone" />
-
-        <!--BottomRow-->
-        <ImageButton
-            android:id="@+id/gridOneBottomLeftHybrid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gridOneMiddleLeftCone"
-            android:layout_alignParentStart="true"
-            android:background="@drawable/grid_one_bottom_left_hybrid"
-            android:scaleType="fitXY"
-            android:tag="gridOneBottomLeftHybrid" />
-
-        <ImageButton
-            android:id="@+id/gridOneBottomMiddleHybrid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gridOneMiddleCube"
-            android:layout_toEndOf="@+id/gridOneBottomLeftHybrid"
-            android:background="@drawable/grid_one_bottom_middle_hybrid"
-            android:scaleType="fitXY"
-            android:tag="gridOneBottomMiddleHybrid" />
-
-        <ImageButton
-            android:id="@+id/gridOneBottomRightHybrid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gridOneMiddleRightCone"
-            android:layout_toEndOf="@+id/gridOneBottomMiddleHybrid"
-            android:background="@drawable/grid_one_bottom_right_hybrid"
-            android:scaleType="fitXY"
-            android:tag="gridOneBottomRightHybrid" />
-
-        <ImageButton
-            android:id="@+id/gridTwoBottomLeftHybrid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gridTwoMiddleLeftCone"
-            android:layout_toEndOf="@+id/gridOneBottomRightHybrid"
-            android:background="@drawable/grid_two_bottom_left_hybrid"
-            android:scaleType="fitXY"
-            android:tag="gridTwoBottomLeftHybrid" />
-
-        <ImageButton
-            android:id="@+id/gridTwoBottomMiddleHybrid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gridTwoMiddleCube"
-            android:layout_toEndOf="@+id/gridTwoBottomLeftHybrid"
-            android:background="@drawable/grid_two_bottom_middle_hybrid"
-            android:scaleType="fitXY"
-            android:tag="gridTwoBottomMiddleHybrid" />
-
-        <ImageButton
-            android:id="@+id/gridTwoBottomRightHybrid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gridTwoMiddleRightCone"
-            android:layout_toEndOf="@+id/gridTwoBottomMiddleHybrid"
-            android:background="@drawable/grid_one_bottom_right_hybrid"
-            android:scaleType="fitXY"
-            android:tag="gridTwoBottomRightHybrid" />
-
-        <ImageButton
-            android:id="@+id/gridThreeBottomLeftHybrid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gridThreeMiddleLeftCone"
-            android:layout_toEndOf="@+id/gridTwoBottomRightHybrid"
-            android:background="@drawable/grid_three_bottom_left_hybrid"
-            android:scaleType="fitXY"
-            android:tag="gridThreeBottomLeftHybrid" />
-
-        <ImageButton
-            android:id="@+id/gridThreeBottomMiddleHybrid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gridThreeMiddleCube"
-            android:layout_toEndOf="@+id/gridThreeBottomLeftHybrid"
-            android:background="@drawable/grid_three_bottom_middle_hybrid"
-            android:scaleType="fitXY"
-            android:tag="gridThreeBottomMiddleHybrid" />
-
-        <ImageButton
-            android:id="@+id/gridThreeBottomRightHybrid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gridThreeMiddleRightCone"
-            android:layout_toEndOf="@+id/gridThreeBottomMiddleHybrid"
-            android:background="@drawable/grid_three_bottom_right_hybrid"
-            android:scaleType="fitXY"
-            android:tag="gridThreeBottomRightHybrid" />
+        android:layout_gravity="center_vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/gridTwoBottomMiddleHybrid"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
+            android:layout_marginStart="15dp"
+            android:orientation="vertical"
+            android:id="@+id/auto_left_layout"
+            android:gravity="center">
 
             <include
-                android:id="@+id/coneTransport"
-                layout="@layout/transport_display_layout"
+                android:id="@+id/teleop_amp"
+                layout="@layout/add_subtract_values_amp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="100dp" />
+                android:layout_marginBottom="50dp"/>
 
             <include
-                android:id="@+id/cubeTransport"
-                layout="@layout/transport_display_layout"
+                android:id="@+id/teleop_trap"
+                layout="@layout/trap_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:orientation="vertical"
+            android:id="@+id/auto_right_layout"
+            android:gravity="center">
+
+            <include
+                android:id="@+id/teleop_speaker_make"
+                layout="@layout/add_subtract_values_speaker_make"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"/>
+
+            <include
+                android:id="@+id/teleop_speaker_miss"
+                layout="@layout/add_subtract_values_speaker_miss"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
+
     </RelativeLayout>
 
 </ScrollView>
