@@ -23,7 +23,7 @@ import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFo
 
 import timber.log.Timber;
 
-public class UIEndGameFragment extends Fragment {
+public class UIDetailFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "Detail";
     private ScoutingFormPresenter scoutingFormPresenter;
@@ -32,8 +32,8 @@ public class UIEndGameFragment extends Fragment {
     private AddSubtractValuesBinding driverPerform;
 
 
-    public static UIEndGameFragment newInstance(int index) {
-        UIEndGameFragment fragment = new UIEndGameFragment();
+    public static UIDetailFragment newInstance(int index) {
+        UIDetailFragment fragment = new UIDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -76,7 +76,6 @@ public class UIEndGameFragment extends Fragment {
 
     private void initDataFields() {
         scoutingFormPresenter.saveData("endChargingStation", "0");
-
         scoutingFormPresenter.saveData("driverRanking", "0");
         scoutingFormPresenter.saveData("defenseRanking", "0");
     }

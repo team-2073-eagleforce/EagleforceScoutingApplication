@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <ImageButton
+            android:id="@+id/endChargingStation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/auto_none" />
+
+        <include
+            android:id="@+id/driverPerformance"
+            layout="@layout/add_subtract_values"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/endChargingStation"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp" />
+
+        <include
+            android:id="@+id/defensePerformance"
+            layout="@layout/add_subtract_values"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/driverPerformance"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:id="@+id/uiComments"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/defensePerformance"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="13dp"
+            android:ellipsize="start"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textMultiLine"
+            android:maxLength="115"/>
+
+    </RelativeLayout>
+
+</ScrollView>

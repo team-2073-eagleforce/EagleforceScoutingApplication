@@ -195,27 +195,27 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         return retrievedImage;
     }
 
-    public int toggleClimb(String climbStationKey) {
-        switch (readData(climbStationKey)) {
-            case "0":
-                saveData(climbStationKey, "1");
-                if (climbStationKey.equals("autoChargingStation")) {
-                    return R.drawable.auto_mobility;
-                } else if (climbStationKey.equals("endChargingStation")) {
-                    return R.drawable.community_zone;
-                }
-            case "1":
-                saveData(climbStationKey, "2");
-                 return R.drawable.auto_docked;
-            case "2":
-                saveData(climbStationKey, "3");
-                return R.drawable.auto_engaged;
-            case "3":
-                saveData(climbStationKey, "0");
-                return R.drawable.auto_none;
-        }
-        return 0;
-    }
+//    public int toggleClimb(String climbStationKey) {
+//        switch (readData(climbStationKey)) {
+//            case "0":
+//                saveData(climbStationKey, "1");
+//                if (climbStationKey.equals("autoChargingStation")) {
+//                    return R.drawable.auto_mobility;
+//                } else if (climbStationKey.equals("endChargingStation")) {
+//                    return R.drawable.community_zone;
+//                }
+//            case "1":
+//                saveData(climbStationKey, "2");
+//                 return R.drawable.auto_docked;
+//            case "2":
+//                saveData(climbStationKey, "3");
+//                return R.drawable.auto_engaged;
+//            case "3":
+//                saveData(climbStationKey, "0");
+//                return R.drawable.auto_none;
+//        }
+//        return 0;
+//    }
 
     //QR Code and Data Handling
     private String gridArrayConverter(ArrayList<String> gridNames) {

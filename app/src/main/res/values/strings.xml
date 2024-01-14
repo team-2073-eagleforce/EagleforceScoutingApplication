@@ -10,7 +10,8 @@
     <string name="ui_tab_text_2">Auto</string>
     <string name="ui_tab_text_3">TeleOp</string>
     <string name="ui_tab_text_4">EndGame</string>
-    <string name="ui_tab_text_5">QRCode</string>
+    <string name="ui_tab_text_5">Details</string>
+    <string name="ui_tab_text_6">QRCode</string>
 
     <string name="formCommentsKey">comments</string>
     <string name="formNameKey">name</string>
@@ -41,4 +42,6 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="drawerScoutingFormText">Scouting Form</string>
     <string name="drawerScheduleText">Schedule</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
