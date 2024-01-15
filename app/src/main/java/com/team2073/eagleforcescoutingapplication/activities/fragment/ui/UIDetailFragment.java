@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentDetailBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
@@ -27,7 +28,7 @@ public class UIDetailFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "Detail";
     private ScoutingFormPresenter scoutingFormPresenter;
-    private UiFragmentEndgameBinding fragmentEndgameBinding;
+    private UiFragmentDetailBinding fragmentDetailBinding;
     private AddSubtractValuesBinding defensePerform;
     private AddSubtractValuesBinding driverPerform;
 
@@ -52,10 +53,10 @@ public class UIDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentEndgameBinding = UiFragmentEndgameBinding.inflate(inflater, container, false);
-        driverPerform = fragmentEndgameBinding.driverPerformance;
-        defensePerform = fragmentEndgameBinding.defensePerformance;
-        return fragmentEndgameBinding.getRoot();
+        fragmentDetailBinding = UiFragmentDetailBinding.inflate(inflater, container, false);
+        driverPerform = fragmentDetailBinding.driverPerformance;
+        defensePerform = fragmentDetailBinding.defensePerformance;
+        return fragmentDetailBinding.getRoot();
 
     }
 
@@ -63,7 +64,6 @@ public class UIDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initDataFields();
         initTextFields();
-        toggleClimb();
         togglePerformanceRatings();
         editTextToggle();
     }
@@ -71,11 +71,10 @@ public class UIDetailFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        fragmentEndgameBinding = null;
+        fragmentDetailBinding = null;
     }
 
     private void initDataFields() {
-        scoutingFormPresenter.saveData("endChargingStation", "0");
         scoutingFormPresenter.saveData("driverRanking", "0");
         scoutingFormPresenter.saveData("defenseRanking", "0");
     }
@@ -86,11 +85,6 @@ public class UIDetailFragment extends Fragment {
 
         defensePerform.formField.setText(getResources().getString(R.string.defense_performance));
         defensePerform.formScore.setText("0");
-    }
-
-    private void toggleClimb() {
-//        fragmentEndgameBinding.endChargingStation.setOnClickListener(chargingStation ->
-//                fragmentEndgameBinding.endChargingStation.setImageResource(scoutingFormPresenter.toggleClimb("endChargingStation")));
     }
 
     private void togglePerformanceRatings() {
@@ -106,14 +100,14 @@ public class UIDetailFragment extends Fragment {
     }
 
     private void editTextToggle() {
-        fragmentEndgameBinding.uiComments.addTextChangedListener(new TextWatcher() {
+        fragmentDetailBinding.uiComments.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String comment = fragmentEndgameBinding.uiComments.getText().toString();
+                String comment = fragmentDetailBinding.uiComments.getText().toString();
                 if (comment.contains("'")) {
                     comment = comment.replace("'", "\"");
                 }

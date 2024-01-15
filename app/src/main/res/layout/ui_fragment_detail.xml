@@ -9,22 +9,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
-        <ImageButton
-            android:id="@+id/endChargingStation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/auto_none" />
-
         <include
             android:id="@+id/driverPerformance"
             layout="@layout/add_subtract_values"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/endChargingStation"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp" />
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
         <include
             android:id="@+id/defensePerformance"
@@ -40,12 +31,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/defensePerformance"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="15dp"
             android:ellipsize="start"
             android:ems="10"
             android:gravity="center"
             android:inputType="textMultiLine"
-            android:maxLength="115"/>
+            android:maxLength="115"
+            android:hint="Comments"
+            android:textColorHint="@color/md_blue_grey_200"/>
 
     </RelativeLayout>
 
