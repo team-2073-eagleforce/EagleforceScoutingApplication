@@ -53,8 +53,8 @@ public class UIEndGameFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentEndgameBinding = UiFragmentEndgameBinding.inflate(inflater, container, false);
-        driverPerform = fragmentEndgameBinding.driverPerformance;
-        defensePerform = fragmentEndgameBinding.defensePerformance;
+        //driverPerform = fragmentEndgameBinding.driverPerformance;
+        //defensePerform = fragmentEndgameBinding.defensePerformance;
         return fragmentEndgameBinding.getRoot();
 
     }
@@ -64,8 +64,9 @@ public class UIEndGameFragment extends Fragment {
         initDataFields();
         initTextFields();
         toggleClimb();
-        togglePerformanceRatings();
-        editTextToggle();
+        toggleTrap();
+        //togglePerformanceRatings();
+        //editTextToggle();
     }
 
     @Override
@@ -75,10 +76,8 @@ public class UIEndGameFragment extends Fragment {
     }
 
     private void initDataFields() {
-        scoutingFormPresenter.saveData("endChargingStation", "0");
+        scoutingFormPresenter.saveData("endStageClimb", "0");
 
-        scoutingFormPresenter.saveData("driverRanking", "0");
-        scoutingFormPresenter.saveData("defenseRanking", "0");
     }
 
     private void initTextFields() {
@@ -90,66 +89,15 @@ public class UIEndGameFragment extends Fragment {
     }
 
     private void toggleClimb() {
-//        fragmentEndgameBinding.endChargingStation.setOnClickListener(chargingStation ->
-//                fragmentEndgameBinding.endChargingStation.setImageResource(scoutingFormPresenter.toggleClimb("endChargingStation")));
+        fragmentEndgameBinding.endStageClimb.setOnClickListener(stageClimb ->
+                fragmentEndgameBinding.endStageClimb.setImageResource(scoutingFormPresenter.toggleClimb("endStageClimb")));
     }
 
-    private void togglePerformanceRatings() {
-        driverPerform.formAdd.setOnClickListener(addDriverPerformance ->
-                addPerformanceValue(driverPerform.formScore, "driverRanking"));
-        driverPerform.formSubtract.setOnClickListener(subtractDriverPerformance ->
-                subtractPerformanceValue(driverPerform.formScore, "driverRanking"));
-
-        defensePerform.formAdd.setOnClickListener(addDefensePerformance ->
-                addPerformanceValue(defensePerform.formScore, "defenseRanking"));
-        defensePerform.formSubtract.setOnClickListener(subtractDefensePerformance ->
-                subtractPerformanceValue(defensePerform.formScore, "defenseRanking"));
+    //TODO Add the trap layout
+    private void toggleTrap() {
+        //fragmentEndgameBinding.endTrap.setOnClickListener(trap -> fragmentEndgameBinding.endTrap.setImageResource());
     }
 
-    private void editTextToggle() {
-        fragmentEndgameBinding.uiComments.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String comment = fragmentEndgameBinding.uiComments.getText().toString();
-                if (comment.contains("'")) {
-                    comment = comment.replace("'", "\"");
-                }
-                scoutingFormPresenter.saveData("comment", comment);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-    }
-
-    private void addPerformanceValue(TextView formScore, String performanceType) {
-        int value = Integer.parseInt(formScore.getText().toString()) + 1;
-        if (value > 5) {
-            value = 5;
-        }
-        formScore.setText(String.valueOf(value));
-
-        scoutingFormPresenter.saveData(performanceType, String.valueOf(value));
-
-        Timber.d(performanceType + ", " + scoutingFormPresenter.readData(performanceType));
-    }
-
-    private void subtractPerformanceValue(TextView formScore, String performanceType) {
-        int value = Integer.parseInt(formScore.getText().toString()) - 1;
-        if (value < 0) {
-            value = 0;
-        }
-        formScore.setText(String.valueOf(value));
-
-        scoutingFormPresenter.saveData(performanceType, String.valueOf(value));
-
-        Timber.d(performanceType + ", " + scoutingFormPresenter.readData(performanceType));
-    }
 
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);

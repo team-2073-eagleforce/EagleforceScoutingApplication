@@ -10,42 +10,23 @@
         android:layout_gravity="center">
 
         <ImageButton
-            android:id="@+id/endChargingStation"
+            android:id="@+id/endStageClimb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/auto_none" />
+            android:background="@drawable/no_climb" />
 
         <include
-            android:id="@+id/driverPerformance"
-            layout="@layout/add_subtract_values"
+            android:id="@+id/endTrap"
+            layout="@layout/trap_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/endChargingStation"
+            android:layout_below="@id/endStageClimb"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp" />
+            android:layout_marginBottom="15dp" />
 
-        <include
-            android:id="@+id/defensePerformance"
-            layout="@layout/add_subtract_values"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/driverPerformance"
-            android:layout_centerHorizontal="true" />
 
-        <EditText
-            android:id="@+id/uiComments"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/defensePerformance"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="13dp"
-            android:ellipsize="start"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="textMultiLine"
-            android:maxLength="115"/>
 
     </RelativeLayout>
 
