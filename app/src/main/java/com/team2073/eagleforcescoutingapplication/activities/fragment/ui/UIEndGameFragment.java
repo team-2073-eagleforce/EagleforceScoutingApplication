@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentTeleopBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import timber.log.Timber;
@@ -28,8 +30,10 @@ public class UIEndGameFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "Detail";
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentEndgameBinding fragmentEndgameBinding;
-    private AddSubtractValuesBinding defensePerform;
-    private AddSubtractValuesBinding driverPerform;
+    //private UiFragmentTeleopBinding fragmentTeleopBinding;
+    //private UITeleopFragment fragmentTeleop;
+    //private AddSubtractValuesBinding defensePerform;
+    //private AddSubtractValuesBinding driverPerform;
 
 
     public static UIEndGameFragment newInstance(int index) {
@@ -62,9 +66,11 @@ public class UIEndGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initDataFields();
-        initTextFields();
+        //initTextFields();
         toggleClimb();
-        toggleTrap();
+        fragmentEndgameBinding.endTrap.trapOne.setOnClickListener(endTrapOne -> toggle_trap(fragmentEndgameBinding.endTrap.trapOne, "trapOne"));
+        fragmentEndgameBinding.endTrap.trapTwo.setOnClickListener(endTrapTwo -> toggle_trap(fragmentEndgameBinding.endTrap.trapTwo, "trapTwo"));
+        fragmentEndgameBinding.endTrap.trapThree.setOnClickListener(endTrapThree -> toggle_trap(fragmentEndgameBinding.endTrap.trapThree, "trapThree"));
         //togglePerformanceRatings();
         //editTextToggle();
     }
@@ -80,22 +86,43 @@ public class UIEndGameFragment extends Fragment {
 
     }
 
-    private void initTextFields() {
-        driverPerform.formField.setText(getResources().getString(R.string.driver_performance));
-        driverPerform.formScore.setText("0");
+    //private void initTextFields() {
+        //driverPerform.formField.setText(getResources().getString(R.string.driver_performance));
+        //driverPerform.formScore.setText("0");
 
-        defensePerform.formField.setText(getResources().getString(R.string.defense_performance));
-        defensePerform.formScore.setText("0");
-    }
+    //    defensePerform.formField.setText(getResources().getString(R.string.defense_performance));
+    //    defensePerform.formScore.setText("0");
+   // }
+
 
     private void toggleClimb() {
         fragmentEndgameBinding.endStageClimb.setOnClickListener(stageClimb ->
                 fragmentEndgameBinding.endStageClimb.setImageResource(scoutingFormPresenter.toggleClimb("endStageClimb")));
+
     }
 
-    //TODO Add the trap layout
-    private void toggleTrap() {
-        //fragmentEndgameBinding.endTrap.setOnClickListener(trap -> fragmentEndgameBinding.endTrap.setImageResource());
+
+
+    private void toggle_trap(ImageButton trapButtonEndgame, String trapNumber) {
+        if (readData(trapNumber).equals("0")) {
+            trapButtonEndgame.setImageResource(R.drawable.filled_trap_box);
+            //fragmentTeleopBinding.teleopTrap.trapOne.setImageResource(R.drawable.filled_trap_box);
+            saveData(trapNumber, "1");
+        } else {
+            trapButtonEndgame.setImageResource(R.drawable.empty_trap_box);
+            saveData(trapNumber, "0");
+
+        }
+        Timber.d("%s:%s", trapNumber, scoutingFormPresenter.readData(trapNumber));
+
+    }
+
+    public String readData(String key) {
+        return scoutingFormPresenter.readData(key);
+    }
+
+    public void saveData(String key, String data) {
+        scoutingFormPresenter.saveData(key, data);
     }
 
 

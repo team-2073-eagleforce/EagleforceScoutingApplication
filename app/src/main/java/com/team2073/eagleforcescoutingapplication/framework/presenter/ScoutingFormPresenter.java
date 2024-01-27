@@ -196,27 +196,32 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     }
 
     public int toggleClimb(String climbStationKey) { //when you click it it checks the case and sets the data to it+1
+        int drawable = 0;
+        Timber.d("End Game climb:%s", readData("endStageClimb"));
         switch (readData(climbStationKey)) {
             case "0":
                 saveData(climbStationKey, "1");
-                if (climbStationKey.equals("autoChargingStation")) {
-                } else if (climbStationKey.equals("endStageClimb")) {
-                    return R.drawable.park;
-                }
+                drawable = R.drawable.park;
+                break;
             case "1":
                 saveData(climbStationKey, "2");
-                 return R.drawable.single_climb;
+                drawable = R.drawable.single_climb;
+                break;
             case "2":
                 saveData(climbStationKey, "3");
-                return R.drawable.harmony;
+                drawable = R.drawable.harmony;
+                break;
             case "3":
                 saveData(climbStationKey, "4");
-                return R.drawable.buddy_climb;
+                drawable = R.drawable.buddy_climb;
+                break;
             case "4":
                 saveData(climbStationKey, "0");
-                return R.drawable.no_climb;
+                drawable = R.drawable.no_climb;
+                break;
         }
-        return 0;
+        Timber.d("Endgame Climb:%s", readData(climbStationKey));
+        return drawable;
     }
 
     //QR Code and Data Handling

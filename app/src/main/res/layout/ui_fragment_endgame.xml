@@ -7,23 +7,26 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:gravity="center">
 
         <ImageButton
             android:id="@+id/endStageClimb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/no_climb" />
+            android:layout_centerVertical="true"
+            android:background="@drawable/no_climb"
+            android:layout_marginLeft="45dp"/>
 
         <include
             android:id="@+id/endTrap"
-            layout="@layout/trap_layout"
+            layout="@layout/trap_layout_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/endStageClimb"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/endStageClimb"
             android:layout_marginBottom="15dp" />
 
 
