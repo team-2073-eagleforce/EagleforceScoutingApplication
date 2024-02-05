@@ -24,7 +24,7 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIPagerAdapter;
-import com.team2073.eagleforcescoutingapplication.framework.form.ChargedUpScoutingForm;
+import com.team2073.eagleforcescoutingapplication.framework.form.CrescendoScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;
@@ -54,7 +54,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     private final FileManager fileManager;
     private final DrawerManager drawerManager;
     private final PrefsDataManager prefsDataManager;
-    private final ScoutingForm scoutingForm = new ChargedUpScoutingForm();
+    private final ScoutingForm scoutingForm = new CrescendoScoutingForm();
     private final ArrayList<String> allFieldNames = scoutingForm.getFieldNames();
 
     public ScoutingFormPresenter(Activity activity) {
@@ -135,65 +135,6 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
 
     }
 
-    //Fragment Related Logic
-    public String fetchGridImageFile(String imageButtonName, String indicator, String fragmentName, Context context) {
-        String savedDataName = imageButtonName + fragmentName;
-        String retrievedImage = "";
-        switch (indicator) {
-            case "Cube":
-                switch (readData(savedDataName)) {
-                    case "0":
-                        saveData(savedDataName, "2");
-                        imageButtonName += "2";
-                        break;
-                    case "2":
-                        saveData(savedDataName, "0");
-                        imageButtonName += "0";
-                        break;
-                }
-                break;
-            case "Cone":
-                switch (readData(savedDataName)) {
-                    case "0":
-                        saveData(savedDataName, "1");
-                        imageButtonName += "1";
-                        break;
-                    case "1":
-                        saveData(savedDataName, "0");
-                        imageButtonName += "0";
-                        break;
-                }
-                break;
-            case "Hybrid":
-                switch (readData(savedDataName)) {
-                    case "0":
-                        saveData(savedDataName, "1");
-                        imageButtonName += "1";
-                        break;
-                    case "1":
-                        saveData(savedDataName, "2");
-                        imageButtonName += "2";
-                        break;
-                    case "2":
-                        saveData(savedDataName, "0");
-                        imageButtonName += "0";
-                        break;
-                }
-                break;
-        }
-
-        try {
-            Properties properties = new Properties();
-            AssetManager assetManager = context.getAssets();
-            InputStream inputStream = assetManager.open("grid.properties");
-            properties.load(inputStream);
-            retrievedImage = properties.getProperty(imageButtonName);
-        } catch (IOException e) {
-            e.fillInStackTrace();
-        }
-        Timber.d("%s %s", savedDataName, readData(savedDataName));
-        return retrievedImage;
-    }
 
     public int toggleClimb(String climbStationKey) { //when you click it it checks the case and sets the data to it+1
         int drawable = 0;
@@ -224,38 +165,19 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         return drawable;
     }
 
-    //QR Code and Data Handling
-    private String gridArrayConverter(ArrayList<String> gridNames) {
-        ArrayList<String> gridValuesToConvert = prefsDataManager.readFromPreferences(gridNames);
-        String[][] gridValuesArray = new String[3][9];
-        for (int gridRow = 0; gridRow < 3; gridRow++) {
-            for (int gridElement = 0; gridElement < 9; gridElement++) {
-                int gridElementNumber = 9 * gridRow + gridElement;
-                gridValuesArray[gridRow][gridElement] = gridValuesToConvert.get(gridElementNumber);
-            }
-        }
-        return Arrays.deepToString(gridValuesArray);
-    }
-
     public JSONObject dataToJSON() throws JSONException {
         JSONObject jsonData = new JSONObject();
+        int trapNumber = 0;
         try {
             for (String fieldData : allFieldNames) {
-                switch (fieldData) {
-                    case "autoGrid":
-                        jsonData.put("autoGrid", gridArrayConverter(scoutingForm.getAutoFieldNames()));
-                        break;
-                    case "teleGrid":
-                        jsonData.put("teleGrid", gridArrayConverter(scoutingForm.getTeleFieldNames()));
-                        break;
-                    case "comp_code":
-                        checkCompCode();
-                        jsonData.put("compCode", prefsDataManager.readFromPreferences("comp_code"));
-                        break;
-                    default:
-                        jsonData.put(fieldData, prefsDataManager.readFromPreferences(fieldData));
+                if (fieldData.equals("trapOne") || fieldData.equals("trapTwo") || fieldData.equals("trapThree")) {
+                    if (readData(fieldData).equals("1"))
+                        trapNumber++;
                 }
+                else jsonData.put(fieldData, prefsDataManager.readFromPreferences(fieldData));
+
             }
+            jsonData.put("trapNumber", Integer.toString(trapNumber));
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
