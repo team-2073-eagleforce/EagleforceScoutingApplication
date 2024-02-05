@@ -13,14 +13,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.activities.fragment.FragmentViewModel;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesAmpBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesSpeakerMakeBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesSpeakerMissBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.TransportDisplayLayoutBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentTeleopBinding;
 import com.team2073.eagleforcescoutingapplication.framework.form.ChargedUpScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.form.CrescendoScoutingForm;
@@ -39,6 +42,7 @@ public class UITeleopFragment extends Fragment {
     private AddSubtractValuesAmpBinding teleopAmpBinding;
     private AddSubtractValuesSpeakerMakeBinding teleopSpeakerMakeBinding;
     private AddSubtractValuesSpeakerMissBinding teleopSpeakerMissBinding;
+    private FragmentViewModel viewModel;
 
     public static UITeleopFragment newInstance(int index) {
         UITeleopFragment fragment = new UITeleopFragment();
@@ -55,6 +59,7 @@ public class UITeleopFragment extends Fragment {
         int index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());
+        viewModel = new ViewModelProvider(requireActivity()).get(FragmentViewModel.class);
     }
 
     @Nullable
@@ -64,6 +69,29 @@ public class UITeleopFragment extends Fragment {
         teleopAmpBinding = fragmentTeleopBinding.teleopAmp;
         teleopSpeakerMakeBinding = fragmentTeleopBinding.teleopSpeakerMake;
         teleopSpeakerMissBinding = fragmentTeleopBinding.teleopSpeakerMiss;
+        viewModel.getTrapNumber().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (integer != null) {
+                    if (integer == 1) {
+                        if (readData("trapOne").equals("1"))
+                            fragmentTeleopBinding.teleopTrap.trapOne.setImageResource(R.drawable.filled_trap_box);
+                        if (readData("trapTwo").equals("1"))
+                            fragmentTeleopBinding.teleopTrap.trapTwo.setImageResource(R.drawable.filled_trap_box);
+                        if (readData("trapThree").equals("1"))
+                            fragmentTeleopBinding.teleopTrap.trapThree.setImageResource(R.drawable.filled_trap_box);
+                    }
+                    if (integer == 0) {
+                        if (readData("trapOne").equals("0"))
+                            fragmentTeleopBinding.teleopTrap.trapOne.setImageResource(R.drawable.empty_trap_box);
+                        if (readData("trapTwo").equals("0"))
+                            fragmentTeleopBinding.teleopTrap.trapTwo.setImageResource(R.drawable.empty_trap_box);
+                        if (readData("trapThree").equals("0"))
+                            fragmentTeleopBinding.teleopTrap.trapThree.setImageResource(R.drawable.empty_trap_box);
+                    }
+                }
+            }
+        });
         return fragmentTeleopBinding.getRoot();
     }
 
@@ -81,7 +109,7 @@ public class UITeleopFragment extends Fragment {
     }
 
     private void initDataFields() {
-        for (String teleopField: scoutingForm.getTeleFieldNames()) {
+        for (String teleopField : scoutingForm.getTeleFieldNames()) {
             scoutingFormPresenter.saveData(teleopField, "0");
         }
     }
@@ -101,7 +129,6 @@ public class UITeleopFragment extends Fragment {
 
         teleopSpeakerMissBinding.formAdd.setOnClickListener(teleopSpeakerMissAdd -> addTransportValue(teleopSpeakerMissBinding.formScore, "teleopSpeakerMiss"));
         teleopSpeakerMissBinding.formSubtract.setOnClickListener(teleopSpeakerMissSubtract -> subtractTransportValue(teleopSpeakerMissBinding.formScore, "teleopSpeakerMiss"));
-
         fragmentTeleopBinding.teleopTrap.trapOne.setOnClickListener(teleopTrapOne -> toggle_trap(fragmentTeleopBinding.teleopTrap.trapOne, "trapOne"));
         fragmentTeleopBinding.teleopTrap.trapTwo.setOnClickListener(teleopTrapTwo -> toggle_trap(fragmentTeleopBinding.teleopTrap.trapTwo, "trapTwo"));
         fragmentTeleopBinding.teleopTrap.trapThree.setOnClickListener(teleopTrapThree -> toggle_trap(fragmentTeleopBinding.teleopTrap.trapThree, "trapThree"));
@@ -142,12 +169,12 @@ public class UITeleopFragment extends Fragment {
     private void toggle_trap(ImageButton trapButtonTeleop, String trapNumber) {
         if (readData(trapNumber).equals("0")) {
             trapButtonTeleop.setImageResource(R.drawable.filled_trap_box);
-//            trapButtonEndgame.setImageResource(R.drawable.filled_trap_box);
             saveData(trapNumber, "1");
+            updateViewModel(1);
         } else {
             trapButtonTeleop.setImageResource(R.drawable.empty_trap_box);
-//            trapButtonEndgame.setImageResource(R.drawable.empty_trap_box);
             saveData(trapNumber, "0");
+            updateViewModel(0);
         }
         Timber.d("%s:%s", trapNumber, scoutingFormPresenter.readData(trapNumber));
     }
@@ -158,6 +185,10 @@ public class UITeleopFragment extends Fragment {
 
     public void saveData(String key, String data) {
         scoutingFormPresenter.saveData(key, data);
+    }
+
+    private void updateViewModel(Integer integer) {
+        viewModel.setTrapNumber(integer);
     }
 
 }
