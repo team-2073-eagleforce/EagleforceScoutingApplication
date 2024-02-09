@@ -20,6 +20,7 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.FragmentViewModel;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesAmpBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesAmpVerticalBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesSpeakerMakeBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesSpeakerMissBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.TransportDisplayLayoutBinding;
@@ -39,7 +40,7 @@ public class UITeleopFragment extends Fragment {
     private Context context;
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentTeleopBinding fragmentTeleopBinding;
-    private AddSubtractValuesAmpBinding teleopAmpBinding;
+    private AddSubtractValuesAmpVerticalBinding teleopAmpBinding;
     private AddSubtractValuesSpeakerMakeBinding teleopSpeakerMakeBinding;
     private AddSubtractValuesSpeakerMissBinding teleopSpeakerMissBinding;
     private FragmentViewModel viewModel;

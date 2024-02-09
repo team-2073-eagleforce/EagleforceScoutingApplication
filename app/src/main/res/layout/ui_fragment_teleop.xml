@@ -13,21 +13,21 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:orientation="vertical"
+            android:layout_marginStart="50dp"
+            android:orientation="horizontal"
             android:id="@+id/auto_left_layout"
             android:gravity="center">
 
             <include
                 android:id="@+id/teleop_amp"
-                layout="@layout/add_subtract_values_amp"
+                layout="@layout/add_subtract_values_amp_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"/>
+                android:layout_marginRight="80dp"/>
 
             <include
                 android:id="@+id/teleop_trap"
-                layout="@layout/trap_layout"
+                layout="@layout/trap_layout_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -37,7 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="50dp"
             android:orientation="vertical"
             android:id="@+id/auto_right_layout"
             android:gravity="center">

@@ -21,8 +21,8 @@
     <!-- Game Specific Titles -->
     <string name="team_number">Team: </string>
     <string name="team_num">Team: %1$s</string>
-    <string name="scout_name">Name</string>
-    <string name="match_number">Match Number</string>
+    <string name="scout_name">Name: </string>
+    <string name="match_number">Match Number: </string>
 
     <string name="driver_performance">Driver Performance</string>
     <string name="defense_performance">Defense Performance</string>
