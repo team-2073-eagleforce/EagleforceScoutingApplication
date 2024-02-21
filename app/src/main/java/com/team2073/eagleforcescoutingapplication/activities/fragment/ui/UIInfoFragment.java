@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,6 +56,7 @@ public class UIInfoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentInfoBinding = UiFragmentInfoBinding.inflate(inflater, container, false);
         teamNumberTextView = getActivity().findViewById(R.id.scoutingTeamNumberTextView);
+        initSpinner();
         return fragmentInfoBinding.getRoot();
     }
 
@@ -72,6 +76,30 @@ public class UIInfoFragment extends Fragment {
         fragmentInfoBinding.editTextName.setText(scoutingFormPresenter.readData("name").equals("0") ? "" : scoutingFormPresenter.readData("name"));
         fragmentInfoBinding.editTextMatchNumber.setText(scoutingFormPresenter.readData("matchNumber").equals("0") ? "" : scoutingFormPresenter.readData("matchNumber"));
         fragmentInfoBinding.editTextTeamNumber.setText(scoutingFormPresenter.readData("teamNumber").equals("0") ? "" : scoutingFormPresenter.readData("teamNumber"));
+    }
+
+    private void initSpinner() {
+        Spinner matchDropdown = fragmentInfoBinding.selectMatchType;
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.match_type_array, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        matchDropdown.setAdapter(adapter);
+        matchDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
+                if(parent.getItemAtPosition(pos).equals("Qualifier")) {
+                    scoutingFormPresenter.saveData("quantifier", "Quals");
+                } else {
+                    scoutingFormPresenter.saveData("quantifier", "Play Offs");
+                }
+                Timber.d("%s",parent.getItemAtPosition(pos));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
     public void initOnChangeEditText() {

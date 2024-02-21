@@ -15,6 +15,7 @@ public class CrescendoScoutingForm implements ScoutingForm{
         //General Info
         fieldNames.add("comp_code");
         fieldNames.add("name");
+        fieldNames.add("quantifier");
 
         fieldNames.add("teamNumber");
         fieldNames.add("matchNumber");
@@ -73,6 +74,9 @@ public class CrescendoScoutingForm implements ScoutingForm{
         fieldNames.add("driverRanking");
         fieldNames.add("defenseRanking");
         fieldNames.add("comment");
+        fieldNames.add("isBroken");
+        fieldNames.add("isDisabled");
+        fieldNames.add("isTipped");
 
         clearNames.add("driverRanking");
         clearNames.add("defenseRanking");

@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -58,6 +60,7 @@ public class UIDetailFragment extends Fragment {
         defensePerform = fragmentDetailBinding.defensePerformance;
         return fragmentDetailBinding.getRoot();
 
+
     }
 
     @Override
@@ -66,6 +69,7 @@ public class UIDetailFragment extends Fragment {
         initTextFields();
         togglePerformanceRatings();
         editTextToggle();
+        toggleRobotProblems();
     }
 
     @Override
@@ -77,6 +81,9 @@ public class UIDetailFragment extends Fragment {
     private void initDataFields() {
         scoutingFormPresenter.saveData("driverRanking", "0");
         scoutingFormPresenter.saveData("defenseRanking", "0");
+        scoutingFormPresenter.saveData("isBroken", "0");
+        scoutingFormPresenter.saveData("isDisabled", "0");
+        scoutingFormPresenter.saveData("isTipped", "0");
     }
 
     private void initTextFields() {
@@ -97,6 +104,21 @@ public class UIDetailFragment extends Fragment {
                 addPerformanceValue(defensePerform.formScore, "defenseRanking"));
         defensePerform.formSubtract.setOnClickListener(subtractDefensePerformance ->
                 subtractPerformanceValue(defensePerform.formScore, "defenseRanking"));
+    }
+
+    private void toggleRobotProblems() {
+        fragmentDetailBinding.checkBroken.setOnClickListener(checkBroken -> toggle_check("isBroken"));
+        fragmentDetailBinding.checkDisabled.setOnClickListener(checkDisabled -> toggle_check("isDisabled"));
+        fragmentDetailBinding.checkTipped.setOnClickListener(checkTipped -> toggle_check("isTipped"));
+    }
+
+    private void toggle_check(String condition) {
+        if (scoutingFormPresenter.readData(condition).equals("0")) {
+            scoutingFormPresenter.saveData(condition, "1");
+        } else {
+            scoutingFormPresenter.saveData(condition, "0");
+        }
+        Timber.d("%s:%s", condition, scoutingFormPresenter.readData(condition));
     }
 
     private void editTextToggle() {

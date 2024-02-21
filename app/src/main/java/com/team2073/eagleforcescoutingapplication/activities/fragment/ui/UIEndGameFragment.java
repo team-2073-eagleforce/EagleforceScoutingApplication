@@ -108,7 +108,7 @@ public class UIEndGameFragment extends Fragment {
     }
 
     private void initDataFields() {
-        scoutingFormPresenter.saveData("endStageClimb", "0");
+        scoutingFormPresenter.saveData("endClimb", "0");
 
     }
 
@@ -122,7 +122,7 @@ public class UIEndGameFragment extends Fragment {
 
     private void toggleClimb() {
         fragmentEndgameBinding.endStageClimb.setOnClickListener(stageClimb ->
-                fragmentEndgameBinding.endStageClimb.setImageResource(scoutingFormPresenter.toggleClimb("endStageClimb")));
+                fragmentEndgameBinding.endStageClimb.setImageResource(scoutingFormPresenter.toggleClimb("endClimb")));
 
     }
 
