@@ -81,6 +81,9 @@ public class CrescendoScoutingForm implements ScoutingForm{
         clearNames.add("driverRanking");
         clearNames.add("defenseRanking");
         clearNames.add("comment");
+        clearNames.add("isBroken");
+        clearNames.add("isDisabled");
+        clearNames.add("isTipped");
     }
 
     @Override

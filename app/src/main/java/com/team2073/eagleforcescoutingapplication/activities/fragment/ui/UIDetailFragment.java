@@ -79,19 +79,19 @@ public class UIDetailFragment extends Fragment {
     }
 
     private void initDataFields() {
-        scoutingFormPresenter.saveData("driverRanking", "0");
-        scoutingFormPresenter.saveData("defenseRanking", "0");
-        scoutingFormPresenter.saveData("isBroken", "0");
-        scoutingFormPresenter.saveData("isDisabled", "0");
-        scoutingFormPresenter.saveData("isTipped", "0");
+        scoutingFormPresenter.readData("driverRanking");
+        scoutingFormPresenter.readData("defenseRanking");
+        scoutingFormPresenter.readData("isBroken");
+        scoutingFormPresenter.readData("isDisabled");
+        scoutingFormPresenter.readData("isTipped");
     }
 
     private void initTextFields() {
         driverPerform.formField.setText(getResources().getString(R.string.driver_performance));
-        driverPerform.formScore.setText("0");
+        driverPerform.formScore.setText(scoutingFormPresenter.readData("driverRanking"));
 
         defensePerform.formField.setText(getResources().getString(R.string.defense_performance));
-        defensePerform.formScore.setText("0");
+        defensePerform.formScore.setText(scoutingFormPresenter.readData("defenseRanking"));
     }
 
     private void togglePerformanceRatings() {
