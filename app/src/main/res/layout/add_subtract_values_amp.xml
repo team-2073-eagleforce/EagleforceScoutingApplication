@@ -6,22 +6,23 @@
     android:gravity="center">
 
     <ImageButton
-        android:id="@+id/formSubtract"
+        android:id="@+id/formAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00000000"
         android:gravity="center"
-        android:src="@drawable/amp_minus"
+        android:src="@drawable/amp_plus"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="50dp" />
+        android:layout_marginEnd="50dp"
+        android:rotation="180"/>
 
     <TextView
         android:id="@+id/formScore"
         android:layout_width="55dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/formSubtract"
+        android:layout_toEndOf="@id/formAdd"
         android:ems="30"
         android:inputType="number"
         android:gravity="center"
@@ -30,15 +31,16 @@
         android:textColor="@color/md_black_1000"/>
 
     <ImageButton
-        android:id="@+id/formAdd"
+        android:id="@+id/formSubtract"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/formScore"
         android:background="#00000000"
         android:gravity="center"
-        android:src="@drawable/amp_plus"
+        android:src="@drawable/amp_minus"
         android:textColor="@color/defaultTextColor"
         android:layout_centerVertical="true"
-        android:layout_marginStart="50dp"/>
+        android:layout_marginStart="50dp"
+        android:rotation="180"/>
 
 </RelativeLayout>

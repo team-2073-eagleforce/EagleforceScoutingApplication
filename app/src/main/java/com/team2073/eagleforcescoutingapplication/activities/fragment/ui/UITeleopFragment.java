@@ -20,7 +20,8 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.FragmentViewModel;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesAmpBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesAmpVerticalBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesPassBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesSpeakerMakeBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesSpeakerMissBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.TransportDisplayLayoutBinding;
@@ -40,9 +41,10 @@ public class UITeleopFragment extends Fragment {
     private Context context;
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentTeleopBinding fragmentTeleopBinding;
-    private AddSubtractValuesAmpVerticalBinding teleopAmpBinding;
+    private AddSubtractValuesAmpBinding teleopAmpBinding;
     private AddSubtractValuesSpeakerMakeBinding teleopSpeakerMakeBinding;
     private AddSubtractValuesSpeakerMissBinding teleopSpeakerMissBinding;
+    private AddSubtractValuesPassBinding passBinding;
     private FragmentViewModel viewModel;
 
     public static UITeleopFragment newInstance(int index) {
@@ -70,29 +72,30 @@ public class UITeleopFragment extends Fragment {
         teleopAmpBinding = fragmentTeleopBinding.teleopAmp;
         teleopSpeakerMakeBinding = fragmentTeleopBinding.teleopSpeakerMake;
         teleopSpeakerMissBinding = fragmentTeleopBinding.teleopSpeakerMiss;
-        viewModel.getTrapNumber().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                if (integer != null) {
-                    if (integer == 1) {
-                        if (readData("trapOne").equals("1"))
-                            fragmentTeleopBinding.teleopTrap.trapOne.setImageResource(R.drawable.filled_trap_box);
-                        if (readData("trapTwo").equals("1"))
-                            fragmentTeleopBinding.teleopTrap.trapTwo.setImageResource(R.drawable.filled_trap_box);
-                        if (readData("trapThree").equals("1"))
-                            fragmentTeleopBinding.teleopTrap.trapThree.setImageResource(R.drawable.filled_trap_box);
-                    }
-                    if (integer == 0) {
-                        if (readData("trapOne").equals("0"))
-                            fragmentTeleopBinding.teleopTrap.trapOne.setImageResource(R.drawable.empty_trap_box);
-                        if (readData("trapTwo").equals("0"))
-                            fragmentTeleopBinding.teleopTrap.trapTwo.setImageResource(R.drawable.empty_trap_box);
-                        if (readData("trapThree").equals("0"))
-                            fragmentTeleopBinding.teleopTrap.trapThree.setImageResource(R.drawable.empty_trap_box);
-                    }
-                }
-            }
-        });
+        passBinding = fragmentTeleopBinding.pass;
+//        viewModel.getTrapNumber().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+//            @Override
+//            public void onChanged(Integer integer) {
+//                if (integer != null) {
+//                    if (integer == 1) {
+//                        if (readData("trapOne").equals("1"))
+//                            fragmentTeleopBinding.teleopTrap.trapOne.setImageResource(R.drawable.filled_trap_box);
+//                        if (readData("trapTwo").equals("1"))
+//                            fragmentTeleopBinding.teleopTrap.trapTwo.setImageResource(R.drawable.filled_trap_box);
+//                        if (readData("trapThree").equals("1"))
+//                            fragmentTeleopBinding.teleopTrap.trapThree.setImageResource(R.drawable.filled_trap_box);
+//                    }
+//                    if (integer == 0) {
+//                        if (readData("trapOne").equals("0"))
+//                            fragmentTeleopBinding.teleopTrap.trapOne.setImageResource(R.drawable.empty_trap_box);
+//                        if (readData("trapTwo").equals("0"))
+//                            fragmentTeleopBinding.teleopTrap.trapTwo.setImageResource(R.drawable.empty_trap_box);
+//                        if (readData("trapThree").equals("0"))
+//                            fragmentTeleopBinding.teleopTrap.trapThree.setImageResource(R.drawable.empty_trap_box);
+//                    }
+//                }
+//            }
+//        });
         return fragmentTeleopBinding.getRoot();
     }
 
@@ -119,6 +122,7 @@ public class UITeleopFragment extends Fragment {
         teleopAmpBinding.formScore.setText("0");
         teleopSpeakerMakeBinding.formScore.setText("0");
         teleopSpeakerMissBinding.formScore.setText("0");
+        passBinding.formScore.setText("0");
     }
 
     private void initViewImageButtons() {
@@ -130,9 +134,13 @@ public class UITeleopFragment extends Fragment {
 
         teleopSpeakerMissBinding.formAdd.setOnClickListener(teleopSpeakerMissAdd -> addTransportValue(teleopSpeakerMissBinding.formScore, "teleopSpeakerMiss"));
         teleopSpeakerMissBinding.formSubtract.setOnClickListener(teleopSpeakerMissSubtract -> subtractTransportValue(teleopSpeakerMissBinding.formScore, "teleopSpeakerMiss"));
-        fragmentTeleopBinding.teleopTrap.trapOne.setOnClickListener(teleopTrapOne -> toggle_trap(fragmentTeleopBinding.teleopTrap.trapOne, "trapOne"));
-        fragmentTeleopBinding.teleopTrap.trapTwo.setOnClickListener(teleopTrapTwo -> toggle_trap(fragmentTeleopBinding.teleopTrap.trapTwo, "trapTwo"));
-        fragmentTeleopBinding.teleopTrap.trapThree.setOnClickListener(teleopTrapThree -> toggle_trap(fragmentTeleopBinding.teleopTrap.trapThree, "trapThree"));
+
+        passBinding.formAdd.setOnClickListener(passAdd -> addTransportValue(passBinding.formScore, "pass"));
+        passBinding.formSubtract.setOnClickListener(passSubtract -> subtractTransportValue(passBinding.formScore, "pass"));
+
+//        fragmentTeleopBinding.teleopTrap.trapOne.setOnClickListener(teleopTrapOne -> toggle_trap(fragmentTeleopBinding.teleopTrap.trapOne, "trapOne"));
+//        fragmentTeleopBinding.teleopTrap.trapTwo.setOnClickListener(teleopTrapTwo -> toggle_trap(fragmentTeleopBinding.teleopTrap.trapTwo, "trapTwo"));
+//        fragmentTeleopBinding.teleopTrap.trapThree.setOnClickListener(teleopTrapThree -> toggle_trap(fragmentTeleopBinding.teleopTrap.trapThree, "trapThree"));
     }
 
     public void setUserVisibleHint(boolean isVisibleToUser) {

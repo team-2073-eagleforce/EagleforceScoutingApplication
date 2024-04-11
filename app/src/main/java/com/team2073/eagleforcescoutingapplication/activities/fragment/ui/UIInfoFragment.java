@@ -89,8 +89,10 @@ public class UIInfoFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
                 if(parent.getItemAtPosition(pos).equals("Qualifier")) {
                     scoutingFormPresenter.saveData("quantifier", "Quals");
+                } else if (parent.getItemAtPosition(pos).equals("Practice")){
+                    scoutingFormPresenter.saveData("quantifier", "Practice");
                 } else {
-                    scoutingFormPresenter.saveData("quantifier", "Play Offs");
+                    scoutingFormPresenter.saveData("quantifier", "Play Off");
                 }
                 Timber.d("%s",parent.getItemAtPosition(pos));
             }

@@ -47,11 +47,13 @@ public class CrescendoScoutingForm implements ScoutingForm{
         fieldNames.add("teleopAmp");
         fieldNames.add("teleopSpeakerMake");
         fieldNames.add("teleopSpeakerMiss");
+        fieldNames.add("pass");
         fieldNames.add("coopertition");
 
         clearNames.add("teleopAmp");
         clearNames.add("teleopSpeakerMake");
         clearNames.add("teleopSpeakerMiss");
+        clearNames.add("pass");
         clearNames.add("coopertition");
 
         //Endgame
