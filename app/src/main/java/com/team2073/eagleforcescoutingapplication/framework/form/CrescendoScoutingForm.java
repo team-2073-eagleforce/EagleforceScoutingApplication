@@ -58,9 +58,7 @@ public class CrescendoScoutingForm implements ScoutingForm{
 
         //Endgame
         endgameNames.add("endClimb");
-
         fieldNames.add("endClimb");
-
         clearNames.add("endClimb");
 
         //Trap

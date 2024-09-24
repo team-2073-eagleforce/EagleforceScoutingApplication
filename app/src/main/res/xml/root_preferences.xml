@@ -34,7 +34,7 @@
         </PreferenceScreen>
         <ListPreference
             android:defaultValue="testing"
-            android:entries="@array/comp_code"
+            android:entries="@array/comp_name"
             android:entryValues="@array/comp_code"
             android:key="comp_code"
             android:title="Competition"

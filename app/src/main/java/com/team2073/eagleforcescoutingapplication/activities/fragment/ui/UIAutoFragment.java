@@ -20,6 +20,7 @@ import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesS
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesSpeakerMissBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentAutoBinding;
 import com.team2073.eagleforcescoutingapplication.framework.form.ChargedUpScoutingForm;
+import com.team2073.eagleforcescoutingapplication.framework.form.CrescendoScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
@@ -28,7 +29,7 @@ import timber.log.Timber;
 public class UIAutoFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "Auto";
-    private final ScoutingForm scoutingForm = new ChargedUpScoutingForm();
+    private final ScoutingForm scoutingForm = new CrescendoScoutingForm();
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentAutoBinding fragmentAutoBinding;
     private AddSubtractValuesAmpBinding autoAmpBinding;
@@ -77,25 +78,34 @@ public class UIAutoFragment extends Fragment {
     }
 
     private void initDataFields() {
-        for (String autoField : scoutingForm.getAutoFieldNames()) {
-            scoutingFormPresenter.saveData(autoField, "0");
+        boolean matchFieldEmpty = scoutingFormPresenter.readData("teamNumber").equals("") || scoutingFormPresenter.readData("teamNumber").equals("0");
+        boolean teamFieldEmpty = scoutingFormPresenter.readData("matchNumber").equals("") || scoutingFormPresenter.readData("matchNumber").equals("0");
+        if (matchFieldEmpty && teamFieldEmpty){
+            Timber.d("initAutoFields 0 ");
+            for (String autoField : scoutingForm.getAutoFieldNames()) {
+                scoutingFormPresenter.saveData(autoField, "0");
+            }
         }
     }
 
     private void initTextFields() {
-        autoAmpBinding.formScore.setText("0");
-        autoSpeakerMakeBinding.formScore.setText("0");
-        autoSpeakerMissBinding.formScore.setText("0");
+        Timber.d("Display Auto Fields");
+        autoAmpBinding.formScore.setText(readData("autoAmp"));
+        autoSpeakerMakeBinding.formScore.setText(readData("autoSpeakerMake"));
+        autoSpeakerMissBinding.formScore.setText(readData("autoSpeakerMiss"));
     }
 
     private void initViewImageButtons() {
+        if (readData("autoLeave").equals("1")) {
+            fragmentAutoBinding.autoLeave.setImageResource(R.drawable.auto_leave);
+        }
         // Toggles Auto Leave
-        fragmentAutoBinding.autoChargingStation.setOnClickListener(autoLeave -> {
+        fragmentAutoBinding.autoLeave.setOnClickListener(autoLeave -> {
             if (readData("autoLeave").equals("0")) {
-                fragmentAutoBinding.autoChargingStation.setImageResource(R.drawable.auto_leave);
+                fragmentAutoBinding.autoLeave.setImageResource(R.drawable.auto_leave);
                 saveData("autoLeave", "1");
             } else {
-                fragmentAutoBinding.autoChargingStation.setImageResource(R.drawable.auto_none);
+                fragmentAutoBinding.autoLeave.setImageResource(R.drawable.auto_none);
                 saveData("autoLeave", "0");
             }
         });
