@@ -79,11 +79,11 @@ public class UIDetailFragment extends Fragment {
     }
 
     private void initDataFields() {
-        scoutingFormPresenter.readData("driverRanking");
-        scoutingFormPresenter.readData("defenseRanking");
-        scoutingFormPresenter.readData("isBroken");
-        scoutingFormPresenter.readData("isDisabled");
-        scoutingFormPresenter.readData("isTipped");
+//        scoutingFormPresenter.readData("driverRanking");
+//        scoutingFormPresenter.readData("defenseRanking");
+//        scoutingFormPresenter.readData("isBroken");
+//        scoutingFormPresenter.readData("isDisabled");
+//        scoutingFormPresenter.readData("isTipped");
     }
 
     private void initTextFields() {

@@ -101,7 +101,7 @@ public class UITeleopFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        initDataFields();
+        //initDataFields();
         initTextFields();
         initViewImageButtons();
     }
@@ -112,11 +112,11 @@ public class UITeleopFragment extends Fragment {
         fragmentTeleopBinding = null;
     }
 
-    private void initDataFields() {
-        for (String teleopField : scoutingForm.getTeleFieldNames()) {
-            scoutingFormPresenter.saveData(teleopField, "0");
-        }
-    }
+//    private void initDataFields() {
+//        for (String teleopField : scoutingForm.getTeleFieldNames()) {
+//            scoutingFormPresenter.saveData(teleopField, "0");
+//        }
+//    }
 
     private void initTextFields() {
         teleopAmpBinding.formScore.setText("0");

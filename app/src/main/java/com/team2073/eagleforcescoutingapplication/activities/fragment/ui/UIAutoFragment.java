@@ -66,7 +66,7 @@ public class UIAutoFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        initDataFields();
+        // initDataFields();
         initTextFields();
         initViewImageButtons();
     }
@@ -78,14 +78,14 @@ public class UIAutoFragment extends Fragment {
     }
 
     private void initDataFields() {
-        boolean matchFieldEmpty = scoutingFormPresenter.readData("teamNumber").equals("") || scoutingFormPresenter.readData("teamNumber").equals("0");
-        boolean teamFieldEmpty = scoutingFormPresenter.readData("matchNumber").equals("") || scoutingFormPresenter.readData("matchNumber").equals("0");
-        if (matchFieldEmpty && teamFieldEmpty){
-            Timber.d("initAutoFields 0 ");
-            for (String autoField : scoutingForm.getAutoFieldNames()) {
-                scoutingFormPresenter.saveData(autoField, "0");
-            }
-        }
+//        boolean matchFieldEmpty = scoutingFormPresenter.readData("teamNumber").equals("") || scoutingFormPresenter.readData("teamNumber").equals("0");
+//        boolean teamFieldEmpty = scoutingFormPresenter.readData("matchNumber").equals("") || scoutingFormPresenter.readData("matchNumber").equals("0");
+//        if (matchFieldEmpty && teamFieldEmpty){
+//            Timber.d("initAutoFields 0 ");
+//            for (String autoField : scoutingForm.getAutoFieldNames()) {
+//                scoutingFormPresenter.saveData(autoField, "0");
+//            }
+//        }
     }
 
     private void initTextFields() {

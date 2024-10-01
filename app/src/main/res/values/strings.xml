@@ -5,6 +5,7 @@
     <string name="error_network_title">No Internet Connection</string>
     <string name="processing">Processing...</string>
     <string name="title_activity_scouting_form">ScoutingFormActivity</string>
+    <string name="update_msg">*Stopped Clearing Data</string>
 
     <string name="ui_tab_text_1">Info</string>
     <string name="ui_tab_text_2">Auto</string>

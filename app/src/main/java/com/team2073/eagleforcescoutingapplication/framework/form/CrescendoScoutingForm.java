@@ -16,9 +16,9 @@ public class CrescendoScoutingForm implements ScoutingForm{
         fieldNames.add("comp_code");
         fieldNames.add("name");
         fieldNames.add("quantifier");
-
         fieldNames.add("teamNumber");
         fieldNames.add("matchNumber");
+
         clearNames.add("teamNumber");
         clearNames.add("matchNumber");
 
