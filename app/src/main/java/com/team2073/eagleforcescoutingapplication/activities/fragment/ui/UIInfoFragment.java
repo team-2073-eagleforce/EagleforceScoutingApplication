@@ -87,6 +87,9 @@ public class UIInfoFragment extends Fragment {
         matchDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
+                if (scoutingFormPresenter.getScheduleList() != null) {
+                    matchDropdown.setSelection(adapter.getPosition("Qualifier"));
+                }
                 if(parent.getItemAtPosition(pos).equals("Qualifier")) {
                     scoutingFormPresenter.saveData("quantifier", "Quals");
                 } else if (parent.getItemAtPosition(pos).equals("Practice")){

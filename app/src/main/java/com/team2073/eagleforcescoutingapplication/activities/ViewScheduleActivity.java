@@ -2,6 +2,8 @@ package com.team2073.eagleforcescoutingapplication.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.adapters.ScheduleRecyclerViewAdapter;
+import com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ChooseFilePresenter;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ViewSchedulePresenter;
@@ -32,7 +35,7 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
     private List<Match> matchList;
     private PrefsDataManager prefsDataManager;
     private ChooseFilePresenter chooseFilePresenter;
-
+    private FileManager fileManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,12 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
         scheduleRecyclerView.setAdapter(adapter);
         scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         matchList = viewSchedulePresenter.getAllTeamsPerMatch();
+        Button removeSchedule = findViewById(R.id.remove_schedule);
+        removeSchedule.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                fileManager.setScheduleFile(null);
+            }
+        });
     }
 
     @Override
