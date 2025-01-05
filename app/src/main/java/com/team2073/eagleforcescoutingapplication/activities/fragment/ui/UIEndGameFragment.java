@@ -8,17 +8,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.activities.fragment.FragmentViewModel;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentTeleopBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import timber.log.Timber;
@@ -28,8 +33,9 @@ public class UIEndGameFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "Detail";
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentEndgameBinding fragmentEndgameBinding;
-    private AddSubtractValuesBinding defensePerform;
-    private AddSubtractValuesBinding driverPerform;
+    private FragmentViewModel viewModel;
+    //private AddSubtractValuesBinding defensePerform;
+    //private AddSubtractValuesBinding driverPerform;
 
 
     public static UIEndGameFragment newInstance(int index) {
@@ -47,14 +53,38 @@ public class UIEndGameFragment extends Fragment {
         int index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());
+        viewModel = new ViewModelProvider(requireActivity()).get(FragmentViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentEndgameBinding = UiFragmentEndgameBinding.inflate(inflater, container, false);
-        driverPerform = fragmentEndgameBinding.driverPerformance;
-        defensePerform = fragmentEndgameBinding.defensePerformance;
+        viewModel.getTrapNumber().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (integer != null) {
+                    if (integer == 1) {
+                        if (readData("trapOne").equals("1"))
+                            fragmentEndgameBinding.endTrap.trapOne.setImageResource(R.drawable.filled_trap_box);
+                        if (readData("trapTwo").equals("1"))
+                            fragmentEndgameBinding.endTrap.trapTwo.setImageResource(R.drawable.filled_trap_box);
+                        if (readData("trapThree").equals("1"))
+                            fragmentEndgameBinding.endTrap.trapThree.setImageResource(R.drawable.filled_trap_box);
+                    }
+                    if (integer == 0) {
+                        if (readData("trapOne").equals("0"))
+                            fragmentEndgameBinding.endTrap.trapOne.setImageResource(R.drawable.empty_trap_box);
+                        if (readData("trapTwo").equals("0"))
+                            fragmentEndgameBinding.endTrap.trapTwo.setImageResource(R.drawable.empty_trap_box);
+                        if (readData("trapThree").equals("0"))
+                            fragmentEndgameBinding.endTrap.trapThree.setImageResource(R.drawable.empty_trap_box);
+                    }
+                }
+            }
+        });
+        //driverPerform = fragmentEndgameBinding.driverPerformance;
+        //defensePerform = fragmentEndgameBinding.defensePerformance;
         return fragmentEndgameBinding.getRoot();
 
     }
@@ -62,10 +92,13 @@ public class UIEndGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initDataFields();
-        initTextFields();
+        //initTextFields();
         toggleClimb();
-        togglePerformanceRatings();
-        editTextToggle();
+        fragmentEndgameBinding.endTrap.trapOne.setOnClickListener(endTrapOne -> toggle_trap(fragmentEndgameBinding.endTrap.trapOne, "trapOne"));
+        fragmentEndgameBinding.endTrap.trapTwo.setOnClickListener(endTrapTwo -> toggle_trap(fragmentEndgameBinding.endTrap.trapTwo, "trapTwo"));
+        fragmentEndgameBinding.endTrap.trapThree.setOnClickListener(endTrapThree -> toggle_trap(fragmentEndgameBinding.endTrap.trapThree, "trapThree"));
+        //togglePerformanceRatings();
+        //editTextToggle();
     }
 
     @Override
@@ -75,81 +108,49 @@ public class UIEndGameFragment extends Fragment {
     }
 
     private void initDataFields() {
-        scoutingFormPresenter.saveData("endChargingStation", "0");
+        scoutingFormPresenter.saveData("endClimb", "0");
 
-        scoutingFormPresenter.saveData("driverRanking", "0");
-        scoutingFormPresenter.saveData("defenseRanking", "0");
     }
 
-    private void initTextFields() {
-        driverPerform.formField.setText(getResources().getString(R.string.driver_performance));
-        driverPerform.formScore.setText("0");
+    //private void initTextFields() {
+        //driverPerform.formField.setText(getResources().getString(R.string.driver_performance));
+        //driverPerform.formScore.setText("0");
+    //    defensePerform.formField.setText(getResources().getString(R.string.defense_performance));
+    //    defensePerform.formScore.setText("0");
+   // }
 
-        defensePerform.formField.setText(getResources().getString(R.string.defense_performance));
-        defensePerform.formScore.setText("0");
-    }
 
     private void toggleClimb() {
-        fragmentEndgameBinding.endChargingStation.setOnClickListener(chargingStation ->
-                fragmentEndgameBinding.endChargingStation.setImageResource(scoutingFormPresenter.toggleClimb("endChargingStation")));
+        fragmentEndgameBinding.endStageClimb.setOnClickListener(stageClimb ->
+                fragmentEndgameBinding.endStageClimb.setImageResource(scoutingFormPresenter.toggleClimb("endClimb")));
+
     }
 
-    private void togglePerformanceRatings() {
-        driverPerform.formAdd.setOnClickListener(addDriverPerformance ->
-                addPerformanceValue(driverPerform.formScore, "driverRanking"));
-        driverPerform.formSubtract.setOnClickListener(subtractDriverPerformance ->
-                subtractPerformanceValue(driverPerform.formScore, "driverRanking"));
 
-        defensePerform.formAdd.setOnClickListener(addDefensePerformance ->
-                addPerformanceValue(defensePerform.formScore, "defenseRanking"));
-        defensePerform.formSubtract.setOnClickListener(subtractDefensePerformance ->
-                subtractPerformanceValue(defensePerform.formScore, "defenseRanking"));
-    }
 
-    private void editTextToggle() {
-        fragmentEndgameBinding.uiComments.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+    private void toggle_trap(ImageButton trapButtonEndgame, String trapNumber) {
+        if (readData(trapNumber).equals("0")) {
+            trapButtonEndgame.setImageResource(R.drawable.filled_trap_box);
+            saveData(trapNumber, "1");
+            updateViewModel(1);
+        } else {
+            trapButtonEndgame.setImageResource(R.drawable.empty_trap_box);
+            saveData(trapNumber, "0");
+            updateViewModel(0);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String comment = fragmentEndgameBinding.uiComments.getText().toString();
-                if (comment.contains("'")) {
-                    comment = comment.replace("'", "\"");
-                }
-                scoutingFormPresenter.saveData("comment", comment);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-    }
-
-    private void addPerformanceValue(TextView formScore, String performanceType) {
-        int value = Integer.parseInt(formScore.getText().toString()) + 1;
-        if (value > 5) {
-            value = 5;
         }
-        formScore.setText(String.valueOf(value));
+        Timber.d("%s:%s", trapNumber, scoutingFormPresenter.readData(trapNumber));
 
-        scoutingFormPresenter.saveData(performanceType, String.valueOf(value));
-
-        Timber.d(performanceType + ", " + scoutingFormPresenter.readData(performanceType));
     }
 
-    private void subtractPerformanceValue(TextView formScore, String performanceType) {
-        int value = Integer.parseInt(formScore.getText().toString()) - 1;
-        if (value < 0) {
-            value = 0;
-        }
-        formScore.setText(String.valueOf(value));
-
-        scoutingFormPresenter.saveData(performanceType, String.valueOf(value));
-
-        Timber.d(performanceType + ", " + scoutingFormPresenter.readData(performanceType));
+    public String readData(String key) {
+        return scoutingFormPresenter.readData(key);
     }
+
+    public void saveData(String key, String data) {
+        scoutingFormPresenter.saveData(key, data);
+    }
+
 
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -161,6 +162,10 @@ public class UIEndGameFragment extends Fragment {
                 Timber.d("setUserVisibleHint: EndGame ");
             }
         }
+    }
+
+    private void updateViewModel(Integer integer) {
+        viewModel.setTrapNumber(integer);
     }
 }
 

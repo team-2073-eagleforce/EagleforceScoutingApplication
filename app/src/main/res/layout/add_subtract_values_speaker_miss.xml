@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <ImageButton
+        android:id="@+id/formSubtract"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:gravity="center"
+        android:src="@drawable/miss_minus"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="50dp"/>
+
+    <TextView
+        android:id="@+id/formScore"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/formSubtract"
+        android:ems="30"
+        android:inputType="number"
+        android:gravity="center"
+        android:textSize="50sp"
+        android:typeface="sans"
+        android:textColor="@color/md_black_1000"/>
+
+    <ImageButton
+        android:id="@+id/formAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/formScore"
+        android:background="#00000000"
+        android:gravity="center"
+        android:src="@drawable/miss_plus"
+        android:textColor="@color/defaultTextColor"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="50dp"/>
+
+</RelativeLayout>

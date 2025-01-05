@@ -10,6 +10,12 @@
         <item>reply_all</item>
     </string-array>
 
+    <string-array name="match_type_array">
+        <item>Practice</item>
+        <item>Qualifier</item>
+        <item>Play Off</item>
+    </string-array>
+
     <string-array name="scouting_positions">
         <item>Red1</item>
         <item>Red2</item>
@@ -25,9 +31,17 @@
     </string-array>
 
     <string-array name="comp_code">
-        <item>2023azva</item>
-        <item>2023caav</item>
+        <item>2024cacc</item>
+        <item>2024cc</item>
+        <item>2024mttd</item>
         <item>testing</item>
+    </string-array>
+
+    <string-array name="comp_name">
+        <item>Capital City Classic</item>
+        <item>Chezy Champs</item>
+        <item>Madtown Throwdown</item>
+        <item>Testing</item>
     </string-array>
 
 </resources>
