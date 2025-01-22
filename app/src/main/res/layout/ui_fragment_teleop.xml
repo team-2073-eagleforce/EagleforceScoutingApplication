@@ -21,14 +21,14 @@
 
             <include
                 android:id="@+id/teleop_amp"
-                layout="@layout/add_subtract_values_amp"
+                layout="@layout/reef_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"/>
 
             <include
                 android:id="@+id/pass"
-                layout="@layout/add_subtract_values_pass"
+                layout="@layout/reef_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -46,14 +46,14 @@
 
             <include
                 android:id="@+id/teleop_speaker_make"
-                layout="@layout/add_subtract_values_speaker_make"
+                layout="@layout/reef_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"/>
 
             <include
                 android:id="@+id/teleop_speaker_miss"
-                layout="@layout/add_subtract_values_speaker_miss"
+                layout="@layout/reef_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

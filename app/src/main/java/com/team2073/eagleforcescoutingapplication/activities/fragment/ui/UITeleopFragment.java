@@ -19,11 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.FragmentViewModel;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
-import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesAmpBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesPassBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesSpeakerMakeBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesSpeakerMissBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.TransportDisplayLayoutBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentTeleopBinding;
@@ -41,10 +37,10 @@ public class UITeleopFragment extends Fragment {
     private Context context;
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentTeleopBinding fragmentTeleopBinding;
-    private AddSubtractValuesAmpBinding teleopAmpBinding;
-    private AddSubtractValuesSpeakerMakeBinding teleopSpeakerMakeBinding;
-    private AddSubtractValuesSpeakerMissBinding teleopSpeakerMissBinding;
-    private AddSubtractValuesPassBinding passBinding;
+//    private AddSubtractValuesAmpBinding teleopAmpBinding;
+//    private AddSubtractValuesSpeakerMakeBinding teleopSpeakerMakeBinding;
+//    private AddSubtractValuesSpeakerMissBinding teleopSpeakerMissBinding;
+//    private AddSubtractValuesPassBinding passBinding;
     private FragmentViewModel viewModel;
 
     public static UITeleopFragment newInstance(int index) {
@@ -69,33 +65,11 @@ public class UITeleopFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentTeleopBinding = UiFragmentTeleopBinding.inflate(inflater, container, false);
-        teleopAmpBinding = fragmentTeleopBinding.teleopAmp;
-        teleopSpeakerMakeBinding = fragmentTeleopBinding.teleopSpeakerMake;
-        teleopSpeakerMissBinding = fragmentTeleopBinding.teleopSpeakerMiss;
-        passBinding = fragmentTeleopBinding.pass;
-//        viewModel.getTrapNumber().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-//            @Override
-//            public void onChanged(Integer integer) {
-//                if (integer != null) {
-//                    if (integer == 1) {
-//                        if (readData("trapOne").equals("1"))
-//                            fragmentTeleopBinding.teleopTrap.trapOne.setImageResource(R.drawable.filled_trap_box);
-//                        if (readData("trapTwo").equals("1"))
-//                            fragmentTeleopBinding.teleopTrap.trapTwo.setImageResource(R.drawable.filled_trap_box);
-//                        if (readData("trapThree").equals("1"))
-//                            fragmentTeleopBinding.teleopTrap.trapThree.setImageResource(R.drawable.filled_trap_box);
-//                    }
-//                    if (integer == 0) {
-//                        if (readData("trapOne").equals("0"))
-//                            fragmentTeleopBinding.teleopTrap.trapOne.setImageResource(R.drawable.empty_trap_box);
-//                        if (readData("trapTwo").equals("0"))
-//                            fragmentTeleopBinding.teleopTrap.trapTwo.setImageResource(R.drawable.empty_trap_box);
-//                        if (readData("trapThree").equals("0"))
-//                            fragmentTeleopBinding.teleopTrap.trapThree.setImageResource(R.drawable.empty_trap_box);
-//                    }
-//                }
-//            }
-//        });
+//        teleopAmpBinding = fragmentTeleopBinding.teleopAmp;
+//        teleopSpeakerMakeBinding = fragmentTeleopBinding.teleopSpeakerMake;
+//        teleopSpeakerMissBinding = fragmentTeleopBinding.teleopSpeakerMiss;
+//        passBinding = fragmentTeleopBinding.pass;
+
         return fragmentTeleopBinding.getRoot();
     }
 
@@ -112,35 +86,37 @@ public class UITeleopFragment extends Fragment {
         fragmentTeleopBinding = null;
     }
 
-//    private void initDataFields() {
-//        for (String teleopField : scoutingForm.getTeleFieldNames()) {
-//            scoutingFormPresenter.saveData(teleopField, "0");
-//        }
-//    }
-
     private void initTextFields() {
-        teleopAmpBinding.formScore.setText("0");
-        teleopSpeakerMakeBinding.formScore.setText("0");
-        teleopSpeakerMissBinding.formScore.setText("0");
-        passBinding.formScore.setText("0");
+        //teleopAmpBinding.formScore.setText("0");
+        //teleopSpeakerMakeBinding.formScore.setText("0");
+        //teleopSpeakerMissBinding.formScore.setText("0");
+        //passBinding.formScore.setText("0");
+//        autoReef.L1.formScore.setText(readData("autoL1"));
+//        autoReef.L2.formScore.setText(readData("autoL2"));
+//        autoReef.L3.formScore.setText(readData("autoL3"));
+//        autoReef.L4.formScore.setText(readData("autoL4"));
     }
 
     private void initViewImageButtons() {
-        teleopAmpBinding.formAdd.setOnClickListener(teleopAmpAdd -> addTransportValue(teleopAmpBinding.formScore, "teleopAmp"));
-        teleopAmpBinding.formSubtract.setOnClickListener(teleopAmpSubtract -> subtractTransportValue(teleopAmpBinding.formScore, "teleopAmp"));
+//        teleopAmpBinding.formAdd.setOnClickListener(teleopAmpAdd -> addTransportValue(teleopAmpBinding.formScore, "teleopAmp"));
+//        teleopAmpBinding.formSubtract.setOnClickListener(teleopAmpSubtract -> subtractTransportValue(teleopAmpBinding.formScore, "teleopAmp"));
+//
+//        teleopSpeakerMakeBinding.formAdd.setOnClickListener(teleopSpeakerMakeAdd -> addTransportValue(teleopSpeakerMakeBinding.formScore, "teleopSpeakerMake"));
+//        teleopSpeakerMakeBinding.formSubtract.setOnClickListener(teleopSpeakerMakeSubtract -> subtractTransportValue(teleopSpeakerMakeBinding.formScore, "teleopSpeakerMake"));
+//
+//        teleopSpeakerMissBinding.formAdd.setOnClickListener(teleopSpeakerMissAdd -> addTransportValue(teleopSpeakerMissBinding.formScore, "teleopSpeakerMiss"));
+//        teleopSpeakerMissBinding.formSubtract.setOnClickListener(teleopSpeakerMissSubtract -> subtractTransportValue(teleopSpeakerMissBinding.formScore, "teleopSpeakerMiss"));
+//
+//        passBinding.formAdd.setOnClickListener(passAdd -> addTransportValue(passBinding.formScore, "pass"));
+//        passBinding.formSubtract.setOnClickListener(passSubtract -> subtractTransportValue(passBinding.formScore, "pass"));
 
-        teleopSpeakerMakeBinding.formAdd.setOnClickListener(teleopSpeakerMakeAdd -> addTransportValue(teleopSpeakerMakeBinding.formScore, "teleopSpeakerMake"));
-        teleopSpeakerMakeBinding.formSubtract.setOnClickListener(teleopSpeakerMakeSubtract -> subtractTransportValue(teleopSpeakerMakeBinding.formScore, "teleopSpeakerMake"));
-
-        teleopSpeakerMissBinding.formAdd.setOnClickListener(teleopSpeakerMissAdd -> addTransportValue(teleopSpeakerMissBinding.formScore, "teleopSpeakerMiss"));
-        teleopSpeakerMissBinding.formSubtract.setOnClickListener(teleopSpeakerMissSubtract -> subtractTransportValue(teleopSpeakerMissBinding.formScore, "teleopSpeakerMiss"));
-
-        passBinding.formAdd.setOnClickListener(passAdd -> addTransportValue(passBinding.formScore, "pass"));
-        passBinding.formSubtract.setOnClickListener(passSubtract -> subtractTransportValue(passBinding.formScore, "pass"));
-
-//        fragmentTeleopBinding.teleopTrap.trapOne.setOnClickListener(teleopTrapOne -> toggle_trap(fragmentTeleopBinding.teleopTrap.trapOne, "trapOne"));
-//        fragmentTeleopBinding.teleopTrap.trapTwo.setOnClickListener(teleopTrapTwo -> toggle_trap(fragmentTeleopBinding.teleopTrap.trapTwo, "trapTwo"));
-//        fragmentTeleopBinding.teleopTrap.trapThree.setOnClickListener(teleopTrapThree -> toggle_trap(fragmentTeleopBinding.teleopTrap.trapThree, "trapThree"));
+//        AddSubtractValuesCoralBinding[] reefLevels = {autoReef.L1, autoReef.L2, autoReef.L3, autoReef.L4};
+//        for (int i = 0; i < 4; i++) {
+//            AddSubtractValuesCoralBinding level = reefLevels[i];
+//            String key = "autoL" + String.valueOf(i+1);
+//            level.formAdd.setOnClickListener(autoAdd -> addTransportValue(level.formScore, key));
+//            level.formSubtract.setOnClickListener(autoSubtract -> subtractTransportValue(level.formScore, key));
+//        }
     }
 
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -173,19 +149,6 @@ public class UITeleopFragment extends Fragment {
         saveData(transportType, String.valueOf(value));
         formScore.setText(String.valueOf(value));
         Timber.d("%s:%s", transportType, scoutingFormPresenter.readData(transportType));
-    }
-
-    private void toggle_trap(ImageButton trapButtonTeleop, String trapNumber) {
-        if (readData(trapNumber).equals("0")) {
-            trapButtonTeleop.setImageResource(R.drawable.filled_trap_box);
-            saveData(trapNumber, "1");
-            updateViewModel(1);
-        } else {
-            trapButtonTeleop.setImageResource(R.drawable.empty_trap_box);
-            saveData(trapNumber, "0");
-            updateViewModel(0);
-        }
-        Timber.d("%s:%s", trapNumber, scoutingFormPresenter.readData(trapNumber));
     }
 
     public String readData(String key) {

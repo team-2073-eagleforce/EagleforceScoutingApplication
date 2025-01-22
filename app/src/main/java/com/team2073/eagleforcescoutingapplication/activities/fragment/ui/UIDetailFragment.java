@@ -65,7 +65,6 @@ public class UIDetailFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        initDataFields();
         initTextFields();
         togglePerformanceRatings();
         editTextToggle();
@@ -78,20 +77,14 @@ public class UIDetailFragment extends Fragment {
         fragmentDetailBinding = null;
     }
 
-    private void initDataFields() {
-//        scoutingFormPresenter.readData("driverRanking");
-//        scoutingFormPresenter.readData("defenseRanking");
-//        scoutingFormPresenter.readData("isBroken");
-//        scoutingFormPresenter.readData("isDisabled");
-//        scoutingFormPresenter.readData("isTipped");
-    }
-
     private void initTextFields() {
         driverPerform.formField.setText(getResources().getString(R.string.driver_performance));
         driverPerform.formScore.setText(scoutingFormPresenter.readData("driverRanking"));
 
         defensePerform.formField.setText(getResources().getString(R.string.defense_performance));
         defensePerform.formScore.setText(scoutingFormPresenter.readData("defenseRanking"));
+
+        //TODO: initialize Comment to the save data
     }
 
     private void togglePerformanceRatings() {

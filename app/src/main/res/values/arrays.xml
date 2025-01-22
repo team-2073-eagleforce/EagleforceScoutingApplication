@@ -29,7 +29,7 @@
         <item>Icons</item>
         <item>List</item>
     </string-array>
-
+<!--TODO: Change the Comp Codes and names to pinnacles, sac, etc.-->
     <string-array name="comp_code">
         <item>2024cacc</item>
         <item>2024cc</item>

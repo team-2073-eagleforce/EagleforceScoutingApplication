@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentInfoBinding;
+import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import timber.log.Timber;
@@ -31,6 +34,7 @@ public class UIInfoFragment extends Fragment {
     TextView teamNumberTextView;
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentInfoBinding fragmentInfoBinding;
+    private RadioGroup startPosition;
 
     public static UIInfoFragment newInstance(int index) {
         UIInfoFragment fragment = new UIInfoFragment();
@@ -47,8 +51,6 @@ public class UIInfoFragment extends Fragment {
         int index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());
-
-
     }
 
     @Nullable
@@ -56,6 +58,8 @@ public class UIInfoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentInfoBinding = UiFragmentInfoBinding.inflate(inflater, container, false);
         teamNumberTextView = getActivity().findViewById(R.id.scoutingTeamNumberTextView);
+        startPosition = fragmentInfoBinding.startPosition;
+        initRadioGroup();
         initSpinner();
         return fragmentInfoBinding.getRoot();
     }
@@ -93,7 +97,7 @@ public class UIInfoFragment extends Fragment {
                 if(parent.getItemAtPosition(pos).equals("Qualifier")) {
                     scoutingFormPresenter.saveData("quantifier", "Quals");
                 } else if (parent.getItemAtPosition(pos).equals("Practice")){
-                    scoutingFormPresenter.saveData("quantifier", "Practice");
+                    scoutingFormPresenter.saveData("quantifier", "Prac");
                 } else {
                     scoutingFormPresenter.saveData("quantifier", "Play Off");
                 }
@@ -101,8 +105,22 @@ public class UIInfoFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    public void initRadioGroup() {
+        startPosition.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                // on below line we are getting radio button from our group.
+                RadioButton radioButton = startPosition.findViewById(checkedId);
+                String pos = radioButton.getText().toString();
+                if (pos.equals("No Show")) {
+                    pos = "0";
+                }
+                scoutingFormPresenter.saveData("startPos", pos);
             }
         });
     }
@@ -155,18 +173,4 @@ public class UIInfoFragment extends Fragment {
             }
         });
     }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            try {
-                InputMethodManager mImm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                mImm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
-            } catch (Exception e) {
-                Timber.d("setUserVisibleHint: Info ");
-            }
-        }
-    }
-
 }
