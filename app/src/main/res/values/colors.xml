@@ -64,12 +64,12 @@
 
     <color name="scheduleMatchHeadColor">#424242</color>
 
-    <color name="coneColor">#ffe500</color>
-
-    <color name="cubeColor">#8c52ff</color>
-
-    <color name="success">#4BB543</color>
+    <color name="selected">#4BB543</color>
 
     <color name="unclicked">#E22836</color>
+
+    <color name="unselected">#C1C1C1</color>
+
+
 
 </resources>

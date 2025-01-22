@@ -112,7 +112,6 @@ public class CSVManager {
         try {
             FileReader fileReader = new FileReader(schedule);
             CSVReader csvReader = new CSVReaderBuilder(fileReader).withSkipLines(1).build();
-            //TODO make it so index doesn't need to change by file
             String[] nextRecord;
             while ((nextRecord = csvReader.readNext()) != null) {
                 Match match = new Match(

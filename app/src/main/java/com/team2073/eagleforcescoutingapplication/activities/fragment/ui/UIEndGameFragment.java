@@ -14,16 +14,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.team2073.eagleforcescoutingapplication.R;
-import com.team2073.eagleforcescoutingapplication.activities.fragment.FragmentViewModel;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
-import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentTeleopBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import timber.log.Timber;
@@ -33,9 +28,6 @@ public class UIEndGameFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "Detail";
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentEndgameBinding fragmentEndgameBinding;
-    private FragmentViewModel viewModel;
-    //private AddSubtractValuesBinding defensePerform;
-    //private AddSubtractValuesBinding driverPerform;
 
 
     public static UIEndGameFragment newInstance(int index) {
@@ -53,52 +45,18 @@ public class UIEndGameFragment extends Fragment {
         int index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());
-        viewModel = new ViewModelProvider(requireActivity()).get(FragmentViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentEndgameBinding = UiFragmentEndgameBinding.inflate(inflater, container, false);
-        viewModel.getTrapNumber().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                if (integer != null) {
-                    if (integer == 1) {
-                        if (readData("trapOne").equals("1"))
-                            fragmentEndgameBinding.endTrap.trapOne.setImageResource(R.drawable.filled_trap_box);
-                        if (readData("trapTwo").equals("1"))
-                            fragmentEndgameBinding.endTrap.trapTwo.setImageResource(R.drawable.filled_trap_box);
-                        if (readData("trapThree").equals("1"))
-                            fragmentEndgameBinding.endTrap.trapThree.setImageResource(R.drawable.filled_trap_box);
-                    }
-                    if (integer == 0) {
-                        if (readData("trapOne").equals("0"))
-                            fragmentEndgameBinding.endTrap.trapOne.setImageResource(R.drawable.empty_trap_box);
-                        if (readData("trapTwo").equals("0"))
-                            fragmentEndgameBinding.endTrap.trapTwo.setImageResource(R.drawable.empty_trap_box);
-                        if (readData("trapThree").equals("0"))
-                            fragmentEndgameBinding.endTrap.trapThree.setImageResource(R.drawable.empty_trap_box);
-                    }
-                }
-            }
-        });
-        //driverPerform = fragmentEndgameBinding.driverPerformance;
-        //defensePerform = fragmentEndgameBinding.defensePerformance;
         return fragmentEndgameBinding.getRoot();
-
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initDataFields();
-        //initTextFields();
-        toggleClimb();
-        fragmentEndgameBinding.endTrap.trapOne.setOnClickListener(endTrapOne -> toggle_trap(fragmentEndgameBinding.endTrap.trapOne, "trapOne"));
-        fragmentEndgameBinding.endTrap.trapTwo.setOnClickListener(endTrapTwo -> toggle_trap(fragmentEndgameBinding.endTrap.trapTwo, "trapTwo"));
-        fragmentEndgameBinding.endTrap.trapThree.setOnClickListener(endTrapThree -> toggle_trap(fragmentEndgameBinding.endTrap.trapThree, "trapThree"));
-        //togglePerformanceRatings();
-        //editTextToggle();
     }
 
     @Override
@@ -108,64 +66,38 @@ public class UIEndGameFragment extends Fragment {
     }
 
     private void initDataFields() {
-        scoutingFormPresenter.saveData("endClimb", "0");
-
+        fragmentEndgameBinding.cage.setOnClickListener(cage -> toggleClimb());
     }
 
-    //private void initTextFields() {
-        //driverPerform.formField.setText(getResources().getString(R.string.driver_performance));
-        //driverPerform.formScore.setText("0");
-    //    defensePerform.formField.setText(getResources().getString(R.string.defense_performance));
-    //    defensePerform.formScore.setText("0");
-   // }
-
-
-    private void toggleClimb() {
-        fragmentEndgameBinding.endStageClimb.setOnClickListener(stageClimb ->
-                fragmentEndgameBinding.endStageClimb.setImageResource(scoutingFormPresenter.toggleClimb("endClimb")));
-
-    }
-
-
-
-    private void toggle_trap(ImageButton trapButtonEndgame, String trapNumber) {
-        if (readData(trapNumber).equals("0")) {
-            trapButtonEndgame.setImageResource(R.drawable.filled_trap_box);
-            saveData(trapNumber, "1");
-            updateViewModel(1);
-        } else {
-            trapButtonEndgame.setImageResource(R.drawable.empty_trap_box);
-            saveData(trapNumber, "0");
-            updateViewModel(0);
-
+    public void toggleClimb() {
+        int drawable = 0;
+        switch (readData("climb")) {
+            case "0":
+                saveData("climb", "1");
+                drawable = R.drawable.cage_park;
+                break;
+            case "1":
+                saveData("climb", "2");
+                drawable = R.drawable.cage_shallow;
+                break;
+            case "2":
+                saveData("climb", "3");
+                drawable = R.drawable.cage_deep;
+                break;
+            case "3":
+                saveData("climb", "0");
+                drawable = R.drawable.cage;
+                break;
         }
-        Timber.d("%s:%s", trapNumber, scoutingFormPresenter.readData(trapNumber));
-
+        Timber.d("Climb:%s", readData("climb"));
+        fragmentEndgameBinding.cage.setImageResource(drawable);
     }
 
     public String readData(String key) {
         return scoutingFormPresenter.readData(key);
     }
-
     public void saveData(String key, String data) {
         scoutingFormPresenter.saveData(key, data);
-    }
-
-
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            try {
-                InputMethodManager mImm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                mImm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
-            } catch (Exception e) {
-                Timber.d("setUserVisibleHint: EndGame ");
-            }
-        }
-    }
-
-    private void updateViewModel(Integer integer) {
-        viewModel.setTrapNumber(integer);
     }
 }
 
