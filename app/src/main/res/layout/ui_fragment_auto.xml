@@ -33,7 +33,7 @@
                 android:id="@+id/L4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
+                android:checked="true"
                 android:text="4"
                 android:textSize="50sp" />
 
@@ -97,6 +97,8 @@
         <include
             android:id="@+id/auto_field"
             layout="@layout/field_layout"
+            android:layout_toRightOf="@id/auto_algae"
+            android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />

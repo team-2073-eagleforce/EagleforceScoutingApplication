@@ -74,7 +74,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         UIPagerAdapter sectionsPagerAdapter = new UIPagerAdapter(mActivity, ((FragmentActivity) mActivity).getSupportFragmentManager());
         ViewPager viewPager = mActivity.findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
         TabLayout tabs = mActivity.findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
     }

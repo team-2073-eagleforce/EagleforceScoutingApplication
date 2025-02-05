@@ -5,60 +5,47 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:orientation="vertical"
-            android:id="@+id/auto_left_layout"
-            android:gravity="center">
-
-            <include
-                android:id="@+id/teleop_amp"
-                layout="@layout/reef_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"/>
-
-            <include
-                android:id="@+id/pass"
-                layout="@layout/reef_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:id="@+id/auto_right_layout"
-            android:gravity="center">
 
-            <include
-                android:id="@+id/teleop_speaker_make"
-                layout="@layout/reef_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"/>
-
-            <include
-                android:id="@+id/teleop_speaker_miss"
-                layout="@layout/reef_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
+            android:layout_gravity="center_vertical">
+        <include
+            android:id="@+id/teleop_net"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/add_subtract_values_net"
+            android:layout_marginBottom="10dp" />
+        <include
+            android:id="@+id/teleop_removed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/add_subtract_values_removed"
+            android:layout_marginBottom="10dp" />
+        <include
+            android:id="@+id/teleop_processor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/add_subtract_values_processor"/>
         </LinearLayout>
+
+        <include
+            android:id="@+id/teleop_reef"
+            layout="@layout/reef_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"/>
+
 
     </RelativeLayout>
+
 
 </ScrollView>

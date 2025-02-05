@@ -1,6 +1,5 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,36 +14,43 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
-import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesCoralBinding;
 
+import com.team2073.eagleforcescoutingapplication.adapters.AutoPathRecyclerViewAdapter;
 import com.team2073.eagleforcescoutingapplication.databinding.FieldLayoutBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesNetBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesProcessorBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesRemovedBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.ReefLayoutBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentAutoBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.util.ArrayList;
 
 import timber.log.Timber;
+import java.util.HashMap;
 
 public class UIAutoFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "Auto";
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentAutoBinding fragmentAutoBinding;
-    private FieldLayoutBinding field;
-    private ArrayList<String> autoPath = new ArrayList<String>();
+
+    private ArrayList<String> autoPath;
     private AddSubtractValuesNetBinding autoNet;
-    private AddSubtractValuesProcessorBinding autoProcessor;
     private AddSubtractValuesRemovedBinding autoRemoved;
-    private RadioGroup reef;
+    private HashMap<ImageButton, String> reefLoc;
+    private HashMap<Button, String> otherLoc;
     private String level;
+    private HashMap<String, HashMap<ImageButton, ColorStateList>> levelButtons  = new HashMap<>();
+    private final ColorStateList cyan = getColorStateList("#009688");
+    private final ColorStateList brown = getColorStateList("#a77b7b");
+    private final ColorStateList black = getColorStateList("#000000");
+    private final ColorStateList green = getColorStateList("#4BB543");
+    private final ColorStateList red = getColorStateList("#cf0404");
+
     public static UIAutoFragment newInstance(int index) {
         UIAutoFragment fragment = new UIAutoFragment();
         Bundle bundle = new Bundle();
@@ -69,15 +75,16 @@ public class UIAutoFragment extends Fragment {
         fragmentAutoBinding = UiFragmentAutoBinding.inflate(inflater, container, false);
         autoNet = fragmentAutoBinding.autoNet;
         autoRemoved = fragmentAutoBinding.autoRemoved;
-        field = fragmentAutoBinding.autoField;
-        reef = fragmentAutoBinding.autoReef;
+        autoPath = new ArrayList<String>();
+        level = "4";
         return fragmentAutoBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initTextFields();
-        initViewImageButtons();
+        initFieldViews();
+        initClickListeners();
         selectLevel();
     }
 
@@ -93,22 +100,67 @@ public class UIAutoFragment extends Fragment {
         autoRemoved.formScore.setText(readData("autoRemoved"));
     }
 
-    private void initViewImageButtons() {
+    public void initFieldViews() {
+        FieldLayoutBinding field = fragmentAutoBinding.autoField; ;
+        try {
+            reefLoc = new HashMap<ImageButton, String>();
+            reefLoc.put(field.a, "A");
+            reefLoc.put(field.b, "B");
+            reefLoc.put(field.c, "C");
+            reefLoc.put(field.d, "D");
+            reefLoc.put(field.e, "E");
+            reefLoc.put(field.f, "F");
+            reefLoc.put(field.g, "G");
+            reefLoc.put(field.h, "H");
+            reefLoc.put(field.i, "I");
+            reefLoc.put(field.j, "J");
+            reefLoc.put(field.k, "K");
+            reefLoc.put(field.l, "L");
+            otherLoc = new HashMap<Button, String>();
+            otherLoc.put(field.groundA, "groundA");
+            otherLoc.put(field.groundB, "groundB");
+            otherLoc.put(field.groundC, "groundC");
+            otherLoc.put(field.sourceA, "sourceA");
+            otherLoc.put(field.sourceB, "sourceB");
+            otherLoc.put(field.processor, "processor");
+            levelButtons.put("4", new HashMap<ImageButton, ColorStateList>());
+            levelButtons.put("3", new HashMap<ImageButton, ColorStateList>());
+            levelButtons.put("2", new HashMap<ImageButton, ColorStateList>());
+            levelButtons.put("1", new HashMap<ImageButton, ColorStateList>());
+        } catch (Exception e) {
+            Timber.d("Error with initFieldViews %s", e.toString());
+        }
+    }
+    private void initClickListeners() {
         autoNet.formAdd.setOnClickListener(autoNetAdd -> addTransportValue(autoNet.formScore, "autoNet"));
         autoRemoved.formAdd.setOnClickListener(autoRemovedAdd -> addTransportValue(autoRemoved.formScore, "autoRemoved"));
         autoNet.formSubtract.setOnClickListener(autoNetSubtract -> subtractTransportValue(autoNet.formScore, "autoNet"));
         autoRemoved.formSubtract.setOnClickListener(autoRemovedSubtract -> subtractTransportValue(autoRemoved.formScore, "autoRemoved"));
-        ImageButton[] locations = {field.a, field.b, field.c, field.d, field.e, field.f, field.g, field.h, field.i, field.j, field.k, field.l};
-        for (int i = 0; i < 12; i++) {
-            String s = "" + (char) (i + 65);
-            ImageButton button = locations[i];
-            locations[i].setOnClickListener(pos -> togglePlace(button, s));
+        try {
+            for (ImageButton b : reefLoc.keySet()) {
+                b.setOnClickListener(pos -> togglePlace(b, reefLoc.get(b)));
+            }
+            for (Button b : otherLoc.keySet()) {
+                b.setOnClickListener(button -> togglePlace(b, otherLoc.get(b)));
+            }
+            fragmentAutoBinding.autoLeave.setOnClickListener(autoLeave -> toggleLeave());
+        } catch (Exception e) {
+            Timber.d("Error with click Listeners %s", e.toString());
+        }
+    }
+
+    public void initLevel() {
+        try {
+            for (ImageButton b : reefLoc.keySet()) {
+                b.setBackgroundTintList(black);
+            }
+            for (ImageButton b : levelButtons.get(level).keySet()) {
+                b.setBackgroundTintList(levelButtons.get(level).get(b));
+            }
+        } catch (Exception e) {
+            Timber.d("Error with initLevel: %s", e.toString());
         }
 
-        Button leave = fragmentAutoBinding.autoLeave;
-        if (readData("autoLeave").equals("1")) { leave.setText("Leave"); leave.setBackgroundTintList(getColorStateList("#4BB543")); }
-        else if (readData("autoLeave").equals("0")) { leave.setText("None"); leave.setBackgroundTintList(getColorStateList("#C1C1C1")); }
-        fragmentAutoBinding.autoLeave.setOnClickListener(autoLeave -> toggleLeave());
     }
 
     private void toggleLeave() {
@@ -125,46 +177,87 @@ public class UIAutoFragment extends Fragment {
     }
 
     private void selectLevel() {
-        reef.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        initLevel();
+        fragmentAutoBinding.autoReef.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton radioButton = reef.findViewById(checkedId);
+                RadioButton radioButton = fragmentAutoBinding.autoReef.findViewById(checkedId);
                 level = radioButton.getText().toString();
                 Timber.d("level %s", level);
+                initLevel();
             }
         });
     }
 
-    private void toggleOther(String fieldType) {
+    private void togglePlace(Button button, String location) {
+        ColorStateList bkgColor = button.getBackgroundTintList();
+        try{
+            Timber.d(autoPath.toString());
+            if (location.indexOf("ground") > -1) {
+                    if (bkgColor.equals(brown)) {
+                        button.setBackgroundTintList(cyan);
+                        autoPath.remove(autoPath.indexOf(location));
+                        button.setText("");
+                    } else {
+                        button.setBackgroundTintList(brown);
+                        autoPath.add(location);
+                        button.setText("X");
+                    }
+            } else {
+                autoPath.add(location);
+                String s = button.getText().toString();
+                int n = 0;
+                try {
+                    n = Integer.parseInt(s.substring(s.length() - 2));
+                    button.setText(s.substring(0, s.length() - 2) + (n+1));
+                } catch (Exception e) {
+                    n = Integer.parseInt(s.substring(s.length() - 1));
+                    button.setText(s.substring(0, s.length() - 1) + (n+1));
+                }
 
+                if (location.indexOf("processor") > -1){
+                    saveData("autoProcessor", String.valueOf(n+1));
+                }
+            }
+            saveAutoPath();
+        } catch (Exception e) {
+            Timber.d("Error with toggle place other %s", e.toString());
+        }
     }
 
     private void togglePlace(ImageButton button, String location) {
+        try {
+            location = level + location;
+            ColorStateList bkgColor = button.getBackgroundTintList();
+            int n = Integer.valueOf(readData("autoL" + level));
 
-        ColorStateList bkgColor = button.getBackgroundTintList();
-        ColorStateList black = getColorStateList("#000000");
-        ColorStateList green = getColorStateList("#4BB543");
-        if (bkgColor.equals(black)) {
-            button.setBackgroundTintList(green);
-            autoPath.add(location);
-        } else if (bkgColor.equals(green)) {
-            try {
+            if (bkgColor.equals(black)) {
+                button.setBackgroundTintList(green);
+                autoPath.add(location);
+                saveData("autoL" + level, String.valueOf(n+1));
+                levelButtons.get(level).put(button,green);
+            } else if (bkgColor.equals(green)) {
+                button.setBackgroundTintList(red);
+                saveData("autoL" + level, String.valueOf(n-2));
+                levelButtons.get(level).put(button,red);
+            } else if (bkgColor.equals(red)) {
                 button.setBackgroundTintList(black);
                 autoPath.remove(autoPath.indexOf(location));
-            } catch(Exception e) {
-                Timber.d(e.toString());
+                levelButtons.get(level).remove(button);
             }
+            saveAutoPath();
+        } catch (Exception e) {
+            Timber.d("Error with toggle place reef: %s", e.toString());
         }
+    }
+    private void saveAutoPath() {
         String list = "";
         for (String loc: autoPath) {
             list += loc + ", ";
         }
-        Timber.d(list);
+        saveData("autoPath", list.substring(0,list.length()-2));
     }
-
-    private ColorStateList getColorStateList(String hexCode) {
-        return ColorStateList.valueOf(Color.parseColor(hexCode));
-    }
+    private ColorStateList getColorStateList(String hexCode) { return ColorStateList.valueOf(Color.parseColor(hexCode)); }
 
     private void addTransportValue(TextView formScore, String transportType) {
         int value = Integer.parseInt(readData(transportType)) + 1;
@@ -186,13 +279,7 @@ public class UIAutoFragment extends Fragment {
         Timber.d("%s:%s", transportType, scoutingFormPresenter.readData(transportType));
     }
 
-    public String readData(String key) {
-        return scoutingFormPresenter.readData(key);
-    }
-
-    public void saveData(String key, String data) {
-        scoutingFormPresenter.saveData(key, data);
-    }
-
+    public String readData(String key) { return scoutingFormPresenter.readData(key); }
+    public void saveData(String key, String data) { scoutingFormPresenter.saveData(key, data);}
 }
 

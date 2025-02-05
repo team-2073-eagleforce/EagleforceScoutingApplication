@@ -28,6 +28,7 @@ public class ReefscapeScoutingForm implements ScoutingForm{
         autoNames.add("autoNet");
         autoNames.add("autoProcessor");
         autoNames.add("autoRemoved");
+        autoNames.add("autoPath");
         autoNames.add("autoL1");
         autoNames.add("autoL2");
         autoNames.add("autoL3");
@@ -38,7 +39,7 @@ public class ReefscapeScoutingForm implements ScoutingForm{
         }
 
         //Teleop
-        teleNames.add("teleNet");
+        teleNames.add("telenet");
         teleNames.add("teleProcessor");
         teleNames.add("teleRemoved");
         teleNames.add("teleL1");
@@ -51,9 +52,9 @@ public class ReefscapeScoutingForm implements ScoutingForm{
         }
 
         //Endgame
-        endgameNames.add("climb");
-        fieldNames.add("climb");
-        clearNames.add("climb");
+        endgameNames.add("endClimb");
+        fieldNames.add("endClimb");
+        clearNames.add("endClimb");
 
         //Submit
         fieldNames.add("driverRanking");
