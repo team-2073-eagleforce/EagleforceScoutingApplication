@@ -71,25 +71,25 @@ public class UIEndGameFragment extends Fragment {
 
     public void toggleClimb() {
         int drawable = 0;
-        switch (readData("climb")) {
+        switch (readData("endClimb")) {
             case "0":
-                saveData("climb", "1");
+                saveData("endClimb", "1");
                 drawable = R.drawable.cage_park;
                 break;
             case "1":
-                saveData("climb", "2");
+                saveData("endClimb", "2");
                 drawable = R.drawable.cage_shallow;
                 break;
             case "2":
-                saveData("climb", "3");
+                saveData("endClimb", "3");
                 drawable = R.drawable.cage_deep;
                 break;
             case "3":
-                saveData("climb", "0");
+                saveData("endClimb", "0");
                 drawable = R.drawable.cage;
                 break;
         }
-        Timber.d("Climb:%s", readData("climb"));
+        Timber.d("Climb:%s", readData("endClimb"));
         fragmentEndgameBinding.cage.setImageResource(drawable);
     }
 
@@ -100,5 +100,3 @@ public class UIEndGameFragment extends Fragment {
         scoutingFormPresenter.saveData(key, data);
     }
 }
-
-
