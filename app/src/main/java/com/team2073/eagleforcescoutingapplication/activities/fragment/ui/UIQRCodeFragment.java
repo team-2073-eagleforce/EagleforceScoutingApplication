@@ -78,40 +78,43 @@ public class UIQRCodeFragment extends Fragment {
 
     private void finishScan() {
         fragmentQrcodeBinding.FinishScan.setOnClickListener(finishScan -> {
-            boolean nameFieldFilled = scoutingFormPresenter.readData("name").equals("") || scoutingFormPresenter.readData("name").equals("0");
-            boolean matchFieldFilled = scoutingFormPresenter.readData("teamNumber").equals("") || scoutingFormPresenter.readData("teamNumber").equals("0");
-            boolean teamFieldFilled = scoutingFormPresenter.readData("matchNumber").equals("") || scoutingFormPresenter.readData("matchNumber").equals("0");
+            boolean nameFieldUnfilled = scoutingFormPresenter.readData("name").equals("") || scoutingFormPresenter.readData("name").equals("0");
+            boolean matchFieldUnfilled = scoutingFormPresenter.readData("teamNumber").equals("") || scoutingFormPresenter.readData("teamNumber").equals("0");
+            boolean teamFieldUnfilled = scoutingFormPresenter.readData("matchNumber").equals("") || scoutingFormPresenter.readData("matchNumber").equals("0");
 
-            if (!nameFieldFilled && !matchFieldFilled && !teamFieldFilled) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
+            if (!nameFieldUnfilled && !matchFieldUnfilled && !teamFieldUnfilled) {
                 builder.setTitle("Confirm Submit?");
-                builder.setPositiveButton("Yes", (dialog, which) -> {
-                    try {
-                        scoutingFormPresenter.saveQR(scoutingFormPresenter.createQR());
-                    } catch (WriterException e) {
-                        throw new RuntimeException(e);
-                    }
-                    Intent intent = getActivity().getIntent();
-                    getActivity().overridePendingTransition(0, 0);
-                    getActivity().finish();
-                    getActivity().overridePendingTransition(0, 0);
-                    startActivity(intent);
-
-                    String matchNum = scoutingFormPresenter.readData("matchNumber");
-                    ArrayList <Match> scheduleList = scoutingFormPresenter.getScheduleList();
-                    String position = scoutingFormPresenter.getPosition();
-                    scoutingFormPresenter.advanceOnSubmit(matchNum, scheduleList, position);
-                }).setNegativeButton("No", (dialog, which) -> {
-                });
-                AlertDialog dialog = builder.create();
-                dialog.setOnShowListener(buttons -> {
-                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.md_black_1000));
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.md_black_1000));
-                });
-                dialog.show();
             } else {
-                Toast.makeText(this.getActivity(), "Make sure Name, Team, and Match are Filled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(),   "Make sure Name, Team, and Match are Filled", Toast.LENGTH_SHORT).show();
+                builder.setTitle("Either Name, Team, or Match isn't filled. \nClear Anyway?");
+                builder.setIcon(R.drawable.warning_icon);
             }
+            builder.setPositiveButton("Yes", (dialog, which) -> {
+                try {
+                    scoutingFormPresenter.saveQR(scoutingFormPresenter.createQR());
+                } catch (WriterException e) {
+                    throw new RuntimeException(e);
+                }
+                Intent intent = getActivity().getIntent();
+                getActivity().overridePendingTransition(0, 0);
+                getActivity().finish();
+                getActivity().overridePendingTransition(0, 0);
+                startActivity(intent);
+
+                String matchNum = scoutingFormPresenter.readData("matchNumber");
+                ArrayList <Match> scheduleList = scoutingFormPresenter.getScheduleList();
+                String position = scoutingFormPresenter.getPosition();
+                scoutingFormPresenter.advanceOnSubmit(matchNum, scheduleList, position);
+            }).setNegativeButton("No", (dialog, which) -> {
+            });
+            AlertDialog dialog = builder.create();
+            dialog.setOnShowListener(buttons -> {
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.md_black_1000));
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.md_black_1000));
+            });
+            dialog.show();
         });
     }
 

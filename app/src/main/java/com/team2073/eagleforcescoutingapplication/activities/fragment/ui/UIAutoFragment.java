@@ -14,13 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 
-import com.team2073.eagleforcescoutingapplication.adapters.AutoPathRecyclerViewAdapter;
 import com.team2073.eagleforcescoutingapplication.databinding.FieldLayoutBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesNetBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesRemovedBinding;
@@ -28,7 +26,6 @@ import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentAutoBind
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import java.util.ArrayList;
-
 import timber.log.Timber;
 import java.util.HashMap;
 
@@ -38,18 +35,15 @@ public class UIAutoFragment extends Fragment {
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentAutoBinding fragmentAutoBinding;
 
-    private ArrayList<String> autoPath;
+    private ArrayList<String> autoPath = new ArrayList<String>();
     private AddSubtractValuesNetBinding autoNet;
     private AddSubtractValuesRemovedBinding autoRemoved;
     private HashMap<ImageButton, String> reefLoc;
     private HashMap<Button, String> otherLoc;
     private String level;
+    private String previousAction = "";
     private HashMap<String, HashMap<ImageButton, ColorStateList>> levelButtons  = new HashMap<>();
-    private final ColorStateList cyan = getColorStateList("#009688");
-    private final ColorStateList brown = getColorStateList("#a77b7b");
-    private final ColorStateList black = getColorStateList("#000000");
-    private final ColorStateList green = getColorStateList("#4BB543");
-    private final ColorStateList red = getColorStateList("#cf0404");
+    private final ColorStateList cyan = getColorStateList("#009688"); private final ColorStateList brown = getColorStateList("#a77b7b"); private final ColorStateList black = getColorStateList("#000000"); private final ColorStateList green = getColorStateList("#4BB543"); private final ColorStateList red = getColorStateList("#cf0404");
 
     public static UIAutoFragment newInstance(int index) {
         UIAutoFragment fragment = new UIAutoFragment();
@@ -75,7 +69,6 @@ public class UIAutoFragment extends Fragment {
         fragmentAutoBinding = UiFragmentAutoBinding.inflate(inflater, container, false);
         autoNet = fragmentAutoBinding.autoNet;
         autoRemoved = fragmentAutoBinding.autoRemoved;
-        autoPath = new ArrayList<String>();
         level = "4";
         return fragmentAutoBinding.getRoot();
     }
@@ -95,13 +88,12 @@ public class UIAutoFragment extends Fragment {
     }
 
     private void initTextFields() {
-        Timber.d("Display Auto Fields");
         autoNet.formScore.setText(readData("autoNet"));
         autoRemoved.formScore.setText(readData("autoRemoved"));
     }
 
     public void initFieldViews() {
-        FieldLayoutBinding field = fragmentAutoBinding.autoField; ;
+        FieldLayoutBinding field = fragmentAutoBinding.autoField;
         try {
             reefLoc = new HashMap<ImageButton, String>();
             reefLoc.put(field.a, "A");
@@ -191,38 +183,59 @@ public class UIAutoFragment extends Fragment {
 
     private void togglePlace(Button button, String location) {
         ColorStateList bkgColor = button.getBackgroundTintList();
+        Timber.d(previousAction);
         try{
-            Timber.d(autoPath.toString());
             if (location.indexOf("ground") > -1) {
                     if (bkgColor.equals(brown)) {
                         button.setBackgroundTintList(cyan);
                         autoPath.remove(autoPath.indexOf(location));
+                        previousAction = (autoPath.size() > 0) ? autoPath.get(autoPath.size()-1) : "";
                         button.setText("");
                     } else {
                         button.setBackgroundTintList(brown);
                         autoPath.add(location);
+                        previousAction = location;
                         button.setText("X");
                     }
             } else {
-                autoPath.add(location);
-                String s = button.getText().toString();
-                int n = 0;
-                try {
-                    n = Integer.parseInt(s.substring(s.length() - 2));
-                    button.setText(s.substring(0, s.length() - 2) + (n+1));
-                } catch (Exception e) {
-                    n = Integer.parseInt(s.substring(s.length() - 1));
-                    button.setText(s.substring(0, s.length() - 1) + (n+1));
-                }
+                if (previousAction.equals(location)) {
+                    autoPath.remove(autoPath.size()-1);
+                    previousAction = (autoPath.size() > 0) ? autoPath.get(autoPath.size()-1) : "";
+                    String s = button.getText().toString();
+                    int n = 0;
+                    try {
+                        n = Integer.parseInt(s.substring(s.length() - 2));
+                        button.setText(s.substring(0, s.length() - 2) + (n - 1));
+                    } catch (Exception e) {
+                        n = Integer.parseInt(s.substring(s.length() - 1));
+                        button.setText(s.substring(0, s.length() - 1) + (n - 1));
+                    }
+                    if (location.indexOf("processor") > -1) {
+                        saveData("autoProcessor", String.valueOf(n + 1));
+                    }
+                } else {
+                    autoPath.add(location);
+                    previousAction = location;
+                    String s = button.getText().toString();
+                    int n = 0;
+                    try {
+                        n = Integer.parseInt(s.substring(s.length() - 2));
+                        button.setText(s.substring(0, s.length() - 2) + (n + 1));
+                    } catch (Exception e) {
+                        n = Integer.parseInt(s.substring(s.length() - 1));
+                        button.setText(s.substring(0, s.length() - 1) + (n + 1));
+                    }
 
-                if (location.indexOf("processor") > -1){
-                    saveData("autoProcessor", String.valueOf(n+1));
+                    if (location.indexOf("processor") > -1) {
+                        saveData("autoProcessor", String.valueOf(n + 1));
+                    }
                 }
             }
-            saveAutoPath();
+            fragmentAutoBinding.list.setText(saveAutoPath());
         } catch (Exception e) {
             Timber.d("Error with toggle place other %s", e.toString());
         }
+        Timber.d(autoPath.toString());
     }
 
     private void togglePlace(ImageButton button, String location) {
@@ -234,28 +247,46 @@ public class UIAutoFragment extends Fragment {
             if (bkgColor.equals(black)) {
                 button.setBackgroundTintList(green);
                 autoPath.add(location);
+                previousAction = location;
                 saveData("autoL" + level, String.valueOf(n+1));
                 levelButtons.get(level).put(button,green);
             } else if (bkgColor.equals(green)) {
                 button.setBackgroundTintList(red);
-                saveData("autoL" + level, String.valueOf(n-2));
+                saveData("autoL" + level, String.valueOf(n-1));
+                saveData("missed_auto", String.valueOf(Integer.valueOf(readData("missed")) + 1));
                 levelButtons.get(level).put(button,red);
             } else if (bkgColor.equals(red)) {
                 button.setBackgroundTintList(black);
+                saveData("missed_auto", String.valueOf(Integer.valueOf(readData("missed")) -1));
                 autoPath.remove(autoPath.indexOf(location));
+                previousAction = (autoPath.size() > 0) ? autoPath.get(autoPath.size()-1) : "";
                 levelButtons.get(level).remove(button);
             }
-            saveAutoPath();
+            fragmentAutoBinding.list.setText(saveAutoPath());
         } catch (Exception e) {
             Timber.d("Error with toggle place reef: %s", e.toString());
         }
+        Timber.d(autoPath.toString());
     }
-    private void saveAutoPath() {
-        String list = "";
-        for (String loc: autoPath) {
-            list += loc + ", ";
+    private String saveAutoPath() {
+        if (autoPath.size() == 0) {
+            saveData("autoPath", "");
+            return "";
         }
-        saveData("autoPath", list.substring(0,list.length()-2));
+        String list = "";
+        String text = "";
+        for (int i = 0; i < autoPath.size(); i++) {
+            String item = autoPath.get(i);
+            list +=  item + ", ";
+            if (autoPath.size() <= 14 || i > autoPath.size()-14) {
+                if (i == autoPath.size() - 13) {
+                    text = "...\n";
+                }
+                text += String.valueOf(i + 1) + ": " + item + "\n";
+            }
+        }
+        saveData("autoPath", list.substring(0, list.length()-2));
+        return text.substring(0, text.length() - 1);
     }
     private ColorStateList getColorStateList(String hexCode) { return ColorStateList.valueOf(Color.parseColor(hexCode)); }
 
@@ -264,6 +295,7 @@ public class UIAutoFragment extends Fragment {
         if (value >= 100) {
             value = 99;
         }
+        previousAction = transportType;
         saveData(transportType, String.valueOf(value));
         formScore.setText(String.valueOf(value));
         Timber.d("%s:%s", transportType, scoutingFormPresenter.readData(transportType));
@@ -273,6 +305,9 @@ public class UIAutoFragment extends Fragment {
         int value = Integer.parseInt(readData(transportType)) - 1;
         if (value < 0) {
             value = 0;
+        }
+        if (transportType.equals("autoRemoved")) {
+            previousAction = (autoPath.size() > 0) ? autoPath.get(autoPath.size() - 1) : "";
         }
         saveData(transportType, String.valueOf(value));
         formScore.setText(String.valueOf(value));

@@ -97,11 +97,20 @@
         <include
             android:id="@+id/auto_field"
             layout="@layout/field_layout"
-            android:layout_toRightOf="@id/auto_algae"
-            android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/auto_algae" />
+
+        <TextView
+            android:id="@+id/list"
+            android:textSize="20dp"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/auto_field"
+            android:layout_marginLeft="10dp"/>
     </RelativeLayout>
+
+
 
 </ScrollView>

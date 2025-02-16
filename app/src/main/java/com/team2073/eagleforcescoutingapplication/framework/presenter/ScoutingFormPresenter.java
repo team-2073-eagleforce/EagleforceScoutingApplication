@@ -2,9 +2,7 @@ package com.team2073.eagleforcescoutingapplication.framework.presenter;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.os.Environment;
@@ -24,7 +22,6 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIPagerAdapter;
-import com.team2073.eagleforcescoutingapplication.framework.form.CrescendoScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.form.ReefscapeScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
@@ -41,10 +38,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Properties;
 
 import timber.log.Timber;
 
@@ -74,7 +68,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         UIPagerAdapter sectionsPagerAdapter = new UIPagerAdapter(mActivity, ((FragmentActivity) mActivity).getSupportFragmentManager());
         ViewPager viewPager = mActivity.findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(5);
         TabLayout tabs = mActivity.findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
     }
@@ -134,10 +128,15 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
 
     public JSONObject dataToJSON() throws JSONException {
         JSONObject jsonData = new JSONObject();
-        int trapNumber = 0;
+        if (readData("autoPath").length() > 1) {
+            saveData("autoLeave", "1");
+        }
         try {
             for (String fieldData : allFieldNames) {
                 jsonData.put(fieldData, prefsDataManager.readFromPreferences(fieldData));
+                if (fieldData.equals("autoPath")) {
+                    jsonData.put(fieldData, prefsDataManager.readFromPreferences(fieldData).replaceAll("\\d", ""));
+                }
             }
         } catch (JSONException e) {
             throw new RuntimeException(e);

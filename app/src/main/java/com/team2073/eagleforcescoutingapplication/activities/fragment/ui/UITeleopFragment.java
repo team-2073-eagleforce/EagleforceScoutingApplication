@@ -6,36 +6,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageButton;
 import android.widget.TextView;
-
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-
-import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
-import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesCoralBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesNetBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesProcessorBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesRemovedBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.ReefLayoutBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.TransportDisplayLayoutBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentTeleopBinding;
-import com.team2073.eagleforcescoutingapplication.framework.form.ChargedUpScoutingForm;
-import com.team2073.eagleforcescoutingapplication.framework.form.CrescendoScoutingForm;
-import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
-
-
 import timber.log.Timber;
 
 
@@ -46,13 +30,9 @@ public class UITeleopFragment extends Fragment {
     private Context context;
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentTeleopBinding fragmentTeleopBinding;
-    private AddSubtractValuesProcessorBinding process;
-    private AddSubtractValuesNetBinding net;
-    private AddSubtractValuesRemovedBinding remove;
-    //    private AddSubtractValuesAmpBinding teleopAmpBinding;
-//    private AddSubtractValuesSpeakerMakeBinding teleopSpeakerMakeBinding;
-//    private AddSubtractValuesSpeakerMissBinding teleopSpeakerMissBinding;
-//    private AddSubtractValuesPassBinding passBinding;
+    private AddSubtractValuesProcessorBinding teleProcesser;
+    private AddSubtractValuesNetBinding teleNet;
+    private AddSubtractValuesRemovedBinding teleRemoved;
     private ReefLayoutBinding reef;
 
     public static UITeleopFragment newInstance(int index) {
@@ -79,9 +59,9 @@ public class UITeleopFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentTeleopBinding = UiFragmentTeleopBinding.inflate(inflater, container, false);
         reef = fragmentTeleopBinding.teleopReef;
-        process = fragmentTeleopBinding.teleopProcessor;
-        net = fragmentTeleopBinding.teleopNet;
-        remove = fragmentTeleopBinding.teleopRemoved;
+        teleProcesser = fragmentTeleopBinding.teleopProcessor;
+        teleNet = fragmentTeleopBinding.teleopNet;
+        teleRemoved = fragmentTeleopBinding.teleopRemoved;
 
 
         return fragmentTeleopBinding.getRoot();
@@ -108,9 +88,9 @@ public class UITeleopFragment extends Fragment {
         reef.L1.formScore.setText(readData("teleL1"));
         reef.L2.formScore.setText(readData("teleL2"));
         reef.L3.formScore.setText(readData("teleL3"));
-        process.formScore.setText(readData("teleProcessor"));
-        net.formScore.setText(readData("teleNet"));
-        remove.formScore.setText(readData("teleRemoved"));
+        teleProcesser.formScore.setText(readData("teleProcessor"));
+        teleNet.formScore.setText(readData("telenet"));
+        teleRemoved.formScore.setText(readData("teleRemoved"));
     }
 
 
@@ -123,9 +103,14 @@ public class UITeleopFragment extends Fragment {
         reef.L2.formSubtract.setOnClickListener(teleopCoralAdd -> subtractTransportValue(reef.L2.formScore,"teleL2"));
         reef.L3.formSubtract.setOnClickListener(teleopCoralAdd -> subtractTransportValue(reef.L3.formScore,"teleL3"));
         reef.L4.formSubtract.setOnClickListener(teleopCoralAdd -> subtractTransportValue(reef.L4.formScore,"teleL4"));
-        process.formAdd.setOnClickListener(teleopProcessorAdd -> addTransportValue(process.formScore,"teleProcessor"));
-        net.formAdd.setOnClickListener(teleopNetAdd -> addTransportValue(net.formScore,"teleNet"));
-        remove.formAdd.setOnClickListener(teleopRemoveAdd -> addTransportValue(remove.formScore,"teleRemoved"));
+
+        teleProcesser.formAdd.setOnClickListener(teleopProcessorAdd -> addTransportValue(teleProcesser.formScore,"teleProcessor"));
+        teleNet.formAdd.setOnClickListener(teleopNetAdd -> addTransportValue(teleNet.formScore,"telenet"));
+        teleRemoved.formAdd.setOnClickListener(teleopRemoveAdd -> addTransportValue(teleRemoved.formScore,"teleRemoved"));
+        teleProcesser.formSubtract.setOnClickListener(teleopProcessSubtract -> subtractTransportValue(teleProcesser.formScore, "teleProcessor"));
+        teleNet.formSubtract.setOnClickListener(teleopNetSubtract -> subtractTransportValue(teleNet.formScore,"telenet"));
+        teleRemoved.formSubtract.setOnClickListener(teleopRemoveSubtract -> subtractTransportValue(teleRemoved.formScore,"teleRemoved"));
+
     }
 
 

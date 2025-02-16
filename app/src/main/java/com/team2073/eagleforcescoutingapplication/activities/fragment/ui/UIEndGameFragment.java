@@ -1,15 +1,9 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -67,6 +61,20 @@ public class UIEndGameFragment extends Fragment {
 
     private void initDataFields() {
         fragmentEndgameBinding.cage.setOnClickListener(cage -> toggleClimb());
+        switch (readData("endClimb")) {
+            case "0":
+                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage);
+                break;
+            case "1":
+                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_park);
+                break;
+            case "2":
+                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_shallow);
+                break;
+            case "3":
+                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_deep);
+                break;
+        }
     }
 
     public void toggleClimb() {

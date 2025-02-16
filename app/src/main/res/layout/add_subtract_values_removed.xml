@@ -6,15 +6,15 @@
 
     <ImageButton
         android:id="@+id/formSubtract"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="@drawable/removed_minus"
         android:gravity="center"
         android:layout_toEndOf="@+id/formScore"/>
 
     <TextView
         android:id="@+id/formScore"
-        android:layout_width="25dp"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:ems="10"
@@ -28,8 +28,8 @@
 
     <ImageButton
         android:id="@+id/formAdd"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:gravity="center"
         android:background="@drawable/removed_plus"
         android:textColor="@color/defaultTextColor"/>

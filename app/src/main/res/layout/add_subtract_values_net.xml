@@ -5,15 +5,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageButton
         android:id="@+id/formSubtract"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="@drawable/net_minus"
         android:layout_toEndOf="@+id/formScore"
         android:gravity="center"/>
 
     <TextView
         android:id="@+id/formScore"
-        android:layout_width="25dp"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:ems="10"
@@ -27,8 +27,8 @@
 
     <ImageButton
         android:id="@+id/formAdd"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:gravity="center"
         android:background="@drawable/net_plus"/>
 </RelativeLayout>
