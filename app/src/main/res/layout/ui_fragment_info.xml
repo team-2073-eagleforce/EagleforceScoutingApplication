@@ -80,7 +80,7 @@
 
         <ImageView
             android:id="@+id/start_map"
-            android:layout_width="120dp"
+            android:layout_width="266dp"
             android:layout_height="325dp"
             android:layout_marginLeft="100dp"
             android:layout_toRightOf="@id/textFields"
@@ -159,6 +159,14 @@
                 android:text="5"
                 android:textSize="20sp" />
         </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="8sp"
+            android:layout_toRightOf="@id/start_position"
+            android:layout_alignBottom="@+id/start_position"
+            android:text="*new layout"/>
 
     </RelativeLayout>
 </ScrollView>

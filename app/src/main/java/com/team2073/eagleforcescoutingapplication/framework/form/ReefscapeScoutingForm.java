@@ -42,9 +42,10 @@ public class ReefscapeScoutingForm implements ScoutingForm{
             fieldNames.add(name);
             clearNames.add(name);
         }
+        clearNames.add("sourceA");
+        clearNames.add("sourceB");
 
         //Teleop
-        teleNames.add("missed_teleop");
         teleNames.add("teleProcessor");
         teleNames.add("teleRemoved");
         teleNames.add("telenet"); //for future reference <- this is a Chris request, it's supposed to be lowercase

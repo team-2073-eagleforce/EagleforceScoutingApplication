@@ -3,26 +3,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/sourceA"
-        android:layout_width="100dp"
-        android:layout_height="125dp"
-        android:backgroundTint="#f68c4e"
-        android:text="Source: 0"/>
-
-    <Button
-        android:id="@+id/sourceB"
-        android:layout_width="100dp"
-        android:layout_height="125dp"
-        android:backgroundTint="#f68c4e"
-        android:text="Source: 0"
-        android:layout_alignBottom="@id/processor" />
 
     <LinearLayout
         android:id="@+id/groundPickup"
         android:layout_width="wrap_content"
-        android:layout_height="325dp"
-        android:layout_toRightOf="@id/sourceA"
+        android:layout_height="300dp"
         android:gravity="center"
         android:orientation="vertical"
         android:layout_marginTop="5dp"
@@ -56,13 +41,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/reef"
-        android:layout_alignTop="@id/sourceA"
         android:layout_toRightOf="@id/groundPickup">
 
         <ImageButton
             android:id="@+id/a"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:background="@drawable/hexagon_side"
             android:gravity="center"
             android:layout_below="@id/l"
@@ -70,8 +54,8 @@
 
         <ImageButton
             android:id="@+id/b"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:background="@drawable/hexagon_side"
             android:gravity="center"
             android:layout_below="@+id/a"
@@ -79,10 +63,10 @@
 
         <ImageButton
             android:id="@+id/c"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_below="@+id/b"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/hexagon_corner"
             android:gravity="center"
             android:rotation="180"
@@ -91,10 +75,10 @@
 
         <ImageButton
             android:id="@+id/d"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_below="@+id/b"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="25dp"
             android:layout_toRightOf="@+id/c"
             android:background="@drawable/hexagon_top_bottom"
             android:gravity="center"
@@ -104,10 +88,10 @@
 
         <ImageButton
             android:id="@+id/e"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_below="@+id/b"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="25dp"
             android:layout_toRightOf="@+id/d"
             android:background="@drawable/hexagon_top_bottom"
             android:gravity="center"
@@ -115,8 +99,8 @@
             android:backgroundTint="#000000"/>
         <ImageButton
             android:id="@+id/f"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_alignBottom="@+id/c"
             android:layout_toRightOf="@+id/e"
             android:background="@drawable/hexagon_corner"
@@ -126,43 +110,43 @@
 
         <ImageButton
             android:id="@+id/g"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:background="@drawable/hexagon_side"
             android:gravity="center"
             android:scaleX="-1"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="10dp"
             android:layout_alignStart="@id/i"
             android:layout_below="@id/i"
             android:backgroundTint="#000000"/>
 
         <ImageButton
             android:id="@+id/h"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:background="@drawable/hexagon_side"
             android:gravity="center"
             android:scaleX="-1"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="10dp"
             android:layout_alignStart="@id/i"
             android:layout_below="@id/g"
             android:backgroundTint="#000000"/>
 
         <ImageButton
             android:id="@+id/i"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="25dp"
             android:layout_toRightOf="@id/j"
             android:background="@drawable/hexagon_corner"
-            android:layout_marginTop="22dp"
-            android:scaleX="-1"
+            android:backgroundTint="#000000"
             android:gravity="center"
-            android:backgroundTint="#000000"/>
+            android:scaleX="-1" />
 
         <ImageButton
             android:id="@+id/j"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_toRightOf="@id/k"
             android:background="@drawable/hexagon_top_bottom"
             android:scaleX="-1"
@@ -171,8 +155,8 @@
 
         <ImageButton
             android:id="@+id/k"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_toRightOf="@id/l"
             android:background="@drawable/hexagon_top_bottom"
             android:gravity="center"
@@ -180,23 +164,13 @@
 
         <ImageButton
             android:id="@+id/l"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="8dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/hexagon_corner"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="25dp"
             android:gravity="center"
             android:backgroundTint="#000000"/>
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/processor"
-        android:layout_width="250dp"
-        android:layout_height="55dp"
-        android:text="Processor: 0"
-        android:layout_alignEnd="@id/reef"
-        android:layout_below="@id/reef"
-        android:backgroundTint="#757893"
-        />
 
 </RelativeLayout>
