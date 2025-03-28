@@ -10,6 +10,11 @@
         <item>reply_all</item>
     </string-array>
 
+    <string-array name="field_side">
+        <item>Processor Side</item>
+        <item>non-Processor Side</item>
+    </string-array>
+
     <string-array name="match_type_array">
         <item>Practice</item>
         <item>Qualifier</item>

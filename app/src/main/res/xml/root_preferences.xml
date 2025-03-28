@@ -26,6 +26,13 @@
             android:key="position"
             android:title="Position"
             app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            android:defaultValue="non-Processor"
+            android:entries="@array/field_side"
+            android:entryValues="@array/field_side"
+            app:defaultValue="true"
+            android:key="field_side"
+            android:title="Processor Side?"/>
         <PreferenceScreen
             android:summary="Choose"
             android:title="Schedule File"

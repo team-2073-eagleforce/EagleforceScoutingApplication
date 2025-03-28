@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,11 +18,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+
+import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.FieldLayoutBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesNetAutoBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesRemovedAutoBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesProcessorAutoBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesNetBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesRemovedBinding;
+import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesProcessorBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesSourceBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentAutoBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
@@ -35,17 +38,15 @@ public class UIAutoFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "Auto";
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentAutoBinding fragmentAutoBinding;
-
-    private ArrayList<String> autoPath = new ArrayList<String>();
-    private AddSubtractValuesNetAutoBinding autoNet;
-    private AddSubtractValuesRemovedAutoBinding autoRemoved;
-    private AddSubtractValuesProcessorAutoBinding autoProcessor;
     private AddSubtractValuesSourceBinding sourceA;
     private AddSubtractValuesSourceBinding sourceB;
-    private HashMap<ImageButton, String> reefLoc;
+    private ArrayList<String> autoPath = new ArrayList<String>();
+    private AddSubtractValuesNetBinding autoNet;
+    private AddSubtractValuesRemovedBinding autoRemoved;
+    private AddSubtractValuesProcessorBinding autoProcessor;
     private HashMap<Button, String> otherLoc;
+    private HashMap<ImageButton, String> reefLoc;
     private String level;
-    private String previousAction = "";
     private HashMap<String, HashMap<ImageButton, ColorStateList>> levelButtons  = new HashMap<>();
     private final ColorStateList cyan = getColorStateList("#009688"); private final ColorStateList brown = getColorStateList("#a77b7b"); private final ColorStateList black = getColorStateList("#000000"); private final ColorStateList green = getColorStateList("#4BB543"); private final ColorStateList red = getColorStateList("#cf0404");
 
@@ -71,21 +72,45 @@ public class UIAutoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentAutoBinding = UiFragmentAutoBinding.inflate(inflater, container, false);
+        sourceA = fragmentAutoBinding.sourceA;
+        sourceB = fragmentAutoBinding.sourceB;
         autoNet = fragmentAutoBinding.autoNet;
         autoRemoved = fragmentAutoBinding.autoRemoved;
         autoProcessor = fragmentAutoBinding.autoProcessor;
-        sourceA = fragmentAutoBinding.sourceA;
-        sourceB = fragmentAutoBinding.sourceB;
         level = "4";
         return fragmentAutoBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        if (readData("field_side").equals("0")) flipLayout();
         initTextFields();
         initFieldViews();
         initClickListeners();
         selectLevel();
+    }
+
+    public void flipLayout() {
+        RelativeLayout.LayoutParams sourceParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.source.getLayoutParams();
+        RelativeLayout.LayoutParams aAddParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.sourceA.formAdd.getLayoutParams();
+        RelativeLayout.LayoutParams aScoreParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.sourceA.formScore.getLayoutParams();
+        RelativeLayout.LayoutParams aSubtractParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.sourceA.formSubtract.getLayoutParams();
+        RelativeLayout.LayoutParams bAddParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.sourceB.formAdd.getLayoutParams();
+        RelativeLayout.LayoutParams bScoreParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.sourceB.formScore.getLayoutParams();
+        RelativeLayout.LayoutParams bSubtractParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.sourceB.formSubtract.getLayoutParams();
+        RelativeLayout.LayoutParams groundParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.groundPickup.getRoot().getLayoutParams();
+        RelativeLayout.LayoutParams fieldParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.autoField.getRoot().getLayoutParams();
+        RelativeLayout.LayoutParams[] layoutParams = {sourceParams, aAddParams, aScoreParams, aSubtractParams, bAddParams,bScoreParams,bSubtractParams};
+        for (RelativeLayout.LayoutParams params : layoutParams) {
+            params.removeRule(RelativeLayout.END_OF);
+        }
+        aScoreParams.addRule(RelativeLayout.END_OF, R.id.formSubtract);
+        aAddParams.addRule(RelativeLayout.END_OF, R.id.formScore);
+        bScoreParams.addRule(RelativeLayout.END_OF, R.id.formSubtract);
+        bAddParams.addRule(RelativeLayout.END_OF, R.id.formScore);
+        fieldParams.addRule(RelativeLayout.END_OF, R.id.auto_algae);
+        groundParams.addRule(RelativeLayout.END_OF, R.id.auto_field);
+        sourceParams.addRule(RelativeLayout.END_OF, R.id.groundPickup);
     }
 
     @Override
@@ -95,6 +120,11 @@ public class UIAutoFragment extends Fragment {
     }
 
     private void initTextFields() {
+        ImageButton[] views = {autoNet.formAdd, autoNet.formSubtract, autoProcessor.formAdd, autoProcessor.formSubtract, autoRemoved.formAdd, autoRemoved.formSubtract};
+        for (ImageButton view : views) {
+            view.getLayoutParams().width = 100;
+            view.getLayoutParams().height = 100;
+        }
         autoNet.formScore.setText(readData("autoNet"));
         autoRemoved.formScore.setText(readData("autoRemoved"));
         autoProcessor.formScore.setText(readData("autoProcessor"));
@@ -106,22 +136,39 @@ public class UIAutoFragment extends Fragment {
         FieldLayoutBinding field = fragmentAutoBinding.autoField;
         try {
             reefLoc = new HashMap<ImageButton, String>();
-            reefLoc.put(field.a, "A");
-            reefLoc.put(field.b, "B");
-            reefLoc.put(field.c, "C");
-            reefLoc.put(field.d, "D");
-            reefLoc.put(field.e, "E");
-            reefLoc.put(field.f, "F");
-            reefLoc.put(field.g, "G");
-            reefLoc.put(field.h, "H");
-            reefLoc.put(field.i, "I");
-            reefLoc.put(field.j, "J");
-            reefLoc.put(field.k, "K");
-            reefLoc.put(field.l, "L");
             otherLoc = new HashMap<Button, String>();
-            otherLoc.put(field.groundA, "groundA");
-            otherLoc.put(field.groundB, "groundB");
-            otherLoc.put(field.groundC, "groundC");
+            if (readData("field_side").equals("0")) {
+                reefLoc.put(field.a, "G");
+                reefLoc.put(field.b, "H");
+                reefLoc.put(field.c, "I");
+                reefLoc.put(field.d, "J");
+                reefLoc.put(field.e, "K");
+                reefLoc.put(field.f, "L");
+                reefLoc.put(field.g, "A");
+                reefLoc.put(field.h, "B");
+                reefLoc.put(field.i, "C");
+                reefLoc.put(field.j, "D");
+                reefLoc.put(field.k, "E");
+                reefLoc.put(field.l, "F");
+                otherLoc.put(fragmentAutoBinding.groundPickup.groundA, "groundC");
+                otherLoc.put(fragmentAutoBinding.groundPickup.groundC, "groundA");
+            } else {
+                reefLoc.put(field.a, "A");
+                reefLoc.put(field.b, "B");
+                reefLoc.put(field.c, "C");
+                reefLoc.put(field.d, "D");
+                reefLoc.put(field.e, "E");
+                reefLoc.put(field.f, "F");
+                reefLoc.put(field.g, "G");
+                reefLoc.put(field.h, "H");
+                reefLoc.put(field.i, "I");
+                reefLoc.put(field.j, "J");
+                reefLoc.put(field.k, "K");
+                reefLoc.put(field.l, "L");
+                otherLoc.put(fragmentAutoBinding.groundPickup.groundA, "groundA");
+                otherLoc.put(fragmentAutoBinding.groundPickup.groundC, "groundC");
+            }
+            otherLoc.put(fragmentAutoBinding.groundPickup.groundB, "groundB");
             levelButtons.put("4", new HashMap<ImageButton, ColorStateList>());
             levelButtons.put("3", new HashMap<ImageButton, ColorStateList>());
             levelButtons.put("2", new HashMap<ImageButton, ColorStateList>());
@@ -132,8 +179,8 @@ public class UIAutoFragment extends Fragment {
     }
     private void initClickListeners() {
         autoNet.formAdd.setOnClickListener(autoNetAdd -> addTransportValue(autoNet.formScore, "autoNet"));
-        autoRemoved.formAdd.setOnClickListener(autoRemovedAdd -> addTransportValue(autoRemoved.formScore, "autoRemoved"));
         autoNet.formSubtract.setOnClickListener(autoNetSubtract -> subtractTransportValue(autoNet.formScore, "autoNet"));
+        autoRemoved.formAdd.setOnClickListener(autoRemovedAdd -> addTransportValue(autoRemoved.formScore, "autoRemoved"));
         autoRemoved.formSubtract.setOnClickListener(autoRemovedSubtract -> subtractTransportValue(autoRemoved.formScore, "autoRemoved"));
         autoProcessor.formAdd.setOnClickListener(autoProcessorAdd -> addTransportValue(autoProcessor.formScore, "autoProcessor"));
         autoProcessor.formSubtract.setOnClickListener(autoProcessorSubtract -> subtractTransportValue(autoProcessor.formScore, "autoProcessor"));
@@ -141,17 +188,13 @@ public class UIAutoFragment extends Fragment {
         sourceA.formSubtract.setOnClickListener(autoProcessorSubtract -> subtractTransportValue(sourceA.formScore, "sourceA"));
         sourceB.formAdd.setOnClickListener(autoProcessorAdd -> addTransportValue(sourceB.formScore, "sourceB"));
         sourceB.formSubtract.setOnClickListener(autoProcessorSubtract -> subtractTransportValue(sourceB.formScore, "sourceB"));
-        try {
-            for (ImageButton b : reefLoc.keySet()) {
-                b.setOnClickListener(pos -> togglePlace(b, reefLoc.get(b)));
-            }
-            for (Button b : otherLoc.keySet()) {
-                b.setOnClickListener(button -> togglePlace(b, otherLoc.get(b)));
-            }
-            fragmentAutoBinding.autoLeave.setOnClickListener(autoLeave -> toggleLeave());
-        } catch (Exception e) {
-            Timber.d("Error with click Listeners %s", e.toString());
+        for (ImageButton b : reefLoc.keySet()) {
+            b.setOnClickListener(pos -> togglePlace(b, reefLoc.get(b)));
         }
+        for (Button b : otherLoc.keySet()) {
+            b.setOnClickListener(button -> togglePlace(b, otherLoc.get(b)));
+        }
+        fragmentAutoBinding.autoLeave.setOnClickListener(autoLeave -> toggleLeave());
     }
 
     public void initLevel() {
@@ -196,18 +239,15 @@ public class UIAutoFragment extends Fragment {
 
     private void togglePlace(Button button, String location) {
         ColorStateList bkgColor = button.getBackgroundTintList();
-        Timber.d(previousAction);
         try{
-            if (location.indexOf("ground") > -1) {
+            if (location.contains("ground")) {
                     if (bkgColor.equals(brown)) {
                         button.setBackgroundTintList(cyan);
-                        autoPath.remove(autoPath.indexOf(location));
-                        previousAction = (autoPath.size() > 0) ? autoPath.get(autoPath.size()-1) : "";
+                        autoPath.remove(location);
                         button.setText("");
                     } else {
                         button.setBackgroundTintList(brown);
                         autoPath.add(location);
-                        previousAction = location;
                         button.setText("X");
                     }
             }
@@ -237,7 +277,7 @@ public class UIAutoFragment extends Fragment {
             } else if (bkgColor.equals(red)) {
                 button.setBackgroundTintList(black);
                 saveData("missed_auto", String.valueOf(Integer.valueOf(readData("missed_auto")) -1));
-                autoPath.remove(autoPath.indexOf(location));
+                autoPath.remove(location);
                 levelButtons.get(level).remove(button);
             }
             fragmentAutoBinding.list.setText(saveAutoPath());
@@ -246,7 +286,7 @@ public class UIAutoFragment extends Fragment {
         }
         Timber.d(autoPath.toString());
     }
-    private String saveAutoPath() {
+    private String saveAutoPath(){
         if (autoPath.size() == 0) {
             saveData("autoPath", "");
             return "";
@@ -256,11 +296,11 @@ public class UIAutoFragment extends Fragment {
         for (int i = 0; i < autoPath.size(); i++) {
             String item = autoPath.get(i);
             list +=  item + ", ";
-            if (autoPath.size() <= 28 || i > autoPath.size()-28) {
-                if (i == autoPath.size() - 27) {
+            if (autoPath.size() <= 7 || i > autoPath.size()-7) {
+                if (i == autoPath.size() - 6) {
                     text = "...\n";
                 }
-                text += String.valueOf(i + 1) + ": " + item + "\n";
+                text += (i + 1) + ": " + item + "\n";
             }
         }
         saveData("autoPath", list.substring(0, list.length()-2));

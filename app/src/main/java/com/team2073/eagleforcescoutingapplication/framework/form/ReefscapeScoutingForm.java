@@ -26,6 +26,7 @@ public class ReefscapeScoutingForm implements ScoutingForm{
         clearNames.add("startPos");
 
         fieldNames.add("quantifier");
+        clearNames.add("fieldSide");
 
         //Autos
         autoNames.add("missed_auto");
