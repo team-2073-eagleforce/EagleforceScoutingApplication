@@ -111,8 +111,8 @@ public class UIQRCodeFragment extends Fragment {
             });
             AlertDialog dialog = builder.create();
             dialog.setOnShowListener(buttons -> {
-                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.md_black_1000));
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.md_black_1000));
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.primaryTextColor));
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.primaryTextColor));
             });
             dialog.show();
         });
