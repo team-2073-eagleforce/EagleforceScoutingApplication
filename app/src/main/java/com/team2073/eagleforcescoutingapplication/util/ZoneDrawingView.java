@@ -25,6 +25,9 @@ public class ZoneDrawingView extends View {
     private boolean isEditEnabled = false;
     private boolean isBoundaryEditMode = false;
     private PointF selectedDot;
+    private Zone selectedZone;
+    private boolean isDraggingZone = false;
+    private PointF zoneDragStart = new PointF();
     // Zoom feature removed for stability
     private float panX = 0f, panY = 0f;
     private boolean isPanning = false;
@@ -45,6 +48,7 @@ public class ZoneDrawingView extends View {
         void onZoneCompleted(Zone zone);
         void onZoneSelected(Zone zone);
         void onHistoryChanged(boolean canUndo, boolean canRedo);
+        void showZoneOptions(Zone zone, float x, float y);
     }
     
     public static class Zone {
@@ -154,9 +158,27 @@ public class ZoneDrawingView extends View {
             canvas.drawText("RESIZE", fieldLeft - 30f, fieldTop + 20f, textPaint);
         }
         
-        // Continue with zones drawing
+        // Draw selected zone name notification
+        if (selectedZone != null) {
+            Paint notificationPaint = new Paint();
+            notificationPaint.setColor(0xEEFFAA00);
+            notificationPaint.setStyle(Paint.Style.FILL);
+            
+            Paint textPaint = new Paint();
+            textPaint.setColor(0xFF000000);
+            textPaint.setTextSize(16f);
+            textPaint.setAntiAlias(true);
+            
+            String zoneName = selectedZone.name != null ? selectedZone.name : "Unnamed Zone";
+            String lockStatus = selectedZone.isLocked ? " (Locked)" : " (Unlocked)";
+            String notification = "Selected: " + zoneName + lockStatus;
+            
+            float textWidth = textPaint.measureText(notification);
+            canvas.drawRect(10, 10, textWidth + 20, 40, notificationPaint);
+            canvas.drawText(notification, 15, 30, textPaint);
+        }
         
-        // Remove orientation indicators overlay
+        // Continue with zones drawing
         
         // Draw existing zones
         for (Zone zone : zones) {
@@ -164,9 +186,12 @@ public class ZoneDrawingView extends View {
                 Path path = createPath(zone.points);
                 canvas.drawPath(path, zone.fillPaint);
                 
-                // Use different line style for locked zones
+                // Use different line style for locked zones or selected zone
                 Paint currentLinePaint = new Paint(linePaint);
-                if (zone.isLocked) {
+                if (zone == selectedZone) {
+                    currentLinePaint.setColor(0xFFFFAA00);
+                    currentLinePaint.setStrokeWidth(5f);
+                } else if (zone.isLocked) {
                     currentLinePaint.setColor(0xFF888888);
                     currentLinePaint.setPathEffect(new android.graphics.DashPathEffect(new float[]{10, 5}, 0));
                 }
@@ -290,9 +315,35 @@ public class ZoneDrawingView extends View {
                 
             case MotionEvent.ACTION_MOVE:
                 if (selectedDot != null) {
-                    selectedDot.x = x;
-                    selectedDot.y = y;
+                    // Constrain dot movement to field boundaries
+                    selectedDot.x = Math.max(fieldLeft, Math.min(fieldRight, x));
+                    selectedDot.y = Math.max(fieldTop, Math.min(fieldBottom, y));
                     invalidate();
+                    zoneHandled = true;
+                } else if (isDraggingZone && selectedZone != null && !selectedZone.isLocked) {
+                    // Move entire zone
+                    float deltaX = x - zoneDragStart.x;
+                    float deltaY = y - zoneDragStart.y;
+                    
+                    // Check if zone would stay within boundaries
+                    boolean canMove = true;
+                    for (PointF point : selectedZone.points) {
+                        float newX = point.x + deltaX;
+                        float newY = point.y + deltaY;
+                        if (newX < fieldLeft || newX > fieldRight || newY < fieldTop || newY > fieldBottom) {
+                            canMove = false;
+                            break;
+                        }
+                    }
+                    
+                    if (canMove) {
+                        for (PointF point : selectedZone.points) {
+                            point.x += deltaX;
+                            point.y += deltaY;
+                        }
+                        zoneDragStart.set(x, y);
+                        invalidate();
+                    }
                     zoneHandled = true;
                 }
                 break;
@@ -300,6 +351,9 @@ public class ZoneDrawingView extends View {
             case MotionEvent.ACTION_UP:
                 if (selectedDot != null) {
                     selectedDot = null;
+                    zoneHandled = true;
+                } else if (isDraggingZone) {
+                    isDraggingZone = false;
                     zoneHandled = true;
                 }
                 break;
@@ -374,22 +428,34 @@ public class ZoneDrawingView extends View {
                     float distance = (float) Math.sqrt(Math.pow(x - point.x, 2) + Math.pow(y - point.y, 2));
                     if (distance < 30f) {
                         selectedDot = point;
+                        selectedZone = zone;
                         return true;
                     }
                 }
             }
         }
         
-        // Check if touching inside zone for editing
+        // Check if touching inside zone
         for (Zone zone : zones) {
             if (zone.containsPoint(x, y)) {
+                selectedZone = zone;
+                if (!zone.isLocked) {
+                    // Start zone dragging
+                    isDraggingZone = true;
+                    zoneDragStart.set(x, y);
+                }
+                
+                // Show zone options menu
                 if (listener != null) {
-                    listener.onZoneSelected(zone);
+                    listener.showZoneOptions(zone, x, y);
                 }
                 return true;
             }
         }
         
+        // Clear selection if touching empty area
+        selectedZone = null;
+        invalidate();
         return false;
     }
     
@@ -409,6 +475,8 @@ public class ZoneDrawingView extends View {
             isBoundaryEditMode = false;
             currentZone = null;
             selectedDot = null;
+            selectedZone = null;
+            isDraggingZone = false;
         }
         invalidate();
     }
@@ -419,6 +487,8 @@ public class ZoneDrawingView extends View {
             isDrawingMode = false;
             currentZone = null;
             selectedDot = null;
+            selectedZone = null;
+            isDraggingZone = false;
         }
         invalidate();
     }
@@ -676,6 +746,13 @@ public class ZoneDrawingView extends View {
     
     public List<Zone> getZones() {
         return new ArrayList<>(zones);
+    }
+    
+    public void clearZoneSelection() {
+        selectedZone = null;
+        selectedDot = null;
+        isDraggingZone = false;
+        invalidate();
     }
     
     private boolean isNearPoint(float x, float y, PointF point, float threshold) {

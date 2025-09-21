@@ -107,6 +107,12 @@ public class FieldEditorActivity extends BaseActivity {
                 public void onHistoryChanged(boolean canUndo, boolean canRedo) {
                     updateUndoRedoButtons(canUndo, canRedo);
                 }
+                
+                @Override
+                public void showZoneOptions(ZoneDrawingView.Zone zone, float x, float y) {
+                    selectedZone = zone;
+                    showZoneOptionsMenu(zone);
+                }
             });
         }
         
@@ -153,6 +159,45 @@ public class FieldEditorActivity extends BaseActivity {
     }
     
 
+    
+    private void showZoneOptionsMenu(ZoneDrawingView.Zone zone) {
+        String zoneName = zone.name != null ? zone.name : "Unnamed Zone";
+        String lockStatus = zone.isLocked ? "🔒 Locked" : "🔓 Unlocked";
+        
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Zone: " + zoneName + " (" + lockStatus + ")");
+        
+        String[] options = {"Configure Zone", "Delete Zone", "Cancel"};
+        builder.setItems(options, (dialog, which) -> {
+            switch (which) {
+                case 0: // Configure
+                    showZoneConfigDialog(zone);
+                    break;
+                case 1: // Delete
+                    showDeleteConfirmation(zone);
+                    break;
+                case 2: // Cancel
+                    break;
+            }
+        });
+        
+        builder.show();
+    }
+    
+    private void showDeleteConfirmation(ZoneDrawingView.Zone zone) {
+        String zoneName = zone.name != null ? zone.name : "Unnamed Zone";
+        new AlertDialog.Builder(this)
+            .setTitle("Delete Zone")
+            .setMessage("Are you sure you want to delete \"" + zoneName + "\"?")
+            .setPositiveButton("Delete", (dialog, which) -> {
+                if (zoneDrawingView != null) {
+                    zoneDrawingView.removeZone(zone);
+                    drawExistingZones();
+                }
+            })
+            .setNegativeButton("Cancel", null)
+            .show();
+    }
     
     private void showZoneConfigDialog(ZoneDrawingView.Zone zone) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -216,20 +261,7 @@ public class FieldEditorActivity extends BaseActivity {
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
         
-        // Delete button as menu option
-        builder.setNegativeButton("Delete Zone", (d, which) -> {
-            new AlertDialog.Builder(this)
-                .setTitle("Confirm Delete")
-                .setMessage("Are you sure you want to delete this zone?")
-                .setPositiveButton("Delete", (confirmDialog, w) -> {
-                    if (zoneDrawingView != null) {
-                        zoneDrawingView.removeZone(zone);
-                        drawExistingZones();
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
-        });
+        // Remove delete button from config dialog since it's now in options menu
         
         builder.show();
     }
