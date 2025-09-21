@@ -1,0 +1,705 @@
+package com.team2073.eagleforcescoutingapplication.activities;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+
+import androidx.appcompat.app.AlertDialog;
+
+import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.util.FieldConfig;
+import com.team2073.eagleforcescoutingapplication.util.ZoneDrawingView;
+
+import java.util.List;
+import java.util.ArrayList;
+
+public class FieldEditorActivity extends BaseActivity {
+    
+    private ImageView fieldBackground;
+    private ZoneDrawingView zoneDrawingView;
+    private FieldConfig fieldConfig;
+    private boolean isEditMode = false;
+    private boolean isBoundaryEditMode = false;
+    private boolean isDrawingMode = false;
+    private ZoneDrawingView.Zone selectedZone;
+    private Button editModeBtn, drawZoneBtn, boundaryModeBtn, helpBtn;
+    private TextView orientationInfo;
+    private float currentRotation = 0f;
+    private Button undoBtn, redoBtn;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        fieldConfig = new FieldConfig(this);
+        super.onCreate(savedInstanceState);
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveConfiguration();
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadConfiguration();
+    }
+    
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_field_editor;
+    }
+    
+    @Override
+    protected void initView() {
+        fieldBackground = findViewById(R.id.field_background_editor);
+        zoneDrawingView = findViewById(R.id.zone_drawing_view);
+        
+        if (fieldBackground != null) {
+            // Set field side
+            String fieldSide = getIntent().getStringExtra("field_side");
+            if ("0".equals(fieldSide)) {
+                fieldBackground.setImageResource(R.drawable.field_blue_side);
+            } else {
+                fieldBackground.setImageResource(R.drawable.field_red_side);
+            }
+        }
+        
+        if (zoneDrawingView != null) {
+            // Auto-detect image dimensions and set boundaries
+            if (fieldBackground != null) {
+                fieldBackground.post(() -> {
+                    if (fieldBackground.getDrawable() == null) return;
+                    float imgWidth = fieldBackground.getDrawable().getIntrinsicWidth();
+                    float imgHeight = fieldBackground.getDrawable().getIntrinsicHeight();
+                    zoneDrawingView.setImageDimensions(imgWidth, imgHeight);
+                    
+                    // Set default boundaries to 90% of image
+                    float margin = 0.05f;
+                    zoneDrawingView.setFieldBoundaries(
+                        imgWidth * margin, imgHeight * margin,
+                        imgWidth * (1 - margin), imgHeight * (1 - margin)
+                    );
+                });
+            }
+            
+            // Removed background sync
+            zoneDrawingView.setZoneDrawingListener(new ZoneDrawingView.ZoneDrawingListener() {
+                @Override
+                public void onZoneCompleted(ZoneDrawingView.Zone zone) {
+                    showZoneConfigDialog(zone);
+                }
+                
+                @Override
+                public void onZoneSelected(ZoneDrawingView.Zone zone) {
+                    selectedZone = zone;
+                    showZoneConfigDialog(zone);
+                }
+                
+                @Override
+                public void onHistoryChanged(boolean canUndo, boolean canRedo) {
+                    updateUndoRedoButtons(canUndo, canRedo);
+                }
+            });
+        }
+        
+        drawExistingZones();
+    }
+    
+    @Override
+    protected void initEvent() {
+        editModeBtn = findViewById(R.id.btn_edit_mode);
+        drawZoneBtn = findViewById(R.id.btn_draw_zone);
+        undoBtn = findViewById(R.id.btn_undo);
+        redoBtn = findViewById(R.id.btn_redo);
+        orientationInfo = findViewById(R.id.orientation_info);
+        
+        Button rotateBtn = findViewById(R.id.btn_rotate_field);
+        Button cropBtn = findViewById(R.id.btn_crop_field);
+        Button saveBtn = findViewById(R.id.btn_save_config);
+        Button loadBtn = findViewById(R.id.btn_load_config);
+        Button exportBtn = findViewById(R.id.btn_export_config);
+        Button setBoundaryBtn = findViewById(R.id.btn_set_boundary);
+        boundaryModeBtn = findViewById(R.id.btn_boundary_mode);
+        helpBtn = findViewById(R.id.btn_help);
+        
+        if (editModeBtn != null) editModeBtn.setOnClickListener(v -> toggleEditMode());
+        if (drawZoneBtn != null) drawZoneBtn.setOnClickListener(v -> toggleDrawMode());
+        if (undoBtn != null) undoBtn.setOnClickListener(v -> undo());
+        if (redoBtn != null) redoBtn.setOnClickListener(v -> redo());
+        if (rotateBtn != null) rotateBtn.setOnClickListener(v -> rotateField());
+        if (cropBtn != null) cropBtn.setOnClickListener(v -> showCropDialog());
+        if (saveBtn != null) saveBtn.setOnClickListener(v -> saveCompleteConfig());
+        if (loadBtn != null) loadBtn.setOnClickListener(v -> loadCompleteConfig());
+        if (exportBtn != null) exportBtn.setOnClickListener(v -> exportConfigToQR());
+        if (setBoundaryBtn != null) setBoundaryBtn.setOnClickListener(v -> showBoundaryDialog());
+        if (boundaryModeBtn != null) boundaryModeBtn.setOnClickListener(v -> toggleBoundaryMode());
+        if (helpBtn != null) helpBtn.setOnClickListener(v -> showHelpDialog());
+        
+        updateEditModeUI();
+        updateOrientationDisplay();
+    }
+    
+    @Override
+    protected void bindView() {
+        // No presenter needed
+    }
+    
+
+    
+    private void showZoneConfigDialog(ZoneDrawingView.Zone zone) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(zone.name != null ? "Edit Zone: " + zone.name : "Configure Zone");
+        
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_zone_config, null);
+        EditText nameEdit = dialogView.findViewById(R.id.edit_zone_name);
+        Spinner typeSpinner = dialogView.findViewById(R.id.spinner_zone_type);
+        LinearLayout reefContainer = dialogView.findViewById(R.id.reef_layout_container);
+        LinearLayout actionPreview = dialogView.findViewById(R.id.action_preview_container);
+        
+        // Setup zone types
+        String[] zoneTypes = {"Normal", "Reef", "Source", "Barge"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, zoneTypes);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeSpinner.setAdapter(adapter);
+        
+        // Set existing values
+        if (zone.name != null) {
+            nameEdit.setText(zone.name);
+        }
+        if (zone.type != null) {
+            int position = adapter.getPosition(zone.type);
+            if (position >= 0) typeSpinner.setSelection(position);
+        }
+        
+        // Remove duplicate listener - handled in auto-save section
+        
+        // Setup color buttons
+        setupColorButtons(dialogView, zone);
+        
+        // Setup lock button
+        setupLockButton(dialogView, zone);
+        
+        // Setup action buttons
+        setupActionButtons(dialogView, zone, actionPreview);
+        
+        // Auto-save changes on text/spinner changes
+        nameEdit.addTextChangedListener(new android.text.TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void afterTextChanged(android.text.Editable s) {
+                zone.name = s.toString();
+                drawExistingZones();
+            }
+        });
+        
+        typeSpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                String selectedType = zoneTypes[position];
+                zone.type = selectedType;
+                reefContainer.setVisibility("Reef".equals(selectedType) ? View.VISIBLE : View.GONE);
+                drawExistingZones();
+            }
+            
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+        });
+        
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+        
+        // Delete button as menu option
+        builder.setNegativeButton("Delete Zone", (d, which) -> {
+            new AlertDialog.Builder(this)
+                .setTitle("Confirm Delete")
+                .setMessage("Are you sure you want to delete this zone?")
+                .setPositiveButton("Delete", (confirmDialog, w) -> {
+                    if (zoneDrawingView != null) {
+                        zoneDrawingView.removeZone(zone);
+                        drawExistingZones();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+        });
+        
+        builder.show();
+    }
+    
+    private void toggleEditMode() {
+        isEditMode = !isEditMode;
+        if (isEditMode) {
+            isBoundaryEditMode = false;
+        } else {
+            isDrawingMode = false;
+            isBoundaryEditMode = false;
+        }
+        updateEditModeUI();
+        
+        if (zoneDrawingView != null) {
+            zoneDrawingView.setEditEnabled(isEditMode);
+            zoneDrawingView.setBoundaryEditMode(isBoundaryEditMode);
+            if (!isEditMode) {
+                zoneDrawingView.setDrawingMode(false);
+                saveConfiguration();
+            }
+        }
+    }
+    
+    private void toggleBoundaryMode() {
+        if (!isEditMode) return;
+        isBoundaryEditMode = !isBoundaryEditMode;
+        if (isBoundaryEditMode) {
+            isDrawingMode = false;
+        }
+        updateEditModeUI();
+        
+        if (zoneDrawingView != null) {
+            zoneDrawingView.setBoundaryEditMode(isBoundaryEditMode);
+            if (isBoundaryEditMode) {
+                zoneDrawingView.setDrawingMode(false);
+            }
+        }
+    }
+    
+    private void updateEditModeUI() {
+        if (editModeBtn != null) {
+            editModeBtn.setText(isEditMode ? "Exit Edit Mode" : "Enter Edit Mode");
+        }
+        
+        if (drawZoneBtn != null) {
+            drawZoneBtn.setEnabled(isEditMode && !isBoundaryEditMode);
+            drawZoneBtn.setText(isDrawingMode ? "Exit Draw Mode" : "Draw New Zone");
+        }
+        
+        if (boundaryModeBtn != null) {
+            boundaryModeBtn.setEnabled(isEditMode);
+            boundaryModeBtn.setText(isBoundaryEditMode ? "Exit Boundary Mode" : "Set Boundaries");
+        }
+        
+        if (undoBtn != null && redoBtn != null) {
+            undoBtn.setEnabled(isEditMode && zoneDrawingView != null && zoneDrawingView.canUndo());
+            redoBtn.setEnabled(isEditMode && zoneDrawingView != null && zoneDrawingView.canRedo());
+        }
+    }
+    
+    private void toggleDrawMode() {
+        isDrawingMode = !isDrawingMode;
+        if (zoneDrawingView != null) {
+            zoneDrawingView.setDrawingMode(isDrawingMode);
+        }
+        updateEditModeUI();
+    }
+    
+    private void drawExistingZones() {
+        LinearLayout zonesList = findViewById(R.id.zones_list);
+        if (zonesList == null) return;
+        
+        zonesList.removeAllViews();
+        
+        List<ZoneDrawingView.Zone> zones = zoneDrawingView != null ? zoneDrawingView.getZones() : new ArrayList<>();
+        for (ZoneDrawingView.Zone zone : zones) {
+            final ZoneDrawingView.Zone currentZone = zone;
+            TextView zoneView = new TextView(this);
+            zoneView.setText(String.format("%s%s (%s) - %d actions", 
+                currentZone.isLocked ? "🔒 " : "",
+                currentZone.name != null ? currentZone.name : "Unnamed", 
+                currentZone.type != null ? currentZone.type : "Normal",
+                currentZone.actions.size()));
+            zoneView.setPadding(16, 8, 16, 8);
+            zoneView.setOnLongClickListener(v -> {
+                if (zoneDrawingView != null) {
+                    zoneDrawingView.removeZone(currentZone);
+                    drawExistingZones();
+                }
+                return true;
+            });
+            zonesList.addView(zoneView);
+        }
+    }
+    
+    private void setupLockButton(View dialogView, ZoneDrawingView.Zone zone) {
+        Button lockBtn = dialogView.findViewById(R.id.btn_lock_zone);
+        if (lockBtn != null) {
+            lockBtn.setText(zone.isLocked ? "Unlock Zone" : "Lock Zone");
+            lockBtn.setOnClickListener(v -> {
+                zone.isLocked = !zone.isLocked;
+                lockBtn.setText(zone.isLocked ? "Unlock Zone" : "Lock Zone");
+                zoneDrawingView.invalidate();
+                drawExistingZones();
+            });
+        }
+    }
+    
+    private void setupColorButtons(View dialogView, ZoneDrawingView.Zone zone) {
+        Button redBtn = dialogView.findViewById(R.id.btn_color_red);
+        Button blueBtn = dialogView.findViewById(R.id.btn_color_blue);
+        Button greenBtn = dialogView.findViewById(R.id.btn_color_green);
+        Button yellowBtn = dialogView.findViewById(R.id.btn_color_yellow);
+        
+        redBtn.setOnClickListener(v -> {
+            zone.fillPaint.setColor(0x44FF0000);
+            zoneDrawingView.invalidate();
+        });
+        blueBtn.setOnClickListener(v -> {
+            zone.fillPaint.setColor(0x440000FF);
+            zoneDrawingView.invalidate();
+        });
+        greenBtn.setOnClickListener(v -> {
+            zone.fillPaint.setColor(0x4400FF00);
+            zoneDrawingView.invalidate();
+        });
+        yellowBtn.setOnClickListener(v -> {
+            zone.fillPaint.setColor(0x44FFFF00);
+            zoneDrawingView.invalidate();
+        });
+    }
+    
+    private void setupActionButtons(View dialogView, ZoneDrawingView.Zone zone, LinearLayout actionPreview) {
+        Button addBtn = dialogView.findViewById(R.id.btn_add_action);
+        Button removeBtn = dialogView.findViewById(R.id.btn_remove_action);
+        
+        addBtn.setOnClickListener(v -> showAddActionDialog(zone, actionPreview));
+        removeBtn.setOnClickListener(v -> {
+            if (!zone.actions.isEmpty()) {
+                zone.actions.remove(zone.actions.size() - 1);
+                updateActionPreview(zone, actionPreview);
+            }
+        });
+        
+        updateActionPreview(zone, actionPreview);
+    }
+    
+    private void showAddActionDialog(ZoneDrawingView.Zone zone, LinearLayout actionPreview) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Action Button");
+        
+        LinearLayout dialogLayout = new LinearLayout(this);
+        dialogLayout.setOrientation(LinearLayout.VERTICAL);
+        dialogLayout.setPadding(50, 20, 50, 20);
+        
+        TextView label = new TextView(this);
+        label.setText("Action Name:");
+        label.setTypeface(null, android.graphics.Typeface.BOLD);
+        dialogLayout.addView(label);
+        
+        EditText actionEdit = new EditText(this);
+        actionEdit.setHint("e.g. pickup_coral, score_algae, remove_algae");
+        dialogLayout.addView(actionEdit);
+        
+        TextView helpText = new TextView(this);
+        helpText.setText("\nThis will appear as a button in the action bar when scouts tap this zone.");
+        helpText.setTextSize(12f);
+        helpText.setTextColor(0xFF666666);
+        dialogLayout.addView(helpText);
+        
+        builder.setView(dialogLayout);
+        
+        builder.setPositiveButton("Add Action", (dialog, which) -> {
+            String action = actionEdit.getText().toString().trim();
+            if (!action.isEmpty() && !action.matches("\\s*")) {
+                zone.actions.add(action);
+                updateActionPreview(zone, actionPreview);
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+    
+    private void updateActionPreview(ZoneDrawingView.Zone zone, LinearLayout actionPreview) {
+        actionPreview.removeAllViews();
+        
+        if (zone.actions.isEmpty()) {
+            TextView emptyText = new TextView(this);
+            emptyText.setText("No actions configured\nTap 'Add Action' to create buttons");
+            emptyText.setTextSize(12f);
+            emptyText.setTextColor(0xFF666666);
+            emptyText.setPadding(8, 16, 8, 16);
+            actionPreview.addView(emptyText);
+            return;
+        }
+        
+        for (int i = 0; i < zone.actions.size(); i++) {
+            String action = zone.actions.get(i);
+            final int currentIndex = i;
+            
+            LinearLayout actionRow = new LinearLayout(this);
+            actionRow.setOrientation(LinearLayout.HORIZONTAL);
+            actionRow.setPadding(4, 4, 4, 4);
+            
+            // Up button
+            Button upBtn = new Button(this);
+            upBtn.setText("↑");
+            upBtn.setTextSize(12f);
+            upBtn.setEnabled(i > 0);
+            LinearLayout.LayoutParams upParams = new LinearLayout.LayoutParams(60, 60);
+            upBtn.setLayoutParams(upParams);
+            upBtn.setOnClickListener(v -> {
+                if (currentIndex > 0) {
+                    String temp = zone.actions.get(currentIndex);
+                    zone.actions.set(currentIndex, zone.actions.get(currentIndex - 1));
+                    zone.actions.set(currentIndex - 1, temp);
+                    updateActionPreview(zone, actionPreview);
+                }
+            });
+            
+            // Down button
+            Button downBtn = new Button(this);
+            downBtn.setText("↓");
+            downBtn.setTextSize(12f);
+            downBtn.setEnabled(i < zone.actions.size() - 1);
+            LinearLayout.LayoutParams downParams = new LinearLayout.LayoutParams(60, 60);
+            downBtn.setLayoutParams(downParams);
+            downBtn.setOnClickListener(v -> {
+                if (currentIndex < zone.actions.size() - 1) {
+                    String temp = zone.actions.get(currentIndex);
+                    zone.actions.set(currentIndex, zone.actions.get(currentIndex + 1));
+                    zone.actions.set(currentIndex + 1, temp);
+                    updateActionPreview(zone, actionPreview);
+                }
+            });
+            
+            CheckBox actionCheck = new CheckBox(this);
+            actionCheck.setText(action.replace("_", " "));
+            actionCheck.setTextSize(14f);
+            actionCheck.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+            
+            Button removeBtn = new Button(this);
+            removeBtn.setText("×");
+            removeBtn.setTextSize(16f);
+            removeBtn.setBackgroundTintList(getColorStateList(android.R.color.holo_red_light));
+            LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(60, 60);
+            btnParams.setMargins(4, 0, 0, 0);
+            removeBtn.setLayoutParams(btnParams);
+            
+            final String currentAction = action;
+            removeBtn.setOnClickListener(v -> {
+                zone.actions.remove(currentAction);
+                updateActionPreview(zone, actionPreview);
+            });
+            
+            actionRow.addView(upBtn);
+            actionRow.addView(downBtn);
+            actionRow.addView(actionCheck);
+            actionRow.addView(removeBtn);
+            actionPreview.addView(actionRow);
+        }
+    }
+    
+    private void showBoundaryDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Set Field Boundaries");
+        
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_field_boundary, null);
+        EditText leftEdit = dialogView.findViewById(R.id.edit_left);
+        EditText topEdit = dialogView.findViewById(R.id.edit_top);
+        EditText rightEdit = dialogView.findViewById(R.id.edit_right);
+        EditText bottomEdit = dialogView.findViewById(R.id.edit_bottom);
+        
+        // Set current values
+        leftEdit.setText("50");
+        topEdit.setText("50");
+        rightEdit.setText("450");
+        bottomEdit.setText("300");
+        
+        builder.setView(dialogView);
+        builder.setPositiveButton("Set", (dialog, which) -> {
+            try {
+                float left = Float.parseFloat(leftEdit.getText().toString());
+                float top = Float.parseFloat(topEdit.getText().toString());
+                float right = Float.parseFloat(rightEdit.getText().toString());
+                float bottom = Float.parseFloat(bottomEdit.getText().toString());
+                
+                if (zoneDrawingView != null) {
+                    zoneDrawingView.setFieldBoundaries(left, top, right, bottom);
+                }
+            } catch (NumberFormatException e) {
+                new AlertDialog.Builder(this)
+                    .setTitle("Invalid Input")
+                    .setMessage("Please enter valid numeric values for all boundary fields.")
+                    .setPositiveButton("OK", null)
+                    .show();
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+    
+    private void rotateField() {
+        if (zoneDrawingView != null) {
+            currentRotation = (currentRotation + 90f) % 360f;
+            zoneDrawingView.setFieldRotation(currentRotation);
+            updateOrientationDisplay();
+        }
+    }
+    
+    private void updateOrientationDisplay() {
+        if (orientationInfo != null && zoneDrawingView != null) {
+            orientationInfo.setText(zoneDrawingView.getOrientationInfo());
+        }
+    }
+    
+    private void undo() {
+        if (zoneDrawingView != null) {
+            zoneDrawingView.undo();
+            drawExistingZones();
+        }
+    }
+    
+    private void redo() {
+        if (zoneDrawingView != null) {
+            zoneDrawingView.redo();
+            drawExistingZones();
+        }
+    }
+    
+    private void updateUndoRedoButtons(boolean canUndo, boolean canRedo) {
+        if (undoBtn != null) {
+            undoBtn.setEnabled(isEditMode && canUndo);
+        }
+        if (redoBtn != null) {
+            redoBtn.setEnabled(isEditMode && canRedo);
+        }
+    }
+    
+    private void showCropDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Crop Field Area");
+        builder.setMessage("Drag the red corner handles to define the field area, then tap OK.");
+        builder.setPositiveButton("OK", null);
+        builder.show();
+    }
+    
+    private void saveConfiguration() {
+        if (zoneDrawingView != null) {
+            String config = zoneDrawingView.exportConfiguration();
+            getSharedPreferences("field_editor", MODE_PRIVATE)
+                .edit()
+                .putString("auto_save_config", config)
+                .putLong("config_timestamp", System.currentTimeMillis())
+                .apply();
+        }
+    }
+    
+    private void loadConfiguration() {
+        String config = getSharedPreferences("field_editor", MODE_PRIVATE)
+            .getString("auto_save_config", "");
+        if (!config.isEmpty()) {
+            parseAndApplyConfig(config);
+            drawExistingZones();
+        }
+    }
+    
+    private void saveCompleteConfig() {
+        saveConfiguration();
+        new AlertDialog.Builder(this)
+            .setTitle("Configuration Saved")
+            .setMessage("Field configuration saved successfully with " + 
+                (zoneDrawingView != null ? zoneDrawingView.getZones().size() : 0) + " zones.")
+            .setPositiveButton("OK", null)
+            .show();
+    }
+    
+    private void loadCompleteConfig() {
+        loadConfiguration();
+        new AlertDialog.Builder(this)
+            .setTitle("Configuration Loaded")
+            .setMessage("Loaded saved field configuration.")
+            .setPositiveButton("OK", null)
+            .show();
+    }
+    
+    private void showHelpDialog() {
+        new AlertDialog.Builder(this)
+            .setTitle("Field Editor Help")
+            .setMessage("• Enter Edit Mode: Enable zone editing\n" +
+                       "• Draw New Zone: Click to enter drawing mode, then click points to create polygon\n" +
+                       "• Edit Existing Zone: Click existing zone (when NOT in draw mode)\n" +
+                       "• Set Boundaries: Toggle boundary mode, drag corners/center to adjust\n" +
+                       "• Boundary stays fixed after exiting boundary mode\n" +
+                       "• Pinch to zoom, drag to pan field\n" +
+                       "• Drag zone points to fine-tune shapes\n" +
+                       "• Configuration auto-saves on exit")
+            .setPositiveButton("OK", null)
+            .show();
+    }
+    
+    private void exportConfigToQR() {
+        if (zoneDrawingView != null) {
+            String config = zoneDrawingView.exportConfiguration();
+            
+            // Show config in dialog for QR generation
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Configuration Export");
+            builder.setMessage("Configuration data (" + config.length() + " chars):\n\n" + 
+                config.substring(0, Math.min(200, config.length())) + 
+                (config.length() > 200 ? "..." : ""));
+            builder.setPositiveButton("Copy to Clipboard", (dialog, which) -> {
+                android.content.ClipboardManager clipboard = 
+                    (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                android.content.ClipData clip = android.content.ClipData.newPlainText("Field Config", config);
+                clipboard.setPrimaryClip(clip);
+            });
+            builder.setNegativeButton("Close", null);
+            builder.show();
+        }
+    }
+    
+    private void parseAndApplyConfig(String config) {
+        try {
+            if (config.isEmpty() || !config.startsWith("FIELD_CONFIG|")) {
+                throw new IllegalArgumentException("Invalid configuration format");
+            }
+            
+            String[] parts = config.split("\\|");
+            if (parts.length < 4) {
+                throw new IllegalArgumentException("Incomplete configuration data");
+            }
+            
+            // Parse field boundaries
+            String[] boundaries = parts[1].split(",");
+            if (boundaries.length == 4) {
+                float left = Float.parseFloat(boundaries[0]);
+                float top = Float.parseFloat(boundaries[1]);
+                float right = Float.parseFloat(boundaries[2]);
+                float bottom = Float.parseFloat(boundaries[3]);
+                if (zoneDrawingView != null) {
+                    zoneDrawingView.setFieldBoundaries(left, top, right, bottom);
+                }
+            }
+            
+            // Parse rotation
+            currentRotation = Float.parseFloat(parts[2]);
+            if (zoneDrawingView != null) {
+                zoneDrawingView.setFieldRotation(currentRotation);
+            }
+            
+            // Parse image dimensions
+            String[] dimensions = parts[3].split(",");
+            if (dimensions.length == 2) {
+                float width = Float.parseFloat(dimensions[0]);
+                float height = Float.parseFloat(dimensions[1]);
+                if (zoneDrawingView != null) {
+                    zoneDrawingView.setImageDimensions(width, height);
+                }
+            }
+            
+            updateOrientationDisplay();
+            
+        } catch (Exception e) {
+            new AlertDialog.Builder(this)
+                .setTitle("Configuration Error")
+                .setMessage("Failed to load configuration: " + e.getMessage())
+                .setPositiveButton("OK", null)
+                .show();
+        }
+    }
+}

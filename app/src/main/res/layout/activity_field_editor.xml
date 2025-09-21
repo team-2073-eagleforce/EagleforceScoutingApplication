@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <!-- Left Panel - Controls -->
+    <ScrollView
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:background="#F5F5F5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Field Editor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Controls"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btn_edit_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Edit Mode"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp" />
+
+        <Button
+            android:id="@+id/btn_draw_zone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Draw New Zone"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp"
+            android:enabled="false" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <Button
+                android:id="@+id/btn_undo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Undo"
+                android:textColor="#000000"
+                android:layout_marginEnd="2dp"
+                android:enabled="false" />
+
+            <Button
+                android:id="@+id/btn_redo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Redo"
+                android:textColor="#000000"
+                android:layout_marginStart="2dp"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Field Setup"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btn_rotate_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rotate Field"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp" />
+
+        <Button
+            android:id="@+id/btn_crop_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Crop to Field"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp" />
+
+        <Button
+            android:id="@+id/btn_boundary_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Set Boundaries"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp"
+            android:enabled="false" />
+
+        <Button
+            android:id="@+id/btn_set_boundary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Manual Boundary"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp" />
+
+        <Button
+            android:id="@+id/btn_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Help"
+            android:textColor="#000000"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Configuration"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btn_save_config"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Configuration"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp" />
+
+        <Button
+            android:id="@+id/btn_load_config"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Load Configuration"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp" />
+
+        <Button
+            android:id="@+id/btn_export_config"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Export to QR"
+            android:textColor="#000000"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Action Zones:"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/zones_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/orientation_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Orientation: Normal"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="• UP arrow shows field top\n• Grid shows coordinates\n• RED/BLUE show alliance sides\n• Drag red handles to crop"
+            android:textSize="11sp"
+            android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- Right Panel - Field -->
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="16dp">
+
+        <com.team2073.eagleforcescoutingapplication.util.ZoneDrawingView
+            android:id="@+id/zone_drawing_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/field_background_editor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/field_red_side"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:alpha="0.7" />
+
+    </RelativeLayout>
+
+</LinearLayout>
