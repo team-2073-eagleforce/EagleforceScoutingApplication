@@ -24,6 +24,10 @@ import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 import com.google.zxing.WriterException;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import timber.log.Timber;
 
@@ -68,6 +72,8 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
         }
         return super.onOptionsItemSelected(item);
     }
+    
+
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -165,6 +171,8 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                     return true;
                 });
             }
+            
+
         }
         
         private void showConfigQRDialog() {
@@ -174,17 +182,23 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                 ImageView imageView = new ImageView(mActivity);
                 imageView.setImageBitmap(qrBitmap);
                 imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                imageView.setPadding(20, 20, 20, 20);
                 
                 AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                builder.setTitle("Configuration QR Code")
+                builder.setTitle("App Configuration QR Code")
                        .setView(imageView)
                        .setPositiveButton("Close", null)
                        .show();
                        
             } catch (WriterException e) {
                 Timber.e("Error creating config QR: %s", e.getMessage());
+                android.widget.Toast.makeText(mActivity, "Error generating QR code", android.widget.Toast.LENGTH_SHORT).show();
             }
         }
+        
+
+        
+
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {

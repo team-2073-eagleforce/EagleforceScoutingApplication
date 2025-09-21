@@ -663,6 +663,27 @@ public class FieldEditorActivity extends BaseActivity {
     }
     
     private void loadCompleteConfig() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Load Configuration");
+        
+        String[] options = {"Load from Tablet", "Import from QR Code", "Cancel"};
+        builder.setItems(options, (dialog, which) -> {
+            switch (which) {
+                case 0: // Load from Tablet
+                    loadFromTablet();
+                    break;
+                case 1: // Import from QR Code
+                    importConfigFromQR();
+                    break;
+                case 2: // Cancel
+                    break;
+            }
+        });
+        
+        builder.show();
+    }
+    
+    private void loadFromTablet() {
         loadConfiguration();
         int zoneCount = zoneDrawingView != null ? zoneDrawingView.getZones().size() : 0;
         new AlertDialog.Builder(this)
@@ -708,20 +729,75 @@ public class FieldEditorActivity extends BaseActivity {
         if (zoneDrawingView != null) {
             String config = zoneDrawingView.exportConfiguration();
             
-            // Show config in dialog for QR generation
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Configuration Export");
-            builder.setMessage("Configuration data (" + config.length() + " chars):\n\n" + 
-                config.substring(0, Math.min(200, config.length())) + 
-                (config.length() > 200 ? "..." : ""));
-            builder.setPositiveButton("Copy to Clipboard", (dialog, which) -> {
-                android.content.ClipboardManager clipboard = 
-                    (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                android.content.ClipData clip = android.content.ClipData.newPlainText("Field Config", config);
-                clipboard.setPrimaryClip(clip);
-            });
-            builder.setNegativeButton("Close", null);
-            builder.show();
+            try {
+                // Generate QR code using same method as scouting form
+                com.google.zxing.MultiFormatWriter multiFormatWriter = new com.google.zxing.MultiFormatWriter();
+                com.google.zxing.common.BitMatrix bitMatrix = multiFormatWriter.encode(config, com.google.zxing.BarcodeFormat.QR_CODE, 400, 400);
+                com.journeyapps.barcodescanner.BarcodeEncoder barcodeEncoder = new com.journeyapps.barcodescanner.BarcodeEncoder();
+                android.graphics.Bitmap qrBitmap = barcodeEncoder.createBitmap(bitMatrix);
+                
+                // Show QR code in dialog
+                ImageView imageView = new ImageView(this);
+                imageView.setImageBitmap(qrBitmap);
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                imageView.setPadding(20, 20, 20, 20);
+                
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Field Configuration QR Code")
+                       .setView(imageView)
+                       .setPositiveButton("Close", null)
+                       .setNegativeButton("Import QR", (dialog, which) -> importConfigFromQR())
+                       .show();
+                       
+            } catch (com.google.zxing.WriterException e) {
+                android.widget.Toast.makeText(this, "Error generating QR code", android.widget.Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    
+    private void importConfigFromQR() {
+        com.google.zxing.integration.android.IntentIntegrator integrator = new com.google.zxing.integration.android.IntentIntegrator(this);
+        integrator.setDesiredBarcodeFormats(com.google.zxing.integration.android.IntentIntegrator.QR_CODE);
+        integrator.setPrompt("Scan Field Configuration QR Code");
+        integrator.setCameraId(0);
+        integrator.setBeepEnabled(true);
+        integrator.setBarcodeImageEnabled(true);
+        integrator.initiateScan();
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
+        com.google.zxing.integration.android.IntentResult result = 
+            com.google.zxing.integration.android.IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                android.widget.Toast.makeText(this, "Scan cancelled", android.widget.Toast.LENGTH_SHORT).show();
+            } else {
+                importFieldConfig(result.getContents());
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+    
+    private void importFieldConfig(String configData) {
+        try {
+            // Save imported config
+            getSharedPreferences("field_editor", MODE_PRIVATE)
+                .edit()
+                .putString("auto_save_config", configData)
+                .putLong("config_timestamp", System.currentTimeMillis())
+                .apply();
+                
+            // Apply the configuration
+            parseAndApplyConfig(configData);
+            drawExistingZones();
+            
+            int zoneCount = zoneDrawingView != null ? zoneDrawingView.getZones().size() : 0;
+            android.widget.Toast.makeText(this, "Field configuration imported with " + zoneCount + " zones!", android.widget.Toast.LENGTH_LONG).show();
+            
+        } catch (Exception e) {
+            android.widget.Toast.makeText(this, "Invalid field configuration QR code", android.widget.Toast.LENGTH_SHORT).show();
         }
     }
     
