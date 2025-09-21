@@ -437,6 +437,7 @@ public class ZoneDrawingView extends View {
                     listener.onZoneCompleted(currentZone);
                 }
                 currentZone = null;
+                isDrawingMode = false; // Exit draw mode automatically
                 invalidate();
                 return;
             }
@@ -802,6 +803,10 @@ public class ZoneDrawingView extends View {
     
     public List<Zone> getZones() {
         return new ArrayList<>(zones);
+    }
+    
+    public List<Zone> getZonesReference() {
+        return zones;
     }
     
     public void clearZoneSelection() {

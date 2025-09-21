@@ -15,9 +15,15 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.framework.manager.ConfigurationManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.SettingsPresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.SettingsView;
+
+import android.app.AlertDialog;
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+import com.google.zxing.WriterException;
 
 import timber.log.Timber;
 
@@ -68,16 +74,116 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
         private final Activity mActivity;
         private final FileManager fileManager;
         private final SettingsPresenter settingsPresenter;
+        private final ConfigurationManager configurationManager;
 
         public SettingsFragment(Activity activity) {
             this.mActivity = activity;
             fileManager = FileManager.getInstance(activity);
             settingsPresenter = new SettingsPresenter(activity);
+            configurationManager = ConfigurationManager.getInstance(activity);
         }
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+            loadSavedPreferences();
+            setupConfigurationPreferences();
+        }
+
+        private void loadSavedPreferences() {
+            // Load saved name
+            String savedName = settingsPresenter.readFromPreferences("name");
+            if (!savedName.equals("0")) {
+                EditTextPreference namePreference = findPreference("name");
+                if (namePreference != null) {
+                    namePreference.setText(savedName);
+                }
+            }
+
+            // Load saved position
+            String savedPosition = settingsPresenter.readFromPreferences("position");
+            if (!savedPosition.equals("0")) {
+                ListPreference positionPreference = findPreference("position");
+                if (positionPreference != null) {
+                    positionPreference.setValue(savedPosition);
+                }
+            }
+
+            // Load saved field side
+            String savedFieldSide = settingsPresenter.readFromPreferences("field_side");
+            if (!savedFieldSide.equals("0")) {
+                SwitchPreferenceCompat sidePreference = findPreference("field_side");
+                if (sidePreference != null) {
+                    sidePreference.setChecked(savedFieldSide.equals("1"));
+                }
+            }
+
+            // Load saved competition code
+            String savedCompCode = settingsPresenter.readFromPreferences("comp_code");
+            if (!savedCompCode.equals("0")) {
+                ListPreference compPreference = findPreference("comp_code");
+                if (compPreference != null) {
+                    compPreference.setValue(savedCompCode);
+                }
+            }
+        }
+        
+        private void setupConfigurationPreferences() {
+            Preference saveConfigPref = findPreference("save_config");
+            if (saveConfigPref != null) {
+                saveConfigPref.setOnPreferenceClickListener(preference -> {
+                    configurationManager.saveConfiguration();
+                    return true;
+                });
+            }
+            
+            Preference loadConfigPref = findPreference("load_config");
+            if (loadConfigPref != null) {
+                loadConfigPref.setOnPreferenceClickListener(preference -> {
+                    String savedConfig = mActivity.getSharedPreferences("EagleforceScoutingApplication", mActivity.MODE_PRIVATE)
+                        .getString("saved_config", "0");
+                    if (!savedConfig.equals("0")) {
+                        configurationManager.loadConfiguration();
+                        loadSavedPreferences(); // Refresh UI after loading
+                        
+                        // Update field editor timestamp to trigger reload
+                        mActivity.getSharedPreferences("field_editor", mActivity.MODE_PRIVATE)
+                            .edit()
+                            .putLong("config_timestamp", System.currentTimeMillis())
+                            .apply();
+                    } else {
+                        android.widget.Toast.makeText(mActivity, "No saved configuration found", android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                });
+            }
+            
+            Preference exportConfigQRPref = findPreference("export_config_qr");
+            if (exportConfigQRPref != null) {
+                exportConfigQRPref.setOnPreferenceClickListener(preference -> {
+                    showConfigQRDialog();
+                    return true;
+                });
+            }
+        }
+        
+        private void showConfigQRDialog() {
+            try {
+                Bitmap qrBitmap = configurationManager.createConfigQR();
+                
+                ImageView imageView = new ImageView(mActivity);
+                imageView.setImageBitmap(qrBitmap);
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                
+                AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                builder.setTitle("Configuration QR Code")
+                       .setView(imageView)
+                       .setPositiveButton("Close", null)
+                       .show();
+                       
+            } catch (WriterException e) {
+                Timber.e("Error creating config QR: %s", e.getMessage());
+            }
         }
 
         @Override
@@ -112,7 +218,6 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                     ListPreference compPreference = findPreference("comp_code");
                     String compPreferenceValue = compPreference.getValue();
                     settingsPresenter.writeToPreferences("comp_code", compPreferenceValue);
-
                     break;
             }
 

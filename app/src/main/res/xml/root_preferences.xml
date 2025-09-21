@@ -49,4 +49,23 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="Configuration Management">
+        
+        <Preference
+            android:key="save_config"
+            android:title="Save Configuration"
+            android:summary="Save current settings for later use" />
+            
+        <Preference
+            android:key="load_config"
+            android:title="Load Configuration"
+            android:summary="Load previously saved settings" />
+            
+        <Preference
+            android:key="export_config_qr"
+            android:title="Export Config as QR"
+            android:summary="Generate QR code with current settings" />
+
+    </PreferenceCategory>
+
 </androidx.preference.PreferenceScreen>

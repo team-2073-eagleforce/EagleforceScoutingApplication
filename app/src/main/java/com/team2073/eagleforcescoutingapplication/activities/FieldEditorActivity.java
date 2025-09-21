@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.util.FieldConfig;
 import com.team2073.eagleforcescoutingapplication.util.ZoneDrawingView;
+import com.team2073.eagleforcescoutingapplication.util.ZoneConfigParser;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class FieldEditorActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         loadConfiguration();
+        checkForConfigurationUpdates();
     }
     
     @Override
@@ -94,6 +96,8 @@ public class FieldEditorActivity extends BaseActivity {
             zoneDrawingView.setZoneDrawingListener(new ZoneDrawingView.ZoneDrawingListener() {
                 @Override
                 public void onZoneCompleted(ZoneDrawingView.Zone zone) {
+                    isDrawingMode = false; // Sync with ZoneDrawingView state
+                    updateEditModeUI(); // Update button text
                     showZoneConfigDialog(zone);
                 }
                 
@@ -660,11 +664,29 @@ public class FieldEditorActivity extends BaseActivity {
     
     private void loadCompleteConfig() {
         loadConfiguration();
+        int zoneCount = zoneDrawingView != null ? zoneDrawingView.getZones().size() : 0;
         new AlertDialog.Builder(this)
             .setTitle("Configuration Loaded")
-            .setMessage("Loaded saved field configuration.")
+            .setMessage("Loaded saved field configuration with " + zoneCount + " zones.")
             .setPositiveButton("OK", null)
             .show();
+    }
+    
+    private void checkForConfigurationUpdates() {
+        // Check if configuration was updated from settings
+        long lastUpdate = getSharedPreferences("field_editor", MODE_PRIVATE)
+            .getLong("config_timestamp", 0);
+        long lastCheck = getSharedPreferences("field_editor", MODE_PRIVATE)
+            .getLong("last_check_timestamp", 0);
+            
+        if (lastUpdate > lastCheck) {
+            // Configuration was updated, reload it
+            loadConfiguration();
+            getSharedPreferences("field_editor", MODE_PRIVATE)
+                .edit()
+                .putLong("last_check_timestamp", System.currentTimeMillis())
+                .apply();
+        }
     }
     
     private void showHelpDialog() {
@@ -706,12 +728,12 @@ public class FieldEditorActivity extends BaseActivity {
     private void parseAndApplyConfig(String config) {
         try {
             if (config.isEmpty() || !config.startsWith("FIELD_CONFIG|")) {
-                throw new IllegalArgumentException("Invalid configuration format");
+                return; // Silently ignore empty or invalid config
             }
             
             String[] parts = config.split("\\|");
             if (parts.length < 4) {
-                throw new IllegalArgumentException("Incomplete configuration data");
+                return; // Silently ignore incomplete config
             }
             
             // Parse field boundaries
@@ -742,14 +764,16 @@ public class FieldEditorActivity extends BaseActivity {
                 }
             }
             
+            // Parse and restore zones
+            if (zoneDrawingView != null) {
+                ZoneConfigParser.parseAndRestoreZones(zoneDrawingView, config);
+            }
+            
             updateOrientationDisplay();
             
         } catch (Exception e) {
-            new AlertDialog.Builder(this)
-                .setTitle("Configuration Error")
-                .setMessage("Failed to load configuration: " + e.getMessage())
-                .setPositiveButton("OK", null)
-                .show();
+            // Silently handle parsing errors to avoid disrupting user experience
+            android.util.Log.e("FieldEditor", "Error parsing config: " + e.getMessage());
         }
     }
 }

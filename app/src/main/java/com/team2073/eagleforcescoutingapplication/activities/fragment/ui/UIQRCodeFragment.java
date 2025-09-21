@@ -10,6 +10,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.team2073.eagleforcescoutingapplication.framework.manager.ConfigurationManager;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.Iterator;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -31,6 +38,7 @@ public class UIQRCodeFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "QRCode";
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentQrcodeBinding fragmentQrcodeBinding;
+    private ConfigurationManager configurationManager;
 
 
     public static UIQRCodeFragment newInstance(int index) {
@@ -48,6 +56,7 @@ public class UIQRCodeFragment extends Fragment {
         int index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());
+        configurationManager = ConfigurationManager.getInstance(this.getActivity());
     }
 
     @Nullable
@@ -60,6 +69,7 @@ public class UIQRCodeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         finishScan();
+        setupImportQR();
     }
 
     @Override
@@ -118,6 +128,62 @@ public class UIQRCodeFragment extends Fragment {
         });
     }
 
+    private void setupImportQR() {
+        fragmentQrcodeBinding.ImportQR.setOnClickListener(importQR -> {
+            IntentIntegrator integrator = IntentIntegrator.forSupportFragment(this);
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+            integrator.setPrompt("Scan QR Code to Import Data");
+            integrator.setCameraId(0);
+            integrator.setBeepEnabled(true);
+            integrator.setBarcodeImageEnabled(true);
+            integrator.initiateScan();
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(getActivity(), "Scan cancelled", Toast.LENGTH_SHORT).show();
+            } else {
+                importQRData(result.getContents());
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void importQRData(String qrContent) {
+        try {
+            JSONObject jsonData = new JSONObject(qrContent);
+            
+            // Check if this is configuration data or scouting data
+            if (jsonData.has("config_type") && jsonData.getString("config_type").equals("app_settings")) {
+                // Import configuration data
+                configurationManager.importConfiguration(jsonData);
+                Toast.makeText(getActivity(), "Configuration imported successfully!", Toast.LENGTH_LONG).show();
+            } else {
+                // Import scouting data
+                Iterator<String> keys = jsonData.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    String value = jsonData.getString(key);
+                    scoutingFormPresenter.saveData(key, value);
+                }
+                Toast.makeText(getActivity(), "Scouting data imported successfully!", Toast.LENGTH_LONG).show();
+            }
+            
+            // Refresh the current view to show imported data
+            Intent intent = getActivity().getIntent();
+            getActivity().finish();
+            startActivity(intent);
+            
+        } catch (JSONException e) {
+            Toast.makeText(getActivity(), "Invalid QR code format", Toast.LENGTH_SHORT).show();
+            Timber.e("Error parsing QR data: %s", e.getMessage());
+        }
+    }
 
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -125,6 +191,7 @@ public class UIQRCodeFragment extends Fragment {
             try {
                 InputMethodManager mImm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 mImm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+                generateQRCode(); // Generate and display QR code when fragment becomes visible
             } catch (Exception e) {
                 Timber.d("setUserVisibleHint: QRCode ");
             }

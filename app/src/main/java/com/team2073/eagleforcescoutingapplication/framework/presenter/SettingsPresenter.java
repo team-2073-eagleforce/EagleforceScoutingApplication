@@ -38,6 +38,10 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         prefsDataManager.writeToPreferences(key, value);
     }
 
+    public String readFromPreferences(String key) {
+        return prefsDataManager.readFromPreferences(key);
+    }
+
     public void makeDrawer(Toolbar toolbar) {
         drawerManager.makeDrawer(toolbar);
     }

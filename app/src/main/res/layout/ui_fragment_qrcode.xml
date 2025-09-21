@@ -14,6 +14,16 @@
         android:scaleType="fitCenter" />
 
     <Button
+        android:id="@+id/ImportQR"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#2196F3"
+        android:text="Import QR"
+        android:textColor="@color/md_white_1000" />
+
+    <Button
         android:id="@+id/FinishScan"
         android:layout_width="200dp"
         android:layout_height="60dp"
