@@ -7,6 +7,10 @@ import java.util.List;
 public class ZoneConfigParser {
     
     public static void parseAndRestoreZones(ZoneDrawingView zoneDrawingView, String config) {
+        parseAndRestoreZonesRelative(zoneDrawingView, config);
+    }
+    
+    public static void parseAndRestoreZonesRelative(ZoneDrawingView zoneDrawingView, String config) {
         if (config == null || config.isEmpty() || !config.startsWith("FIELD_CONFIG|")) {
             return;
         }
@@ -17,8 +21,23 @@ public class ZoneConfigParser {
             // Clear existing zones
             zoneDrawingView.clearZones();
             
-            // Parse zones starting from index 4
-            for (int i = 4; i < parts.length; i += 6) {
+            // Get current field boundaries for relative coordinate conversion
+            float[] boundaries = zoneDrawingView.getFieldBoundaries();
+            float fieldLeft = boundaries[0];
+            float fieldTop = boundaries[1];
+            float fieldRight = boundaries[2];
+            float fieldBottom = boundaries[3];
+            float fieldWidth = fieldRight - fieldLeft;
+            float fieldHeight = fieldBottom - fieldTop;
+            
+            // Determine starting index (account for image hash)
+            int startIndex = 5; // Default with image hash
+            if (parts.length > 4 && !parts[4].startsWith("IMAGE_HASH:")) {
+                startIndex = 4; // No image hash
+            }
+            
+            // Parse zones
+            for (int i = startIndex; i < parts.length; i += 6) {
                 if (i + 5 < parts.length && "ZONE".equals(parts[i])) {
                     ZoneDrawingView.Zone zone = new ZoneDrawingView.Zone();
                     
@@ -34,7 +53,7 @@ public class ZoneConfigParser {
                         zone.type = null;
                     }
                     
-                    // Parse zone points
+                    // Parse zone points (convert from relative to absolute)
                     String pointsStr = parts[i + 3];
                     if (!pointsStr.isEmpty()) {
                         String[] pointPairs = pointsStr.split(";");
@@ -42,9 +61,14 @@ public class ZoneConfigParser {
                             if (!pointPair.trim().isEmpty()) {
                                 String[] coords = pointPair.split(",");
                                 if (coords.length == 2) {
-                                    float x = Float.parseFloat(coords[0]);
-                                    float y = Float.parseFloat(coords[1]);
-                                    zone.points.add(new PointF(x, y));
+                                    float relativeX = Float.parseFloat(coords[0]);
+                                    float relativeY = Float.parseFloat(coords[1]);
+                                    
+                                    // Convert relative coordinates to absolute
+                                    float absoluteX = fieldLeft + (relativeX * fieldWidth);
+                                    float absoluteY = fieldTop + (relativeY * fieldHeight);
+                                    
+                                    zone.points.add(new PointF(absoluteX, absoluteY));
                                 }
                             }
                         }

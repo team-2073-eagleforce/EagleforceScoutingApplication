@@ -140,18 +140,16 @@ public class ZoneDrawingView extends View {
         
         // Apply pan only
         canvas.translate(panX, panY);
-        float effectiveScale = autoScale ? 
-            Math.min(getWidth() / imageWidth, getHeight() / imageHeight) : 1.0f;
         
         if (fieldRotation != 0) {
             canvas.rotate(fieldRotation, imageWidth / 2, imageHeight / 2);
         }
         
-        // Draw field boundary - only scale with zoom when not in boundary edit mode
+        // Draw field boundary
         Paint boundaryPaint = new Paint();
         boundaryPaint.setColor(isEditEnabled ? 0x88FF0000 : 0x44000000);
         boundaryPaint.setStyle(Paint.Style.STROKE);
-        boundaryPaint.setStrokeWidth((isEditEnabled ? 3f : 1f) / effectiveScale);
+        boundaryPaint.setStrokeWidth(isEditEnabled ? 3f : 1f);
         canvas.drawRect(fieldLeft, fieldTop, fieldRight, fieldBottom, boundaryPaint);
         
         // Draw boundary handles only in boundary edit mode
@@ -558,6 +556,10 @@ public class ZoneDrawingView extends View {
         invalidate();
     }
     
+    public float[] getFieldBoundaries() {
+        return new float[]{fieldLeft, fieldTop, fieldRight, fieldBottom};
+    }
+    
     public void setImageDimensions(float width, float height) {
         this.imageWidth = width;
         this.imageHeight = height;
@@ -590,6 +592,10 @@ public class ZoneDrawingView extends View {
     }
     
     public String exportConfiguration() {
+        return exportConfiguration("");
+    }
+    
+    public String exportConfiguration(String imageHash) {
         StringBuilder config = new StringBuilder();
         config.append("FIELD_CONFIG|");
         config.append(fieldLeft).append(",").append(fieldTop).append(",");
@@ -597,14 +603,27 @@ public class ZoneDrawingView extends View {
         config.append(fieldRotation).append("|");
         config.append(imageWidth).append(",").append(imageHeight).append("|");
         
+        // Add image hash if provided
+        if (!imageHash.isEmpty()) {
+            config.append("IMAGE_HASH:").append(imageHash).append("|");
+        } else {
+            config.append("|"); // Empty hash slot
+        }
+        
+        // Calculate field dimensions for relative coordinates
+        float fieldWidth = fieldRight - fieldLeft;
+        float fieldHeight = fieldBottom - fieldTop;
+        
         for (Zone zone : zones) {
             config.append("ZONE|");
             config.append(zone.name != null ? zone.name : "Unnamed").append("|");
             config.append(zone.type != null ? zone.type : "Normal").append("|");
             
-            // Zone points
+            // Zone points as relative coordinates (0.0 to 1.0)
             for (PointF point : zone.points) {
-                config.append(point.x).append(",").append(point.y).append(";");
+                float relativeX = (point.x - fieldLeft) / fieldWidth;
+                float relativeY = (point.y - fieldTop) / fieldHeight;
+                config.append(relativeX).append(",").append(relativeY).append(";");
             }
             config.append("|");
             

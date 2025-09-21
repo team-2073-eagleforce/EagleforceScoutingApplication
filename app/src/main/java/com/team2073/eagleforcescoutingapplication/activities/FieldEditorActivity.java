@@ -20,6 +20,7 @@ import com.team2073.eagleforcescoutingapplication.util.ZoneConfigParser;
 
 import java.util.List;
 import java.util.ArrayList;
+import android.graphics.PointF;
 
 public class FieldEditorActivity extends BaseActivity {
     
@@ -34,6 +35,8 @@ public class FieldEditorActivity extends BaseActivity {
     private TextView orientationInfo;
     private float currentRotation = 0f;
     private Button undoBtn, redoBtn;
+    private List<List<PointF>> originalZonePoints = new ArrayList<>();
+    private float currentScaleFactor = 1.0f;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,20 +78,14 @@ public class FieldEditorActivity extends BaseActivity {
         }
         
         if (zoneDrawingView != null) {
-            // Auto-detect image dimensions and set boundaries
+            // Auto-detect image boundaries after layout is complete
             if (fieldBackground != null) {
-                fieldBackground.post(() -> {
-                    if (fieldBackground.getDrawable() == null) return;
-                    float imgWidth = fieldBackground.getDrawable().getIntrinsicWidth();
-                    float imgHeight = fieldBackground.getDrawable().getIntrinsicHeight();
-                    zoneDrawingView.setImageDimensions(imgWidth, imgHeight);
-                    
-                    // Set default boundaries to 90% of image
-                    float margin = 0.05f;
-                    zoneDrawingView.setFieldBoundaries(
-                        imgWidth * margin, imgHeight * margin,
-                        imgWidth * (1 - margin), imgHeight * (1 - margin)
-                    );
+                fieldBackground.getViewTreeObserver().addOnGlobalLayoutListener(new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        fieldBackground.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        autoDetectFieldBoundaries();
+                    }
                 });
             }
             
@@ -152,6 +149,13 @@ public class FieldEditorActivity extends BaseActivity {
         if (setBoundaryBtn != null) setBoundaryBtn.setOnClickListener(v -> showBoundaryDialog());
         if (boundaryModeBtn != null) boundaryModeBtn.setOnClickListener(v -> toggleBoundaryMode());
         if (helpBtn != null) helpBtn.setOnClickListener(v -> showHelpDialog());
+        
+        // Add debug button for testing boundary calculation
+        Button debugBtn = findViewById(R.id.btn_debug_boundaries);
+        if (debugBtn != null) debugBtn.setOnClickListener(v -> {
+            recalculateBoundaries();
+            android.widget.Toast.makeText(this, "Boundaries recalculated", android.widget.Toast.LENGTH_SHORT).show();
+        });
         
         updateEditModeUI();
         updateOrientationDisplay();
@@ -634,7 +638,8 @@ public class FieldEditorActivity extends BaseActivity {
     
     private void saveConfiguration() {
         if (zoneDrawingView != null) {
-            String config = zoneDrawingView.exportConfiguration();
+            String imageHash = generateImageHash();
+            String config = zoneDrawingView.exportConfiguration(imageHash);
             getSharedPreferences("field_editor", MODE_PRIVATE)
                 .edit()
                 .putString("auto_save_config", config)
@@ -644,38 +649,59 @@ public class FieldEditorActivity extends BaseActivity {
     }
     
     private void loadConfiguration() {
-        String config = getSharedPreferences("field_editor", MODE_PRIVATE)
-            .getString("auto_save_config", "");
-        if (!config.isEmpty()) {
-            parseAndApplyConfig(config);
+        // Try to load the first saved configuration
+        android.content.SharedPreferences prefs = getSharedPreferences("field_configs", MODE_PRIVATE);
+        java.util.Map<String, ?> allConfigs = prefs.getAll();
+        
+        String firstConfig = null;
+        for (String key : allConfigs.keySet()) {
+            if (!key.endsWith("_timestamp")) {
+                firstConfig = prefs.getString(key, "");
+                break;
+            }
+        }
+        
+        if (firstConfig != null && !firstConfig.isEmpty()) {
+            parseAndApplyConfig(firstConfig);
             drawExistingZones();
+        } else {
+            // Fallback to old auto-save config
+            String config = getSharedPreferences("field_editor", MODE_PRIVATE)
+                .getString("auto_save_config", "");
+            if (!config.isEmpty()) {
+                parseAndApplyConfig(config);
+                drawExistingZones();
+            }
         }
     }
     
     private void saveCompleteConfig() {
-        saveConfiguration();
-        new AlertDialog.Builder(this)
-            .setTitle("Configuration Saved")
-            .setMessage("Field configuration saved successfully with " + 
-                (zoneDrawingView != null ? zoneDrawingView.getZones().size() : 0) + " zones.")
-            .setPositiveButton("OK", null)
-            .show();
+        showSaveConfigDialog();
     }
     
     private void loadCompleteConfig() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Load Configuration");
         
-        String[] options = {"Load from Tablet", "Import from QR Code", "Cancel"};
+        String[] options = {"Load Saved Config", "Import from QR Code", "New Field", "Scale Field", "Clear All", "Cancel"};
         builder.setItems(options, (dialog, which) -> {
             switch (which) {
-                case 0: // Load from Tablet
-                    loadFromTablet();
+                case 0: // Load Saved Config
+                    showSavedConfigsDialog();
                     break;
                 case 1: // Import from QR Code
                     importConfigFromQR();
                     break;
-                case 2: // Cancel
+                case 2: // New Field
+                    createNewField();
+                    break;
+                case 3: // Scale Field
+                    showScaleDialog();
+                    break;
+                case 4: // Clear All
+                    clearAllFields();
+                    break;
+                case 5: // Cancel
                     break;
             }
         });
@@ -683,15 +709,7 @@ public class FieldEditorActivity extends BaseActivity {
         builder.show();
     }
     
-    private void loadFromTablet() {
-        loadConfiguration();
-        int zoneCount = zoneDrawingView != null ? zoneDrawingView.getZones().size() : 0;
-        new AlertDialog.Builder(this)
-            .setTitle("Configuration Loaded")
-            .setMessage("Loaded saved field configuration with " + zoneCount + " zones.")
-            .setPositiveButton("OK", null)
-            .show();
-    }
+
     
     private void checkForConfigurationUpdates() {
         // Check if configuration was updated from settings
@@ -727,7 +745,8 @@ public class FieldEditorActivity extends BaseActivity {
     
     private void exportConfigToQR() {
         if (zoneDrawingView != null) {
-            String config = zoneDrawingView.exportConfiguration();
+            String imageHash = generateImageHash();
+            String config = zoneDrawingView.exportConfiguration(imageHash);
             
             try {
                 // Generate QR code using same method as scouting form
@@ -801,28 +820,106 @@ public class FieldEditorActivity extends BaseActivity {
         }
     }
     
+    private void autoDetectFieldBoundaries() {
+        if (fieldBackground == null || fieldBackground.getDrawable() == null) return;
+        
+        // Get ImageView dimensions
+        int viewWidth = fieldBackground.getWidth();
+        int viewHeight = fieldBackground.getHeight();
+        
+        if (viewWidth == 0 || viewHeight == 0) return;
+        
+        // Get drawable dimensions
+        float drawableWidth = fieldBackground.getDrawable().getIntrinsicWidth();
+        float drawableHeight = fieldBackground.getDrawable().getIntrinsicHeight();
+        
+        if (drawableWidth == 0 || drawableHeight == 0) return;
+        
+        // Calculate the actual displayed image bounds (centerInside scaling)
+        float scaleX = viewWidth / drawableWidth;
+        float scaleY = viewHeight / drawableHeight;
+        float scale = Math.min(scaleX, scaleY); // centerInside uses the smaller scale
+        
+        float scaledWidth = drawableWidth * scale;
+        float scaledHeight = drawableHeight * scale;
+        
+        // Calculate the actual image position (centered in ImageView)
+        float imageLeft = (viewWidth - scaledWidth) / 2f;
+        float imageTop = (viewHeight - scaledHeight) / 2f;
+        float imageRight = imageLeft + scaledWidth;
+        float imageBottom = imageTop + scaledHeight;
+        
+        // Use the full image area as boundaries (no margin)
+        
+        if (zoneDrawingView != null) {
+            zoneDrawingView.setImageDimensions(scaledWidth, scaledHeight);
+            zoneDrawingView.setFieldBoundaries(imageLeft, imageTop, imageRight, imageBottom);
+            
+            // Debug logging
+            android.util.Log.d("FieldEditor", String.format("Image boundaries calculated - View: %dx%d, Drawable: %.0fx%.0f, Scale: %.3f, Actual bounds: (%.1f,%.1f) to (%.1f,%.1f)", 
+                viewWidth, viewHeight, drawableWidth, drawableHeight, scale, imageLeft, imageTop, imageRight, imageBottom));
+        }
+    }
+    
+    private String generateImageHash() {
+        if (fieldBackground == null || fieldBackground.getDrawable() == null) return "";
+        
+        try {
+            android.graphics.drawable.Drawable drawable = fieldBackground.getDrawable();
+            android.graphics.Bitmap bitmap = android.graphics.Bitmap.createBitmap(
+                drawable.getIntrinsicWidth(), 
+                drawable.getIntrinsicHeight(), 
+                android.graphics.Bitmap.Config.ARGB_8888
+            );
+            android.graphics.Canvas canvas = new android.graphics.Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+            
+            // Convert to PNG for consistent hashing
+            java.io.ByteArrayOutputStream stream = new java.io.ByteArrayOutputStream();
+            bitmap.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, stream);
+            
+            // Generate MD5 hash
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] hashBytes = md.digest(stream.toByteArray());
+            
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashBytes) {
+                sb.append(String.format("%02x", b));
+            }
+            
+            return sb.toString();
+        } catch (Exception e) {
+            android.util.Log.e("FieldEditor", "Error generating image hash: " + e.getMessage());
+            return "";
+        }
+    }
+    
     private void parseAndApplyConfig(String config) {
         try {
             if (config.isEmpty() || !config.startsWith("FIELD_CONFIG|")) {
-                return; // Silently ignore empty or invalid config
+                return;
             }
             
             String[] parts = config.split("\\|");
             if (parts.length < 4) {
-                return; // Silently ignore incomplete config
+                return;
             }
             
-            // Parse field boundaries
-            String[] boundaries = parts[1].split(",");
-            if (boundaries.length == 4) {
-                float left = Float.parseFloat(boundaries[0]);
-                float top = Float.parseFloat(boundaries[1]);
-                float right = Float.parseFloat(boundaries[2]);
-                float bottom = Float.parseFloat(boundaries[3]);
-                if (zoneDrawingView != null) {
-                    zoneDrawingView.setFieldBoundaries(left, top, right, bottom);
+            // Check for image hash validation
+            String importedImageHash = "";
+            if (parts.length > 4 && parts[4].startsWith("IMAGE_HASH:")) {
+                importedImageHash = parts[4].substring(11); // Remove "IMAGE_HASH:" prefix
+                String currentImageHash = generateImageHash();
+                
+                if (!importedImageHash.equals(currentImageHash) && !importedImageHash.isEmpty()) {
+                    showImageMismatchDialog(config, importedImageHash);
+                    return;
                 }
             }
+            
+            // Auto-detect current boundaries instead of using imported ones
+            recalculateBoundaries();
             
             // Parse rotation
             currentRotation = Float.parseFloat(parts[2]);
@@ -830,26 +927,290 @@ public class FieldEditorActivity extends BaseActivity {
                 zoneDrawingView.setFieldRotation(currentRotation);
             }
             
-            // Parse image dimensions
-            String[] dimensions = parts[3].split(",");
-            if (dimensions.length == 2) {
-                float width = Float.parseFloat(dimensions[0]);
-                float height = Float.parseFloat(dimensions[1]);
-                if (zoneDrawingView != null) {
-                    zoneDrawingView.setImageDimensions(width, height);
-                }
-            }
-            
-            // Parse and restore zones
+            // Parse and restore zones with relative positioning
             if (zoneDrawingView != null) {
-                ZoneConfigParser.parseAndRestoreZones(zoneDrawingView, config);
+                ZoneConfigParser.parseAndRestoreZonesRelative(zoneDrawingView, config);
+                // Reset scaling tracking after loading new config
+                originalZonePoints.clear();
+                currentScaleFactor = getScaleForCurrentField();
+                if (currentScaleFactor != 1.0f) {
+                    // Apply saved scale
+                    saveOriginalZonePositions();
+                    scaleAllZones(currentScaleFactor);
+                }
             }
             
             updateOrientationDisplay();
             
         } catch (Exception e) {
-            // Silently handle parsing errors to avoid disrupting user experience
             android.util.Log.e("FieldEditor", "Error parsing config: " + e.getMessage());
         }
+    }
+    
+    private void showImageMismatchDialog(String config, String importedImageHash) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Different Field Image Detected")
+               .setMessage("This configuration was created for a different field image. Import anyway?")
+               .setPositiveButton("Import Anyway", (dialog, which) -> {
+                   // Force import with scaling
+                   forceImportConfig(config);
+               })
+               .setNegativeButton("Cancel", null)
+               .show();
+    }
+    
+    private void forceImportConfig(String config) {
+        try {
+            // Recalculate boundaries to ensure they match current image display
+            recalculateBoundaries();
+            
+            String[] parts = config.split("\\|");
+            if (parts.length >= 3) {
+                currentRotation = Float.parseFloat(parts[2]);
+                if (zoneDrawingView != null) {
+                    zoneDrawingView.setFieldRotation(currentRotation);
+                }
+            }
+            
+            if (zoneDrawingView != null) {
+                ZoneConfigParser.parseAndRestoreZonesRelative(zoneDrawingView, config);
+            }
+            
+            updateOrientationDisplay();
+            drawExistingZones();
+            
+            android.widget.Toast.makeText(this, "Configuration imported with scaling", android.widget.Toast.LENGTH_LONG).show();
+            
+        } catch (Exception e) {
+            android.widget.Toast.makeText(this, "Error importing configuration", android.widget.Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    private void recalculateBoundaries() {
+        if (fieldBackground != null && fieldBackground.getWidth() > 0 && fieldBackground.getHeight() > 0) {
+            autoDetectFieldBoundaries();
+        } else {
+            // If layout isn't ready, wait for it
+            if (fieldBackground != null) {
+                fieldBackground.post(() -> autoDetectFieldBoundaries());
+            }
+        }
+    }
+    
+    private void showSaveConfigDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Save Field Configuration");
+        
+        EditText nameEdit = new EditText(this);
+        nameEdit.setHint("Enter configuration name");
+        nameEdit.setText("Field_" + System.currentTimeMillis());
+        builder.setView(nameEdit);
+        
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            String configName = nameEdit.getText().toString().trim();
+            if (!configName.isEmpty()) {
+                saveConfigWithName(configName);
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+    
+    private void saveConfigWithName(String configName) {
+        if (zoneDrawingView != null) {
+            String imageHash = generateImageHash();
+            String config = zoneDrawingView.exportConfiguration(imageHash);
+            getSharedPreferences("field_configs", MODE_PRIVATE)
+                .edit()
+                .putString(configName, config)
+                .putLong(configName + "_timestamp", System.currentTimeMillis())
+                .apply();
+                
+            android.widget.Toast.makeText(this, "Configuration '" + configName + "' saved!", android.widget.Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    private void showSavedConfigsDialog() {
+        android.content.SharedPreferences prefs = getSharedPreferences("field_configs", MODE_PRIVATE);
+        java.util.Map<String, ?> allConfigs = prefs.getAll();
+        
+        java.util.List<String> configNames = new java.util.ArrayList<>();
+        for (String key : allConfigs.keySet()) {
+            if (!key.endsWith("_timestamp")) {
+                configNames.add(key);
+            }
+        }
+        
+        if (configNames.isEmpty()) {
+            android.widget.Toast.makeText(this, "No saved configurations found", android.widget.Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
+        String[] configArray = configNames.toArray(new String[0]);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Configuration to Load");
+        builder.setItems(configArray, (dialog, which) -> {
+            String selectedConfig = configArray[which];
+            loadConfigByName(selectedConfig);
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+    
+    private void loadConfigByName(String configName) {
+        String config = getSharedPreferences("field_configs", MODE_PRIVATE)
+            .getString(configName, "");
+        if (!config.isEmpty()) {
+            parseAndApplyConfig(config);
+            drawExistingZones();
+            android.widget.Toast.makeText(this, "Configuration '" + configName + "' loaded!", android.widget.Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    private void createNewField() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Create New Field")
+               .setMessage("This will clear the current field. Continue?")
+               .setPositiveButton("Yes", (dialog, which) -> {
+                   if (zoneDrawingView != null) {
+                       zoneDrawingView.clearZones();
+                       drawExistingZones();
+                   }
+                   android.widget.Toast.makeText(this, "New field created", android.widget.Toast.LENGTH_SHORT).show();
+               })
+               .setNegativeButton("Cancel", null)
+               .show();
+    }
+    
+    private void clearAllFields() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Clear All Configurations")
+               .setMessage("This will delete ALL saved field configurations. This cannot be undone!")
+               .setPositiveButton("Delete All", (dialog, which) -> {
+                   getSharedPreferences("field_configs", MODE_PRIVATE)
+                       .edit()
+                       .clear()
+                       .apply();
+                   if (zoneDrawingView != null) {
+                       zoneDrawingView.clearZones();
+                       drawExistingZones();
+                   }
+                   android.widget.Toast.makeText(this, "All configurations cleared", android.widget.Toast.LENGTH_SHORT).show();
+               })
+               .setNegativeButton("Cancel", null)
+               .show();
+    }
+    
+    private void showScaleDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Scale Field Configuration");
+        
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(50, 20, 50, 20);
+        
+        TextView label = new TextView(this);
+        label.setText("Scale Factor (0.1 - 2.0):");
+        layout.addView(label);
+        
+        EditText scaleEdit = new EditText(this);
+        scaleEdit.setText(String.format("%.2f", currentScaleFactor));
+        scaleEdit.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        layout.addView(scaleEdit);
+        
+        TextView currentScaleText = new TextView(this);
+        currentScaleText.setText("Current Scale: " + String.format("%.2f", currentScaleFactor));
+        currentScaleText.setTextSize(14f);
+        currentScaleText.setTypeface(null, android.graphics.Typeface.BOLD);
+        layout.addView(currentScaleText);
+        
+        TextView helpText = new TextView(this);
+        helpText.setText("\n< 1.0 = Scale Down\n> 1.0 = Scale Up\n1.0 = No Change\n\nScales from original positions");
+        helpText.setTextSize(12f);
+        layout.addView(helpText);
+        
+        builder.setView(layout);
+        builder.setPositiveButton("Scale", (dialog, which) -> {
+            try {
+                float scale = Float.parseFloat(scaleEdit.getText().toString());
+                if (scale > 0.1f && scale <= 2.0f) {
+                    scaleAllZones(scale);
+                } else {
+                    android.widget.Toast.makeText(this, "Scale must be between 0.1 and 2.0", android.widget.Toast.LENGTH_SHORT).show();
+                }
+            } catch (NumberFormatException e) {
+                android.widget.Toast.makeText(this, "Invalid scale value", android.widget.Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNeutralButton("Reset (1.0)", (dialog, which) -> {
+            scaleAllZones(1.0f);
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+    
+    private void scaleAllZones(float scaleFactor) {
+        if (zoneDrawingView == null) return;
+        
+        // Save original positions if not already saved
+        if (originalZonePoints.isEmpty()) {
+            saveOriginalZonePositions();
+        }
+        
+        float[] boundaries = zoneDrawingView.getFieldBoundaries();
+        float centerX = (boundaries[0] + boundaries[2]) / 2f;
+        float centerY = (boundaries[1] + boundaries[3]) / 2f;
+        
+        List<ZoneDrawingView.Zone> zones = zoneDrawingView.getZonesReference();
+        for (int i = 0; i < zones.size() && i < originalZonePoints.size(); i++) {
+            ZoneDrawingView.Zone zone = zones.get(i);
+            List<PointF> originalPoints = originalZonePoints.get(i);
+            
+            for (int j = 0; j < zone.points.size() && j < originalPoints.size(); j++) {
+                PointF originalPoint = originalPoints.get(j);
+                PointF currentPoint = zone.points.get(j);
+                
+                // Scale from original position, not current
+                float deltaX = (originalPoint.x - centerX) * scaleFactor;
+                float deltaY = (originalPoint.y - centerY) * scaleFactor;
+                currentPoint.x = centerX + deltaX;
+                currentPoint.y = centerY + deltaY;
+            }
+        }
+        
+        currentScaleFactor = scaleFactor;
+        saveScaleForCurrentField(scaleFactor);
+        
+        zoneDrawingView.invalidate();
+        drawExistingZones();
+        android.widget.Toast.makeText(this, "Zones scaled to " + String.format("%.2f", scaleFactor) + "x", android.widget.Toast.LENGTH_SHORT).show();
+    }
+    
+    private void saveOriginalZonePositions() {
+        originalZonePoints.clear();
+        for (ZoneDrawingView.Zone zone : zoneDrawingView.getZonesReference()) {
+            List<PointF> originalPoints = new ArrayList<>();
+            for (PointF point : zone.points) {
+                originalPoints.add(new PointF(point.x, point.y));
+            }
+            originalZonePoints.add(originalPoints);
+        }
+    }
+    
+    private String getCurrentFieldKey() {
+        String fieldSide = getIntent().getStringExtra("field_side");
+        return "scale_" + ("0".equals(fieldSide) ? "blue" : "red");
+    }
+    
+    private void saveScaleForCurrentField(float scale) {
+        getSharedPreferences("field_scales", MODE_PRIVATE)
+            .edit()
+            .putFloat(getCurrentFieldKey(), scale)
+            .apply();
+    }
+    
+    private float getScaleForCurrentField() {
+        return getSharedPreferences("field_scales", MODE_PRIVATE)
+            .getFloat(getCurrentFieldKey(), 1.0f);
     }
 }
