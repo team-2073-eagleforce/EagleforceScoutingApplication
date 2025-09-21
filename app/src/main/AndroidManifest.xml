@@ -57,6 +57,11 @@
         <activity
             android:name=".activities.QrGeneratorActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.FieldEditorActivity"
+            android:exported="false"
+            android:label="Field Editor"
+            android:theme="@style/AppTheme" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -62,92 +62,120 @@
                 android:textSize="50sp" />
         </RadioGroup>
 
-        <LinearLayout
-            android:id="@+id/auto_algae"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+        <Button
+            android:id="@+id/auto_leave"
+            android:layout_height="50dp"
+            android:layout_width="120dp"
+            android:text="NONE"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:backgroundTint="@color/unselected"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp">
-            <include
-                android:id="@+id/auto_net"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                layout="@layout/add_subtract_values_net"
-                android:layout_marginBottom="10dp">
-            </include>
-            <include
-                android:id="@+id/auto_removed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                layout="@layout/add_subtract_values_removed"
-                android:layout_marginBottom="10dp">
-            </include>
-            <include
-                android:id="@+id/auto_processor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                layout="@layout/add_subtract_values_processor"
-                android:layout_marginBottom="10dp">
-            </include>
-            <Button
-                android:id="@+id/auto_leave"
-                android:layout_height="50dp"
-                android:layout_width="match_parent"
-                android:text="NONE"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:backgroundTint="@color/unselected">
-            </Button>
-        </LinearLayout>
+            android:layout_marginEnd="20dp">
+        </Button>
+
+        <TextView
+            android:id="@+id/path_info"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_below="@id/auto_leave"
+            android:layout_marginTop="10dp"
+            android:text="Draw path on field"/>
 
         <RelativeLayout
-            android:id="@+id/source"
-            android:layout_width="wrap_content"
-            android:layout_height="325dp"
-            android:orientation="vertical"
-            android:layout_toEndOf="@id/auto_algae"
-            android:layout_marginStart="15dp">
+            android:id="@+id/field_container"
+            android:layout_width="500dp"
+            android:layout_height="350dp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/auto_leave">
+
+            <ImageView
+                android:id="@+id/field_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/field_red_side"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true" />
+
+            <com.team2073.eagleforcescoutingapplication.util.PathDrawingView
+                android:id="@+id/drawing_canvas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@id/field_background"
+                android:layout_alignBottom="@id/field_background" />
+
             <include
-                android:id="@+id/source_a"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                layout="@layout/add_subtract_values_source"
-                android:layout_marginBottom="15dp">
-            </include>
-            <TextView
-                android:id="@+id/list"
-                android:textSize="15sp"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/source_a"/>
-            <include
-                android:id="@+id/source_b"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                layout="@layout/add_subtract_values_source"
-                android:layout_alignParentBottom="true">
-            </include>
+                android:id="@+id/auto_field"
+                layout="@layout/field_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible" />
 
         </RelativeLayout>
 
-        <include
-            android:id="@+id/groundPickup"
+        <!-- Action Bar for waypoint actions -->
+        <LinearLayout
+            android:id="@+id/action_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            layout="@layout/ground_layout"
-            android:layout_marginStart="15dp"
-            android:layout_toEndOf="@id/source"/>
-
-        <include
-            android:id="@+id/auto_field"
-            layout="@layout/field_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_toEndOf="@id/groundPickup" />
-
+            android:orientation="horizontal"
+            android:background="#E0E0E0"
+            android:padding="8dp"
+            android:visibility="gone"
+            android:layout_below="@id/field_container"
+            android:layout_marginTop="10dp">
+            
+            <Button
+                android:id="@+id/action_pickup_coral"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Pickup Coral"
+                android:textSize="12sp"
+                android:layout_marginEnd="5dp" />
+            
+            <Button
+                android:id="@+id/action_pickup_algae"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Pickup Algae"
+                android:textSize="12sp"
+                android:layout_marginEnd="5dp" />
+            
+            <Button
+                android:id="@+id/action_score_coral"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Score Coral"
+                android:textSize="12sp"
+                android:layout_marginEnd="5dp" />
+            
+            <Button
+                android:id="@+id/action_score_algae"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Score Algae"
+                android:textSize="12sp"
+                android:layout_marginEnd="5dp" />
+            
+            <Button
+                android:id="@+id/action_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Remove"
+                android:textSize="12sp"
+                android:layout_marginEnd="5dp" />
+            
+            <Button
+                android:id="@+id/action_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Cancel"
+                android:textSize="12sp"
+                android:backgroundTint="#FF5722" />
+            
+        </LinearLayout>
 
     </RelativeLayout>
 

@@ -16,6 +16,7 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity;
 import com.team2073.eagleforcescoutingapplication.activities.SettingsActivity;
 import com.team2073.eagleforcescoutingapplication.activities.ViewScheduleActivity;
+import com.team2073.eagleforcescoutingapplication.activities.FieldEditorActivity;
 
 public class DrawerManager {
 
@@ -52,6 +53,7 @@ public class DrawerManager {
 
         PrimaryDrawerItem scoutingForm = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.drawerScoutingFormText);
         PrimaryDrawerItem schedule = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.drawerScheduleText);
+        PrimaryDrawerItem fieldEditor = new PrimaryDrawerItem().withIdentifier(3).withName("Field Editor");
         PrimaryDrawerItem settings = new PrimaryDrawerItem().withIdentifier(4).withName(R.string.drawerSettingsText);
 
         drawer = new DrawerBuilder()
@@ -64,12 +66,17 @@ public class DrawerManager {
                 .withSelectedItem(-1)
                 .addDrawerItems(scoutingForm, new DividerDrawerItem(),
                         schedule, new DividerDrawerItem(),
+                        fieldEditor, new DividerDrawerItem(),
                         settings, new DividerDrawerItem())
                 .withOnDrawerItemClickListener((view, position, drawerItem) -> {
                     if (scoutingForm.equals(drawerItem)) {
                         activity.startActivity(new Intent(activity, ScoutingFormActivity.class));
                     } else if (schedule.equals(drawerItem)) {
                         activity.startActivity(new Intent(activity, ViewScheduleActivity.class));
+                    } else if (fieldEditor.equals(drawerItem)) {
+                        Intent intent = new Intent(activity, FieldEditorActivity.class);
+                        intent.putExtra("field_side", "1"); // Default to red side
+                        activity.startActivity(intent);
                     } else if (settings.equals(drawerItem)){
                         activity.startActivity(new Intent(activity, SettingsActivity.class));
                     }

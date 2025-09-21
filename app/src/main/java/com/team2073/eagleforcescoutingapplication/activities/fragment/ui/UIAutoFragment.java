@@ -28,27 +28,34 @@ import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesP
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesSourceBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentAutoBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
+import com.team2073.eagleforcescoutingapplication.util.PathDrawingView;
 
 import java.util.ArrayList;
 import timber.log.Timber;
 import java.util.HashMap;
+import android.graphics.PointF;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import com.team2073.eagleforcescoutingapplication.util.FieldConfig;
+import android.content.Intent;
 
 public class UIAutoFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "Auto";
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentAutoBinding fragmentAutoBinding;
-    private AddSubtractValuesSourceBinding sourceA;
-    private AddSubtractValuesSourceBinding sourceB;
     private ArrayList<String> autoPath = new ArrayList<String>();
-    private AddSubtractValuesNetBinding autoNet;
-    private AddSubtractValuesRemovedBinding autoRemoved;
-    private AddSubtractValuesProcessorBinding autoProcessor;
-    private HashMap<Button, String> otherLoc;
+
     private HashMap<ImageButton, String> reefLoc;
     private String level;
     private HashMap<String, HashMap<ImageButton, ColorStateList>> levelButtons  = new HashMap<>();
     private final ColorStateList cyan = getColorStateList("#009688"); private final ColorStateList brown = getColorStateList("#a77b7b"); private final ColorStateList black = getColorStateList("#000000"); private final ColorStateList green = getColorStateList("#4BB543"); private final ColorStateList red = getColorStateList("#cf0404");
+    private PathDrawingView pathDrawingView;
+    private ImageView fieldBackground;
+    private LinearLayout actionBar;
+    private float pendingActionX, pendingActionY;
+    private String pendingSnapTarget;
+    private FieldConfig fieldConfig;
 
     public static UIAutoFragment newInstance(int index) {
         UIAutoFragment fragment = new UIAutoFragment();
@@ -72,12 +79,15 @@ public class UIAutoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentAutoBinding = UiFragmentAutoBinding.inflate(inflater, container, false);
-        sourceA = fragmentAutoBinding.sourceA;
-        sourceB = fragmentAutoBinding.sourceB;
-        autoNet = fragmentAutoBinding.autoNet;
-        autoRemoved = fragmentAutoBinding.autoRemoved;
-        autoProcessor = fragmentAutoBinding.autoProcessor;
+        // Removed old UI element bindings
         level = "4";
+        
+        // Setup field background and drawing canvas
+        fieldBackground = fragmentAutoBinding.fieldBackground;
+        pathDrawingView = (PathDrawingView) fragmentAutoBinding.drawingCanvas;
+        actionBar = fragmentAutoBinding.actionBar;
+        fieldConfig = new FieldConfig(getContext());
+        
         return fragmentAutoBinding.getRoot();
     }
 
@@ -88,29 +98,11 @@ public class UIAutoFragment extends Fragment {
         initFieldViews();
         initClickListeners();
         selectLevel();
+        setupPathDrawing();
     }
 
     public void flipLayout() {
-        RelativeLayout.LayoutParams sourceParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.source.getLayoutParams();
-        RelativeLayout.LayoutParams aAddParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.sourceA.formAdd.getLayoutParams();
-        RelativeLayout.LayoutParams aScoreParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.sourceA.formScore.getLayoutParams();
-        RelativeLayout.LayoutParams aSubtractParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.sourceA.formSubtract.getLayoutParams();
-        RelativeLayout.LayoutParams bAddParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.sourceB.formAdd.getLayoutParams();
-        RelativeLayout.LayoutParams bScoreParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.sourceB.formScore.getLayoutParams();
-        RelativeLayout.LayoutParams bSubtractParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.sourceB.formSubtract.getLayoutParams();
-        RelativeLayout.LayoutParams groundParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.groundPickup.getRoot().getLayoutParams();
-        RelativeLayout.LayoutParams fieldParams = (RelativeLayout.LayoutParams) fragmentAutoBinding.autoField.getRoot().getLayoutParams();
-        RelativeLayout.LayoutParams[] layoutParams = {sourceParams, aAddParams, aScoreParams, aSubtractParams, bAddParams,bScoreParams,bSubtractParams};
-        for (RelativeLayout.LayoutParams params : layoutParams) {
-            params.removeRule(RelativeLayout.END_OF);
-        }
-        aScoreParams.addRule(RelativeLayout.END_OF, R.id.formSubtract);
-        aAddParams.addRule(RelativeLayout.END_OF, R.id.formScore);
-        bScoreParams.addRule(RelativeLayout.END_OF, R.id.formSubtract);
-        bAddParams.addRule(RelativeLayout.END_OF, R.id.formScore);
-        fieldParams.addRule(RelativeLayout.END_OF, R.id.auto_algae);
-        groundParams.addRule(RelativeLayout.END_OF, R.id.auto_field);
-        sourceParams.addRule(RelativeLayout.END_OF, R.id.groundPickup);
+        // Layout flipping no longer needed with simplified UI
     }
 
     @Override
@@ -120,23 +112,13 @@ public class UIAutoFragment extends Fragment {
     }
 
     private void initTextFields() {
-        ImageButton[] views = {autoNet.formAdd, autoNet.formSubtract, autoProcessor.formAdd, autoProcessor.formSubtract, autoRemoved.formAdd, autoRemoved.formSubtract};
-        for (ImageButton view : views) {
-            view.getLayoutParams().width = 100;
-            view.getLayoutParams().height = 100;
-        }
-        autoNet.formScore.setText(readData("autoNet"));
-        autoRemoved.formScore.setText(readData("autoRemoved"));
-        autoProcessor.formScore.setText(readData("autoProcessor"));
-        sourceA.formScore.setText(readData("sourceA"));
-        sourceB.formScore.setText(readData("sourceB"));
+        // Removed old counter UI elements
     }
 
     public void initFieldViews() {
         FieldLayoutBinding field = fragmentAutoBinding.autoField;
         try {
             reefLoc = new HashMap<ImageButton, String>();
-            otherLoc = new HashMap<Button, String>();
             if (readData("field_side").equals("0")) {
                 reefLoc.put(field.a, "G");
                 reefLoc.put(field.b, "H");
@@ -150,8 +132,6 @@ public class UIAutoFragment extends Fragment {
                 reefLoc.put(field.j, "D");
                 reefLoc.put(field.k, "E");
                 reefLoc.put(field.l, "F");
-                otherLoc.put(fragmentAutoBinding.groundPickup.groundA, "groundC");
-                otherLoc.put(fragmentAutoBinding.groundPickup.groundC, "groundA");
             } else {
                 reefLoc.put(field.a, "A");
                 reefLoc.put(field.b, "B");
@@ -165,10 +145,7 @@ public class UIAutoFragment extends Fragment {
                 reefLoc.put(field.j, "J");
                 reefLoc.put(field.k, "K");
                 reefLoc.put(field.l, "L");
-                otherLoc.put(fragmentAutoBinding.groundPickup.groundA, "groundA");
-                otherLoc.put(fragmentAutoBinding.groundPickup.groundC, "groundC");
             }
-            otherLoc.put(fragmentAutoBinding.groundPickup.groundB, "groundB");
             levelButtons.put("4", new HashMap<ImageButton, ColorStateList>());
             levelButtons.put("3", new HashMap<ImageButton, ColorStateList>());
             levelButtons.put("2", new HashMap<ImageButton, ColorStateList>());
@@ -178,23 +155,15 @@ public class UIAutoFragment extends Fragment {
         }
     }
     private void initClickListeners() {
-        autoNet.formAdd.setOnClickListener(autoNetAdd -> addTransportValue(autoNet.formScore, "autoNet"));
-        autoNet.formSubtract.setOnClickListener(autoNetSubtract -> subtractTransportValue(autoNet.formScore, "autoNet"));
-        autoRemoved.formAdd.setOnClickListener(autoRemovedAdd -> addTransportValue(autoRemoved.formScore, "autoRemoved"));
-        autoRemoved.formSubtract.setOnClickListener(autoRemovedSubtract -> subtractTransportValue(autoRemoved.formScore, "autoRemoved"));
-        autoProcessor.formAdd.setOnClickListener(autoProcessorAdd -> addTransportValue(autoProcessor.formScore, "autoProcessor"));
-        autoProcessor.formSubtract.setOnClickListener(autoProcessorSubtract -> subtractTransportValue(autoProcessor.formScore, "autoProcessor"));
-        sourceA.formAdd.setOnClickListener(autoProcessorAdd -> addTransportValue(sourceA.formScore, "sourceA"));
-        sourceA.formSubtract.setOnClickListener(autoProcessorSubtract -> subtractTransportValue(sourceA.formScore, "sourceA"));
-        sourceB.formAdd.setOnClickListener(autoProcessorAdd -> addTransportValue(sourceB.formScore, "sourceB"));
-        sourceB.formSubtract.setOnClickListener(autoProcessorSubtract -> subtractTransportValue(sourceB.formScore, "sourceB"));
-        for (ImageButton b : reefLoc.keySet()) {
-            b.setOnClickListener(pos -> togglePlace(b, reefLoc.get(b)));
-        }
-        for (Button b : otherLoc.keySet()) {
-            b.setOnClickListener(button -> togglePlace(b, otherLoc.get(b)));
-        }
         fragmentAutoBinding.autoLeave.setOnClickListener(autoLeave -> toggleLeave());
+        
+        // Action bar listeners
+        fragmentAutoBinding.actionPickupCoral.setOnClickListener(v -> selectAction("pickup_coral"));
+        fragmentAutoBinding.actionPickupAlgae.setOnClickListener(v -> selectAction("pickup_algae"));
+        fragmentAutoBinding.actionScoreCoral.setOnClickListener(v -> selectAction("score_coral"));
+        fragmentAutoBinding.actionScoreAlgae.setOnClickListener(v -> selectAction("score_algae"));
+        fragmentAutoBinding.actionRemove.setOnClickListener(v -> selectAction("remove"));
+        fragmentAutoBinding.actionCancel.setOnClickListener(v -> cancelAction());
     }
 
     public void initLevel() {
@@ -237,26 +206,7 @@ public class UIAutoFragment extends Fragment {
         });
     }
 
-    private void togglePlace(Button button, String location) {
-        ColorStateList bkgColor = button.getBackgroundTintList();
-        try{
-            if (location.contains("ground")) {
-                    if (bkgColor.equals(brown)) {
-                        button.setBackgroundTintList(cyan);
-                        autoPath.remove(location);
-                        button.setText("");
-                    } else {
-                        button.setBackgroundTintList(brown);
-                        autoPath.add(location);
-                        button.setText("X");
-                    }
-            }
-            fragmentAutoBinding.list.setText(saveAutoPath());
-        } catch (Exception e) {
-            Timber.d("Error with toggle place other %s", e.toString());
-        }
-        Timber.d(autoPath.toString());
-    }
+
 
     private void togglePlace(ImageButton button, String location) {
         try {
@@ -280,70 +230,114 @@ public class UIAutoFragment extends Fragment {
                 autoPath.remove(location);
                 levelButtons.get(level).remove(button);
             }
-            fragmentAutoBinding.list.setText(saveAutoPath());
         } catch (Exception e) {
             Timber.d("Error with toggle place reef: %s", e.toString());
         }
         Timber.d(autoPath.toString());
     }
-    private String saveAutoPath(){
-        if (autoPath.size() == 0) {
-            saveData("autoPath", "");
-            return "";
-        }
-        String list = "";
-        String text = "";
-        for (int i = 0; i < autoPath.size(); i++) {
-            String item = autoPath.get(i);
-            list +=  item + ", ";
-            if (autoPath.size() <= 7 || i > autoPath.size()-7) {
-                if (i == autoPath.size() - 6) {
-                    text = "...\n";
-                }
-                text += (i + 1) + ": " + item + "\n";
-            }
-        }
-        saveData("autoPath", list.substring(0, list.length()-2));
-        return text.substring(0, text.length() - 1);
-    }
+
     private ColorStateList getColorStateList(String hexCode) { return ColorStateList.valueOf(Color.parseColor(hexCode)); }
 
-    private void addTransportValue(TextView formScore, String transportType) {
-        if (transportType.equals("autoProcessor")) {
-            autoPath.add("processor");
-            fragmentAutoBinding.list.setText(saveAutoPath());
-        }
-        if (transportType.equals("sourceA") || transportType.equals("sourceB")) {
-            autoPath.add(transportType);
-            fragmentAutoBinding.list.setText(saveAutoPath());
-        }
-        int value = Integer.parseInt(readData(transportType)) + 1;
-        if (value >= 100) {
-            value = 99;
-        }
-        saveData(transportType, String.valueOf(value));
-        formScore.setText(String.valueOf(value));
-        Timber.d("%s:%s", transportType, scoutingFormPresenter.readData(transportType));
-    }
+    // Removed old transport value methods
 
-    private void subtractTransportValue(TextView formScore, String transportType) {
-        if (transportType.equals("autoProcessor") &&  autoPath.contains("processor")) {
-            autoPath.remove(autoPath.lastIndexOf("processor"));
-            fragmentAutoBinding.list.setText(saveAutoPath());
+    private void setupPathDrawing() {
+        // Set correct field background
+        if (readData("field_side").equals("0")) {
+            fieldBackground.setImageResource(R.drawable.field_blue_side);
+        } else {
+            fieldBackground.setImageResource(R.drawable.field_red_side);
         }
-        if ((transportType.equals("sourceA") && autoPath.contains("sourceA")) || (transportType.equals("sourceB") &&  autoPath.contains("sourceB"))) {
-            autoPath.remove(autoPath.lastIndexOf(transportType));
-            fragmentAutoBinding.list.setText(saveAutoPath());
-        }
-        int value = Integer.parseInt(readData(transportType)) - 1;
-        if (value < 0) {
-            value = 0;
-        }
-        saveData(transportType, String.valueOf(value));
-        formScore.setText(String.valueOf(value));
-        Timber.d("%s:%s", transportType, scoutingFormPresenter.readData(transportType));
+        
+        // Setup path drawing listener
+        pathDrawingView.setPathDrawingListener(new PathDrawingView.PathDrawingListener() {
+            @Override
+            public void onWaypointCreated(float x, float y, String snapTarget) {
+                // Show dynamic action bar based on zone
+                pendingActionX = x;
+                pendingActionY = y;
+                pendingSnapTarget = snapTarget;
+                setupDynamicActionBar(snapTarget);
+                actionBar.setVisibility(View.VISIBLE);
+            }
+            
+            @Override
+            public void onActionBarRequested(float x, float y, String snapTarget) {
+                // Show dynamic action bar for existing waypoint
+                pendingActionX = x;
+                pendingActionY = y;
+                pendingSnapTarget = snapTarget;
+                setupDynamicActionBar(snapTarget);
+                actionBar.setVisibility(View.VISIBLE);
+            }
+            
+            @Override
+            public void onPathContinued() {
+                // Hide action bar when continuing path
+                actionBar.setVisibility(View.GONE);
+            }
+        });
     }
-
+    
+    private void selectAction(String actionType) {
+        // Add action point to path
+        pathDrawingView.addActionPoint(pendingActionX, pendingActionY, actionType);
+        
+        // Save to path data
+        String pathData = readData("autoDrawnPath");
+        pathData += String.format("%.1f,%.1f,%s,%s|", pendingActionX, pendingActionY, actionType, pendingSnapTarget);
+        saveData("autoDrawnPath", pathData);
+        
+        // Hide action bar
+        actionBar.setVisibility(View.GONE);
+        updatePathDisplay();
+    }
+    
+    private void cancelAction() {
+        pathDrawingView.cancelAction();
+        actionBar.setVisibility(View.GONE);
+    }
+    
+    private void updatePathDisplay() {
+        String pathData = readData("autoDrawnPath");
+        if (!pathData.isEmpty()) {
+            String[] points = pathData.split("\\|");
+            fragmentAutoBinding.pathInfo.setText("Actions: " + points.length);
+        }
+    }
+    
+    private void setupDynamicActionBar(String snapTarget) {
+        actionBar.removeAllViews();
+        
+        String[] actions = fieldConfig.getActionsForZone(snapTarget);
+        for (String action : actions) {
+            Button actionBtn = new Button(getContext());
+            actionBtn.setText(action.replace("_", " "));
+            actionBtn.setTextSize(12f);
+            actionBtn.setOnClickListener(v -> selectAction(action));
+            
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, 100);
+            params.setMargins(5, 0, 5, 0);
+            actionBtn.setLayoutParams(params);
+            
+            actionBar.addView(actionBtn);
+        }
+        
+        // Always add cancel button
+        Button cancelBtn = new Button(getContext());
+        cancelBtn.setText("Cancel");
+        cancelBtn.setTextSize(12f);
+        cancelBtn.setBackgroundTintList(getColorStateList("#FF5722"));
+        cancelBtn.setOnClickListener(v -> cancelAction());
+        actionBar.addView(cancelBtn);
+    }
+    
+    public void openFieldEditor() {
+        Intent intent = new Intent(getActivity(), com.team2073.eagleforcescoutingapplication.activities.FieldEditorActivity.class);
+        intent.putExtra("field_side", readData("field_side"));
+        startActivity(intent);
+    }
+    
     public String readData(String key) { return scoutingFormPresenter.readData(key); }
     public void saveData(String key, String data) { scoutingFormPresenter.saveData(key, data);}
 }

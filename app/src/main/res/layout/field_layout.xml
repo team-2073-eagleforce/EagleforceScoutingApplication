@@ -15,7 +15,11 @@
             android:background="@drawable/hexagon_side"
             android:gravity="center"
             android:layout_below="@id/l"
-            android:backgroundTint="#000000"/>
+            android:backgroundTint="#000000"
+            android:text="A"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/b"
@@ -24,7 +28,11 @@
             android:background="@drawable/hexagon_side"
             android:gravity="center"
             android:layout_below="@+id/a"
-            android:backgroundTint="#000000"/>
+            android:backgroundTint="#000000"
+            android:text="B"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/c"
@@ -36,7 +44,11 @@
             android:gravity="center"
             android:rotation="180"
             android:scaleX="-1"
-            android:backgroundTint="#000000"/>
+            android:backgroundTint="#000000"
+            android:text="C"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/d"
@@ -49,7 +61,11 @@
             android:gravity="center"
             android:rotation="180"
             android:scaleX="-1"
-            android:backgroundTint="#000000"/>
+            android:backgroundTint="#000000"
+            android:text="D"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/e"
@@ -61,7 +77,11 @@
             android:background="@drawable/hexagon_top_bottom"
             android:gravity="center"
             android:rotation="180"
-            android:backgroundTint="#000000"/>
+            android:backgroundTint="#000000"
+            android:text="E"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
         <ImageButton
             android:id="@+id/f"
             android:layout_width="65dp"
@@ -71,7 +91,11 @@
             android:background="@drawable/hexagon_corner"
             android:gravity="center"
             android:rotation="180"
-            android:backgroundTint="#000000"/>
+            android:backgroundTint="#000000"
+            android:text="F"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/g"
@@ -83,7 +107,11 @@
             android:layout_marginLeft="10dp"
             android:layout_alignStart="@id/i"
             android:layout_above="@id/f"
-            android:backgroundTint="#000000"/>
+            android:backgroundTint="#000000"
+            android:text="G"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/h"
@@ -95,7 +123,11 @@
             android:layout_marginLeft="10dp"
             android:layout_alignStart="@id/i"
             android:layout_above="@id/g"
-            android:backgroundTint="#000000"/>
+            android:backgroundTint="#000000"
+            android:text="H"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/i"
@@ -106,7 +138,11 @@
             android:background="@drawable/hexagon_corner"
             android:backgroundTint="#000000"
             android:gravity="center"
-            android:scaleX="-1" />
+            android:scaleX="-1"
+            android:text="I"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/j"
@@ -116,7 +152,11 @@
             android:background="@drawable/hexagon_top_bottom"
             android:scaleX="-1"
             android:gravity="center"
-            android:backgroundTint="#000000"/>
+            android:backgroundTint="#000000"
+            android:text="J"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/k"
@@ -125,7 +165,11 @@
             android:layout_toRightOf="@id/l"
             android:background="@drawable/hexagon_top_bottom"
             android:gravity="center"
-            android:backgroundTint="#000000"/>
+            android:backgroundTint="#000000"
+            android:text="K"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/l"
@@ -135,7 +179,11 @@
             android:background="@drawable/hexagon_corner"
             android:layout_marginTop="25dp"
             android:gravity="center"
-            android:backgroundTint="#000000"/>
+            android:backgroundTint="#000000"
+            android:text="L"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </RelativeLayout>
