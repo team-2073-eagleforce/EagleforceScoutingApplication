@@ -186,8 +186,8 @@ public class FieldEditorActivity extends BaseActivity {
     
     private void showDeleteConfirmation(ZoneDrawingView.Zone zone) {
         String zoneName = zone.name != null ? zone.name : "Unnamed Zone";
-        new AlertDialog.Builder(this)
-            .setTitle("Delete Zone")
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete Zone")
             .setMessage("Are you sure you want to delete \"" + zoneName + "\"?")
             .setPositiveButton("Delete", (dialog, which) -> {
                 if (zoneDrawingView != null) {
@@ -195,8 +195,14 @@ public class FieldEditorActivity extends BaseActivity {
                     drawExistingZones();
                 }
             })
-            .setNegativeButton("Cancel", null)
-            .show();
+            .setNegativeButton("Cancel", null);
+        
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(d -> {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(0xFF000000);
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(0xFF000000);
+        });
+        dialog.show();
     }
     
     private void showZoneConfigDialog(ZoneDrawingView.Zone zone) {
@@ -443,6 +449,12 @@ public class FieldEditorActivity extends BaseActivity {
             }
         });
         builder.setNegativeButton("Cancel", null);
+        
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(d -> {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(0xFF000000);
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(0xFF000000);
+        });
         builder.show();
     }
     
@@ -562,7 +574,13 @@ public class FieldEditorActivity extends BaseActivity {
             }
         });
         builder.setNegativeButton("Cancel", null);
-        builder.show();
+        
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(d -> {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(0xFF000000);
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(0xFF000000);
+        });
+        dialog.show();
     }
     
     private void rotateField() {

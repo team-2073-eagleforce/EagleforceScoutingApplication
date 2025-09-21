@@ -43,6 +43,8 @@ public class ZoneDrawingView extends View {
     private String dragHandle = ""; // "move", "tl", "tr", "bl", "br"
     private List<List<Zone>> undoHistory = new ArrayList<>();
     private List<List<Zone>> redoHistory = new ArrayList<>();
+    private String errorMessage = null;
+    private long errorMessageTime = 0;
     
     public interface ZoneDrawingListener {
         void onZoneCompleted(Zone zone);
@@ -80,6 +82,26 @@ public class ZoneDrawingView extends View {
                 }
             }
             return (intersections % 2) == 1;
+        }
+        
+        public boolean overlapsWithZone(Zone other) {
+            if (points.size() < 3 || other.points.size() < 3) return false;
+            
+            // Check if any points of this zone are inside the other zone
+            for (PointF point : points) {
+                if (other.containsPoint(point.x, point.y)) {
+                    return true;
+                }
+            }
+            
+            // Check if any points of the other zone are inside this zone
+            for (PointF point : other.points) {
+                if (containsPoint(point.x, point.y)) {
+                    return true;
+                }
+            }
+            
+            return false;
         }
     }
     
@@ -176,6 +198,25 @@ public class ZoneDrawingView extends View {
             float textWidth = textPaint.measureText(notification);
             canvas.drawRect(10, 10, textWidth + 20, 40, notificationPaint);
             canvas.drawText(notification, 15, 30, textPaint);
+        }
+        
+        // Draw error message notification
+        if (errorMessage != null && (System.currentTimeMillis() - errorMessageTime) < 3000) {
+            Paint errorPaint = new Paint();
+            errorPaint.setColor(0xEEFF0000);
+            errorPaint.setStyle(Paint.Style.FILL);
+            
+            Paint textPaint = new Paint();
+            textPaint.setColor(0xFFFFFFFF);
+            textPaint.setTextSize(16f);
+            textPaint.setAntiAlias(true);
+            
+            float textWidth = textPaint.measureText(errorMessage);
+            float yPos = selectedZone != null ? 50 : 10;
+            canvas.drawRect(10, yPos, textWidth + 20, yPos + 30, errorPaint);
+            canvas.drawText(errorMessage, 15, yPos + 20, textPaint);
+        } else if (errorMessage != null) {
+            errorMessage = null;
         }
         
         // Continue with zones drawing
@@ -381,6 +422,14 @@ public class ZoneDrawingView extends View {
             PointF firstPoint = currentZone.points.get(0);
             float distance = (float) Math.sqrt(Math.pow(x - firstPoint.x, 2) + Math.pow(y - firstPoint.y, 2));
             if (distance < 20f) {
+                // Check for overlap with existing zones before closing
+                for (Zone existingZone : zones) {
+                    if (currentZone.overlapsWithZone(existingZone)) {
+                        showError("Zone overlaps with existing zone");
+                        return;
+                    }
+                }
+                
                 // Close the zone
                 saveToHistory();
                 zones.add(currentZone);
@@ -395,7 +444,7 @@ public class ZoneDrawingView extends View {
         
         // Check if point is within field boundaries
         if (x < fieldLeft || x > fieldRight || y < fieldTop || y > fieldBottom) {
-            android.util.Log.d("ZoneDrawing", "Point outside field boundaries, ignoring");
+            showError("Point outside field boundaries");
             return;
         }
         
@@ -403,7 +452,7 @@ public class ZoneDrawingView extends View {
         PointF newPoint = new PointF(x, y);
         for (Zone existingZone : zones) {
             if (existingZone.containsPoint(x, y)) {
-                android.util.Log.d("ZoneDrawing", "Point overlaps with existing zone, ignoring");
+                showError("Point overlaps with existing zone");
                 return;
             }
         }
@@ -417,6 +466,13 @@ public class ZoneDrawingView extends View {
             performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP);
         }
         
+        invalidate();
+        notifyHistoryChanged();
+    }
+    
+    private void showError(String message) {
+        errorMessage = message;
+        errorMessageTime = System.currentTimeMillis();
         invalidate();
     }
     
@@ -785,6 +841,14 @@ public class ZoneDrawingView extends View {
     }
     
     public void undo() {
+        // In drawing mode, undo last point of current zone
+        if (isDrawingMode && currentZone != null && !currentZone.points.isEmpty()) {
+            currentZone.points.remove(currentZone.points.size() - 1);
+            invalidate();
+            return;
+        }
+        
+        // Normal undo for completed zones
         if (!undoHistory.isEmpty()) {
             // Save current state to redo
             List<Zone> currentState = new ArrayList<>(zones);
@@ -810,7 +874,8 @@ public class ZoneDrawingView extends View {
     }
     
     public boolean canUndo() {
-        return !undoHistory.isEmpty();
+        // Can undo if in drawing mode with points, or if there's history
+        return (isDrawingMode && currentZone != null && !currentZone.points.isEmpty()) || !undoHistory.isEmpty();
     }
     
     public boolean canRedo() {
