@@ -24,15 +24,17 @@ public class ZoneDrawingView extends View {
     private boolean isDrawingMode = false;
     private boolean isEditEnabled = false;
     private boolean isBoundaryEditMode = false;
+    private boolean isScaleMode = false;
     private PointF selectedDot;
     private Zone selectedZone;
     private boolean isDraggingZone = false;
     private PointF zoneDragStart = new PointF();
-    // Zoom feature removed for stability
     private float panX = 0f, panY = 0f;
     private boolean isPanning = false;
     private PointF lastPanPoint = new PointF();
     private ZoneDrawingListener listener;
+    private ScaleGestureDetector scaleGestureDetector;
+    private ScaleModeListener scaleModeListener;
     private ImageView backgroundImage;
     private float fieldLeft = 50f, fieldTop = 50f, fieldRight = 450f, fieldBottom = 300f;
     private float fieldRotation = 0f;
@@ -51,6 +53,10 @@ public class ZoneDrawingView extends View {
         void onZoneSelected(Zone zone);
         void onHistoryChanged(boolean canUndo, boolean canRedo);
         void showZoneOptions(Zone zone, float x, float y);
+    }
+    
+    public interface ScaleModeListener {
+        void onScaleChanged(float scaleFactor);
     }
     
     public static class Zone {
@@ -126,6 +132,18 @@ public class ZoneDrawingView extends View {
         linePaint.setStyle(Paint.Style.STROKE);
         
         zones = new ArrayList<>();
+        
+        scaleGestureDetector = new ScaleGestureDetector(getContext(), new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            @Override
+            public boolean onScale(ScaleGestureDetector detector) {
+                if (isScaleMode && scaleModeListener != null) {
+                    float scaleFactor = detector.getScaleFactor();
+                    scaleModeListener.onScaleChanged(scaleFactor);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     
     public void setFieldBackground(ImageView imageView) {
@@ -178,24 +196,36 @@ public class ZoneDrawingView extends View {
             canvas.drawText("RESIZE", fieldLeft - 30f, fieldTop + 20f, textPaint);
         }
         
-        // Draw selected zone name notification
-        if (selectedZone != null) {
-            Paint notificationPaint = new Paint();
+        // Draw mode notifications
+        Paint notificationPaint = new Paint();
+        notificationPaint.setStyle(Paint.Style.FILL);
+        Paint notificationTextPaint = new Paint();
+        notificationTextPaint.setColor(0xFF000000);
+        notificationTextPaint.setTextSize(16f);
+        notificationTextPaint.setAntiAlias(true);
+        
+        float yOffset = 10;
+        
+        // Scale mode notification
+        if (isScaleMode) {
+            notificationPaint.setColor(0xEEFF9800);
+            String scaleNotification = "SCALE MODE - All zones selected";
+            float textWidth = notificationTextPaint.measureText(scaleNotification);
+            canvas.drawRect(10, yOffset, textWidth + 20, yOffset + 30, notificationPaint);
+            canvas.drawText(scaleNotification, 15, yOffset + 20, notificationTextPaint);
+            yOffset += 35;
+        }
+        
+        // Selected zone notification
+        if (selectedZone != null && !isScaleMode) {
             notificationPaint.setColor(0xEEFFAA00);
-            notificationPaint.setStyle(Paint.Style.FILL);
-            
-            Paint textPaint = new Paint();
-            textPaint.setColor(0xFF000000);
-            textPaint.setTextSize(16f);
-            textPaint.setAntiAlias(true);
-            
             String zoneName = selectedZone.name != null ? selectedZone.name : "Unnamed Zone";
             String lockStatus = selectedZone.isLocked ? " (Locked)" : " (Unlocked)";
             String notification = "Selected: " + zoneName + lockStatus;
             
-            float textWidth = textPaint.measureText(notification);
-            canvas.drawRect(10, 10, textWidth + 20, 40, notificationPaint);
-            canvas.drawText(notification, 15, 30, textPaint);
+            float textWidth = notificationTextPaint.measureText(notification);
+            canvas.drawRect(10, yOffset, textWidth + 20, yOffset + 30, notificationPaint);
+            canvas.drawText(notification, 15, yOffset + 20, notificationTextPaint);
         }
         
         // Draw error message notification
@@ -237,27 +267,28 @@ public class ZoneDrawingView extends View {
                 canvas.drawPath(path, currentLinePaint);
             }
             
-            // Draw zone dots with numbers
-            Paint textPaint = new Paint();
-            textPaint.setColor(0xFFFFFFFF);
-            textPaint.setTextSize(12f);
-            textPaint.setAntiAlias(true);
-            textPaint.setTextAlign(Paint.Align.CENTER);
+            // Draw zone dots with numbers (highlight all in scale mode)
+            Paint dotTextPaint = new Paint();
+            dotTextPaint.setColor(0xFFFFFFFF);
+            dotTextPaint.setTextSize(12f);
+            dotTextPaint.setAntiAlias(true);
+            dotTextPaint.setTextAlign(Paint.Align.CENTER);
             
             for (int i = 0; i < zone.points.size(); i++) {
                 PointF point = zone.points.get(i);
                 
-                // Highlight start point
-                if (i == 0) {
-                    Paint startPaint = new Paint(dotPaint);
-                    startPaint.setColor(0xFF00FF00); // Green for start
-                    canvas.drawCircle(point.x, point.y, 12f, startPaint);
-                } else {
-                    canvas.drawCircle(point.x, point.y, 8f, dotPaint);
+                Paint currentDotPaint = new Paint(dotPaint);
+                if (isScaleMode) {
+                    currentDotPaint.setColor(0xFFFF9800); // Orange for scale mode
+                } else if (i == 0) {
+                    currentDotPaint.setColor(0xFF00FF00); // Green for start
                 }
                 
+                float radius = (isScaleMode || i == 0) ? 12f : 8f;
+                canvas.drawCircle(point.x, point.y, radius, currentDotPaint);
+                
                 // Draw point number
-                canvas.drawText(String.valueOf(i + 1), point.x, point.y + 3f, textPaint);
+                canvas.drawText(String.valueOf(i + 1), point.x, point.y + 3f, dotTextPaint);
             }
         }
         
@@ -317,6 +348,12 @@ public class ZoneDrawingView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         if (!isEditEnabled) {
             return false; // Don't handle touches when edit is disabled
+        }
+        
+        // Handle scale gestures in scale mode
+        if (isScaleMode) {
+            scaleGestureDetector.onTouchEvent(event);
+            return true;
         }
         
         // Use simple coordinates
@@ -540,12 +577,31 @@ public class ZoneDrawingView extends View {
         this.isBoundaryEditMode = enabled;
         if (enabled) {
             isDrawingMode = false;
+            isScaleMode = false;
             currentZone = null;
             selectedDot = null;
             selectedZone = null;
             isDraggingZone = false;
         }
         invalidate();
+    }
+    
+    public void setScaleMode(boolean enabled) {
+        this.isScaleMode = enabled;
+        if (enabled) {
+            isDrawingMode = false;
+            isBoundaryEditMode = false;
+            currentZone = null;
+            selectedDot = null;
+            isDraggingZone = false;
+            // Select all zones visually
+            selectedZone = null; // Clear individual selection
+        }
+        invalidate();
+    }
+    
+    public void setScaleModeListener(ScaleModeListener listener) {
+        this.scaleModeListener = listener;
     }
     
     public void setFieldBoundaries(float left, float top, float right, float bottom) {
@@ -596,6 +652,10 @@ public class ZoneDrawingView extends View {
     }
     
     public String exportConfiguration(String imageHash) {
+        return exportConfiguration(imageHash, 1.0f);
+    }
+    
+    public String exportConfiguration(String imageHash, float scaleFactor) {
         StringBuilder config = new StringBuilder();
         config.append("FIELD_CONFIG|");
         config.append(fieldLeft).append(",").append(fieldTop).append(",");
@@ -609,6 +669,9 @@ public class ZoneDrawingView extends View {
         } else {
             config.append("|"); // Empty hash slot
         }
+        
+        // Add scale factor
+        config.append("SCALE:").append(scaleFactor).append("|");
         
         // Calculate field dimensions for relative coordinates
         float fieldWidth = fieldRight - fieldLeft;

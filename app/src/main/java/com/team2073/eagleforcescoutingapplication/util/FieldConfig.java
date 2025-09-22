@@ -70,6 +70,23 @@ public class FieldConfig {
         prefs.edit().putString(KEY_ZONES, sb.toString()).apply();
     }
     
+    public void saveConfigRelative(float fieldLeft, float fieldTop, float fieldWidth, float fieldHeight) {
+        StringBuilder sb = new StringBuilder();
+        for (ActionZone zone : zones) {
+            // Convert to relative coordinates (0.0 to 1.0)
+            float relativeX = (zone.x - fieldLeft) / fieldWidth;
+            float relativeY = (zone.y - fieldTop) / fieldHeight;
+            float relativeRadius = zone.radius / Math.min(fieldWidth, fieldHeight);
+            
+            sb.append(zone.name).append("|");
+            sb.append(relativeX).append("|");
+            sb.append(relativeY).append("|");
+            sb.append(relativeRadius).append("|");
+            sb.append(zone.actions).append(";");
+        }
+        prefs.edit().putString(KEY_ZONES + "_relative", sb.toString()).apply();
+    }
+    
     public void loadConfig() {
         String data = prefs.getString(KEY_ZONES, "");
         zones.clear();
@@ -90,6 +107,41 @@ public class FieldConfig {
                     }
                 }
             }
+        }
+    }
+    
+    public void loadConfigRelative(float fieldLeft, float fieldTop, float fieldWidth, float fieldHeight) {
+        String data = prefs.getString(KEY_ZONES + "_relative", "");
+        zones.clear();
+        
+        if (!data.isEmpty()) {
+            String[] zoneStrings = data.split(";");
+            for (String zoneString : zoneStrings) {
+                if (!zoneString.trim().isEmpty()) {
+                    String[] parts = zoneString.split("\\|");
+                    if (parts.length == 5) {
+                        // Convert from relative coordinates back to absolute
+                        float relativeX = Float.parseFloat(parts[1]);
+                        float relativeY = Float.parseFloat(parts[2]);
+                        float relativeRadius = Float.parseFloat(parts[3]);
+                        
+                        float absoluteX = fieldLeft + (relativeX * fieldWidth);
+                        float absoluteY = fieldTop + (relativeY * fieldHeight);
+                        float absoluteRadius = relativeRadius * Math.min(fieldWidth, fieldHeight);
+                        
+                        zones.add(new ActionZone(
+                            parts[0],
+                            absoluteX,
+                            absoluteY,
+                            absoluteRadius,
+                            parts[4]
+                        ));
+                    }
+                }
+            }
+        } else {
+            // Fallback to absolute coordinates if relative not available
+            loadConfig();
         }
     }
     

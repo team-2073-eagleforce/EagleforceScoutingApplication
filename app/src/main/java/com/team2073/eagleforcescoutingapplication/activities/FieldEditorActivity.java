@@ -30,13 +30,16 @@ public class FieldEditorActivity extends BaseActivity {
     private boolean isEditMode = false;
     private boolean isBoundaryEditMode = false;
     private boolean isDrawingMode = false;
+    private boolean isScaleMode = false;
     private ZoneDrawingView.Zone selectedZone;
-    private Button editModeBtn, drawZoneBtn, boundaryModeBtn, helpBtn;
+    private Button editModeBtn, drawZoneBtn, boundaryModeBtn, scaleModeBtn, helpBtn;
     private TextView orientationInfo;
     private float currentRotation = 0f;
     private Button undoBtn, redoBtn;
     private List<List<PointF>> originalZonePoints = new ArrayList<>();
     private float currentScaleFactor = 1.0f;
+    private android.widget.SeekBar scaleSeekBar;
+    private TextView scaleValueText;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +118,26 @@ public class FieldEditorActivity extends BaseActivity {
                     showZoneOptionsMenu(zone);
                 }
             });
+            
+            zoneDrawingView.setScaleModeListener(new ZoneDrawingView.ScaleModeListener() {
+                @Override
+                public void onScaleChanged(float scaleFactor) {
+                    // Apply cumulative scaling from pinch gestures
+                    float newScale = currentScaleFactor * scaleFactor;
+                    newScale = Math.max(0.1f, Math.min(2.0f, newScale)); // Clamp to valid range
+                    
+                    if (scaleSeekBar != null) {
+                        scaleSeekBar.setProgress((int)(newScale * 100) - 10);
+                    }
+                    applyRealtimeScale(newScale);
+                    currentScaleFactor = newScale;
+                    saveScaleForCurrentField(newScale);
+                    
+                    if (scaleValueText != null) {
+                        scaleValueText.setText(String.format("%.0f%%", newScale * 100));
+                    }
+                }
+            });
         }
         
         drawExistingZones();
@@ -134,8 +157,12 @@ public class FieldEditorActivity extends BaseActivity {
         Button loadBtn = findViewById(R.id.btn_load_config);
         Button exportBtn = findViewById(R.id.btn_export_config);
         Button setBoundaryBtn = findViewById(R.id.btn_set_boundary);
+        Button scaleBtn = findViewById(R.id.btn_scale_field);
+        scaleModeBtn = findViewById(R.id.btn_scale_mode);
         boundaryModeBtn = findViewById(R.id.btn_boundary_mode);
         helpBtn = findViewById(R.id.btn_help);
+        scaleSeekBar = findViewById(R.id.scale_seekbar);
+        scaleValueText = findViewById(R.id.scale_value_text);
         
         if (editModeBtn != null) editModeBtn.setOnClickListener(v -> toggleEditMode());
         if (drawZoneBtn != null) drawZoneBtn.setOnClickListener(v -> toggleDrawMode());
@@ -147,8 +174,12 @@ public class FieldEditorActivity extends BaseActivity {
         if (loadBtn != null) loadBtn.setOnClickListener(v -> loadCompleteConfig());
         if (exportBtn != null) exportBtn.setOnClickListener(v -> exportConfigToQR());
         if (setBoundaryBtn != null) setBoundaryBtn.setOnClickListener(v -> showBoundaryDialog());
+        if (scaleBtn != null) scaleBtn.setOnClickListener(v -> showScaleDialog());
+        if (scaleModeBtn != null) scaleModeBtn.setOnClickListener(v -> toggleScaleMode());
         if (boundaryModeBtn != null) boundaryModeBtn.setOnClickListener(v -> toggleBoundaryMode());
         if (helpBtn != null) helpBtn.setOnClickListener(v -> showHelpDialog());
+        
+        setupScaleControls();
         
         // Add debug button for testing boundary calculation
         Button debugBtn = findViewById(R.id.btn_debug_boundaries);
@@ -284,18 +315,43 @@ public class FieldEditorActivity extends BaseActivity {
         isEditMode = !isEditMode;
         if (isEditMode) {
             isBoundaryEditMode = false;
+            isScaleMode = false;
         } else {
             isDrawingMode = false;
             isBoundaryEditMode = false;
+            isScaleMode = false;
         }
         updateEditModeUI();
         
         if (zoneDrawingView != null) {
             zoneDrawingView.setEditEnabled(isEditMode);
             zoneDrawingView.setBoundaryEditMode(isBoundaryEditMode);
+            zoneDrawingView.setScaleMode(isScaleMode);
             if (!isEditMode) {
                 zoneDrawingView.setDrawingMode(false);
                 saveConfiguration();
+            }
+        }
+    }
+    
+    private void toggleScaleMode() {
+        isScaleMode = !isScaleMode;
+        if (isScaleMode) {
+            isEditMode = true;
+            isBoundaryEditMode = false;
+            isDrawingMode = false;
+            // Always refresh original positions when entering scale mode
+            originalZonePoints.clear();
+            saveOriginalZonePositions();
+        }
+        updateEditModeUI();
+        
+        if (zoneDrawingView != null) {
+            zoneDrawingView.setEditEnabled(isEditMode);
+            zoneDrawingView.setScaleMode(isScaleMode);
+            zoneDrawingView.setBoundaryEditMode(isBoundaryEditMode);
+            if (isScaleMode) {
+                zoneDrawingView.setDrawingMode(false);
             }
         }
     }
@@ -322,18 +378,28 @@ public class FieldEditorActivity extends BaseActivity {
         }
         
         if (drawZoneBtn != null) {
-            drawZoneBtn.setEnabled(isEditMode && !isBoundaryEditMode);
+            drawZoneBtn.setEnabled(isEditMode && !isBoundaryEditMode && !isScaleMode);
             drawZoneBtn.setText(isDrawingMode ? "Exit Draw Mode" : "Draw New Zone");
         }
         
         if (boundaryModeBtn != null) {
-            boundaryModeBtn.setEnabled(isEditMode);
+            boundaryModeBtn.setEnabled(isEditMode && !isScaleMode);
             boundaryModeBtn.setText(isBoundaryEditMode ? "Exit Boundary Mode" : "Set Boundaries");
         }
         
+        if (scaleModeBtn != null) {
+            scaleModeBtn.setText(isScaleMode ? "Exit Scale Mode" : "Scale Mode");
+            scaleModeBtn.setBackgroundTintList(getColorStateList(isScaleMode ? android.R.color.holo_orange_light : android.R.color.system_accent1_100));
+        }
+        
+        if (scaleSeekBar != null && scaleValueText != null) {
+            scaleSeekBar.setVisibility(isScaleMode ? android.view.View.VISIBLE : android.view.View.GONE);
+            scaleValueText.setVisibility(isScaleMode ? android.view.View.VISIBLE : android.view.View.GONE);
+        }
+        
         if (undoBtn != null && redoBtn != null) {
-            undoBtn.setEnabled(isEditMode && zoneDrawingView != null && zoneDrawingView.canUndo());
-            redoBtn.setEnabled(isEditMode && zoneDrawingView != null && zoneDrawingView.canRedo());
+            undoBtn.setEnabled(isEditMode && !isScaleMode && zoneDrawingView != null && zoneDrawingView.canUndo());
+            redoBtn.setEnabled(isEditMode && !isScaleMode && zoneDrawingView != null && zoneDrawingView.canRedo());
         }
     }
     
@@ -638,40 +704,45 @@ public class FieldEditorActivity extends BaseActivity {
     
     private void saveConfiguration() {
         if (zoneDrawingView != null) {
+            // Save zones at their original 1.0 scale positions
             String imageHash = generateImageHash();
-            String config = zoneDrawingView.exportConfiguration(imageHash);
+            String config;
+            
+            if (currentScaleFactor != 1.0f && !originalZonePoints.isEmpty()) {
+                // Temporarily restore zones to 1.0 scale for saving
+                restoreOriginalPositions();
+                config = zoneDrawingView.exportConfiguration(imageHash, currentScaleFactor);
+                // Reapply current scale after saving
+                applyRealtimeScale(currentScaleFactor);
+            } else {
+                config = zoneDrawingView.exportConfiguration(imageHash, currentScaleFactor);
+            }
+            
             getSharedPreferences("field_editor", MODE_PRIVATE)
                 .edit()
                 .putString("auto_save_config", config)
                 .putLong("config_timestamp", System.currentTimeMillis())
                 .apply();
+                
+            saveFieldConfigRelative();
+        }
+    }
+    
+    private void saveFieldConfigRelative() {
+        if (fieldConfig != null && zoneDrawingView != null) {
+            float[] boundaries = zoneDrawingView.getFieldBoundaries();
+            float fieldWidth = boundaries[2] - boundaries[0];
+            float fieldHeight = boundaries[3] - boundaries[1];
+            fieldConfig.saveConfigRelative(boundaries[0], boundaries[1], fieldWidth, fieldHeight);
         }
     }
     
     private void loadConfiguration() {
-        // Try to load the first saved configuration
-        android.content.SharedPreferences prefs = getSharedPreferences("field_configs", MODE_PRIVATE);
-        java.util.Map<String, ?> allConfigs = prefs.getAll();
-        
-        String firstConfig = null;
-        for (String key : allConfigs.keySet()) {
-            if (!key.endsWith("_timestamp")) {
-                firstConfig = prefs.getString(key, "");
-                break;
-            }
-        }
-        
-        if (firstConfig != null && !firstConfig.isEmpty()) {
-            parseAndApplyConfig(firstConfig);
+        String config = getSharedPreferences("field_editor", MODE_PRIVATE)
+            .getString("auto_save_config", "");
+        if (!config.isEmpty()) {
+            parseAndApplyConfig(config);
             drawExistingZones();
-        } else {
-            // Fallback to old auto-save config
-            String config = getSharedPreferences("field_editor", MODE_PRIVATE)
-                .getString("auto_save_config", "");
-            if (!config.isEmpty()) {
-                parseAndApplyConfig(config);
-                drawExistingZones();
-            }
         }
     }
     
@@ -735,10 +806,13 @@ public class FieldEditorActivity extends BaseActivity {
                        "• Draw New Zone: Click to enter drawing mode, then click points to create polygon\n" +
                        "• Edit Existing Zone: Click existing zone (when NOT in draw mode)\n" +
                        "• Set Boundaries: Toggle boundary mode, drag corners/center to adjust\n" +
+                       "• Scale Mode: Select all zones, use slider or pinch to scale in real-time\n" +
+                       "• Scale Dialog: Quick percentage scaling with preset buttons\n" +
                        "• Boundary stays fixed after exiting boundary mode\n" +
-                       "• Pinch to zoom, drag to pan field\n" +
+                       "• Drag to pan field\n" +
                        "• Drag zone points to fine-tune shapes\n" +
-                       "• Configuration auto-saves on exit")
+                       "• Configuration auto-saves on exit\n\n" +
+                       "SCALING: Use Scale Mode for real-time adjustment with pinch gestures and slider")
             .setPositiveButton("OK", null)
             .show();
     }
@@ -746,7 +820,7 @@ public class FieldEditorActivity extends BaseActivity {
     private void exportConfigToQR() {
         if (zoneDrawingView != null) {
             String imageHash = generateImageHash();
-            String config = zoneDrawingView.exportConfiguration(imageHash);
+            String config = zoneDrawingView.exportConfiguration(imageHash, currentScaleFactor);
             
             try {
                 // Generate QR code using same method as scouting form
@@ -906,15 +980,26 @@ public class FieldEditorActivity extends BaseActivity {
                 return;
             }
             
-            // Check for image hash validation
+            // Check for image hash validation and extract scale factor
             String importedImageHash = "";
+            float importedScale = 1.0f;
+            
             if (parts.length > 4 && parts[4].startsWith("IMAGE_HASH:")) {
-                importedImageHash = parts[4].substring(11); // Remove "IMAGE_HASH:" prefix
+                importedImageHash = parts[4].substring(11);
                 String currentImageHash = generateImageHash();
                 
                 if (!importedImageHash.equals(currentImageHash) && !importedImageHash.isEmpty()) {
                     showImageMismatchDialog(config, importedImageHash);
                     return;
+                }
+            }
+            
+            // Extract scale factor if present
+            if (parts.length > 5 && parts[5].startsWith("SCALE:")) {
+                try {
+                    importedScale = Float.parseFloat(parts[5].substring(6));
+                } catch (NumberFormatException e) {
+                    importedScale = 1.0f;
                 }
             }
             
@@ -930,13 +1015,23 @@ public class FieldEditorActivity extends BaseActivity {
             // Parse and restore zones with relative positioning
             if (zoneDrawingView != null) {
                 ZoneConfigParser.parseAndRestoreZonesRelative(zoneDrawingView, config);
-                // Reset scaling tracking after loading new config
-                originalZonePoints.clear();
-                currentScaleFactor = getScaleForCurrentField();
+                
+                // Apply imported scale factor
+                currentScaleFactor = importedScale;
+                saveScaleForCurrentField(currentScaleFactor);
+                
+                if (scaleSeekBar != null) {
+                    scaleSeekBar.setProgress((int)(currentScaleFactor * 100) - 10);
+                }
+                if (scaleValueText != null) {
+                    scaleValueText.setText(String.format("%.0f%%", currentScaleFactor * 100));
+                }
+                
+                // Apply scale from loaded positions (they're already at 1.0 scale from relative conversion)
                 if (currentScaleFactor != 1.0f) {
-                    // Apply saved scale
+                    originalZonePoints.clear();
                     saveOriginalZonePositions();
-                    scaleAllZones(currentScaleFactor);
+                    applyRealtimeScale(currentScaleFactor);
                 }
             }
             
@@ -1018,8 +1113,20 @@ public class FieldEditorActivity extends BaseActivity {
     
     private void saveConfigWithName(String configName) {
         if (zoneDrawingView != null) {
+            // Save zones at their original 1.0 scale positions
             String imageHash = generateImageHash();
-            String config = zoneDrawingView.exportConfiguration(imageHash);
+            String config;
+            
+            if (currentScaleFactor != 1.0f && !originalZonePoints.isEmpty()) {
+                // Temporarily restore zones to 1.0 scale for saving
+                restoreOriginalPositions();
+                config = zoneDrawingView.exportConfiguration(imageHash, currentScaleFactor);
+                // Reapply current scale after saving
+                applyRealtimeScale(currentScaleFactor);
+            } else {
+                config = zoneDrawingView.exportConfiguration(imageHash, currentScaleFactor);
+            }
+            
             getSharedPreferences("field_configs", MODE_PRIVATE)
                 .edit()
                 .putString(configName, config)
@@ -1048,13 +1155,48 @@ public class FieldEditorActivity extends BaseActivity {
         
         String[] configArray = configNames.toArray(new String[0]);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select Configuration to Load");
+        builder.setTitle("Manage Configurations");
         builder.setItems(configArray, (dialog, which) -> {
             String selectedConfig = configArray[which];
-            loadConfigByName(selectedConfig);
+            showConfigOptionsDialog(selectedConfig);
         });
         builder.setNegativeButton("Cancel", null);
         builder.show();
+    }
+    
+    private void showConfigOptionsDialog(String configName) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Config: " + configName);
+        String[] options = {"Load", "Delete", "Cancel"};
+        builder.setItems(options, (dialog, which) -> {
+            switch (which) {
+                case 0: // Load
+                    loadConfigByName(configName);
+                    break;
+                case 1: // Delete
+                    showDeleteConfigDialog(configName);
+                    break;
+                case 2: // Cancel
+                    break;
+            }
+        });
+        builder.show();
+    }
+    
+    private void showDeleteConfigDialog(String configName) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete Configuration")
+               .setMessage("Delete \"" + configName + "\"? This cannot be undone.")
+               .setPositiveButton("Delete", (dialog, which) -> {
+                   getSharedPreferences("field_configs", MODE_PRIVATE)
+                       .edit()
+                       .remove(configName)
+                       .remove(configName + "_timestamp")
+                       .apply();
+                   android.widget.Toast.makeText(this, "Configuration deleted", android.widget.Toast.LENGTH_SHORT).show();
+               })
+               .setNegativeButton("Cancel", null)
+               .show();
     }
     
     private void loadConfigByName(String configName) {
@@ -1062,8 +1204,18 @@ public class FieldEditorActivity extends BaseActivity {
             .getString(configName, "");
         if (!config.isEmpty()) {
             parseAndApplyConfig(config);
+            loadFieldConfigRelative();
             drawExistingZones();
             android.widget.Toast.makeText(this, "Configuration '" + configName + "' loaded!", android.widget.Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    private void loadFieldConfigRelative() {
+        if (fieldConfig != null && zoneDrawingView != null) {
+            float[] boundaries = zoneDrawingView.getFieldBoundaries();
+            float fieldWidth = boundaries[2] - boundaries[0];
+            float fieldHeight = boundaries[3] - boundaries[1];
+            fieldConfig.loadConfigRelative(boundaries[0], boundaries[1], fieldWidth, fieldHeight);
         }
     }
     
@@ -1125,16 +1277,37 @@ public class FieldEditorActivity extends BaseActivity {
         layout.addView(currentScaleText);
         
         TextView helpText = new TextView(this);
-        helpText.setText("\n< 1.0 = Scale Down\n> 1.0 = Scale Up\n1.0 = No Change\n\nScales from original positions");
+        helpText.setText("\n< 1.0 = Scale Down (Fix oversized QR imports)\n> 1.0 = Scale Up\n1.0 = No Change\n\nScales entire field boundaries and all zones");
         helpText.setTextSize(12f);
         layout.addView(helpText);
         
+        // Add quick scale buttons
+        LinearLayout quickScaleLayout = new LinearLayout(this);
+        quickScaleLayout.setOrientation(LinearLayout.HORIZONTAL);
+        
+        Button scale50 = new Button(this);
+        scale50.setText("50%");
+        scale50.setOnClickListener(v -> scaleEdit.setText("0.5"));
+        
+        Button scale75 = new Button(this);
+        scale75.setText("75%");
+        scale75.setOnClickListener(v -> scaleEdit.setText("0.75"));
+        
+        Button scale100 = new Button(this);
+        scale100.setText("100%");
+        scale100.setOnClickListener(v -> scaleEdit.setText("1.0"));
+        
+        quickScaleLayout.addView(scale50);
+        quickScaleLayout.addView(scale75);
+        quickScaleLayout.addView(scale100);
+        layout.addView(quickScaleLayout);
+        
         builder.setView(layout);
-        builder.setPositiveButton("Scale", (dialog, which) -> {
+        builder.setPositiveButton("Apply Scale", (dialog, which) -> {
             try {
                 float scale = Float.parseFloat(scaleEdit.getText().toString());
                 if (scale > 0.1f && scale <= 2.0f) {
-                    scaleAllZones(scale);
+                    scaleEntireField(scale);
                 } else {
                     android.widget.Toast.makeText(this, "Scale must be between 0.1 and 2.0", android.widget.Toast.LENGTH_SHORT).show();
                 }
@@ -1143,7 +1316,7 @@ public class FieldEditorActivity extends BaseActivity {
             }
         });
         builder.setNeutralButton("Reset (1.0)", (dialog, which) -> {
-            scaleAllZones(1.0f);
+            scaleEntireField(1.0f);
         });
         builder.setNegativeButton("Cancel", null);
         builder.show();
@@ -1186,6 +1359,56 @@ public class FieldEditorActivity extends BaseActivity {
         android.widget.Toast.makeText(this, "Zones scaled to " + String.format("%.2f", scaleFactor) + "x", android.widget.Toast.LENGTH_SHORT).show();
     }
     
+    private void scaleEntireField(float scaleFactor) {
+        if (zoneDrawingView == null) return;
+        
+        // Get current view dimensions for centering
+        int viewWidth = getWindow().getDecorView().getWidth();
+        int viewHeight = getWindow().getDecorView().getHeight();
+        float centerX = viewWidth / 2f;
+        float centerY = viewHeight / 2f;
+        
+        // Scale field boundaries from center
+        float[] boundaries = zoneDrawingView.getFieldBoundaries();
+        float currentCenterX = (boundaries[0] + boundaries[2]) / 2f;
+        float currentCenterY = (boundaries[1] + boundaries[3]) / 2f;
+        float currentWidth = boundaries[2] - boundaries[0];
+        float currentHeight = boundaries[3] - boundaries[1];
+        
+        float newWidth = currentWidth * scaleFactor;
+        float newHeight = currentHeight * scaleFactor;
+        
+        float newLeft = currentCenterX - (newWidth / 2f);
+        float newTop = currentCenterY - (newHeight / 2f);
+        float newRight = currentCenterX + (newWidth / 2f);
+        float newBottom = currentCenterY + (newHeight / 2f);
+        
+        // Apply new boundaries
+        zoneDrawingView.setFieldBoundaries(newLeft, newTop, newRight, newBottom);
+        
+        // Scale all zones relative to field boundaries
+        List<ZoneDrawingView.Zone> zones = zoneDrawingView.getZonesReference();
+        for (ZoneDrawingView.Zone zone : zones) {
+            for (PointF point : zone.points) {
+                // Scale point relative to field center
+                float deltaX = (point.x - currentCenterX) * scaleFactor;
+                float deltaY = (point.y - currentCenterY) * scaleFactor;
+                point.x = currentCenterX + deltaX;
+                point.y = currentCenterY + deltaY;
+            }
+        }
+        
+        currentScaleFactor = scaleFactor;
+        saveScaleForCurrentField(scaleFactor);
+        
+        // Clear original positions to use new scaled positions as baseline
+        originalZonePoints.clear();
+        
+        zoneDrawingView.invalidate();
+        drawExistingZones();
+        android.widget.Toast.makeText(this, "Entire field scaled to " + String.format("%.0f", scaleFactor * 100) + "%", android.widget.Toast.LENGTH_LONG).show();
+    }
+    
     private void saveOriginalZonePositions() {
         originalZonePoints.clear();
         for (ZoneDrawingView.Zone zone : zoneDrawingView.getZonesReference()) {
@@ -1212,5 +1435,81 @@ public class FieldEditorActivity extends BaseActivity {
     private float getScaleForCurrentField() {
         return getSharedPreferences("field_scales", MODE_PRIVATE)
             .getFloat(getCurrentFieldKey(), 1.0f);
+    }
+    
+    private void setupScaleControls() {
+        if (scaleSeekBar != null) {
+            scaleSeekBar.setMax(190); // 0.1 to 2.0 scale (10-200, offset by 10)
+            scaleSeekBar.setProgress((int)(currentScaleFactor * 100) - 10);
+            scaleSeekBar.setOnSeekBarChangeListener(new android.widget.SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(android.widget.SeekBar seekBar, int progress, boolean fromUser) {
+                    if (fromUser && isScaleMode) {
+                        float scale = (progress + 10) / 100f; // Convert back to 0.1-2.0
+                        applyRealtimeScale(scale);
+                        if (scaleValueText != null) {
+                            scaleValueText.setText(String.format("%.0f%%", scale * 100));
+                        }
+                    }
+                }
+                @Override
+                public void onStartTrackingTouch(android.widget.SeekBar seekBar) {}
+                @Override
+                public void onStopTrackingTouch(android.widget.SeekBar seekBar) {
+                    float scale = (seekBar.getProgress() + 10) / 100f;
+                    currentScaleFactor = scale;
+                    saveScaleForCurrentField(scale);
+                }
+            });
+        }
+        
+        if (scaleValueText != null) {
+            scaleValueText.setText(String.format("%.0f%%", currentScaleFactor * 100));
+        }
+    }
+    
+    private void applyRealtimeScale(float scaleFactor) {
+        if (zoneDrawingView == null || originalZonePoints.isEmpty()) return;
+        
+        float[] boundaries = zoneDrawingView.getFieldBoundaries();
+        float centerX = (boundaries[0] + boundaries[2]) / 2f;
+        float centerY = (boundaries[1] + boundaries[3]) / 2f;
+        
+        List<ZoneDrawingView.Zone> zones = zoneDrawingView.getZonesReference();
+        for (int i = 0; i < zones.size() && i < originalZonePoints.size(); i++) {
+            ZoneDrawingView.Zone zone = zones.get(i);
+            List<PointF> originalPoints = originalZonePoints.get(i);
+            
+            for (int j = 0; j < zone.points.size() && j < originalPoints.size(); j++) {
+                PointF originalPoint = originalPoints.get(j);
+                PointF currentPoint = zone.points.get(j);
+                
+                float deltaX = (originalPoint.x - centerX) * scaleFactor;
+                float deltaY = (originalPoint.y - centerY) * scaleFactor;
+                currentPoint.x = centerX + deltaX;
+                currentPoint.y = centerY + deltaY;
+            }
+        }
+        
+        zoneDrawingView.invalidate();
+    }
+    
+    private void restoreOriginalPositions() {
+        if (zoneDrawingView == null || originalZonePoints.isEmpty()) return;
+        
+        List<ZoneDrawingView.Zone> zones = zoneDrawingView.getZonesReference();
+        for (int i = 0; i < zones.size() && i < originalZonePoints.size(); i++) {
+            ZoneDrawingView.Zone zone = zones.get(i);
+            List<PointF> originalPoints = originalZonePoints.get(i);
+            
+            for (int j = 0; j < zone.points.size() && j < originalPoints.size(); j++) {
+                PointF originalPoint = originalPoints.get(j);
+                PointF currentPoint = zone.points.get(j);
+                currentPoint.x = originalPoint.x;
+                currentPoint.y = originalPoint.y;
+            }
+        }
+        
+        zoneDrawingView.invalidate();
     }
 }

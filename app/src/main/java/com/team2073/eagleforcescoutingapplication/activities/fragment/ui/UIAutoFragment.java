@@ -248,6 +248,15 @@ public class UIAutoFragment extends Fragment {
             fieldBackground.setImageResource(R.drawable.field_red_side);
         }
         
+        // Update field boundaries for PathDrawingView after layout
+        fieldBackground.getViewTreeObserver().addOnGlobalLayoutListener(new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                fieldBackground.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                updatePathDrawingBoundaries();
+            }
+        });
+        
         // Setup path drawing listener
         pathDrawingView.setPathDrawingListener(new PathDrawingView.PathDrawingListener() {
             @Override
@@ -276,6 +285,34 @@ public class UIAutoFragment extends Fragment {
                 actionBar.setVisibility(View.GONE);
             }
         });
+    }
+    
+    private void updatePathDrawingBoundaries() {
+        if (fieldBackground == null || pathDrawingView == null) return;
+        
+        // Calculate field boundaries similar to FieldEditorActivity
+        int viewWidth = fieldBackground.getWidth();
+        int viewHeight = fieldBackground.getHeight();
+        
+        if (viewWidth == 0 || viewHeight == 0) return;
+        
+        float drawableWidth = fieldBackground.getDrawable().getIntrinsicWidth();
+        float drawableHeight = fieldBackground.getDrawable().getIntrinsicHeight();
+        
+        if (drawableWidth == 0 || drawableHeight == 0) return;
+        
+        float scaleX = viewWidth / drawableWidth;
+        float scaleY = viewHeight / drawableHeight;
+        float scale = Math.min(scaleX, scaleY);
+        
+        float scaledWidth = drawableWidth * scale;
+        float scaledHeight = drawableHeight * scale;
+        
+        float imageLeft = (viewWidth - scaledWidth) / 2f;
+        float imageTop = (viewHeight - scaledHeight) / 2f;
+        
+        // Update PathDrawingView with current boundaries
+        pathDrawingView.updateFieldBoundaries(imageLeft, imageTop, scaledWidth, scaledHeight);
     }
     
     private void selectAction(String actionType) {

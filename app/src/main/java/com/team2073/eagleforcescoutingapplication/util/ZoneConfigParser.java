@@ -30,13 +30,16 @@ public class ZoneConfigParser {
             float fieldWidth = fieldRight - fieldLeft;
             float fieldHeight = fieldBottom - fieldTop;
             
-            // Determine starting index (account for image hash)
-            int startIndex = 5; // Default with image hash
-            if (parts.length > 4 && !parts[4].startsWith("IMAGE_HASH:")) {
-                startIndex = 4; // No image hash
+            // Determine starting index (account for image hash and scale)
+            int startIndex = 4;
+            if (parts.length > 4 && parts[4].startsWith("IMAGE_HASH:")) {
+                startIndex = 5;
+            }
+            if (parts.length > startIndex && parts[startIndex].startsWith("SCALE:")) {
+                startIndex++; // Skip scale factor
             }
             
-            // Parse zones
+            // Parse zones (adjust step size for potential scale factor)
             for (int i = startIndex; i < parts.length; i += 6) {
                 if (i + 5 < parts.length && "ZONE".equals(parts[i])) {
                     ZoneDrawingView.Zone zone = new ZoneDrawingView.Zone();

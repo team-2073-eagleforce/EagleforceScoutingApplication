@@ -59,6 +59,12 @@ public class PathDrawingView extends View {
         fieldConfig = new FieldConfig(getContext());
     }
     
+    public void updateFieldBoundaries(float left, float top, float width, float height) {
+        if (fieldConfig != null) {
+            fieldConfig.loadConfigRelative(left, top, width, height);
+        }
+    }
+    
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -163,6 +169,12 @@ public class PathDrawingView extends View {
         waypoints.clear();
         actionPoints.clear();
         invalidate();
+    }
+    
+    public void refreshFieldConfig(float left, float top, float width, float height) {
+        if (fieldConfig != null) {
+            fieldConfig.loadConfigRelative(left, top, width, height);
+        }
     }
     
     public void setPathDrawingListener(PathDrawingListener listener) {
