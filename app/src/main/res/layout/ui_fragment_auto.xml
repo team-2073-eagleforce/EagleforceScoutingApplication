@@ -1,25 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollView"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical">
-
-        <RadioGroup
-            android:id="@+id/auto_reef"
+    <!-- Left Panel: Timer and Action History -->
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+        
+        <TextView
+            android:id="@+id/timer_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="15.0s"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#FF0000"
             android:layout_gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:layout_alignParentEnd="true">
+            android:layout_marginBottom="10dp" />
+            
+        <Button
+            android:id="@+id/auto_leave"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="NONE"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:backgroundTint="@color/unselected"
+            android:layout_marginBottom="10dp" />
+            
+        <Button
+            android:id="@+id/btn_unlock_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Unlock Tabs"
+            android:textSize="12sp"
+            android:textColor="#000000"
+            android:backgroundTint="#FFE0E0"
+            android:layout_marginBottom="10dp"
+            android:visibility="visible" />
+            
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+            
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Action History"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#000000" />
+                
+            <Button
+                android:id="@+id/btn_undo"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:text="Undo"
+                android:textSize="8sp"
+                android:textColor="#000000"
+                android:backgroundTint="#E0E0E0"
+                android:layout_marginEnd="3dp" />
+                
+            <Button
+                android:id="@+id/btn_redo"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:text="Redo"
+                android:textSize="8sp"
+                android:textColor="#000000"
+                android:backgroundTint="#E0E0E0" />
+                
+        </LinearLayout>
+        
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#F0F0F0"
+            android:padding="5dp">
+            
+            <LinearLayout
+                android:id="@+id/action_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+                
+        </ScrollView>
+        
+        <Button
+            android:id="@+id/btn_field_editor"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Field Editor"
+            android:textSize="12sp"
+            android:textColor="#000000"
+            android:layout_marginTop="10dp" />
+            
+    </LinearLayout>
 
+    <!-- Center Panel: Field -->
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="10dp">
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- No configuration overlay -->
+            <TextView
+                android:id="@+id/no_config_overlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="No field configuration found\nUse Field Editor to create zones"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:textAlignment="center"
+                android:background="#F0F0F0"
+                android:padding="20dp"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/field_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/field_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/field_red_side"
+                    android:scaleType="centerInside"
+                    android:adjustViewBounds="true" />
+
+                <com.team2073.eagleforcescoutingapplication.util.PathDrawingView
+                    android:id="@+id/path_drawing_canvas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignTop="@id/field_background"
+                    android:layout_alignBottom="@id/field_background"
+                    android:clickable="true"
+                    android:focusable="true" />
+                    
+                <com.team2073.eagleforcescoutingapplication.util.ZoneDrawingView
+                    android:id="@+id/drawing_canvas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignTop="@id/field_background"
+                    android:layout_alignBottom="@id/field_background"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:visibility="invisible" />
+
+            </RelativeLayout>
+            
+        </RelativeLayout>
+        
+    </FrameLayout>
+
+    <!-- Right Panel: Action Bar and Level Selector -->
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        
+        <!-- Action Bar -->
+        <LinearLayout
+            android:id="@+id/action_bar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="#E0E0E0"
+            android:padding="8dp"
+            android:visibility="gone"
+            android:layout_marginEnd="10dp">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Actions"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:layout_marginBottom="5dp" />
+            
+        </LinearLayout>
+        
+        <!-- Level Selector -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -27,156 +213,53 @@
                 android:gravity="center"
                 android:textColor="@color/md_black_1000"
                 android:textStyle="bold"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp" />
 
-            <RadioButton
-                android:id="@+id/L4"
+            <RadioGroup
+                android:id="@+id/auto_reef"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="4"
-                android:textSize="50sp" />
+                android:layout_gravity="center"
+                android:gravity="center">
 
-            <RadioButton
-                android:id="@+id/L3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="3"
-                android:textSize="50sp" />
+                <RadioButton
+                    android:id="@+id/L4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="4"
+                    android:textSize="50sp" />
 
-            <RadioButton
-                android:id="@+id/L2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="2"
-                android:textSize="50sp" />
+                <RadioButton
+                    android:id="@+id/L3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="3"
+                    android:textSize="50sp" />
 
-            <RadioButton
-                android:id="@+id/L1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="1"
-                android:textSize="50sp" />
-        </RadioGroup>
+                <RadioButton
+                    android:id="@+id/L2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="2"
+                    android:textSize="50sp" />
 
-        <Button
-            android:id="@+id/auto_leave"
-            android:layout_height="50dp"
-            android:layout_width="120dp"
-            android:text="NONE"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:backgroundTint="@color/unselected"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp">
-        </Button>
-
-        <TextView
-            android:id="@+id/path_info"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:layout_below="@id/auto_leave"
-            android:layout_marginTop="10dp"
-            android:text="Draw path on field"/>
-
-        <RelativeLayout
-            android:id="@+id/field_container"
-            android:layout_width="500dp"
-            android:layout_height="350dp"
-            android:layout_marginStart="20dp"
-            android:layout_toEndOf="@id/auto_leave">
-
-            <ImageView
-                android:id="@+id/field_background"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/field_red_side"
-                android:scaleType="centerInside"
-                android:adjustViewBounds="true" />
-
-            <com.team2073.eagleforcescoutingapplication.util.PathDrawingView
-                android:id="@+id/drawing_canvas"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignTop="@id/field_background"
-                android:layout_alignBottom="@id/field_background" />
-
-            <include
-                android:id="@+id/auto_field"
-                layout="@layout/field_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible" />
-
-        </RelativeLayout>
-
-        <!-- Action Bar for waypoint actions -->
-        <LinearLayout
-            android:id="@+id/action_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#E0E0E0"
-            android:padding="8dp"
-            android:visibility="gone"
-            android:layout_below="@id/field_container"
-            android:layout_marginTop="10dp">
-            
-            <Button
-                android:id="@+id/action_pickup_coral"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Pickup Coral"
-                android:textSize="12sp"
-                android:layout_marginEnd="5dp" />
-            
-            <Button
-                android:id="@+id/action_pickup_algae"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Pickup Algae"
-                android:textSize="12sp"
-                android:layout_marginEnd="5dp" />
-            
-            <Button
-                android:id="@+id/action_score_coral"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Score Coral"
-                android:textSize="12sp"
-                android:layout_marginEnd="5dp" />
-            
-            <Button
-                android:id="@+id/action_score_algae"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Score Algae"
-                android:textSize="12sp"
-                android:layout_marginEnd="5dp" />
-            
-            <Button
-                android:id="@+id/action_remove"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Remove"
-                android:textSize="12sp"
-                android:layout_marginEnd="5dp" />
-            
-            <Button
-                android:id="@+id/action_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Cancel"
-                android:textSize="12sp"
-                android:backgroundTint="#FF5722" />
+                <RadioButton
+                    android:id="@+id/L1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="1"
+                    android:textSize="50sp" />
+                    
+            </RadioGroup>
             
         </LinearLayout>
+        
+    </LinearLayout>
 
-    </RelativeLayout>
-
-</ScrollView>
+</LinearLayout>

@@ -15,24 +15,21 @@ import java.util.List;
 public class PathDrawingView extends View {
     
     private Paint pathPaint;
-    private Paint waypointPaint;
+    private Paint dotPaint;
     private Path currentPath;
     private List<PointF> pathPoints;
-    private List<PointF> waypoints;
-    private List<PointF> actionPoints;
-    private long lastTouchTime;
-    private PointF lastPoint;
-    private float lastVelocity;
+    private List<List<PointF>> completedPaths;
     private PathDrawingListener listener;
-    private boolean isWaitingForAction = false;
-    private PointF pendingWaypoint;
-    private String pendingSnapTarget;
-    private FieldConfig fieldConfig;
+    private boolean isDrawingEnabled = true;
+    private float snapRadius = 30f;
+    private List<ZoneDrawingView.Zone> zones;
+    private ZoneDrawingView.Zone lastSnappedZone;
+    private float boundaryLeft = 0f, boundaryTop = 0f, boundaryRight = 1000f, boundaryBottom = 1000f;
     
     public interface PathDrawingListener {
-        void onWaypointCreated(float x, float y, String snapTarget);
-        void onActionBarRequested(float x, float y, String snapTarget);
-        void onPathContinued();
+        void onPathPoint(PointF point, ZoneDrawingView.Zone snappedZone);
+        void onPathCompleted(List<PointF> path);
+        void onZoneSnapped(ZoneDrawingView.Zone zone, PointF point);
     }
     
     public PathDrawingView(Context context, AttributeSet attrs) {
@@ -42,177 +39,241 @@ public class PathDrawingView extends View {
     
     private void init() {
         pathPaint = new Paint();
-        pathPaint.setColor(0xFF4BB543);
-        pathPaint.setStrokeWidth(8f);
+        pathPaint.setColor(0xFF0066CC);
+        pathPaint.setStrokeWidth(6f);
         pathPaint.setStyle(Paint.Style.STROKE);
         pathPaint.setAntiAlias(true);
         
-        waypointPaint = new Paint();
-        waypointPaint.setColor(0xFFFF0000);
-        waypointPaint.setStyle(Paint.Style.FILL);
-        waypointPaint.setAntiAlias(true);
+        dotPaint = new Paint();
+        dotPaint.setColor(0xFF0066CC);
+        dotPaint.setStyle(Paint.Style.FILL);
+        dotPaint.setAntiAlias(true);
         
         currentPath = new Path();
         pathPoints = new ArrayList<>();
-        waypoints = new ArrayList<>();
-        actionPoints = new ArrayList<>();
-        fieldConfig = new FieldConfig(getContext());
+        completedPaths = new ArrayList<>();
+        zones = new ArrayList<>();
     }
     
-    public void updateFieldBoundaries(float left, float top, float width, float height) {
-        if (fieldConfig != null) {
-            fieldConfig.loadConfigRelative(left, top, width, height);
-        }
-    }
-    
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        
-        // Draw path
-        canvas.drawPath(currentPath, pathPaint);
-        
-        // Draw waypoints
-        for (PointF waypoint : waypoints) {
-            canvas.drawCircle(waypoint.x, waypoint.y, 12f, waypointPaint);
-        }
-        
-        // Draw action points
-        waypointPaint.setColor(0xFF0000FF);
-        for (PointF actionPoint : actionPoints) {
-            canvas.drawCircle(actionPoint.x, actionPoint.y, 16f, waypointPaint);
-        }
-        waypointPaint.setColor(0xFFFF0000);
-    }
-    
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
-        long currentTime = System.currentTimeMillis();
-        
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                // Check if touching existing waypoint for action
-                for (PointF waypoint : waypoints) {
-                    if (isNearPoint(x, y, waypoint, 30f)) {
-                        if (listener != null) {
-                            listener.onActionBarRequested(waypoint.x, waypoint.y, getSnapTarget(waypoint.x, waypoint.y));
-                        }
-                        return true;
-                    }
-                }
-                
-                // If continuing from waypoint, hide action bar
-                if (isWaitingForAction && pendingWaypoint != null && 
-                    isNearPoint(x, y, pendingWaypoint, 40f)) {
-                    isWaitingForAction = false;
-                    if (listener != null) {
-                        listener.onPathContinued();
-                    }
-                }
-                
-                // Start new path segment
-                currentPath.moveTo(x, y);
-                lastPoint = new PointF(x, y);
-                lastTouchTime = currentTime;
-                pathPoints.add(new PointF(x, y));
-                break;
-                
-            case MotionEvent.ACTION_MOVE:
-                currentPath.lineTo(x, y);
-                
-                // Calculate velocity
-                if (lastPoint != null && lastTouchTime > 0) {
-                    float distance = (float) Math.sqrt(Math.pow(x - lastPoint.x, 2) + Math.pow(y - lastPoint.y, 2));
-                    float timeDiff = (currentTime - lastTouchTime) / 1000f;
-                    lastVelocity = timeDiff > 0 ? distance / timeDiff : 0;
-                }
-                
-                lastPoint = new PointF(x, y);
-                lastTouchTime = currentTime;
-                pathPoints.add(new PointF(x, y));
-                invalidate();
-                break;
-                
-            case MotionEvent.ACTION_UP:
-                // Create waypoint if velocity was low (indicating a stop)
-                if (lastVelocity < 50f && pathPoints.size() > 5) {
-                    // Apply proximity snapping
-                    PointF snappedPoint = applyProximitySnapping(x, y);
-                    String snapTarget = getSnapTarget(snappedPoint.x, snappedPoint.y);
-                    
-                    waypoints.add(snappedPoint);
-                    pendingWaypoint = snappedPoint;
-                    pendingSnapTarget = snapTarget;
-                    isWaitingForAction = true;
-                    
-                    if (listener != null) {
-                        listener.onWaypointCreated(snappedPoint.x, snappedPoint.y, snapTarget);
-                    }
-                    invalidate();
-                }
-                break;
-        }
-        
-        return true;
-    }
-    
-    private boolean isNearPoint(float x, float y, PointF point, float threshold) {
-        float distance = (float) Math.sqrt(Math.pow(x - point.x, 2) + Math.pow(y - point.y, 2));
-        return distance <= threshold;
-    }
-    
-    public void clearPath() {
-        currentPath.reset();
-        pathPoints.clear();
-        waypoints.clear();
-        actionPoints.clear();
+    public void setZones(List<ZoneDrawingView.Zone> zones) {
+        this.zones = zones != null ? zones : new ArrayList<>();
         invalidate();
-    }
-    
-    public void refreshFieldConfig(float left, float top, float width, float height) {
-        if (fieldConfig != null) {
-            fieldConfig.loadConfigRelative(left, top, width, height);
-        }
     }
     
     public void setPathDrawingListener(PathDrawingListener listener) {
         this.listener = listener;
     }
     
-    public List<PointF> getPathPoints() {
-        return new ArrayList<>(pathPoints);
+    public void setDrawingEnabled(boolean enabled) {
+        this.isDrawingEnabled = enabled;
     }
     
-    public List<PointF> getWaypoints() {
-        return new ArrayList<>(waypoints);
+    public void setBoundaries(float left, float top, float right, float bottom) {
+        this.boundaryLeft = left;
+        this.boundaryTop = top;
+        this.boundaryRight = right;
+        this.boundaryBottom = bottom;
     }
     
-    public List<PointF> getActionPoints() {
-        return new ArrayList<>(actionPoints);
-    }
-    
-    private PointF applyProximitySnapping(float x, float y) {
-        FieldConfig.ActionZone nearestZone = fieldConfig.getZoneAt(x, y);
-        if (nearestZone != null) {
-            return new PointF(nearestZone.x, nearestZone.y);
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        
+        // Draw completed paths
+        for (List<PointF> path : completedPaths) {
+            if (path.size() > 1) {
+                Path drawPath = new Path();
+                drawPath.moveTo(path.get(0).x, path.get(0).y);
+                for (int i = 1; i < path.size(); i++) {
+                    drawPath.lineTo(path.get(i).x, path.get(i).y);
+                }
+                canvas.drawPath(drawPath, pathPaint);
+            }
+            
+            // Draw path points
+            for (int i = 0; i < path.size(); i++) {
+                PointF point = path.get(i);
+                float radius = i == 0 ? 12f : 8f;
+                canvas.drawCircle(point.x, point.y, radius, dotPaint);
+            }
         }
-        return new PointF(x, y);
+        
+        // Draw current path
+        if (!pathPoints.isEmpty()) {
+            if (pathPoints.size() > 1) {
+                canvas.drawPath(currentPath, pathPaint);
+            }
+            
+            // Draw current path points
+            for (int i = 0; i < pathPoints.size(); i++) {
+                PointF point = pathPoints.get(i);
+                Paint currentDotPaint = new Paint(dotPaint);
+                if (i == 0) {
+                    currentDotPaint.setColor(0xFF00FF00); // Green for start
+                }
+                float radius = i == 0 ? 12f : 8f;
+                canvas.drawCircle(point.x, point.y, radius, currentDotPaint);
+            }
+        }
+        
+        // Draw zone outlines for snapping reference
+        Paint zonePaint = new Paint();
+        zonePaint.setColor(0x44FF0000);
+        zonePaint.setStyle(Paint.Style.STROKE);
+        zonePaint.setStrokeWidth(2f);
+        
+        for (ZoneDrawingView.Zone zone : zones) {
+            if (zone.points.size() > 2) {
+                Path zonePath = new Path();
+                zonePath.moveTo(zone.points.get(0).x, zone.points.get(0).y);
+                for (int i = 1; i < zone.points.size(); i++) {
+                    zonePath.lineTo(zone.points.get(i).x, zone.points.get(i).y);
+                }
+                zonePath.close();
+                canvas.drawPath(zonePath, zonePaint);
+            }
+        }
     }
     
-    private String getSnapTarget(float x, float y) {
-        FieldConfig.ActionZone zone = fieldConfig.getZoneAt(x, y);
-        return zone != null ? zone.name : "field";
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (!isDrawingEnabled) return false;
+        
+        float x = event.getX();
+        float y = event.getY();
+        
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                startNewPath(x, y);
+                return true;
+                
+            case MotionEvent.ACTION_MOVE:
+                // Only add point if moved significantly
+                if (!pathPoints.isEmpty()) {
+                    PointF lastPoint = pathPoints.get(pathPoints.size() - 1);
+                    float distance = (float) Math.sqrt(Math.pow(x - lastPoint.x, 2) + Math.pow(y - lastPoint.y, 2));
+                    if (distance > 20f) {
+                        addPathPoint(x, y);
+                    }
+                }
+                return true;
+                
+            case MotionEvent.ACTION_UP:
+                finishPath();
+                return true;
+        }
+        
+        return false;
     }
     
-    public void addActionPoint(float x, float y, String actionType) {
-        actionPoints.add(new PointF(x, y));
-        isWaitingForAction = false;
+    private void startNewPath(float x, float y) {
+        pathPoints.clear();
+        currentPath.reset();
+        addPathPoint(x, y);
+    }
+    
+    private void addPathPoint(float x, float y) {
+        // Constrain to boundaries
+        x = Math.max(boundaryLeft, Math.min(boundaryRight, x));
+        y = Math.max(boundaryTop, Math.min(boundaryBottom, y));
+        
+        PointF point = new PointF(x, y);
+        
+        // Check for zone snapping
+        ZoneDrawingView.Zone snappedZone = findNearestZone(x, y);
+        if (snappedZone != null) {
+            // Snap to zone center
+            PointF center = getZoneCenter(snappedZone);
+            point.set(center.x, center.y);
+            
+            if (snappedZone != lastSnappedZone && listener != null) {
+                listener.onZoneSnapped(snappedZone, point);
+                lastSnappedZone = snappedZone;
+            }
+        }
+        
+        pathPoints.add(point);
+        
+        if (pathPoints.size() == 1) {
+            currentPath.moveTo(point.x, point.y);
+        } else {
+            currentPath.lineTo(point.x, point.y);
+        }
+        
+        if (listener != null) {
+            listener.onPathPoint(point, snappedZone);
+        }
+        
         invalidate();
     }
     
-    public void cancelAction() {
-        isWaitingForAction = false;
+    private void finishPath() {
+        if (pathPoints.size() > 1) {
+            completedPaths.add(new ArrayList<>(pathPoints));
+            if (listener != null) {
+                listener.onPathCompleted(new ArrayList<>(pathPoints));
+            }
+        }
+        
+        pathPoints.clear();
+        currentPath.reset();
+        lastSnappedZone = null;
+        invalidate();
+    }
+    
+    private ZoneDrawingView.Zone findNearestZone(float x, float y) {
+        ZoneDrawingView.Zone nearestZone = null;
+        float nearestDistance = Float.MAX_VALUE;
+        
+        for (ZoneDrawingView.Zone zone : zones) {
+            if (zone.containsPoint(x, y)) {
+                PointF center = getZoneCenter(zone);
+                float distance = (float) Math.sqrt(Math.pow(x - center.x, 2) + Math.pow(y - center.y, 2));
+                if (distance < nearestDistance && distance < snapRadius) {
+                    nearestDistance = distance;
+                    nearestZone = zone;
+                }
+            }
+        }
+        
+        return nearestZone;
+    }
+    
+    private PointF getZoneCenter(ZoneDrawingView.Zone zone) {
+        float centerX = 0f, centerY = 0f;
+        for (PointF point : zone.points) {
+            centerX += point.x;
+            centerY += point.y;
+        }
+        centerX /= zone.points.size();
+        centerY /= zone.points.size();
+        return new PointF(centerX, centerY);
+    }
+    
+    public void clearPaths() {
+        completedPaths.clear();
+        pathPoints.clear();
+        currentPath.reset();
+        lastSnappedZone = null;
+        invalidate();
+    }
+    
+    public void undoLastPath() {
+        if (!completedPaths.isEmpty()) {
+            completedPaths.remove(completedPaths.size() - 1);
+            invalidate();
+        } else if (!pathPoints.isEmpty()) {
+            pathPoints.clear();
+            currentPath.reset();
+            invalidate();
+        }
+    }
+    
+    public List<List<PointF>> getCompletedPaths() {
+        return new ArrayList<>(completedPaths);
+    }
+    
+    public boolean hasActivePath() {
+        return !pathPoints.isEmpty();
     }
 }

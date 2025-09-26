@@ -78,6 +78,15 @@ public class FieldEditorActivity extends BaseActivity {
             } else {
                 fieldBackground.setImageResource(R.drawable.field_red_side);
             }
+            
+            // Add field side indicator
+            TextView fieldSideIndicator = new TextView(this);
+            fieldSideIndicator.setText("0".equals(fieldSide) ? "BLUE ALLIANCE SIDE" : "RED ALLIANCE SIDE");
+            fieldSideIndicator.setTextColor("0".equals(fieldSide) ? 0xFF0066CC : 0xFFCC0000);
+            fieldSideIndicator.setTextSize(16f);
+            fieldSideIndicator.setTypeface(null, android.graphics.Typeface.BOLD);
+            fieldSideIndicator.setPadding(16, 8, 16, 8);
+            fieldSideIndicator.setBackgroundColor(0x22000000);
         }
         
         if (zoneDrawingView != null) {
@@ -255,7 +264,7 @@ public class FieldEditorActivity extends BaseActivity {
         LinearLayout actionPreview = dialogView.findViewById(R.id.action_preview_container);
         
         // Setup zone types
-        String[] zoneTypes = {"Normal", "Reef", "Source", "Barge"};
+        String[] zoneTypes = {"Normal", "Reef", "Source", "Barge", "Processor"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, zoneTypes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(adapter);
@@ -297,6 +306,9 @@ public class FieldEditorActivity extends BaseActivity {
                 zone.type = selectedType;
                 reefContainer.setVisibility("Reef".equals(selectedType) ? View.VISIBLE : View.GONE);
                 drawExistingZones();
+                
+                // Haptic feedback for zone type selection
+                hapticFeedback();
             }
             
             @Override
@@ -457,22 +469,60 @@ public class FieldEditorActivity extends BaseActivity {
         Button greenBtn = dialogView.findViewById(R.id.btn_color_green);
         Button yellowBtn = dialogView.findViewById(R.id.btn_color_yellow);
         
+        // Set initial visual state
+        updateColorButtonStates(dialogView, zone.fillPaint.getColor());
+        
         redBtn.setOnClickListener(v -> {
             zone.fillPaint.setColor(0x44FF0000);
+            updateColorButtonStates(dialogView, 0x44FF0000);
             zoneDrawingView.invalidate();
+            hapticFeedback();
         });
         blueBtn.setOnClickListener(v -> {
             zone.fillPaint.setColor(0x440000FF);
+            updateColorButtonStates(dialogView, 0x440000FF);
             zoneDrawingView.invalidate();
+            hapticFeedback();
         });
         greenBtn.setOnClickListener(v -> {
             zone.fillPaint.setColor(0x4400FF00);
+            updateColorButtonStates(dialogView, 0x4400FF00);
             zoneDrawingView.invalidate();
+            hapticFeedback();
         });
         yellowBtn.setOnClickListener(v -> {
             zone.fillPaint.setColor(0x44FFFF00);
+            updateColorButtonStates(dialogView, 0x44FFFF00);
             zoneDrawingView.invalidate();
+            hapticFeedback();
         });
+    }
+    
+    private void updateColorButtonStates(View dialogView, int selectedColor) {
+        Button redBtn = dialogView.findViewById(R.id.btn_color_red);
+        Button blueBtn = dialogView.findViewById(R.id.btn_color_blue);
+        Button greenBtn = dialogView.findViewById(R.id.btn_color_green);
+        Button yellowBtn = dialogView.findViewById(R.id.btn_color_yellow);
+        
+        // Reset all to grayed out
+        redBtn.setAlpha(0.5f);
+        blueBtn.setAlpha(0.5f);
+        greenBtn.setAlpha(0.5f);
+        yellowBtn.setAlpha(0.5f);
+        
+        // Highlight selected
+        switch (selectedColor) {
+            case 0x44FF0000: redBtn.setAlpha(1.0f); break;
+            case 0x440000FF: blueBtn.setAlpha(1.0f); break;
+            case 0x4400FF00: greenBtn.setAlpha(1.0f); break;
+            case 0x44FFFF00: yellowBtn.setAlpha(1.0f); break;
+        }
+    }
+    
+    private void hapticFeedback() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            findViewById(android.R.id.content).performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP);
+        }
     }
     
     private void setupActionButtons(View dialogView, ZoneDrawingView.Zone zone, LinearLayout actionPreview) {
@@ -718,9 +768,20 @@ public class FieldEditorActivity extends BaseActivity {
                 config = zoneDrawingView.exportConfiguration(imageHash, currentScaleFactor);
             }
             
+            // Save configuration for specific field side based on position
+            String fieldSide = getIntent().getStringExtra("field_side");
+            if (fieldSide == null) {
+                // Determine from position setting if not provided
+                String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
+                    .getString("position", "red1");
+                fieldSide = position.toLowerCase().startsWith("blue") ? "0" : "1";
+            }
+            String configKey = "auto_save_config_" + ("0".equals(fieldSide) ? "blue" : "red");
+            
             getSharedPreferences("field_editor", MODE_PRIVATE)
                 .edit()
-                .putString("auto_save_config", config)
+                .putString("auto_save_config", config) // Keep general config for compatibility
+                .putString(configKey, config) // Save side-specific config
                 .putLong("config_timestamp", System.currentTimeMillis())
                 .apply();
                 
@@ -738,8 +799,25 @@ public class FieldEditorActivity extends BaseActivity {
     }
     
     private void loadConfiguration() {
+        // Load configuration for specific field side based on position
+        String fieldSide = getIntent().getStringExtra("field_side");
+        if (fieldSide == null) {
+            // Determine from position setting if not provided
+            String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
+                .getString("position", "red1");
+            fieldSide = position.toLowerCase().startsWith("blue") ? "0" : "1";
+        }
+        String configKey = "auto_save_config_" + ("0".equals(fieldSide) ? "blue" : "red");
+        
         String config = getSharedPreferences("field_editor", MODE_PRIVATE)
-            .getString("auto_save_config", "");
+            .getString(configKey, "");
+            
+        // Fallback to general config if side-specific doesn't exist
+        if (config.isEmpty()) {
+            config = getSharedPreferences("field_editor", MODE_PRIVATE)
+                .getString("auto_save_config", "");
+        }
+        
         if (!config.isEmpty()) {
             parseAndApplyConfig(config);
             drawExistingZones();
@@ -923,14 +1001,14 @@ public class FieldEditorActivity extends BaseActivity {
         float imageRight = imageLeft + scaledWidth;
         float imageBottom = imageTop + scaledHeight;
         
-        // Use the full image area as boundaries (no margin)
-        
+        // Use exact image bounds without margin for consistency with auto view
         if (zoneDrawingView != null) {
             zoneDrawingView.setImageDimensions(scaledWidth, scaledHeight);
             zoneDrawingView.setFieldBoundaries(imageLeft, imageTop, imageRight, imageBottom);
+            zoneDrawingView.lockBoundaries(true);
             
             // Debug logging
-            android.util.Log.d("FieldEditor", String.format("Image boundaries calculated - View: %dx%d, Drawable: %.0fx%.0f, Scale: %.3f, Actual bounds: (%.1f,%.1f) to (%.1f,%.1f)", 
+            android.util.Log.d("FieldEditor", String.format("Image boundaries locked - View: %dx%d, Drawable: %.0fx%.0f, Scale: %.3f, Exact bounds: (%.1f,%.1f) to (%.1f,%.1f)", 
                 viewWidth, viewHeight, drawableWidth, drawableHeight, scale, imageLeft, imageTop, imageRight, imageBottom));
         }
     }
@@ -1094,6 +1172,29 @@ public class FieldEditorActivity extends BaseActivity {
     
     private void showSaveConfigDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        
+        if (currentLoadedConfig != null) {
+            // Update existing config
+            builder.setTitle("Update Configuration")
+                   .setMessage("Update existing configuration '" + currentLoadedConfig + "'?")
+                   .setPositiveButton("Update", (dialog, which) -> {
+                       saveConfigWithName(currentLoadedConfig);
+                   })
+                   .setNeutralButton("Save As New", (dialog, which) -> {
+                       showNewConfigDialog();
+                   })
+                   .setNegativeButton("Cancel", null);
+        } else {
+            // Create new config
+            showNewConfigDialog();
+            return;
+        }
+        
+        builder.show();
+    }
+    
+    private void showNewConfigDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Save Field Configuration");
         
         EditText nameEdit = new EditText(this);
@@ -1110,6 +1211,8 @@ public class FieldEditorActivity extends BaseActivity {
         builder.setNegativeButton("Cancel", null);
         builder.show();
     }
+    
+    private String currentLoadedConfig = null;
     
     private void saveConfigWithName(String configName) {
         if (zoneDrawingView != null) {
@@ -1133,6 +1236,14 @@ public class FieldEditorActivity extends BaseActivity {
                 .putLong(configName + "_timestamp", System.currentTimeMillis())
                 .apply();
                 
+            // Also save as auto-save config
+            getSharedPreferences("field_editor", MODE_PRIVATE)
+                .edit()
+                .putString("auto_save_config", config)
+                .putLong("config_timestamp", System.currentTimeMillis())
+                .apply();
+                
+            currentLoadedConfig = configName;
             android.widget.Toast.makeText(this, "Configuration '" + configName + "' saved!", android.widget.Toast.LENGTH_SHORT).show();
         }
     }
@@ -1206,6 +1317,7 @@ public class FieldEditorActivity extends BaseActivity {
             parseAndApplyConfig(config);
             loadFieldConfigRelative();
             drawExistingZones();
+            currentLoadedConfig = configName;
             android.widget.Toast.makeText(this, "Configuration '" + configName + "' loaded!", android.widget.Toast.LENGTH_SHORT).show();
         }
     }

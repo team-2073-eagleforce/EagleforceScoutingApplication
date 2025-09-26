@@ -170,8 +170,8 @@ public class ZoneDrawingView extends View {
         boundaryPaint.setStrokeWidth(isEditEnabled ? 3f : 1f);
         canvas.drawRect(fieldLeft, fieldTop, fieldRight, fieldBottom, boundaryPaint);
         
-        // Draw boundary handles only in boundary edit mode
-        if (isEditEnabled && isBoundaryEditMode) {
+        // Draw boundary handles only in boundary edit mode and if not locked
+        if (isEditEnabled && isBoundaryEditMode && !boundariesLocked) {
             Paint handlePaint = new Paint();
             handlePaint.setColor(0xFFFF0000);
             handlePaint.setStyle(Paint.Style.FILL);
@@ -360,8 +360,8 @@ public class ZoneDrawingView extends View {
         float x = event.getX() - panX;
         float y = event.getY() - panY;
         
-        // Handle boundary editing
-        if (isEditEnabled && isBoundaryEditMode) {
+        // Handle boundary editing only if not locked
+        if (isEditEnabled && isBoundaryEditMode && !boundariesLocked) {
             if (handleBoundaryTouch(event.getX(), event.getY(), event.getAction())) {
                 return true;
             }
@@ -573,7 +573,11 @@ public class ZoneDrawingView extends View {
         invalidate();
     }
     
+    private boolean boundariesLocked = false;
+    
     public void setBoundaryEditMode(boolean enabled) {
+        if (boundariesLocked) return;
+        
         this.isBoundaryEditMode = enabled;
         if (enabled) {
             isDrawingMode = false;
@@ -582,6 +586,14 @@ public class ZoneDrawingView extends View {
             selectedDot = null;
             selectedZone = null;
             isDraggingZone = false;
+        }
+        invalidate();
+    }
+    
+    public void lockBoundaries(boolean locked) {
+        this.boundariesLocked = locked;
+        if (locked) {
+            isBoundaryEditMode = false;
         }
         invalidate();
     }
