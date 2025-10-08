@@ -94,7 +94,7 @@ public class UIAutoFragment extends Fragment {
         fragmentAutoBinding = UiFragmentAutoBinding.inflate(inflater, container, false);
         // Removed old UI element bindings
         level = "4";
-        
+
         // Setup field background and drawing canvas
         fieldBackground = fragmentAutoBinding.fieldBackground;
         autoZoneView = fragmentAutoBinding.drawingCanvas;
@@ -105,7 +105,7 @@ public class UIAutoFragment extends Fragment {
         unlockTabsBtn = fragmentAutoBinding.btnUnlockTabs;
         noConfigOverlay = fragmentAutoBinding.noConfigOverlay;
         fieldConfig = new FieldConfig(getContext());
-        
+
         return fragmentAutoBinding.getRoot();
     }
 
@@ -116,11 +116,13 @@ public class UIAutoFragment extends Fragment {
         initFieldViews();
         initClickListeners();
         selectLevel();
-        setupSimplePathDrawing();
-        
+
+        // --- MODIFICATION: Moved main setup call here from setupSimplePathDrawing ---
+        setupPathDrawing();
+
         // Find parent ViewPager
         parentViewPager = getActivity().findViewById(R.id.view_pager);
-        
+
         // Timer will start when fragment becomes visible
     }
 
@@ -139,20 +141,20 @@ public class UIAutoFragment extends Fragment {
     }
     private void initClickListeners() {
         fragmentAutoBinding.autoLeave.setOnClickListener(autoLeave -> toggleLeave());
-        
+
         // Field editor button
         fragmentAutoBinding.btnFieldEditor.setOnClickListener(v -> openFieldEditor());
-        
+
         // Add zone alignment button (long press field editor for alignment)
         fragmentAutoBinding.btnFieldEditor.setOnLongClickListener(v -> {
             showZoneAlignmentDialog();
             return true;
         });
-        
+
         // Undo/Redo buttons
         undoBtn.setOnClickListener(v -> undoLastAction());
         redoBtn.setOnClickListener(v -> redoLastAction());
-        
+
         // Unlock tabs button
         unlockTabsBtn.setOnClickListener(v -> unlockTabs());
     }
@@ -231,7 +233,8 @@ public class UIAutoFragment extends Fragment {
 
     // Removed old transport value methods
 
-    private void setupSimplePathDrawing() {
+    // --- RENAMED from setupSimplePathDrawing ---
+    private void setupPathDrawing() {
         // Set correct field background based on position setting
         String position = readData("position");
         if (position.toLowerCase().startsWith("blue")) {
@@ -245,10 +248,10 @@ public class UIAutoFragment extends Fragment {
             fieldBackground.setImageResource(R.drawable.field_red_side);
             saveData("field_side", "1");
         }
-        
+
         autoStartTime = System.currentTimeMillis();
         autoActive = true;
-        
+
         // Lock ViewPager during auto period
         if (parentViewPager != null) {
             try {
@@ -259,7 +262,7 @@ public class UIAutoFragment extends Fragment {
                 parentViewPager.setOnTouchListener((v, event) -> true);
             }
         }
-        
+
         // Also lock during drawing
         if (pathDrawingView != null) {
             pathDrawingView.setOnTouchListener((v, event) -> {
@@ -270,44 +273,38 @@ public class UIAutoFragment extends Fragment {
                 return false; // Let PathDrawingView handle the touch
             });
         }
-        
+
         // Setup zone drawing for auto mode - zones visible but not editable
         if (autoZoneView != null) {
             autoZoneView.setEditEnabled(false);
             autoZoneView.setDrawingMode(false);
         }
-        
+
+        // Load the configuration from the editor
+        loadFieldEditorConfig();
+
         // Setup path drawing for auto mode
         if (pathDrawingView != null) {
             pathDrawingView.setDrawingEnabled(true);
-            
-            // Set canvas boundaries to match field image
-            fieldBackground.getViewTreeObserver().addOnGlobalLayoutListener(new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    fieldBackground.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    setPathDrawingBoundaries();
-                }
-            });
-            
+
             pathDrawingView.setPathDrawingListener(new PathDrawingView.PathDrawingListener() {
                 @Override
                 public void onPathPoint(PointF point, ZoneDrawingView.Zone snappedZone) {
                     // Record path point
                 }
-                
+
                 @Override
                 public void onPathCompleted(List<PointF> path) {
                     // Path drawing completed
                     updateActionHistory("Path drawn", "Field");
                 }
-                
+
                 @Override
                 public void onZoneSnapped(ZoneDrawingView.Zone zone, PointF point) {
                     pendingActionX = point.x;
                     pendingActionY = point.y;
                     pendingSnapTarget = zone.name;
-                    
+
                     if ("Reef".equals(zone.type)) {
                         setupReefActionBar(zone.name);
                     } else {
@@ -318,78 +315,30 @@ public class UIAutoFragment extends Fragment {
             });
         }
     }
-    
-    private void setupPathDrawing() {
-        // Set correct field background
-        if (readData("field_side").equals("0")) {
-            fieldBackground.setImageResource(R.drawable.field_blue_side);
-        } else {
-            fieldBackground.setImageResource(R.drawable.field_red_side);
-        }
-        
-        // Load field editor configuration
-        loadFieldEditorConfig();
-        
-        // Update field boundaries for PathDrawingView after layout
-        fieldBackground.getViewTreeObserver().addOnGlobalLayoutListener(new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                fieldBackground.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                updatePathDrawingBoundaries();
-            }
-        });
-        
-        // Disable scrolling to allow drawing
-        ScrollView scrollView = getView().findViewById(R.id.scrollView);
-        if (scrollView != null) {
-            scrollView.setOnTouchListener((v, event) -> {
-                // Check if touch is within field container
-                View fieldContainer = getView().findViewById(R.id.field_container);
-                if (fieldContainer != null) {
-                    int[] location = new int[2];
-                    fieldContainer.getLocationOnScreen(location);
-                    float touchX = event.getRawX();
-                    float touchY = event.getRawY();
-                    
-                    if (touchX >= location[0] && touchX <= location[0] + fieldContainer.getWidth() &&
-                        touchY >= location[1] && touchY <= location[1] + fieldContainer.getHeight()) {
-                        // Touch is within field - disable scrolling
-                        return false;
-                    }
-                }
-                // Allow normal scrolling outside field
-                return false;
-            });
-        }
-        
-        // PathDrawingView functionality not available with ZoneDrawingView
-        
-        // This method is kept for compatibility but not used
-    }
-    
+
     private void updatePathDrawingBoundaries() {
-        // PathDrawingView functionality not available with ZoneDrawingView
+        // This functionality is now handled by the self-removing listener in loadFieldEditorConfig
     }
-    
+
     private void selectAction(String actionType) {
         // Record action with timestamp
         updateActionHistory(actionType, pendingSnapTarget);
         updatePathDisplay();
     }
-    
+
     private void cancelAction() {
         actionBar.setVisibility(View.GONE);
     }
-    
+
     private void updatePathDisplay() {
         LinearLayout historyContainer = fragmentAutoBinding.actionHistory;
         int actionCount = historyContainer.getChildCount();
         // Path info removed from layout, just update history count internally
     }
-    
+
     private void updateActionHistory(String actionType, String zoneName) {
         LinearLayout historyContainer = fragmentAutoBinding.actionHistory;
-        
+
         TextView actionText = new TextView(getContext());
         long elapsed = System.currentTimeMillis() - autoStartTime;
         String timeStr = String.format("%.1fs", elapsed / 1000.0);
@@ -397,18 +346,18 @@ public class UIAutoFragment extends Fragment {
         actionText.setTextColor(0xFF000000);
         actionText.setTextSize(10f);
         actionText.setPadding(2, 2, 2, 2);
-        
+
         historyContainer.addView(actionText, 0); // Add to top
-        
+
         // Limit history to 10 items
         while (historyContainer.getChildCount() > 10) {
             historyContainer.removeViewAt(historyContainer.getChildCount() - 1);
         }
     }
-    
+
     private void setupDynamicActionBar(String snapTarget) {
         actionBar.removeAllViews();
-        
+
         // Add title
         TextView titleText = new TextView(getContext());
         titleText.setText("Actions");
@@ -417,7 +366,7 @@ public class UIAutoFragment extends Fragment {
         titleText.setTypeface(null, android.graphics.Typeface.BOLD);
         titleText.setPadding(0, 0, 0, 8);
         actionBar.addView(titleText);
-        
+
         // Find the actual zone and get its actions
         ZoneDrawingView.Zone targetZone = null;
         if (autoZoneView != null) {
@@ -428,7 +377,7 @@ public class UIAutoFragment extends Fragment {
                 }
             }
         }
-        
+
         if (targetZone != null && !targetZone.actions.isEmpty()) {
             // Use zone-specific actions
             for (String action : targetZone.actions) {
@@ -442,12 +391,12 @@ public class UIAutoFragment extends Fragment {
                         actionBar.setVisibility(View.GONE);
                     }
                 });
-                
+
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.setMargins(5, 2, 5, 2);
                 actionCheck.setLayoutParams(params);
-                
+
                 actionBar.addView(actionCheck);
             }
         } else {
@@ -464,16 +413,16 @@ public class UIAutoFragment extends Fragment {
                         actionBar.setVisibility(View.GONE);
                     }
                 });
-                
+
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.setMargins(5, 2, 5, 2);
                 actionCheck.setLayoutParams(params);
-                
+
                 actionBar.addView(actionCheck);
             }
         }
-        
+
         // Always add cancel button
         Button cancelBtn = new Button(getContext());
         cancelBtn.setText("Cancel");
@@ -481,18 +430,18 @@ public class UIAutoFragment extends Fragment {
         cancelBtn.setTextSize(12f);
         cancelBtn.setBackgroundTintList(getColorStateList("#FF5722"));
         cancelBtn.setOnClickListener(v -> cancelAction());
-        
+
         LinearLayout.LayoutParams cancelParams = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         cancelParams.setMargins(5, 8, 5, 0);
         cancelBtn.setLayoutParams(cancelParams);
-        
+
         actionBar.addView(cancelBtn);
     }
-    
+
     private void setupReefActionBar(String snapTarget) {
         actionBar.removeAllViews();
-        
+
         // Add title
         TextView titleText = new TextView(getContext());
         titleText.setText("Reef Actions");
@@ -501,43 +450,43 @@ public class UIAutoFragment extends Fragment {
         titleText.setTypeface(null, android.graphics.Typeface.BOLD);
         titleText.setPadding(0, 0, 0, 8);
         actionBar.addView(titleText);
-        
+
         // Add reef image
         ImageView reefImage = new ImageView(getContext());
         reefImage.setImageResource(R.drawable.hexagon_corner);
         reefImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
         LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(
-            200, 150);
+                200, 150);
         imageParams.setMargins(0, 5, 0, 10);
         reefImage.setLayoutParams(imageParams);
         actionBar.addView(reefImage);
-        
+
         // Add level selection buttons in 2x2 grid
         LinearLayout gridLayout = new LinearLayout(getContext());
         gridLayout.setOrientation(LinearLayout.VERTICAL);
-        
+
         // Top row: L4, L3
         LinearLayout topRow = new LinearLayout(getContext());
         topRow.setOrientation(LinearLayout.HORIZONTAL);
-        
+
         Button l4Btn = createReefLevelButton("L4");
         Button l3Btn = createReefLevelButton("L3");
         topRow.addView(l4Btn);
         topRow.addView(l3Btn);
-        
+
         // Bottom row: L2, L1
         LinearLayout bottomRow = new LinearLayout(getContext());
         bottomRow.setOrientation(LinearLayout.HORIZONTAL);
-        
+
         Button l2Btn = createReefLevelButton("L2");
         Button l1Btn = createReefLevelButton("L1");
         bottomRow.addView(l2Btn);
         bottomRow.addView(l1Btn);
-        
+
         gridLayout.addView(topRow);
         gridLayout.addView(bottomRow);
         actionBar.addView(gridLayout);
-        
+
         // Find the actual zone and get its actions
         ZoneDrawingView.Zone targetZone = null;
         if (autoZoneView != null) {
@@ -548,7 +497,7 @@ public class UIAutoFragment extends Fragment {
                 }
             }
         }
-        
+
         if (targetZone != null && !targetZone.actions.isEmpty()) {
             // Use zone-specific actions
             for (String action : targetZone.actions) {
@@ -562,16 +511,16 @@ public class UIAutoFragment extends Fragment {
                         actionBar.setVisibility(View.GONE);
                     }
                 });
-                
+
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.setMargins(5, 2, 5, 2);
                 actionCheck.setLayoutParams(params);
-                
+
                 actionBar.addView(actionCheck);
             }
         }
-        
+
         // Cancel button
         Button cancelBtn = new Button(getContext());
         cancelBtn.setText("Cancel");
@@ -579,15 +528,15 @@ public class UIAutoFragment extends Fragment {
         cancelBtn.setTextSize(12f);
         cancelBtn.setBackgroundTintList(getColorStateList("#FF5722"));
         cancelBtn.setOnClickListener(v -> cancelAction());
-        
+
         LinearLayout.LayoutParams cancelParams = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         cancelParams.setMargins(5, 8, 5, 0);
         cancelBtn.setLayoutParams(cancelParams);
-        
+
         actionBar.addView(cancelBtn);
     }
-    
+
     private Button createReefLevelButton(String level) {
         Button levelBtn = new Button(getContext());
         levelBtn.setText(level);
@@ -598,21 +547,21 @@ public class UIAutoFragment extends Fragment {
             selectReefAction(level);
             actionBar.setVisibility(View.GONE);
         });
-        
+
         LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(
-            60, 40);
+                60, 40);
         btnParams.setMargins(2, 2, 2, 2);
         levelBtn.setLayoutParams(btnParams);
-        
+
         return levelBtn;
     }
-    
+
     private void selectReefAction(String position) {
         // Record reef position selection
         updateActionHistory("reef_" + position, pendingSnapTarget);
         updatePathDisplay();
     }
-    
+
     public void openFieldEditor() {
         Intent intent = new Intent(getActivity(), com.team2073.eagleforcescoutingapplication.activities.FieldEditorActivity.class);
         // Pass field side based on position
@@ -621,7 +570,7 @@ public class UIAutoFragment extends Fragment {
         intent.putExtra("field_side", fieldSide);
         startActivityForResult(intent, 1001);
     }
-    
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -630,7 +579,7 @@ public class UIAutoFragment extends Fragment {
             loadFieldEditorConfig();
         }
     }
-    
+
     @Override
     public void onResume() {
         super.onResume();
@@ -639,7 +588,7 @@ public class UIAutoFragment extends Fragment {
             autoActive = true;
             startAutoTimer();
         }
-        loadFieldEditorConfig();
+        // --- MODIFICATION: Removed loadFieldEditorConfig() call from here ---
     }
 
     private void loadFieldEditorConfig() {
@@ -656,7 +605,7 @@ public class UIAutoFragment extends Fragment {
         }
 
         if (!config.isEmpty() && autoZoneView != null) {
-            // *** FIX: Reset the pan to (0,0) before drawing zones ***
+            // Reset the pan to (0,0) before drawing zones to prevent offset issues
             autoZoneView.setPan(0, 0);
 
             // Parse and apply zones to auto view
@@ -673,12 +622,16 @@ public class UIAutoFragment extends Fragment {
                 int zoneCount = autoZoneView.getZones().size();
                 updateActionHistory("Loaded " + zoneCount + " zones", "Config");
 
-                // Auto-detect and lock boundaries
+                // --- FIX: Use a self-removing listener to guarantee single execution ---
                 fieldBackground.getViewTreeObserver().addOnGlobalLayoutListener(new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
+                        // Remove the listener to ensure it only runs once
                         fieldBackground.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
                         autoDetectAndLockBoundaries();
+                        setPathDrawingBoundaries(); // Also set boundaries for the path view
+
                         // Apply any saved zone adjustments after boundaries are set
                         loadZoneAdjustment();
                     }
@@ -692,6 +645,7 @@ public class UIAutoFragment extends Fragment {
             showNoConfigOverlay();
         }
     }
+
     private android.os.Handler timerHandler = new android.os.Handler();
     private Runnable timerRunnable = new Runnable() {
         @Override
@@ -699,7 +653,7 @@ public class UIAutoFragment extends Fragment {
             if (autoActive) {
                 long elapsed = System.currentTimeMillis() - autoStartTime;
                 long remaining = Math.max(0, 15000 - elapsed);
-                
+
                 if (remaining > 0) {
                     fragmentAutoBinding.timerDisplay.setText(String.format("%.1fs", remaining / 1000.0));
                     // Change color as time runs out
@@ -714,7 +668,7 @@ public class UIAutoFragment extends Fragment {
                     fragmentAutoBinding.timerDisplay.setTextColor(0xFF888888);
                     autoActive = false;
                     actionBar.setVisibility(View.GONE);
-                    
+
                     // Re-enable ViewPager and auto-scroll to teleop (index 2)
                     if (parentViewPager != null) {
                         try {
@@ -725,7 +679,7 @@ public class UIAutoFragment extends Fragment {
                         }
                         parentViewPager.setCurrentItem(2, true);
                     }
-                    
+
                     // Disable path drawing when auto ends
                     if (pathDrawingView != null) {
                         pathDrawingView.setDrawingEnabled(false);
@@ -735,13 +689,13 @@ public class UIAutoFragment extends Fragment {
             }
         }
     };
-    
+
     private void startAutoTimer() {
         if (getUserVisibleHint() && isResumed()) {
             timerHandler.post(timerRunnable);
         }
     }
-    
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -751,33 +705,33 @@ public class UIAutoFragment extends Fragment {
             startAutoTimer();
         }
     }
-    
 
-    
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         timerHandler.removeCallbacks(timerRunnable);
         fragmentAutoBinding = null;
     }
-    
+
     private void autoDetectAndLockBoundaries() {
         if (fieldBackground == null || fieldBackground.getDrawable() == null || autoZoneView == null) return;
-        
+
         // Get container dimensions
         int viewWidth = fieldBackground.getWidth();
         int viewHeight = fieldBackground.getHeight();
-        
+
         if (viewWidth == 0 || viewHeight == 0) return;
-        
+
         // With centerInside scaling, calculate actual image bounds
         float[] bounds = calculateImageBounds();
         autoZoneView.setFieldBoundaries(bounds[0], bounds[1], bounds[2], bounds[3]);
         autoZoneView.lockBoundaries(true);
-        
+
         android.util.Log.d("UIAutoFragment", String.format("Auto boundaries set: %.1f,%.1f to %.1f,%.1f", bounds[0], bounds[1], bounds[2], bounds[3]));
     }
-    
+
     private void setPathDrawingBoundaries() {
         if (pathDrawingView != null && fieldBackground != null) {
             float[] bounds = calculateImageBounds();
@@ -785,58 +739,58 @@ public class UIAutoFragment extends Fragment {
             android.util.Log.d("UIAutoFragment", "Path drawing boundaries set");
         }
     }
-    
+
     private float[] calculateImageBounds() {
         if (fieldBackground == null || fieldBackground.getDrawable() == null) {
             return new float[]{0, 0, 100, 100};
         }
-        
+
         int viewWidth = fieldBackground.getWidth();
         int viewHeight = fieldBackground.getHeight();
         int drawableWidth = fieldBackground.getDrawable().getIntrinsicWidth();
         int drawableHeight = fieldBackground.getDrawable().getIntrinsicHeight();
-        
+
         if (viewWidth == 0 || viewHeight == 0) {
             return new float[]{0, 0, 100, 100};
         }
-        
+
         // Calculate centerInside scaling to match actual image bounds
         float scaleX = (float) viewWidth / drawableWidth;
         float scaleY = (float) viewHeight / drawableHeight;
         float scale = Math.min(scaleX, scaleY);
-        
+
         float scaledWidth = drawableWidth * scale;
         float scaledHeight = drawableHeight * scale;
-        
+
         // Apply refined universal boundary correction
         float left = (viewWidth - scaledWidth) / 2f;
         float top = (viewHeight - scaledHeight) / 2f;
         float right = left + scaledWidth;
         float bottom = top + scaledHeight;
-        
+
         android.util.Log.d("UIAutoFragment", String.format("Image bounds: %.1f,%.1f to %.1f,%.1f (scale=%.3f)", left, top, right, bottom, scale));
-        
+
         return new float[]{left, top, right, bottom};
     }
-    
+
     private void undoLastAction() {
         if (pathDrawingView != null) {
             pathDrawingView.undoLastPath();
             updateActionHistory("Undo", "Action");
         }
     }
-    
+
     private void redoLastAction() {
         // Redo functionality would need to be implemented in PathDrawingView
         updateActionHistory("Redo", "Action");
     }
-    
+
     private void showNoConfigOverlay() {
         if (noConfigOverlay != null) {
             noConfigOverlay.setVisibility(View.VISIBLE);
         }
     }
-    
+
     private void unlockTabs() {
         autoActive = false;
         if (parentViewPager != null) {
@@ -850,50 +804,50 @@ public class UIAutoFragment extends Fragment {
         unlockTabsBtn.setVisibility(View.GONE);
         updateActionHistory("Tabs unlocked manually", "System");
     }
-    
+
     private void showZoneAlignmentDialog() {
         // Create vertical layout for action bar
         LinearLayout controlPanel = new LinearLayout(getActivity());
         controlPanel.setOrientation(LinearLayout.VERTICAL);
         controlPanel.setBackgroundColor(0xEE000000);
         controlPanel.setPadding(8, 8, 8, 8);
-        
+
         // X control row
         LinearLayout xRow = new LinearLayout(getActivity());
         xRow.setOrientation(LinearLayout.HORIZONTAL);
-        
+
         TextView xLabel = new TextView(getActivity());
         xLabel.setText("H:");
         xLabel.setTextColor(0xFFFFFFFF);
         xLabel.setTextSize(14f);
         xLabel.setLayoutParams(new LinearLayout.LayoutParams(25, LinearLayout.LayoutParams.WRAP_CONTENT));
-        
+
         Button xMinus = new Button(getActivity());
         xMinus.setText("-");
         xMinus.setLayoutParams(new LinearLayout.LayoutParams(30, 30));
         xMinus.setTextSize(10f);
-        
+
         android.widget.SeekBar xSeek = new android.widget.SeekBar(getActivity());
         xSeek.setMax(600);
         xSeek.setProgress(300);
         xSeek.setLayoutParams(new LinearLayout.LayoutParams(80, 40));
-        
+
         Button xPlus = new Button(getActivity());
         xPlus.setText("+");
         xPlus.setLayoutParams(new LinearLayout.LayoutParams(30, 30));
         xPlus.setTextSize(10f);
-        
+
         TextView xVal = new TextView(getActivity());
         xVal.setText("0");
         xVal.setTextColor(0xFFFFFFFF);
         xVal.setTextSize(14f);
         xVal.setMinWidth(40);
-        
+
         xRow.addView(xLabel);
         xRow.addView(xMinus);
         xRow.addView(xSeek);
         xRow.addView(xPlus);
-        
+
         // X value on separate line
         TextView xValLine = new TextView(getActivity());
         xValLine.setText("H: 0");
@@ -901,43 +855,43 @@ public class UIAutoFragment extends Fragment {
         xValLine.setTextSize(16f);
         xValLine.setGravity(android.view.Gravity.CENTER);
         xValLine.setTypeface(null, android.graphics.Typeface.BOLD);
-        
+
         // Y control row
         LinearLayout yRow = new LinearLayout(getActivity());
         yRow.setOrientation(LinearLayout.HORIZONTAL);
-        
+
         TextView yLabel = new TextView(getActivity());
         yLabel.setText("V:");
         yLabel.setTextColor(0xFFFFFFFF);
         yLabel.setTextSize(14f);
         yLabel.setLayoutParams(new LinearLayout.LayoutParams(25, LinearLayout.LayoutParams.WRAP_CONTENT));
-        
+
         Button yMinus = new Button(getActivity());
         yMinus.setText("-");
         yMinus.setLayoutParams(new LinearLayout.LayoutParams(30, 30));
         yMinus.setTextSize(10f);
-        
+
         android.widget.SeekBar ySeek = new android.widget.SeekBar(getActivity());
         ySeek.setMax(600);
         ySeek.setProgress(300);
         ySeek.setLayoutParams(new LinearLayout.LayoutParams(80, 40));
-        
+
         Button yPlus = new Button(getActivity());
         yPlus.setText("+");
         yPlus.setLayoutParams(new LinearLayout.LayoutParams(30, 30));
         yPlus.setTextSize(10f);
-        
+
         TextView yVal = new TextView(getActivity());
         yVal.setText("0");
         yVal.setTextColor(0xFFFFFFFF);
         yVal.setTextSize(14f);
         yVal.setMinWidth(40);
-        
+
         yRow.addView(yLabel);
         yRow.addView(yMinus);
         yRow.addView(ySeek);
         yRow.addView(yPlus);
-        
+
         // Y value on separate line
         TextView yValLine = new TextView(getActivity());
         yValLine.setText("V: 0");
@@ -945,24 +899,24 @@ public class UIAutoFragment extends Fragment {
         yValLine.setTextSize(16f);
         yValLine.setGravity(android.view.Gravity.CENTER);
         yValLine.setTypeface(null, android.graphics.Typeface.BOLD);
-        
+
         // Done button
         Button done = new Button(getActivity());
         done.setText("DONE");
         done.setTextSize(12f);
         done.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 50));
-        
+
         controlPanel.addView(xRow);
         controlPanel.addView(xValLine);
         controlPanel.addView(yRow);
         controlPanel.addView(yValLine);
         controlPanel.addView(done);
-        
+
         // Add to action bar temporarily
         actionBar.removeAllViews();
         actionBar.addView(controlPanel);
         actionBar.setVisibility(View.VISIBLE);
-        
+
         // Load current values
         android.content.SharedPreferences prefs = getActivity().getSharedPreferences("zone_adjustment", android.content.Context.MODE_PRIVATE);
         String fieldSide = readData("field_side");
@@ -972,7 +926,7 @@ public class UIAutoFragment extends Fragment {
         ySeek.setProgress(currentY + 300);
         xVal.setText("H:" + currentX);
         yVal.setText("V:" + currentY);
-        
+
         xSeek.setOnSeekBarChangeListener(new android.widget.SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(android.widget.SeekBar seekBar, int progress, boolean fromUser) {
@@ -987,7 +941,7 @@ public class UIAutoFragment extends Fragment {
             @Override
             public void onStopTrackingTouch(android.widget.SeekBar seekBar) {}
         });
-        
+
         ySeek.setOnSeekBarChangeListener(new android.widget.SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(android.widget.SeekBar seekBar, int progress, boolean fromUser) {
@@ -1003,7 +957,7 @@ public class UIAutoFragment extends Fragment {
             @Override
             public void onStopTrackingTouch(android.widget.SeekBar seekBar) {}
         });
-        
+
         // Button click listeners for fine adjustment
         xMinus.setOnClickListener(v -> {
             int current = xSeek.getProgress();
@@ -1029,19 +983,19 @@ public class UIAutoFragment extends Fragment {
                 ySeek.setProgress(current + 1);
             }
         });
-        
+
         done.setOnClickListener(v -> {
             saveZoneAdjustment(xSeek.getProgress() - 300, ySeek.getProgress() - 300);
             actionBar.setVisibility(View.GONE);
             updateActionHistory("Zones aligned", "Config");
         });
     }
-    
+
     private void previewZoneAdjustment(int xOffset, int yOffset) {
         if (autoZoneView != null) {
             // Reload config first to get original positions
             loadFieldEditorConfig();
-            
+
             // Then apply offset and make zones semi-transparent for better visibility
             List<ZoneDrawingView.Zone> zones = autoZoneView.getZones();
             for (ZoneDrawingView.Zone zone : zones) {
@@ -1049,7 +1003,7 @@ public class UIAutoFragment extends Fragment {
                 int currentColor = zone.fillPaint.getColor();
                 int transparentColor = (currentColor & 0x00FFFFFF) | 0x30000000; // 30% opacity
                 zone.fillPaint.setColor(transparentColor);
-                
+
                 for (PointF point : zone.points) {
                     point.x += xOffset;
                     point.y += yOffset;
@@ -1058,22 +1012,22 @@ public class UIAutoFragment extends Fragment {
             autoZoneView.invalidate();
         }
     }
-    
+
     private void saveZoneAdjustment(int xOffset, int yOffset) {
         android.content.SharedPreferences prefs = getActivity().getSharedPreferences("zone_adjustment", android.content.Context.MODE_PRIVATE);
         String fieldSide = readData("field_side");
         prefs.edit()
-            .putInt("x_offset_" + fieldSide, xOffset)
-            .putInt("y_offset_" + fieldSide, yOffset)
-            .apply();
+                .putInt("x_offset_" + fieldSide, xOffset)
+                .putInt("y_offset_" + fieldSide, yOffset)
+                .apply();
     }
-    
+
     private void loadZoneAdjustment() {
         android.content.SharedPreferences prefs = getActivity().getSharedPreferences("zone_adjustment", android.content.Context.MODE_PRIVATE);
         String fieldSide = readData("field_side");
         int xOffset = prefs.getInt("x_offset_" + fieldSide, 0);
         int yOffset = prefs.getInt("y_offset_" + fieldSide, 0);
-        
+
         if (xOffset != 0 || yOffset != 0) {
             if (autoZoneView != null) {
                 List<ZoneDrawingView.Zone> zones = autoZoneView.getZones();
@@ -1087,7 +1041,7 @@ public class UIAutoFragment extends Fragment {
             }
         }
     }
-    
+
     public String readData(String key) { return scoutingFormPresenter.readData(key); }
     public void saveData(String key, String data) { scoutingFormPresenter.saveData(key, data);}
 }
