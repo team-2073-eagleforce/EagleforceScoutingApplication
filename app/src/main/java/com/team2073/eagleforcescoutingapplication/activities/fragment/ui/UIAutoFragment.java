@@ -641,35 +641,38 @@ public class UIAutoFragment extends Fragment {
         }
         loadFieldEditorConfig();
     }
-    
+
     private void loadFieldEditorConfig() {
         // Load field editor configuration for specific side
         android.content.SharedPreferences prefs = getActivity().getSharedPreferences("field_editor", android.content.Context.MODE_PRIVATE);
-        
+
         String fieldSide = readData("field_side");
         String configKey = "auto_save_config_" + ("0".equals(fieldSide) ? "blue" : "red");
         String config = prefs.getString(configKey, "");
-        
+
         // Fallback to general config if side-specific doesn't exist
         if (config.isEmpty()) {
             config = prefs.getString("auto_save_config", "");
         }
-        
+
         if (!config.isEmpty() && autoZoneView != null) {
+            // *** FIX: Reset the pan to (0,0) before drawing zones ***
+            autoZoneView.setPan(0, 0);
+
             // Parse and apply zones to auto view
             try {
                 ZoneConfigParser.parseAndRestoreZonesRelative(autoZoneView, config);
-                
+
                 // Pass zones to path drawing view for snapping
                 if (pathDrawingView != null) {
                     pathDrawingView.setZones(autoZoneView.getZones());
                 }
-                
+
                 // Hide no config overlay and show zone count
                 noConfigOverlay.setVisibility(View.GONE);
                 int zoneCount = autoZoneView.getZones().size();
                 updateActionHistory("Loaded " + zoneCount + " zones", "Config");
-                
+
                 // Auto-detect and lock boundaries
                 fieldBackground.getViewTreeObserver().addOnGlobalLayoutListener(new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
@@ -680,7 +683,7 @@ public class UIAutoFragment extends Fragment {
                         loadZoneAdjustment();
                     }
                 });
-                
+
             } catch (Exception e) {
                 android.util.Log.e("UIAutoFragment", "Error loading field config: " + e.getMessage());
                 showNoConfigOverlay();
@@ -689,7 +692,6 @@ public class UIAutoFragment extends Fragment {
             showNoConfigOverlay();
         }
     }
-    
     private android.os.Handler timerHandler = new android.os.Handler();
     private Runnable timerRunnable = new Runnable() {
         @Override

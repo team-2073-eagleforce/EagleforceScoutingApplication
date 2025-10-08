@@ -58,7 +58,7 @@ public class ZoneDrawingView extends View {
     public interface ScaleModeListener {
         void onScaleChanged(float scaleFactor);
     }
-    
+
     public static class Zone {
         public String name;
         public String type; // "normal", "reef", etc.
@@ -330,6 +330,12 @@ public class ZoneDrawingView extends View {
         }
         
         canvas.restore();
+    }
+
+    public void setPan(float panX, float panY) {
+        this.panX = panX;
+        this.panY = panY;
+        invalidate();
     }
     
     private Path createPath(List<PointF> points) {
