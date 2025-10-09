@@ -20,6 +20,7 @@ public class ConfigurationManager {
     private static ConfigurationManager INSTANCE;
     private final Activity mActivity;
     private final PrefsDataManager prefsDataManager;
+    private String currentLoadedConfigName = null;
     
     public static ConfigurationManager getInstance(Activity activity) {
         if (INSTANCE == null) {
@@ -35,7 +36,15 @@ public class ConfigurationManager {
     
     public void saveConfiguration() {
         JSONObject config = exportConfiguration();
-        prefsDataManager.writeToPreferences("saved_config", config.toString());
+        
+        if (currentLoadedConfigName != null) {
+            // Update existing configuration
+            prefsDataManager.writeToPreferences("saved_config_" + currentLoadedConfigName, config.toString());
+            prefsDataManager.writeToPreferences("saved_config", config.toString()); // Keep for compatibility
+        } else {
+            // Save as default configuration
+            prefsDataManager.writeToPreferences("saved_config", config.toString());
+        }
         
         // Count zones for user feedback
         int zoneCount = 0;
@@ -48,16 +57,36 @@ public class ConfigurationManager {
             // Ignore
         }
         
-        Toast.makeText(mActivity, "Configuration saved with " + zoneCount + " zones!", Toast.LENGTH_SHORT).show();
+        String message = currentLoadedConfigName != null ? 
+            "Configuration '" + currentLoadedConfigName + "' updated with " + zoneCount + " zones!" :
+            "Configuration saved with " + zoneCount + " zones!";
+        Toast.makeText(mActivity, message, Toast.LENGTH_SHORT).show();
     }
     
     public void loadConfiguration() {
-        String configStr = prefsDataManager.readFromPreferences("saved_config");
+        loadConfiguration(null);
+    }
+    
+    public void loadConfiguration(String configName) {
+        String configStr;
+        if (configName != null) {
+            configStr = prefsDataManager.readFromPreferences("saved_config_" + configName);
+            if (configStr.equals("0")) {
+                configStr = prefsDataManager.readFromPreferences("saved_config");
+            }
+        } else {
+            configStr = prefsDataManager.readFromPreferences("saved_config");
+        }
+        
         if (!configStr.equals("0")) {
             try {
                 JSONObject config = new JSONObject(configStr);
                 importConfiguration(config);
-                Toast.makeText(mActivity, "Configuration loaded!", Toast.LENGTH_SHORT).show();
+                currentLoadedConfigName = configName;
+                String message = configName != null ? 
+                    "Configuration '" + configName + "' loaded!" :
+                    "Configuration loaded!";
+                Toast.makeText(mActivity, message, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 Toast.makeText(mActivity, "Failed to load configuration", Toast.LENGTH_SHORT).show();
                 Timber.e("Error loading configuration: %s", e.getMessage());
@@ -127,5 +156,17 @@ public class ConfigurationManager {
         BitMatrix bitMatrix = multiFormatWriter.encode(config.toString(), BarcodeFormat.QR_CODE, 400, 400);
         BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
         return barcodeEncoder.createBitmap(bitMatrix);
+    }
+    
+    public String getCurrentLoadedConfigName() {
+        return currentLoadedConfigName;
+    }
+    
+    public void setCurrentLoadedConfigName(String configName) {
+        currentLoadedConfigName = configName;
+    }
+    
+    public boolean hasLoadedConfiguration() {
+        return currentLoadedConfigName != null;
     }
 }

@@ -138,7 +138,12 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
             Preference saveConfigPref = findPreference("save_config");
             if (saveConfigPref != null) {
                 saveConfigPref.setOnPreferenceClickListener(preference -> {
-                    configurationManager.saveConfiguration();
+                    if (configurationManager.hasLoadedConfiguration()) {
+                        // Show update confirmation dialog
+                        showUpdateConfigurationDialog();
+                    } else {
+                        configurationManager.saveConfiguration();
+                    }
                     return true;
                 });
             }
@@ -173,6 +178,22 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
             }
             
 
+        }
+        
+        private void showUpdateConfigurationDialog() {
+            String configName = configurationManager.getCurrentLoadedConfigName();
+            AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+            builder.setTitle("Update Configuration")
+                   .setMessage("Update the loaded configuration '" + configName + "' with current settings?")
+                   .setPositiveButton("Update", (dialog, which) -> {
+                       configurationManager.saveConfiguration();
+                   })
+                   .setNeutralButton("Save as New", (dialog, which) -> {
+                       configurationManager.setCurrentLoadedConfigName(null);
+                       configurationManager.saveConfiguration();
+                   })
+                   .setNegativeButton("Cancel", null)
+                   .show();
         }
         
         private void showConfigQRDialog() {

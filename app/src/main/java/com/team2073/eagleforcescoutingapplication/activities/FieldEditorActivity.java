@@ -1179,6 +1179,8 @@ public class FieldEditorActivity extends BaseActivity {
                    .setMessage("Update existing configuration '" + currentLoadedConfig + "'?")
                    .setPositiveButton("Update", (dialog, which) -> {
                        saveConfigWithName(currentLoadedConfig);
+                       // Also update the main configuration manager
+                       updateMainConfigurationManager();
                    })
                    .setNeutralButton("Save As New", (dialog, which) -> {
                        showNewConfigDialog();
@@ -1244,7 +1246,11 @@ public class FieldEditorActivity extends BaseActivity {
                 .apply();
                 
             currentLoadedConfig = configName;
-            android.widget.Toast.makeText(this, "Configuration '" + configName + "' saved!", android.widget.Toast.LENGTH_SHORT).show();
+            
+            String message = currentLoadedConfig != null ? 
+                "Configuration '" + configName + "' updated!" :
+                "Configuration '" + configName + "' saved!";
+            android.widget.Toast.makeText(this, message, android.widget.Toast.LENGTH_SHORT).show();
         }
     }
     
@@ -1318,6 +1324,10 @@ public class FieldEditorActivity extends BaseActivity {
             loadFieldConfigRelative();
             drawExistingZones();
             currentLoadedConfig = configName;
+            
+            // Update the main configuration manager to track this loaded config
+            updateMainConfigurationManager();
+            
             android.widget.Toast.makeText(this, "Configuration '" + configName + "' loaded!", android.widget.Toast.LENGTH_SHORT).show();
         }
     }
@@ -1623,5 +1633,16 @@ public class FieldEditorActivity extends BaseActivity {
         }
         
         zoneDrawingView.invalidate();
+    }
+    
+    private void updateMainConfigurationManager() {
+        // Update the main configuration manager to know about the currently loaded field config
+        try {
+            com.team2073.eagleforcescoutingapplication.framework.manager.ConfigurationManager configManager = 
+                com.team2073.eagleforcescoutingapplication.framework.manager.ConfigurationManager.getInstance(this);
+            configManager.setCurrentLoadedConfigName(currentLoadedConfig);
+        } catch (Exception e) {
+            // Ignore if configuration manager is not available
+        }
     }
 }
