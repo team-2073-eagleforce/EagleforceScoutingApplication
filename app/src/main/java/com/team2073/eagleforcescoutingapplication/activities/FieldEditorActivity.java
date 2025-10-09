@@ -199,6 +199,7 @@ public class FieldEditorActivity extends BaseActivity {
         
         updateEditModeUI();
         updateOrientationDisplay();
+        updateLoadedConfigIndicator();
     }
     
     @Override
@@ -821,6 +822,17 @@ public class FieldEditorActivity extends BaseActivity {
         if (!config.isEmpty()) {
             parseAndApplyConfig(config);
             drawExistingZones();
+            
+            // Set the loaded config name for auto-loaded configurations
+            String autoFieldSide = getIntent().getStringExtra("field_side");
+            if (autoFieldSide == null) {
+                String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
+                    .getString("position", "red1");
+                autoFieldSide = position.toLowerCase().startsWith("blue") ? "0" : "1";
+            }
+            currentLoadedConfig = "auto_" + ("0".equals(autoFieldSide) ? "blue" : "red");
+            updateMainConfigurationManager();
+            updateLoadedConfigIndicator();
         }
     }
     
@@ -1246,6 +1258,7 @@ public class FieldEditorActivity extends BaseActivity {
                 .apply();
                 
             currentLoadedConfig = configName;
+            updateLoadedConfigIndicator();
             
             String message = currentLoadedConfig != null ? 
                 "Configuration '" + configName + "' updated!" :
@@ -1327,6 +1340,7 @@ public class FieldEditorActivity extends BaseActivity {
             
             // Update the main configuration manager to track this loaded config
             updateMainConfigurationManager();
+            updateLoadedConfigIndicator();
             
             android.widget.Toast.makeText(this, "Configuration '" + configName + "' loaded!", android.widget.Toast.LENGTH_SHORT).show();
         }
@@ -1643,6 +1657,21 @@ public class FieldEditorActivity extends BaseActivity {
             configManager.setCurrentLoadedConfigName(currentLoadedConfig);
         } catch (Exception e) {
             // Ignore if configuration manager is not available
+        }
+    }
+    
+    private void updateLoadedConfigIndicator() {
+        TextView loadedConfigText = findViewById(R.id.loaded_config_indicator);
+        if (loadedConfigText != null) {
+            if (currentLoadedConfig != null) {
+                String displayName = currentLoadedConfig.startsWith("auto_") ? 
+                    "Auto-loaded (" + currentLoadedConfig.substring(5) + " side)" : 
+                    currentLoadedConfig;
+                loadedConfigText.setText("Loaded: " + displayName);
+                loadedConfigText.setVisibility(android.view.View.VISIBLE);
+            } else {
+                loadedConfigText.setVisibility(android.view.View.GONE);
+            }
         }
     }
 }
