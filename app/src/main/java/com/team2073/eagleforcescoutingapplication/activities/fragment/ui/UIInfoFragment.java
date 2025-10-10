@@ -62,10 +62,7 @@ public class UIInfoFragment extends Fragment {
         startPosition = fragmentInfoBinding.startPosition;
         initRadioGroup();
         initSpinner();
-        if (scoutingFormPresenter.readData("field_side").equals("0")) {
-            //RelativeLayout.LayoutParams imgParam = (RelativeLayout.LayoutParams) fragmentInfoBinding.startMap.getLayoutParams();
-            fragmentInfoBinding.startMap.setImageResource(R.drawable.non_processor_side_field_map);
-        }
+        updateFieldImage();
         return fragmentInfoBinding.getRoot();
     }
 
@@ -85,6 +82,16 @@ public class UIInfoFragment extends Fragment {
         fragmentInfoBinding.editTextName.setText(scoutingFormPresenter.readData("name").equals("0") ? "" : scoutingFormPresenter.readData("name"));
         fragmentInfoBinding.editTextMatchNumber.setText(scoutingFormPresenter.readData("matchNumber").equals("0") ? "" : scoutingFormPresenter.readData("matchNumber"));
         fragmentInfoBinding.editTextTeamNumber.setText(scoutingFormPresenter.readData("teamNumber").equals("0") ? "" : scoutingFormPresenter.readData("teamNumber"));
+    }
+    
+    private void updateFieldImage() {
+        boolean isProcessorSide = scoutingFormPresenter.readData("field_side").equals("1");
+        
+        if (isProcessorSide) {
+            fragmentInfoBinding.startMap.setImageResource(R.drawable.processor_side_field_map);
+        } else {
+            fragmentInfoBinding.startMap.setImageResource(R.drawable.non_processor_side_field_map);
+        }
     }
 
     private void initSpinner() {

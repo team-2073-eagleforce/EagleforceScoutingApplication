@@ -235,19 +235,8 @@ public class UIAutoFragment extends Fragment {
 
     // --- RENAMED from setupSimplePathDrawing ---
     private void setupPathDrawing() {
-        // Set correct field background based on position setting
-        String position = readData("position");
-        if (position.toLowerCase().startsWith("blue")) {
-            fieldBackground.setImageResource(R.drawable.field_blue_side);
-            saveData("field_side", "0");
-        } else if (position.toLowerCase().startsWith("red")) {
-            fieldBackground.setImageResource(R.drawable.field_red_side);
-            saveData("field_side", "1");
-        } else {
-            // Default to red if no position set
-            fieldBackground.setImageResource(R.drawable.field_red_side);
-            saveData("field_side", "1");
-        }
+        // Set correct field background based on position and processor settings
+        updateFieldImage();
 
         autoStartTime = System.currentTimeMillis();
         autoActive = true;
@@ -595,8 +584,10 @@ public class UIAutoFragment extends Fragment {
         // Load field editor configuration for specific side
         android.content.SharedPreferences prefs = getActivity().getSharedPreferences("field_editor", android.content.Context.MODE_PRIVATE);
 
-        String fieldSide = readData("field_side");
-        String configKey = "auto_save_config_" + ("0".equals(fieldSide) ? "blue" : "red");
+        String position = readData("position");
+        boolean isBlue = position.toLowerCase().startsWith("blue");
+        
+        String configKey = "auto_save_config_" + (isBlue ? "blue" : "red");
         String config = prefs.getString(configKey, "");
 
         // Fallback to general config if side-specific doesn't exist
@@ -1039,6 +1030,17 @@ public class UIAutoFragment extends Fragment {
                 }
                 autoZoneView.invalidate();
             }
+        }
+    }
+
+    private void updateFieldImage() {
+        String position = readData("position");
+        boolean isBlue = position.toLowerCase().startsWith("blue");
+        
+        if (isBlue) {
+            fieldBackground.setImageResource(R.drawable.field_blue_side);
+        } else {
+            fieldBackground.setImageResource(R.drawable.field_red_side);
         }
     }
 

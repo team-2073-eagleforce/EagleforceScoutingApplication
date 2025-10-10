@@ -71,22 +71,9 @@ public class FieldEditorActivity extends BaseActivity {
         zoneDrawingView = findViewById(R.id.zone_drawing_view);
         
         if (fieldBackground != null) {
-            // Set field side
-            String fieldSide = getIntent().getStringExtra("field_side");
-            if ("0".equals(fieldSide)) {
-                fieldBackground.setImageResource(R.drawable.field_blue_side);
-            } else {
-                fieldBackground.setImageResource(R.drawable.field_red_side);
-            }
+            updateFieldImage();
             
-            // Add field side indicator
-            TextView fieldSideIndicator = new TextView(this);
-            fieldSideIndicator.setText("0".equals(fieldSide) ? "BLUE ALLIANCE SIDE" : "RED ALLIANCE SIDE");
-            fieldSideIndicator.setTextColor("0".equals(fieldSide) ? 0xFF0066CC : 0xFFCC0000);
-            fieldSideIndicator.setTextSize(16f);
-            fieldSideIndicator.setTypeface(null, android.graphics.Typeface.BOLD);
-            fieldSideIndicator.setPadding(16, 8, 16, 8);
-            fieldSideIndicator.setBackgroundColor(0x22000000);
+
         }
         
         if (zoneDrawingView != null) {
@@ -172,6 +159,7 @@ public class FieldEditorActivity extends BaseActivity {
         helpBtn = findViewById(R.id.btn_help);
         scaleSeekBar = findViewById(R.id.scale_seekbar);
         scaleValueText = findViewById(R.id.scale_value_text);
+        Button customImageBtn = findViewById(R.id.btn_custom_image);
         
         if (editModeBtn != null) editModeBtn.setOnClickListener(v -> toggleEditMode());
         if (drawZoneBtn != null) drawZoneBtn.setOnClickListener(v -> toggleDrawMode());
@@ -187,6 +175,7 @@ public class FieldEditorActivity extends BaseActivity {
         if (scaleModeBtn != null) scaleModeBtn.setOnClickListener(v -> toggleScaleMode());
         if (boundaryModeBtn != null) boundaryModeBtn.setOnClickListener(v -> toggleBoundaryMode());
         if (helpBtn != null) helpBtn.setOnClickListener(v -> showHelpDialog());
+        if (customImageBtn != null) customImageBtn.setOnClickListener(v -> showCustomImageDialog());
         
         setupScaleControls();
         
@@ -769,15 +758,11 @@ public class FieldEditorActivity extends BaseActivity {
                 config = zoneDrawingView.exportConfiguration(imageHash, currentScaleFactor);
             }
             
-            // Save configuration for specific field side based on position
-            String fieldSide = getIntent().getStringExtra("field_side");
-            if (fieldSide == null) {
-                // Determine from position setting if not provided
-                String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
-                    .getString("position", "red1");
-                fieldSide = position.toLowerCase().startsWith("blue") ? "0" : "1";
-            }
-            String configKey = "auto_save_config_" + ("0".equals(fieldSide) ? "blue" : "red");
+            // Save configuration for specific field side
+            String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
+                .getString("position", "red1");
+            boolean isBlue = position.toLowerCase().startsWith("blue");
+            String configKey = "auto_save_config_" + (isBlue ? "blue" : "red");
             
             getSharedPreferences("field_editor", MODE_PRIVATE)
                 .edit()
@@ -800,15 +785,11 @@ public class FieldEditorActivity extends BaseActivity {
     }
     
     private void loadConfiguration() {
-        // Load configuration for specific field side based on position
-        String fieldSide = getIntent().getStringExtra("field_side");
-        if (fieldSide == null) {
-            // Determine from position setting if not provided
-            String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
-                .getString("position", "red1");
-            fieldSide = position.toLowerCase().startsWith("blue") ? "0" : "1";
-        }
-        String configKey = "auto_save_config_" + ("0".equals(fieldSide) ? "blue" : "red");
+        // Load configuration for specific field side
+        String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
+            .getString("position", "red1");
+        boolean isBlue = position.toLowerCase().startsWith("blue");
+        String configKey = "auto_save_config_" + (isBlue ? "blue" : "red");
         
         String config = getSharedPreferences("field_editor", MODE_PRIVATE)
             .getString(configKey, "");
@@ -824,13 +805,10 @@ public class FieldEditorActivity extends BaseActivity {
             drawExistingZones();
             
             // Set the loaded config name for auto-loaded configurations
-            String autoFieldSide = getIntent().getStringExtra("field_side");
-            if (autoFieldSide == null) {
-                String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
-                    .getString("position", "red1");
-                autoFieldSide = position.toLowerCase().startsWith("blue") ? "0" : "1";
-            }
-            currentLoadedConfig = "auto_" + ("0".equals(autoFieldSide) ? "blue" : "red");
+            String autoPosition = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
+                .getString("position", "red1");
+            boolean autoIsBlue = autoPosition.toLowerCase().startsWith("blue");
+            currentLoadedConfig = "auto_" + (autoIsBlue ? "blue" : "red");
             updateMainConfigurationManager();
             updateLoadedConfigIndicator();
         }
@@ -950,16 +928,33 @@ public class FieldEditorActivity extends BaseActivity {
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
-        com.google.zxing.integration.android.IntentResult result = 
-            com.google.zxing.integration.android.IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() == null) {
-                android.widget.Toast.makeText(this, "Scan cancelled", android.widget.Toast.LENGTH_SHORT).show();
-            } else {
-                importFieldConfig(result.getContents());
+        if (requestCode == 2001 && resultCode == RESULT_OK && data != null) {
+            // Handle custom image selection
+            android.net.Uri imageUri = data.getData();
+            if (imageUri != null) {
+                String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
+                    .getString("position", "red1");
+                
+                com.team2073.eagleforcescoutingapplication.util.FieldImageManager fieldImageManager = 
+                    com.team2073.eagleforcescoutingapplication.util.FieldImageManager.getInstance(this);
+                
+                fieldImageManager.setCustomImage(position, imageUri);
+                updateFieldImage();
+                android.widget.Toast.makeText(this, "Custom field image set!", android.widget.Toast.LENGTH_SHORT).show();
             }
         } else {
-            super.onActivityResult(requestCode, resultCode, data);
+            // Handle QR code scanning
+            com.google.zxing.integration.android.IntentResult result = 
+                com.google.zxing.integration.android.IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (result != null) {
+                if (result.getContents() == null) {
+                    android.widget.Toast.makeText(this, "Scan cancelled", android.widget.Toast.LENGTH_SHORT).show();
+                } else {
+                    importFieldConfig(result.getContents());
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
     
@@ -1659,6 +1654,82 @@ public class FieldEditorActivity extends BaseActivity {
             // Ignore if configuration manager is not available
         }
     }
+    
+    private void updateFieldImage() {
+        String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
+            .getString("position", "red1");
+        
+        com.team2073.eagleforcescoutingapplication.util.FieldImageManager fieldImageManager = 
+            com.team2073.eagleforcescoutingapplication.util.FieldImageManager.getInstance(this);
+        
+        int resourceId = fieldImageManager.getFieldImageResource(position);
+        if (resourceId == -1) {
+            // Load custom image
+            String customPath = fieldImageManager.getCustomImagePath(position);
+            if (customPath != null) {
+                android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeFile(customPath);
+                if (bitmap != null) {
+                    fieldBackground.setImageBitmap(bitmap);
+                }
+            }
+        } else {
+            fieldBackground.setImageResource(resourceId);
+        }
+        
+        // Update field side indicator
+        TextView fieldSideIndicator = findViewById(R.id.field_side_indicator);
+        if (fieldSideIndicator != null) {
+            String displayName = fieldImageManager.getFieldDisplayName(position);
+            fieldSideIndicator.setText(displayName);
+        }
+    }
+    
+    private void showCustomImageDialog() {
+        String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
+            .getString("position", "red1");
+        
+        com.team2073.eagleforcescoutingapplication.util.FieldImageManager fieldImageManager = 
+            com.team2073.eagleforcescoutingapplication.util.FieldImageManager.getInstance(this);
+        
+        String displayName = fieldImageManager.getFieldDisplayName(position);
+        boolean hasCustom = fieldImageManager.getCustomImagePath(position) != null;
+        
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Custom Field Image: " + displayName);
+        
+        String[] options = hasCustom ? 
+            new String[]{"Upload New Image", "Remove Custom Image", "Cancel"} :
+            new String[]{"Upload Custom Image", "Cancel"};
+            
+        builder.setItems(options, (dialog, which) -> {
+            if (hasCustom) {
+                switch (which) {
+                    case 0: // Upload New
+                        selectCustomImage();
+                        break;
+                    case 1: // Remove Custom
+                        fieldImageManager.clearCustomImage(position);
+                        updateFieldImage();
+                        android.widget.Toast.makeText(this, "Custom image removed", android.widget.Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            } else {
+                if (which == 0) { // Upload Custom
+                    selectCustomImage();
+                }
+            }
+        });
+        
+        builder.show();
+    }
+    
+    private void selectCustomImage() {
+        android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(android.content.Intent.createChooser(intent, "Select Field Image"), 2001);
+    }
+    
+
     
     private void updateLoadedConfigIndicator() {
         TextView loadedConfigText = findViewById(R.id.loaded_config_indicator);
