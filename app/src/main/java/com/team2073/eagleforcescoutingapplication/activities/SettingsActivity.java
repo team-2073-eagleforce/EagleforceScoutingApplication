@@ -177,6 +177,14 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                 });
             }
             
+            Preference zoneAssociationPref = findPreference("zone_association");
+            if (zoneAssociationPref != null) {
+                zoneAssociationPref.setOnPreferenceClickListener(preference -> {
+                    showZoneAssociationDialog();
+                    return true;
+                });
+            }
+            
 
         }
         
@@ -214,6 +222,37 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
             } catch (WriterException e) {
                 Timber.e("Error creating config QR: %s", e.getMessage());
                 android.widget.Toast.makeText(mActivity, "Error generating QR code", android.widget.Toast.LENGTH_SHORT).show();
+            }
+        }
+        
+        private void showZoneAssociationDialog() {
+            android.content.SharedPreferences fieldPrefs = mActivity.getSharedPreferences("field_editor", mActivity.MODE_PRIVATE);
+            
+            String blueConfig = fieldPrefs.getString("auto_save_config_blue", "");
+            String redConfig = fieldPrefs.getString("auto_save_config_red", "");
+            
+            int blueZones = countZones(blueConfig);
+            int redZones = countZones(redConfig);
+            
+            String message = "Zone Association:\n\n" +
+                           "🔵 Blue Alliance Side: " + blueZones + " zones\n" +
+                           "🔴 Red Alliance Side: " + redZones + " zones\n\n" +
+                           "Zones are automatically associated with the field side " +
+                           "based on your position setting when creating them in the Field Editor.";
+            
+            AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+            builder.setTitle("Zone Association")
+                   .setMessage(message)
+                   .setPositiveButton("OK", null)
+                   .show();
+        }
+        
+        private int countZones(String config) {
+            if (config.isEmpty()) return 0;
+            try {
+                return config.split("ZONE\\|").length - 1;
+            } catch (Exception e) {
+                return 0;
             }
         }
         

@@ -228,9 +228,18 @@
                 android:id="@+id/btn_custom_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Custom Field Image"
+                android:text="Change Field Image"
                 android:textColor="#000000"
                 android:backgroundTint="#9C27B0"
+                android:layout_marginBottom="4dp" />
+
+            <Button
+                android:id="@+id/btn_refresh_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Refresh Field"
+                android:textColor="#000000"
+                android:backgroundTint="#FF9800"
                 android:layout_marginBottom="16dp" />
 
             <TextView

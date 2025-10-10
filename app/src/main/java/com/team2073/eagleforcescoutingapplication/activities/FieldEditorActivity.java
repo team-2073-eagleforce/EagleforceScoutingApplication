@@ -56,6 +56,7 @@ public class FieldEditorActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        updateFieldImage(); // Update field image when resuming
         loadConfiguration();
         checkForConfigurationUpdates();
     }
@@ -160,6 +161,7 @@ public class FieldEditorActivity extends BaseActivity {
         scaleSeekBar = findViewById(R.id.scale_seekbar);
         scaleValueText = findViewById(R.id.scale_value_text);
         Button customImageBtn = findViewById(R.id.btn_custom_image);
+        Button refreshBtn = findViewById(R.id.btn_refresh_field);
         
         if (editModeBtn != null) editModeBtn.setOnClickListener(v -> toggleEditMode());
         if (drawZoneBtn != null) drawZoneBtn.setOnClickListener(v -> toggleDrawMode());
@@ -176,6 +178,11 @@ public class FieldEditorActivity extends BaseActivity {
         if (boundaryModeBtn != null) boundaryModeBtn.setOnClickListener(v -> toggleBoundaryMode());
         if (helpBtn != null) helpBtn.setOnClickListener(v -> showHelpDialog());
         if (customImageBtn != null) customImageBtn.setOnClickListener(v -> showCustomImageDialog());
+        if (refreshBtn != null) refreshBtn.setOnClickListener(v -> {
+            updateFieldImage();
+            loadConfiguration();
+            android.widget.Toast.makeText(this, "Field refreshed", android.widget.Toast.LENGTH_SHORT).show();
+        });
         
         setupScaleControls();
         
@@ -759,8 +766,9 @@ public class FieldEditorActivity extends BaseActivity {
             }
             
             // Save configuration for specific field side
-            String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
-                .getString("position", "red1");
+            com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter savePresenter = 
+                new com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter(this);
+            String position = savePresenter.readData("position");
             boolean isBlue = position.toLowerCase().startsWith("blue");
             String configKey = "auto_save_config_" + (isBlue ? "blue" : "red");
             
@@ -786,8 +794,9 @@ public class FieldEditorActivity extends BaseActivity {
     
     private void loadConfiguration() {
         // Load configuration for specific field side
-        String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
-            .getString("position", "red1");
+        com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter loadPresenter = 
+            new com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter(this);
+        String position = loadPresenter.readData("position");
         boolean isBlue = position.toLowerCase().startsWith("blue");
         String configKey = "auto_save_config_" + (isBlue ? "blue" : "red");
         
@@ -805,8 +814,9 @@ public class FieldEditorActivity extends BaseActivity {
             drawExistingZones();
             
             // Set the loaded config name for auto-loaded configurations
-            String autoPosition = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
-                .getString("position", "red1");
+            com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter autoPresenter = 
+                new com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter(this);
+            String autoPosition = autoPresenter.readData("position");
             boolean autoIsBlue = autoPosition.toLowerCase().startsWith("blue");
             currentLoadedConfig = "auto_" + (autoIsBlue ? "blue" : "red");
             updateMainConfigurationManager();
@@ -932,8 +942,9 @@ public class FieldEditorActivity extends BaseActivity {
             // Handle custom image selection
             android.net.Uri imageUri = data.getData();
             if (imageUri != null) {
-                String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
-                    .getString("position", "red1");
+                com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter imagePresenter = 
+                    new com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter(this);
+                String position = imagePresenter.readData("position");
                 
                 com.team2073.eagleforcescoutingapplication.util.FieldImageManager fieldImageManager = 
                     com.team2073.eagleforcescoutingapplication.util.FieldImageManager.getInstance(this);
@@ -1656,67 +1667,55 @@ public class FieldEditorActivity extends BaseActivity {
     }
     
     private void updateFieldImage() {
-        String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
-            .getString("position", "red1");
+        // Use same method as Auto tab
+        com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter updatePresenter = 
+            new com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter(this);
+        String position = updatePresenter.readData("position");
+        boolean isBlue = position.toLowerCase().startsWith("blue");
         
-        com.team2073.eagleforcescoutingapplication.util.FieldImageManager fieldImageManager = 
-            com.team2073.eagleforcescoutingapplication.util.FieldImageManager.getInstance(this);
+        android.util.Log.d("FieldEditor", "Position: " + position + ", isBlue: " + isBlue);
         
-        int resourceId = fieldImageManager.getFieldImageResource(position);
-        if (resourceId == -1) {
-            // Load custom image
-            String customPath = fieldImageManager.getCustomImagePath(position);
-            if (customPath != null) {
-                android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeFile(customPath);
-                if (bitmap != null) {
-                    fieldBackground.setImageBitmap(bitmap);
-                }
-            }
+        // Set field image based on position
+        if (isBlue) {
+            fieldBackground.setImageResource(R.drawable.field_blue_side);
         } else {
-            fieldBackground.setImageResource(resourceId);
+            fieldBackground.setImageResource(R.drawable.field_red_side);
         }
         
         // Update field side indicator
         TextView fieldSideIndicator = findViewById(R.id.field_side_indicator);
         if (fieldSideIndicator != null) {
-            String displayName = fieldImageManager.getFieldDisplayName(position);
-            fieldSideIndicator.setText(displayName);
+            fieldSideIndicator.setText(isBlue ? "Blue Alliance Side" : "Red Alliance Side");
+            fieldSideIndicator.setTextColor(isBlue ? 0xFF0066CC : 0xFFCC0000);
         }
     }
     
     private void showCustomImageDialog() {
-        String position = getSharedPreferences("EagleforceScoutingApplication", MODE_PRIVATE)
-            .getString("position", "red1");
+        com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter dialogPresenter = 
+            new com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter(this);
+        String position = dialogPresenter.readData("position");
+        boolean isBlue = position.toLowerCase().startsWith("blue");
         
         com.team2073.eagleforcescoutingapplication.util.FieldImageManager fieldImageManager = 
             com.team2073.eagleforcescoutingapplication.util.FieldImageManager.getInstance(this);
         
-        String displayName = fieldImageManager.getFieldDisplayName(position);
-        boolean hasCustom = fieldImageManager.getCustomImagePath(position) != null;
+        String displayName = isBlue ? "Blue Alliance Side" : "Red Alliance Side";
         
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Custom Field Image: " + displayName);
+        builder.setTitle("Change Field Image: " + displayName);
         
-        String[] options = hasCustom ? 
-            new String[]{"Upload New Image", "Remove Custom Image", "Cancel"} :
-            new String[]{"Upload Custom Image", "Cancel"};
+        String[] options = {"Use Predefined", "Upload Custom", "Cancel"};
             
         builder.setItems(options, (dialog, which) -> {
-            if (hasCustom) {
-                switch (which) {
-                    case 0: // Upload New
-                        selectCustomImage();
-                        break;
-                    case 1: // Remove Custom
-                        fieldImageManager.clearCustomImage(position);
-                        updateFieldImage();
-                        android.widget.Toast.makeText(this, "Custom image removed", android.widget.Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            } else {
-                if (which == 0) { // Upload Custom
+            switch (which) {
+                case 0: // Use Predefined
+                    fieldImageManager.clearCustomImage(position);
+                    updateFieldImage();
+                    android.widget.Toast.makeText(this, "Using predefined field image", android.widget.Toast.LENGTH_SHORT).show();
+                    break;
+                case 1: // Upload Custom
                     selectCustomImage();
-                }
+                    break;
             }
         });
         

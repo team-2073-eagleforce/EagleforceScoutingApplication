@@ -65,6 +65,11 @@
             android:key="export_config_qr"
             android:title="Export Config as QR"
             android:summary="Generate QR code with current settings" />
+            
+        <Preference
+            android:key="zone_association"
+            android:title="Zone Association"
+            android:summary="View which zones are associated with Red/Blue sides" />
 
     </PreferenceCategory>
 
