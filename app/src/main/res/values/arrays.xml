@@ -36,16 +36,16 @@
     </string-array>
 
     <string-array name="comp_code">
-        <item>2025camb</item>
-        <item>2025cada</item>
-        <item>2025cafr</item>
+        <item>2025cc</item>
+        <item>2025cacc</item>
+        <item>2025mttd</item>
         <item>testing</item>
     </string-array>
 
     <string-array name="comp_name">
-        <item>Pinnacles</item>
-        <item>Sacramento</item>
-        <item>Central Valley</item>
+        <item>Chezy Champs</item>
+        <item>Capital City Classic</item>
+        <item>Madtown Throwdown</item>
         <item>Testing</item>
     </string-array>
 
