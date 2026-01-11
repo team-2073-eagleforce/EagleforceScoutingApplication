@@ -6,7 +6,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.tabs.TabLayout;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIQRCodeFragment;
 import com.team2073.eagleforcescoutingapplication.databinding.ActivityScoutingFormBinding;

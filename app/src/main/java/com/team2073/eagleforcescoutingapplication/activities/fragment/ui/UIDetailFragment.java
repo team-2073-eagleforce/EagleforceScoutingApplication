@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +19,6 @@ import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentDetailBinding;
-import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import timber.log.Timber;
@@ -84,7 +81,7 @@ public class UIDetailFragment extends Fragment {
         defensePerform.formField.setText(getResources().getString(R.string.defense_performance));
         defensePerform.formScore.setText(scoutingFormPresenter.readData("defenseRanking"));
 
-        //TODO: initialize Comment to the save data
+        //TODO: initialize Comment to the save data and checkbox save data
     }
 
     private void togglePerformanceRatings() {

@@ -12,22 +12,29 @@ public class ReefscapeScoutingForm implements ScoutingForm{
 
     public ReefscapeScoutingForm(){
         //General Info
-        fieldNames.add("comp_code");
-        fieldNames.add("name");
-        fieldNames.add("quantifier");
         fieldNames.add("teamNumber");
-        fieldNames.add("matchNumber");
-        fieldNames.add("startPos");
-
         clearNames.add("teamNumber");
+
+        fieldNames.add("comp_code");
+
+        fieldNames.add("name");
+
+        fieldNames.add("matchNumber");
         clearNames.add("matchNumber");
+
+        fieldNames.add("startPos");
         clearNames.add("startPos");
 
+        fieldNames.add("quantifier");
+        clearNames.add("fieldSide");
+
         //Autos
+        autoNames.add("missed_auto");
         autoNames.add("autoLeave");
         autoNames.add("autoNet");
         autoNames.add("autoProcessor");
         autoNames.add("autoRemoved");
+        autoNames.add("autoPath");
         autoNames.add("autoL1");
         autoNames.add("autoL2");
         autoNames.add("autoL3");
@@ -36,24 +43,27 @@ public class ReefscapeScoutingForm implements ScoutingForm{
             fieldNames.add(name);
             clearNames.add(name);
         }
+        clearNames.add("sourceA");
+        clearNames.add("sourceB");
 
         //Teleop
-        teleNames.add("teleNet");
         teleNames.add("teleProcessor");
         teleNames.add("teleRemoved");
+        teleNames.add("telenet"); //for future reference <- this is a Chris request, it's supposed to be lowercase
         teleNames.add("teleL1");
         teleNames.add("teleL2");
         teleNames.add("teleL3");
         teleNames.add("teleL4");
+
         for (String name:teleNames) {
             fieldNames.add(name);
             clearNames.add(name);
         }
 
         //Endgame
-        endgameNames.add("climb");
-        fieldNames.add("climb");
-        clearNames.add("climb");
+        endgameNames.add("endClimb");
+        fieldNames.add("endClimb");
+        clearNames.add("endClimb");
 
         //Submit
         fieldNames.add("driverRanking");

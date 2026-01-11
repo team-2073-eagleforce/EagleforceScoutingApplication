@@ -1,15 +1,9 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -67,29 +61,43 @@ public class UIEndGameFragment extends Fragment {
 
     private void initDataFields() {
         fragmentEndgameBinding.cage.setOnClickListener(cage -> toggleClimb());
+        switch (readData("endClimb")) {
+            case "0":
+                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage);
+                break;
+            case "1":
+                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_park);
+                break;
+            case "2":
+                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_shallow);
+                break;
+            case "3":
+                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_deep);
+                break;
+        }
     }
 
     public void toggleClimb() {
         int drawable = 0;
-        switch (readData("climb")) {
+        switch (readData("endClimb")) {
             case "0":
-                saveData("climb", "1");
+                saveData("endClimb", "1");
                 drawable = R.drawable.cage_park;
                 break;
             case "1":
-                saveData("climb", "2");
+                saveData("endClimb", "2");
                 drawable = R.drawable.cage_shallow;
                 break;
             case "2":
-                saveData("climb", "3");
+                saveData("endClimb", "3");
                 drawable = R.drawable.cage_deep;
                 break;
             case "3":
-                saveData("climb", "0");
+                saveData("endClimb", "0");
                 drawable = R.drawable.cage;
                 break;
         }
-        Timber.d("Climb:%s", readData("climb"));
+        Timber.d("Climb:%s", readData("endClimb"));
         fragmentEndgameBinding.cage.setImageResource(drawable);
     }
 
@@ -100,5 +108,3 @@ public class UIEndGameFragment extends Fragment {
         scoutingFormPresenter.saveData(key, data);
     }
 }
-
-

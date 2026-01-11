@@ -3,12 +3,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <ImageButton
         android:id="@+id/formSubtract"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/coral_minus"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:background="@drawable/source_minus"
+        android:layout_toEndOf="@+id/formScore"
         android:gravity="center"/>
 
     <TextView
@@ -21,16 +21,14 @@
         android:gravity="center"
         android:textSize="25sp"
         android:typeface="sans"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_toEndOf="@+id/formSubtract" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toEndOf="@+id/formAdd" />
 
     <ImageButton
         android:id="@+id/formAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:gravity="center"
-        android:background="@drawable/coral_plus"
-        android:textColor="@color/defaultTextColor"
-        android:layout_toEndOf="@+id/formScore"/>
+        android:background="@drawable/source_plus"/>
 </RelativeLayout>

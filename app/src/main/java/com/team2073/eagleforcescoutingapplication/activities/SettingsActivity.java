@@ -12,11 +12,14 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.SettingsPresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.SettingsView;
+
+import timber.log.Timber;
 
 public class SettingsActivity extends BaseActivity implements SettingsView {
 
@@ -82,6 +85,7 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
             switch (s) {
                 case "Schedule File":
                     findPreference(s).setSummary(fileManager.getScheduleFile().getAbsolutePath());
+                    Timber.d("Scouting Schedule name: %s ", fileManager.getScheduleFile().getAbsolutePath());
                     break;
                 case "name":
                     Preference namePreference = findPreference("name");
@@ -93,6 +97,17 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                     String positionPreferenceValue = positionPreference.getValue();
                     settingsPresenter.writeToPreferences("position", positionPreferenceValue);
                     break;
+                case "field_side":
+                    try {
+                        SwitchPreferenceCompat sidePreference = findPreference("field_side");
+                        if (sidePreference.isChecked()) {
+                            settingsPresenter.writeToPreferences("field_side", "1");
+                        } else {
+                            settingsPresenter.writeToPreferences("field_side", "0");
+                        }
+                    } catch (Exception e) {
+                        Timber.d(e.toString());
+                    }
                 case "comp_code":
                     ListPreference compPreference = findPreference("comp_code");
                     String compPreferenceValue = compPreference.getValue();

@@ -33,7 +33,7 @@
                 android:id="@+id/L4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
+                android:checked="true"
                 android:text="4"
                 android:textSize="50sp" />
 
@@ -67,7 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp">
             <include
                 android:id="@+id/auto_net"
                 android:layout_width="wrap_content"
@@ -82,6 +83,13 @@
                 layout="@layout/add_subtract_values_removed"
                 android:layout_marginBottom="10dp">
             </include>
+            <include
+                android:id="@+id/auto_processor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/add_subtract_values_processor"
+                android:layout_marginBottom="10dp">
+            </include>
             <Button
                 android:id="@+id/auto_leave"
                 android:layout_height="50dp"
@@ -94,12 +102,53 @@
             </Button>
         </LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/source"
+            android:layout_width="wrap_content"
+            android:layout_height="325dp"
+            android:orientation="vertical"
+            android:layout_toEndOf="@id/auto_algae"
+            android:layout_marginStart="15dp">
+            <include
+                android:id="@+id/source_a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/add_subtract_values_source"
+                android:layout_marginBottom="15dp">
+            </include>
+            <TextView
+                android:id="@+id/list"
+                android:textSize="15sp"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/source_a"/>
+            <include
+                android:id="@+id/source_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/add_subtract_values_source"
+                android:layout_alignParentBottom="true">
+            </include>
+
+        </RelativeLayout>
+
+        <include
+            android:id="@+id/groundPickup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/ground_layout"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@id/source"/>
+
         <include
             android:id="@+id/auto_field"
             layout="@layout/field_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@id/groundPickup" />
+
+
     </RelativeLayout>
 
 </ScrollView>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.team2073.eagleforcescoutingapplication">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -63,12 +62,10 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.team2073.eagleforcescoutingapplication.util.EagleProvider"
             android:exported="false"
-            android:grantUriPermissions="true"
-            tools:replace="android:authorities">
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"
-                tools:replace="android:resource" />
+                android:resource="@xml/provider_paths"/>
         </provider>
     </application>
 
