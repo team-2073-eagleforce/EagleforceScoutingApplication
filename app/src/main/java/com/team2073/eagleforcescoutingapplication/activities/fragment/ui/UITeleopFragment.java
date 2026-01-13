@@ -58,10 +58,10 @@ public class UITeleopFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentTeleopBinding = UiFragmentTeleopBinding.inflate(inflater, container, false);
-        reef = fragmentTeleopBinding.teleopReef;
-        teleProcesser = fragmentTeleopBinding.teleopProcessor;
-        teleNet = fragmentTeleopBinding.teleopNet;
-        teleRemoved = fragmentTeleopBinding.teleopRemoved;
+       // reef = fragmentTeleopBinding.teleopReef;
+        //teleProcesser = fragmentTeleopBinding.teleopProcessor;
+        //teleNet = fragmentTeleopBinding.teleopNet;
+        //teleRemoved = fragmentTeleopBinding.teleopRemoved;
 
 
         return fragmentTeleopBinding.getRoot();
@@ -71,8 +71,8 @@ public class UITeleopFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //initDataFields();
-        initTextFields();
-        initViewImageButtons();
+        //initTextFields();
+        //initViewImageButtons();
     }
 
 
