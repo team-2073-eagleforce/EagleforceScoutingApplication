@@ -9,7 +9,7 @@
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:layout_marginTop= "3dp"
-        android:backgroundTint="#f68c4e"
+        android:backgroundTint="#f79d65"
         android:gravity ="center"
         android:text="-20"
         android:textSize="50sp"/>
@@ -18,8 +18,9 @@
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:layout_marginTop= "3dp"
-        android:backgroundTint="#f68c4e"
+        android:backgroundTint="#f4845f"
         android:layout_below= "@id/largeMinus"
+        android:gravity ="center"
         android:text="-10"
         android:textSize="50sp"/>
     <Button
@@ -27,17 +28,19 @@
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:layout_marginTop= "3dp"
-        android:backgroundTint="#f68c4e"
+        android:backgroundTint="#f27059"
         android:layout_below= "@id/mediumMinus"
+        android:gravity ="center"
         android:text="-5"
         android:textSize="50sp"/>
     <Button
         android:id="@+id/oneMinus"
         android:layout_width="200dp"
-        android:layout_height="85dp"
+        android:layout_height="80dp"
         android:layout_marginTop= "3dp"
-        android:backgroundTint="#f68c4e"
+        android:backgroundTint="#f25c54"
         android:layout_below= "@id/smallMinus"
+        android:gravity ="center"
         android:text="-1"
         android:textSize="50sp"/>
     <Button
@@ -45,8 +48,9 @@
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:layout_marginTop= "3dp"
-        android:backgroundTint="#f68c4e"
+        android:backgroundTint="#f79d65"
         android:layout_alignParentEnd= "true"
+        android:gravity ="center"
         android:text="+20"
         android:textSize="50sp"/>
     <Button
@@ -54,10 +58,11 @@
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:layout_marginTop= "3dp"
-        android:backgroundTint="#f68c4e"
+        android:backgroundTint="#f4845f"
         android:layout_below= "@id/largePlus"
         android:layout_alignParentEnd= "true"
         android:layout_marginLeft= "10dp"
+        android:gravity ="center"
         android:text="+10"
         android:textSize="50sp"/>
     <Button
@@ -66,9 +71,10 @@
         android:layout_height="80dp"
         android:layout_marginTop= "3dp"
         android:layout_marginLeft= "10dp"
-        android:backgroundTint="#f68c4e"
+        android:backgroundTint="#f27059"
         android:layout_below= "@id/mediumPlus"
         android:layout_alignParentEnd= "true"
+        android:gravity ="center"
         android:text="+5"
         android:textSize="50sp"/>
     <Button
@@ -77,32 +83,21 @@
         android:layout_height="80dp"
         android:layout_marginTop= "3dp"
         android:layout_marginLeft= "10dp"
-        android:backgroundTint="#f68c4e"
+        android:backgroundTint="#f25c54"
         android:layout_below= "@id/smallPlus"
         android:layout_alignParentEnd= "true"
+        android:gravity ="center"
         android:text="+1"
         android:textSize="50sp"/>
     <Button
-        android:id="@+id/scoreToggle"
-        android:layout_width="200dp"
+        android:id="@+id/passToggle"
+        android:layout_width="250dp"
         android:layout_height="75dp"
-        android:backgroundTint="#59d97b"
+        android:backgroundTint="#56d678"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/largeMinus"
-        android:layout_marginLeft="45dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:text="Score"
-        android:textSize="35sp"/>
-    <Button
-        android:id="@+id/passToggle"
-        android:layout_width="200dp"
-        android:layout_height="75dp"
-        android:backgroundTint="#7187ab"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@id/largePlus"
-        android:layout_marginRight="45dp"
-        android:layout_marginTop="5dp"
-        android:text="Pass"
         android:textSize="35sp"/>
     <TextView
         android:id="@+id/scoreText"
@@ -121,7 +116,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:inputType="number"
-        android:text="0"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/scoreText"
         android:textAlignment="center"
@@ -144,7 +138,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:inputType="number"
-        android:text="0"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/passText"
         android:textAlignment="center"
