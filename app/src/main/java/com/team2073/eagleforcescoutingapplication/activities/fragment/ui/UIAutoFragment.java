@@ -44,16 +44,6 @@ public class UIAutoFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "Auto";
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentAutoBinding fragmentAutoBinding;
-    private AddSubtractValuesSourceBinding sourceA;
-    private AddSubtractValuesSourceBinding sourceB;
-    private ArrayList<String> autoPath = new ArrayList<String>();
-    private AddSubtractValuesNetBinding autoNet;
-    private AddSubtractValuesRemovedBinding autoRemoved;
-    private AddSubtractValuesProcessorBinding autoProcessor;
-    private HashMap<Button, String> otherLoc;
-    private HashMap<ImageButton, String> reefLoc;
-    private String level;
-    private HashMap<String, HashMap<ImageButton, ColorStateList>> levelButtons  = new HashMap<>();
     private String autoMode = "autoScore";
 
     private boolean clickedMiddleClimb;
@@ -145,60 +135,17 @@ public class UIAutoFragment extends Fragment {
             }
             isClicked[0] = !isClicked[0];
         });
-//        fragmentAutoBinding.autoClimbLeft.setOnClickListener(v -> {
-//            if (clickedRightClimb || clickedMiddleClimb == true){
-//                autoClimb = 0;
-//                clickedLeftClimb = false;
-//                fragmentAutoBinding.autoClimbLeft.setText("Left CLimb?");
-//                fragmentAutoBinding.autoClimbLeft.setBackgroundColor(Color.rgb(142, 154, 175));
-//            } else if (!isClicked[0]) {
-//                autoClimb = 1;
-//                clickedLeftClimb = true;
-//                fragmentAutoBinding.autoClimbLeft.setText("Left Climbed!");
-//                fragmentAutoBinding.autoClimbLeft.setBackgroundColor(Color.rgb(255, 8, 0));
-//            } else {
-//                autoClimb = 0;
-//                clickedLeftClimb = false;
-//                fragmentAutoBinding.autoClimbLeft.setText("Left CLimb?");
-//                fragmentAutoBinding.autoClimbLeft.setBackgroundColor(Color.rgb(142, 154, 175));
-//            }
-//            isClicked[0] = !isClicked[0];
-//        });
-//        fragmentAutoBinding.autoClimbMiddle.setOnClickListener(v -> {
-//            if (!isClicked[0]) {
-//                autoClimb = 2;
-//                fragmentAutoBinding.autoClimbMiddle.setText("Middle Climbed!");
-//                fragmentAutoBinding.autoClimbMiddle.setBackgroundColor(Color.rgb(255, 8, 0));
-//            } else {
-//                autoClimb = 0;
-//                fragmentAutoBinding.autoClimbMiddle.setText("Middle CLimb?");
-//                fragmentAutoBinding.autoClimbMiddle.setBackgroundColor(Color.rgb(142, 154, 175));
-//            }
-//            isClicked[0] = !isClicked[0];
-//        });
-//        fragmentAutoBinding.autoClimbRight.setOnClickListener(v -> {
-//            if (!isClicked[0]) {
-//                autoClimb = 3;
-//                fragmentAutoBinding.autoClimbRight.setText("Right Climbed!");
-//                fragmentAutoBinding.autoClimbRight.setBackgroundColor(Color.rgb(255, 8, 0));
-//            } else {
-//                autoClimb = 0;
-//                fragmentAutoBinding.autoClimbRight.setText("Right CLimb?");
-//                fragmentAutoBinding.autoClimbRight.setBackgroundColor(Color.rgb(142, 154, 175));
-//            }
-//
-//        });
 
         fragmentAutoBinding.autoClimbLeft.setOnClickListener(v -> {
             if (!clickedLeftClimb) {
                 notRightClimb();
                 notMiddleClimb();
-                autoClimb = 1;
+                scoutingFormPresenter.saveData("autoClimb", "1");
                 clickedLeftClimb = true;
                 fragmentAutoBinding.autoClimbLeft.setText("Left Climbed!");
                 fragmentAutoBinding.autoClimbLeft.setBackgroundColor(Color.rgb(53, 203, 168));
             } else {
-                autoClimb = 0;
+                scoutingFormPresenter.saveData("autoClimb", "0");
                 notLeftClimb();
             }
 
@@ -207,12 +154,12 @@ public class UIAutoFragment extends Fragment {
             if (!clickedMiddleClimb) {
                 notLeftClimb();
                 notRightClimb();
-                autoClimb = 2;
+                scoutingFormPresenter.saveData("autoClimb", "2");
                 clickedMiddleClimb = true;
                 fragmentAutoBinding.autoClimbMiddle.setText("Middle Climbed!");
                 fragmentAutoBinding.autoClimbMiddle.setBackgroundColor(Color.rgb(53, 203, 168));
             } else {
-                autoClimb = 0;
+                scoutingFormPresenter.saveData("autoClimb", "0");
                 notMiddleClimb();
             }
 
@@ -221,12 +168,12 @@ public class UIAutoFragment extends Fragment {
             if (!clickedRightClimb) {
                 notMiddleClimb();
                 notLeftClimb();
-                autoClimb = 3;
+                scoutingFormPresenter.saveData("autoClimb", "3");
                 clickedRightClimb = true;
                 fragmentAutoBinding.autoClimbRight.setText("Right Climbed!");
                 fragmentAutoBinding.autoClimbRight.setBackgroundColor(Color.rgb(53, 203, 168));
             } else {
-                autoClimb = 0;
+                scoutingFormPresenter.saveData("autoClimb", "0");
                 notRightClimb();
             }
 
@@ -244,9 +191,12 @@ public class UIAutoFragment extends Fragment {
         Timber.d("%s:%s", autoMode, scoutingFormPresenter.readData(autoMode));
         if (autoMode.equals("autoScore")) {
             fragmentAutoBinding.scoreCounterAuto.setText(String.valueOf(value));
+            scoutingFormPresenter.saveData("autoScore", String.valueOf(value));
         } else {
             if (autoMode.equals("autoPass")) {
                 fragmentAutoBinding.passCounterAuto.setText(String.valueOf(value));
+                scoutingFormPresenter.saveData("autoPass", String.valueOf(value));
+
             }
         }
     }

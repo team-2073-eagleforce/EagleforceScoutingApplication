@@ -157,9 +157,13 @@ public class UITeleopFragment extends Fragment {
         Timber.d("%s:%s", mode, scoutingFormPresenter.readData(mode));
         if (mode.equals("teleScore")) {
             fragmentTeleopBinding.scoreCounter.setText(String.valueOf(value));
+            scoutingFormPresenter.saveData("teleScore", String.valueOf(value));
+
         } else {
             if (mode.equals("telePass")) {
                 fragmentTeleopBinding.passCounter.setText(String.valueOf(value));
+                scoutingFormPresenter.saveData("telePass", String.valueOf(value));
+
             }
         }
 
