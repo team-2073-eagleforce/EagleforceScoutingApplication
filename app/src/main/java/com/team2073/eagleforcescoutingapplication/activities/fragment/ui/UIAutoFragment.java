@@ -50,6 +50,8 @@ public class UIAutoFragment extends Fragment {
     private boolean clickedLeftClimb;
     private boolean clickedRightClimb;
 
+    private boolean clickedAutoLeave;
+
     private int autoClimb = 0;
 
     public static UIAutoFragment newInstance(int index) {
@@ -176,8 +178,20 @@ public class UIAutoFragment extends Fragment {
                 scoutingFormPresenter.saveData("autoClimb", "0");
                 notRightClimb();
             }
+        });
 
-
+        fragmentAutoBinding.autoLeave.setOnClickListener(v -> {
+            if (!clickedAutoLeave) {
+                scoutingFormPresenter.saveData("autoLeave", "1");
+                clickedAutoLeave = true;
+                fragmentAutoBinding.autoLeave.setText("Auto Left!");
+                fragmentAutoBinding.autoLeave.setBackgroundColor(Color.rgb(171, 200, 108));
+            } else {
+                scoutingFormPresenter.saveData("autoLeave", "0");
+                clickedAutoLeave = false;
+                fragmentAutoBinding.autoLeave.setText("Auto Leave?");
+                fragmentAutoBinding.autoLeave.setBackgroundColor(Color.rgb(112, 122, 140));
+            }
         });
     }
 
@@ -217,6 +231,7 @@ public class UIAutoFragment extends Fragment {
             }
         }
     }
+
 
     private void notLeftClimb(){
         clickedLeftClimb = false;
