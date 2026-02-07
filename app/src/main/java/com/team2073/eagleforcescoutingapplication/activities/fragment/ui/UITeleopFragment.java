@@ -2,6 +2,7 @@ package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,10 +31,8 @@ public class UITeleopFragment extends Fragment {
     private Context context;
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentTeleopBinding fragmentTeleopBinding;
-    private AddSubtractValuesProcessorBinding teleProcesser;
-    private AddSubtractValuesNetBinding teleNet;
-    private AddSubtractValuesRemovedBinding teleRemoved;
-    private ReefLayoutBinding reef;
+    private String mode = "teleScore";
+
 
     public static UITeleopFragment newInstance(int index) {
         UITeleopFragment fragment = new UITeleopFragment();
@@ -58,10 +57,10 @@ public class UITeleopFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentTeleopBinding = UiFragmentTeleopBinding.inflate(inflater, container, false);
-        reef = fragmentTeleopBinding.teleopReef;
-        teleProcesser = fragmentTeleopBinding.teleopProcessor;
-        teleNet = fragmentTeleopBinding.teleopNet;
-        teleRemoved = fragmentTeleopBinding.teleopRemoved;
+       // reef = fragmentTeleopBinding.teleopReef;
+        //teleProcesser = fragmentTeleopBinding.teleopProcessor;
+        //teleNet = fragmentTeleopBinding.teleopNet;
+        //teleRemoved = fragmentTeleopBinding.teleopRemoved;
 
 
         return fragmentTeleopBinding.getRoot();
@@ -84,55 +83,109 @@ public class UITeleopFragment extends Fragment {
 
 
     private void initTextFields() {
-        reef.L4.formScore.setText(readData("teleL4"));
-        reef.L1.formScore.setText(readData("teleL1"));
-        reef.L2.formScore.setText(readData("teleL2"));
-        reef.L3.formScore.setText(readData("teleL3"));
-        teleProcesser.formScore.setText(readData("teleProcessor"));
-        teleNet.formScore.setText(readData("telenet"));
-        teleRemoved.formScore.setText(readData("teleRemoved"));
+        fragmentTeleopBinding.scoreCounter.setText(readData("teleScore"));
+        fragmentTeleopBinding.passCounter.setText(readData("telePass"));
+
+      //  reef.L4.formScore.setText(readData("teleL4"));
+        //reef.L1.formScore.setText(readData("teleL1"));
+        //reef.L2.formScore.setText(readData("teleL2"));
+        //reef.L3.formScore.setText(readData("teleL3"));
+        //teleProcesser.formScore.setText(readData("teleProcessor"));
+//        teleNet.formScore.setText(readData("telenet"));
+//        teleRemoved.formScore.setText(readData("teleRemoved"));
     }
 
 
     private void initViewImageButtons() {
-        reef.L1.formAdd.setOnClickListener(teleopCoralAdd -> addTransportValue(reef.L1.formScore,"teleL1"));
-        reef.L2.formAdd.setOnClickListener(teleopCoralAdd -> addTransportValue(reef.L2.formScore,"teleL2"));
-        reef.L3.formAdd.setOnClickListener(teleopCoralAdd -> addTransportValue(reef.L3.formScore,"teleL3"));
-        reef.L4.formAdd.setOnClickListener(teleopCoralAdd -> addTransportValue(reef.L4.formScore,"teleL4"));
-        reef.L1.formSubtract.setOnClickListener(teleopCoralAdd -> subtractTransportValue(reef.L1.formScore,"teleL1"));
-        reef.L2.formSubtract.setOnClickListener(teleopCoralAdd -> subtractTransportValue(reef.L2.formScore,"teleL2"));
-        reef.L3.formSubtract.setOnClickListener(teleopCoralAdd -> subtractTransportValue(reef.L3.formScore,"teleL3"));
-        reef.L4.formSubtract.setOnClickListener(teleopCoralAdd -> subtractTransportValue(reef.L4.formScore,"teleL4"));
+        fragmentTeleopBinding.largeMinus.setOnClickListener(lm ->subtractTransportValue(20));
+        fragmentTeleopBinding.mediumMinus.setOnClickListener(lm ->subtractTransportValue(10));
+        fragmentTeleopBinding.smallMinus.setOnClickListener(lm ->subtractTransportValue(5));
+        fragmentTeleopBinding.oneMinus.setOnClickListener(lm ->subtractTransportValue(1));
+        fragmentTeleopBinding.largePlus.setOnClickListener(lm ->addTransportValue(20));
+        fragmentTeleopBinding.mediumPlus.setOnClickListener(lm ->addTransportValue(10));
+        fragmentTeleopBinding.smallPlus.setOnClickListener(lm ->addTransportValue(5));
+        fragmentTeleopBinding.onePlus.setOnClickListener(lm ->addTransportValue(1));
+        fragmentTeleopBinding.passToggle.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                mode = "telePass";
+            }
+        });
 
-        teleProcesser.formAdd.setOnClickListener(teleopProcessorAdd -> addTransportValue(teleProcesser.formScore,"teleProcessor"));
-        teleNet.formAdd.setOnClickListener(teleopNetAdd -> addTransportValue(teleNet.formScore,"telenet"));
-        teleRemoved.formAdd.setOnClickListener(teleopRemoveAdd -> addTransportValue(teleRemoved.formScore,"teleRemoved"));
-        teleProcesser.formSubtract.setOnClickListener(teleopProcessSubtract -> subtractTransportValue(teleProcesser.formScore, "teleProcessor"));
-        teleNet.formSubtract.setOnClickListener(teleopNetSubtract -> subtractTransportValue(teleNet.formScore,"telenet"));
-        teleRemoved.formSubtract.setOnClickListener(teleopRemoveSubtract -> subtractTransportValue(teleRemoved.formScore,"teleRemoved"));
+
+
+
+        final boolean[] isClicked = {false};
+
+        fragmentTeleopBinding.passToggle.setOnClickListener(v -> {
+            if (!isClicked[0]) {
+                mode = "telePass";
+                fragmentTeleopBinding.passToggle.setText("PASS");
+                fragmentTeleopBinding.passToggle.setBackgroundColor(Color.rgb(150, 86, 224));
+            } else {
+                mode = "teleScore";
+                fragmentTeleopBinding.passToggle.setText("SCORE");
+                fragmentTeleopBinding.passToggle.setBackgroundColor(Color.rgb(86, 214, 120));
+            }
+            isClicked[0] = !isClicked[0];
+        });
+        
+        //        reef.L1.formAdd.setOnClickListener(teleopCoralAdd -> addTransportValue(reef.L1.formScore,"teleL1"));
+//        reef.L2.formAdd.setOnClickListener(teleopCoralAdd -> addTransportValue(reef.L2.formScore,"teleL2"));
+//        reef.L3.formAdd.setOnClickListener(teleopCoralAdd -> addTransportValue(reef.L3.formScore,"teleL3"));
+//        reef.L4.formAdd.setOnClickListener(teleopCoralAdd -> addTransportValue(reef.L4.formScore,"teleL4"));
+//        reef.L1.formSubtract.setOnClickListener(teleopCoralAdd -> subtractTransportValue(reef.L1.formScore,"teleL1"));
+//        reef.L2.formSubtract.setOnClickListener(teleopCoralAdd -> subtractTransportValue(reef.L2.formScore,"teleL2"));
+//        reef.L3.formSubtract.setOnClickListener(teleopCoralAdd -> subtractTransportValue(reef.L3.formScore,"teleL3"));
+//        reef.L4.formSubtract.setOnClickListener(teleopCoralAdd -> subtractTransportValue(reef.L4.formScore,"teleL4"));
+//
+//        teleProcesser.formAdd.setOnClickListener(teleopProcessorAdd -> addTransportValue(teleProcesser.formScore,"teleProcessor"));
+//        teleNet.formAdd.setOnClickListener(teleopNetAdd -> addTransportValue(teleNet.formScore,"telenet"));
+//        teleRemoved.formAdd.setOnClickListener(teleopRemoveAdd -> addTransportValue(teleRemoved.formScore,"teleRemoved"));
+//        teleProcesser.formSubtract.setOnClickListener(teleopProcessSubtract -> subtractTransportValue(teleProcesser.formScore, "teleProcessor"));
+//        teleNet.formSubtract.setOnClickListener(teleopNetSubtract -> subtractTransportValue(teleNet.formScore,"telenet"));
+//        teleRemoved.formSubtract.setOnClickListener(teleopRemoveSubtract -> subtractTransportValue(teleRemoved.formScore,"teleRemoved"));
 
     }
 
 
-    private void addTransportValue(TextView formScore, String transportType) {
-        int value = Integer.parseInt(readData(transportType)) + 1;
-        if (value >= 100) {
-            value = 99;
+    private void addTransportValue(int amount) {
+        int value = Integer.parseInt(readData(mode)) + amount;
+        if (value >= 1000) {
+            value = 999;
         }
-        saveData(transportType, String.valueOf(value));
-        formScore.setText(String.valueOf(value));
-        Timber.d("%s:%s", transportType, scoutingFormPresenter.readData(transportType));
+        saveData(mode, String.valueOf(value));
+        Timber.d("%s:%s", mode, scoutingFormPresenter.readData(mode));
+        if (mode.equals("teleScore")) {
+            fragmentTeleopBinding.scoreCounter.setText(String.valueOf(value));
+            scoutingFormPresenter.saveData("teleScore", String.valueOf(value));
+
+        } else {
+            if (mode.equals("telePass")) {
+                fragmentTeleopBinding.passCounter.setText(String.valueOf(value));
+                scoutingFormPresenter.saveData("telePass", String.valueOf(value));
+
+            }
+        }
+
+
+
     }
 
 
-    private void subtractTransportValue(TextView formScore, String transportType) {
-        int value = Integer.parseInt(readData(transportType)) - 1;
+    private void subtractTransportValue(int amount) {
+        int value = Integer.parseInt(readData(mode)) - amount;
         if (value < 0) {
             value = 0;
         }
-        saveData(transportType, String.valueOf(value));
-        formScore.setText(String.valueOf(value));
-        Timber.d("%s:%s", transportType, scoutingFormPresenter.readData(transportType));
+        saveData(mode, String.valueOf(value));
+        Timber.d("%s:%s", mode, scoutingFormPresenter.readData(mode));
+        if (mode.equals("teleScore")) {
+            fragmentTeleopBinding.scoreCounter.setText(String.valueOf(value));
+        } else {
+            if (mode.equals("telePass")) {
+                fragmentTeleopBinding.passCounter.setText(String.valueOf(value));
+            }
+        }
     }
 
 
