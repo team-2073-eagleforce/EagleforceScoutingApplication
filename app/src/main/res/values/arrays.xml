@@ -11,8 +11,8 @@
     </string-array>
 
     <string-array name="field_side">
-        <item>Processor Side</item>
-        <item>non-Processor Side</item>
+        <item>Depot Side</item>
+        <item>non-Depot Side</item>
     </string-array>
 
     <string-array name="match_type_array">
@@ -36,16 +36,14 @@
     </string-array>
 
     <string-array name="comp_code">
-        <item>2025cc</item>
-        <item>2025cacc</item>
-        <item>2025mttd</item>
+        <item>2026casac</item>
+        <item>2026caasv</item>
         <item>testing</item>
     </string-array>
 
     <string-array name="comp_name">
-        <item>Chezy Champs</item>
-        <item>Capital City Classic</item>
-        <item>Madtown Throwdown</item>
+        <item>Sacramento Regionals</item>
+        <item>Aerospace Valley</item>
         <item>Testing</item>
     </string-array>
 

@@ -52,8 +52,6 @@ public class UIAutoFragment extends Fragment {
 
     private boolean clickedAutoLeave;
 
-    private int autoClimb = 0;
-
     public static UIAutoFragment newInstance(int index) {
         UIAutoFragment fragment = new UIAutoFragment();
         Bundle bundle = new Bundle();

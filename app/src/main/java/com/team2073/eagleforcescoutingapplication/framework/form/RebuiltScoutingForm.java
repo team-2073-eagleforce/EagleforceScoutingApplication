@@ -35,10 +35,12 @@ public class RebuiltScoutingForm implements ScoutingForm{
         autoNames.add("autoLeave");
         autoNames.add("autoScore");
         autoNames.add("autoPass");
+        autoNames.add("autoClimb");
         for (String name:autoNames) {
             fieldNames.add(name);
             clearNames.add(name);
         }
+
 
 
 //Teleop
@@ -57,11 +59,17 @@ public class RebuiltScoutingForm implements ScoutingForm{
         fieldNames.add("endClimb");
         clearNames.add("endClimb");
 
+        fieldNames.add("shootingAccuracy");
+        clearNames.add("shootingAccuracy");
+
 
 //Submit
         fieldNames.add("driverRanking");
         fieldNames.add("defenseRanking");
         fieldNames.add("comment");
+        fieldNames.add("isBroken");
+        fieldNames.add("isDisabled");
+        fieldNames.add("isTipped");
     }
     public ArrayList<String> getFieldNames() {
         return fieldNames;

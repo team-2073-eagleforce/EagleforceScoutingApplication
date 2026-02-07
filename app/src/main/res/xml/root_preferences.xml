@@ -32,7 +32,7 @@
             android:entryValues="@array/field_side"
             app:defaultValue="true"
             android:key="field_side"
-            android:title="Processor Side?"/>
+            android:title="Depot Side?"/>
         <PreferenceScreen
             android:summary="Choose"
             android:title="Schedule File"
