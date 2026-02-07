@@ -3,18 +3,305 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:gravity="center">
 
-        <ImageButton
-            android:id="@+id/cage"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/leftSign"
+            android:layout_marginTop="100dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/cage" />
+            android:text="OUTPOST"
+            android:textSize="22sp"
+            android:rotation="270"
+            android:textColor="#C00000"
+            android:textStyle="bold"/>
 
-    </RelativeLayout>
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="3">
+
+
+            <FrameLayout
+                android:layout_width="240dp"
+                android:layout_height="80dp">
+                <ImageView
+                    android:id="@+id/topLeftImage"
+                    android:layout_marginLeft="4.5dp"
+                    android:layout_width="231dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="68dp"
+                    android:src="@drawable/silly_7"
+                    android:scaleType="fitXY"/>
+                <ImageButton
+                    android:id="@+id/topLeftEndgame"
+                    android:layout_width="240dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#ff7700"/>
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_width="240dp"
+                android:layout_height="80dp">
+                <ImageView
+                    android:id="@+id/topCenterImage"
+                    android:layout_marginLeft="4.5dp"
+                    android:layout_width="231dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="68dp"
+                    android:src="@drawable/silly_8"
+                    android:scaleType="fitXY"/>
+                <ImageButton
+                    android:id="@+id/topCenterEndgame"
+                    android:layout_width="240dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#ff7700"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="240dp"
+                android:layout_height="80dp">
+                <ImageView
+                    android:id="@+id/topRightImage"
+                    android:layout_marginLeft="4.5dp"
+                    android:layout_width="231dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="68dp"
+                    android:src="@drawable/silly_9"
+                    android:scaleType="fitXY"/>
+                <ImageButton
+                    android:id="@+id/topRightEndgame"
+                    android:layout_width="240dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#ff7700"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="240dp"
+                android:layout_height="80dp">
+                <ImageView
+                    android:id="@+id/middleLeftImage"
+                    android:layout_marginLeft="4.5dp"
+                    android:layout_width="231dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="68dp"
+                    android:src="@drawable/silly_4"
+                    android:scaleType="fitXY"/>
+                <ImageButton
+                    android:id="@+id/middleLeftEndgame"
+                    android:layout_width="240dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#ff7700"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="240dp"
+                android:layout_height="80dp">
+                <ImageView
+                    android:id="@+id/middleCenterImage"
+                    android:layout_marginLeft="4.5dp"
+                    android:layout_width="231dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="68dp"
+                    android:src="@drawable/silly_5"
+                    android:scaleType="fitXY"/>
+                <ImageButton
+                    android:id="@+id/middleCenterEndgame"
+                    android:layout_width="240dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#ff7700"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="240dp"
+                android:layout_height="80dp">
+                <ImageView
+                    android:id="@+id/middleRightImage"
+                    android:layout_marginLeft="4.5dp"
+                    android:layout_width="231dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="68dp"
+                    android:src="@drawable/silly_6"
+                    android:scaleType="fitXY"/>
+                <ImageButton
+                    android:id="@+id/middleRightEndgame"
+                    android:layout_width="240dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#ff7700"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="240dp"
+                android:layout_height="80dp">
+                <ImageView
+                    android:id="@+id/bottomLeftImage"
+                    android:layout_marginLeft="4.5dp"
+                    android:layout_width="231dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="68dp"
+                    android:src="@drawable/silly_1"
+                    android:scaleType="fitXY"/>
+                <ImageButton
+                    android:id="@+id/bottomLeftEndgame"
+                    android:layout_width="240dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#ff7700"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="240dp"
+                android:layout_height="80dp">
+                <ImageView
+                    android:id="@+id/bottomCenterImage"
+                    android:layout_marginLeft="4.5dp"
+                    android:layout_width="231dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="68dp"
+                    android:src="@drawable/silly_2"
+                    android:scaleType="fitXY"/>
+                <ImageButton
+                    android:id="@+id/bottomCenterEndgame"
+                    android:layout_width="240dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#ff7700"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="240dp"
+                android:layout_height="80dp">
+                <ImageView
+                    android:id="@+id/bottomRightImage"
+                    android:layout_marginLeft="4.5dp"
+                    android:layout_width="231dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="68dp"
+                    android:src="@drawable/silly_3"
+                    android:scaleType="fitXY"/>
+                <ImageButton
+                    android:id="@+id/bottomRightEndgame"
+                    android:layout_width="240dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#ff7700"/>
+            </FrameLayout>
+
+        </GridLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/labelTop"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="L3"
+                android:layout_marginLeft="20dp"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:textColor="#C00000"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/labelMiddle"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="L2"
+                android:layout_marginLeft="20dp"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:textColor="#C00000"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/labelBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="L1"
+                android:layout_marginLeft="20dp"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:textColor="#C00000"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="25dp">
+
+            <TextView
+                android:id="@+id/leftLabel"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="   NO CLIMB"
+                android:textSize="24sp"
+                android:textColor="#C00000"
+                android:textStyle="bold"/>
+
+            <FrameLayout
+                android:layout_width="720dp"
+                android:layout_height="75dp">
+
+                <ImageView
+                    android:id="@+id/climbButtonImage"
+                    android:layout_marginLeft="4dp"
+                    android:layout_width="712dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="68dp"
+                    android:src="@drawable/silly_0"
+                    android:scaleType="fitXY"
+                    android:layout_marginRight="30dp"/>
+                <ImageButton
+                    android:id="@+id/climbButtonEndgame"
+                    android:layout_width="720dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="20dp"
+                    android:backgroundTint="#ff7700"/>
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </ScrollView>
+

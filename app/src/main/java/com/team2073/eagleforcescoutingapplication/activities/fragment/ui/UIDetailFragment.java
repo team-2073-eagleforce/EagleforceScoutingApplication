@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -94,6 +95,28 @@ public class UIDetailFragment extends Fragment {
                 addPerformanceValue(defensePerform.formScore, "defenseRanking"));
         defensePerform.formSubtract.setOnClickListener(subtractDefensePerformance ->
                 subtractPerformanceValue(defensePerform.formScore, "defenseRanking"));
+
+        SeekBar seekBar = fragmentDetailBinding.accuracySeekBar;
+        TextView textView = fragmentDetailBinding.accuracyValueText;
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                textView.setText(String.valueOf(progress));
+                scoutingFormPresenter.saveData("shootingAccuracy", String.valueOf(progress));
+            }
+
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // optional: user started touching the slider
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // optional: user released the slider
+            }
+        });
     }
 
     private void toggleRobotProblems() {

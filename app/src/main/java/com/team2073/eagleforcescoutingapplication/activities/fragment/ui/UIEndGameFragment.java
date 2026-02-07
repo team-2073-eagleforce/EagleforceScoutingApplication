@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
@@ -59,47 +59,75 @@ public class UIEndGameFragment extends Fragment {
         fragmentEndgameBinding = null;
     }
 
+    private ImageButton[] buttons;
+
     private void initDataFields() {
-        fragmentEndgameBinding.cage.setOnClickListener(cage -> toggleClimb());
-        switch (readData("endClimb")) {
-            case "0":
-                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage);
-                break;
-            case "1":
-                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_park);
-                break;
-            case "2":
-                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_shallow);
-                break;
-            case "3":
-                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_deep);
-                break;
+
+        buttons = new ImageButton[]{
+                fragmentEndgameBinding.bottomLeftEndgame,
+                fragmentEndgameBinding.bottomCenterEndgame,
+                fragmentEndgameBinding.bottomRightEndgame,
+                fragmentEndgameBinding.middleLeftEndgame,
+                fragmentEndgameBinding.middleCenterEndgame,
+                fragmentEndgameBinding.middleRightEndgame,
+                fragmentEndgameBinding.topLeftEndgame,
+                fragmentEndgameBinding.topCenterEndgame,
+                fragmentEndgameBinding.topRightEndgame,
+                fragmentEndgameBinding.climbButtonEndgame
+        };
+
+        for (ImageButton btn : buttons) {
+            btn.setTag(false);     // not selected
+            btn.setAlpha(1f);      // fully visible
+            btn.setOnClickListener(v -> toggleClimb((ImageButton) v));
         }
     }
 
-    public void toggleClimb() {
-        int drawable = 0;
-        switch (readData("endClimb")) {
-            case "0":
-                saveData("endClimb", "1");
-                drawable = R.drawable.cage_park;
-                break;
-            case "1":
-                saveData("endClimb", "2");
-                drawable = R.drawable.cage_shallow;
-                break;
-            case "2":
-                saveData("endClimb", "3");
-                drawable = R.drawable.cage_deep;
-                break;
-            case "3":
-                saveData("endClimb", "0");
-                drawable = R.drawable.cage;
-                break;
+
+    public void toggleClimb(ImageButton b) {
+
+        // 1️⃣ Reset ALL buttons
+        for (ImageButton btn : buttons) {
+            btn.setTag(false);
+            btn.animate()
+                    .alpha(1f)
+                    .setDuration(150)
+                    .start();
         }
-        Timber.d("Climb:%s", readData("endClimb"));
-        fragmentEndgameBinding.cage.setImageResource(drawable);
+
+        // 2️⃣ Activate ONLY the clicked button
+        b.setTag(true);
+        b.animate()
+                .alpha(0.3f)
+                .setDuration(200)
+                .start();
+
+        // 3️⃣ Save data
+        if (b.equals(fragmentEndgameBinding.bottomLeftEndgame)) {
+            saveData("endClimb", "1");
+        } else if (b.equals(fragmentEndgameBinding.climbButtonEndgame)) {
+            saveData("endClimb", "0");
+        } else if (b.equals(fragmentEndgameBinding.bottomCenterEndgame)) {
+            saveData("endClimb", "2");
+        } else if (b.equals(fragmentEndgameBinding.bottomRightEndgame)) {
+            saveData("endClimb", "3");
+        } else if (b.equals(fragmentEndgameBinding.middleLeftEndgame)) {
+            saveData("endClimb", "4");
+        } else if (b.equals(fragmentEndgameBinding.middleCenterEndgame)) {
+            saveData("endClimb", "5");
+        } else if (b.equals(fragmentEndgameBinding.middleRightEndgame)) {
+            saveData("endClimb", "6");
+        } else if (b.equals(fragmentEndgameBinding.topLeftEndgame)) {
+            saveData("endClimb", "7");
+        } else if (b.equals(fragmentEndgameBinding.topCenterEndgame)) {
+            saveData("endClimb", "8");
+        } else if (b.equals(fragmentEndgameBinding.topRightEndgame)) {
+            saveData("endClimb", "9");
+        }
+
+        Timber.d("pressed");
     }
+
 
     public String readData(String key) {
         return scoutingFormPresenter.readData(key);

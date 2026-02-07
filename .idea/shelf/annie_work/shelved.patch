@@ -1,0 +1,746 @@
+Index: app/src/main/res/layout/ui_fragment_endgame.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<ScrollView xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\">\r\n\r\n    <RelativeLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:layout_gravity=\"center\"\r\n        android:gravity=\"center\">\r\n\r\n        <ImageButton\r\n            android:id=\"@+id/cage\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@drawable/cage\" />\r\n\r\n    </RelativeLayout>\r\n\r\n</ScrollView>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/ui_fragment_endgame.xml b/app/src/main/res/layout/ui_fragment_endgame.xml
+--- a/app/src/main/res/layout/ui_fragment_endgame.xml	(revision 1c6ad655666b202ee8f58e0a4663c63bd3b995fc)
++++ b/app/src/main/res/layout/ui_fragment_endgame.xml	(date 1770372833922)
+@@ -3,18 +3,305 @@
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+ 
+-    <RelativeLayout
++
++    <LinearLayout
+         android:layout_width="match_parent"
+-        android:layout_height="match_parent"
+-        android:layout_gravity="center"
++        android:layout_height="wrap_content"
++        android:orientation="vertical"
+         android:gravity="center">
+ 
+-        <ImageButton
+-            android:id="@+id/cage"
++    <LinearLayout
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:orientation="horizontal">
++
++        <TextView
++            android:id="@+id/leftSign"
++            android:layout_marginTop="100dp"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="OUTPOST"
++            android:textSize="22sp"
++            android:rotation="270"
++            android:textColor="#C00000"
++            android:textStyle="bold"/>
++
++        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content">
++
++
++        <GridLayout
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:columnCount="3">
++
++
++            <FrameLayout
++                android:layout_width="240dp"
++                android:layout_height="80dp">
++                <ImageView
++                    android:id="@+id/topLeftImage"
++                    android:layout_marginLeft="4.5dp"
++                    android:layout_width="231dp"
++                    android:layout_marginTop="10dp"
++                    android:layout_height="68dp"
++                    android:src="@drawable/silly_7"
++                    android:scaleType="fitXY"/>
++                <ImageButton
++                    android:id="@+id/topLeftEndgame"
++                    android:layout_width="240dp"
++                    android:layout_height="80dp"
++                    android:layout_marginTop="4dp"
++                    android:backgroundTint="#ff7700"/>
++            </FrameLayout>
++
++
++            <FrameLayout
++                android:layout_width="240dp"
++                android:layout_height="80dp">
++                <ImageView
++                    android:id="@+id/topCenterImage"
++                    android:layout_marginLeft="4.5dp"
++                    android:layout_width="231dp"
++                    android:layout_marginTop="10dp"
++                    android:layout_height="68dp"
++                    android:src="@drawable/silly_8"
++                    android:scaleType="fitXY"/>
++                <ImageButton
++                    android:id="@+id/topCenterEndgame"
++                    android:layout_width="240dp"
++                    android:layout_height="80dp"
++                    android:layout_marginTop="4dp"
++                    android:backgroundTint="#ff7700"/>
++            </FrameLayout>
++
++            <FrameLayout
++                android:layout_width="240dp"
++                android:layout_height="80dp">
++                <ImageView
++                    android:id="@+id/topRightImage"
++                    android:layout_marginLeft="4.5dp"
++                    android:layout_width="231dp"
++                    android:layout_marginTop="10dp"
++                    android:layout_height="68dp"
++                    android:src="@drawable/silly_9"
++                    android:scaleType="fitXY"/>
++                <ImageButton
++                    android:id="@+id/topRightEndgame"
++                    android:layout_width="240dp"
++                    android:layout_height="80dp"
++                    android:layout_marginTop="4dp"
++                    android:backgroundTint="#ff7700"/>
++            </FrameLayout>
++
++            <FrameLayout
++                android:layout_width="240dp"
++                android:layout_height="80dp">
++                <ImageView
++                    android:id="@+id/middleLeftImage"
++                    android:layout_marginLeft="4.5dp"
++                    android:layout_width="231dp"
++                    android:layout_marginTop="10dp"
++                    android:layout_height="68dp"
++                    android:src="@drawable/silly_4"
++                    android:scaleType="fitXY"/>
++                <ImageButton
++                    android:id="@+id/middleLeftEndgame"
++                    android:layout_width="240dp"
++                    android:layout_height="80dp"
++                    android:layout_marginTop="4dp"
++                    android:backgroundTint="#ff7700"/>
++            </FrameLayout>
++
++            <FrameLayout
++                android:layout_width="240dp"
++                android:layout_height="80dp">
++                <ImageView
++                    android:id="@+id/middleCenterImage"
++                    android:layout_marginLeft="4.5dp"
++                    android:layout_width="231dp"
++                    android:layout_marginTop="10dp"
++                    android:layout_height="68dp"
++                    android:src="@drawable/silly_5"
++                    android:scaleType="fitXY"/>
++                <ImageButton
++                    android:id="@+id/middleCenterEndgame"
++                    android:layout_width="240dp"
++                    android:layout_height="80dp"
++                    android:layout_marginTop="4dp"
++                    android:backgroundTint="#ff7700"/>
++            </FrameLayout>
++
++            <FrameLayout
++                android:layout_width="240dp"
++                android:layout_height="80dp">
++                <ImageView
++                    android:id="@+id/middleRightImage"
++                    android:layout_marginLeft="4.5dp"
++                    android:layout_width="231dp"
++                    android:layout_marginTop="10dp"
++                    android:layout_height="68dp"
++                    android:src="@drawable/silly_6"
++                    android:scaleType="fitXY"/>
++                <ImageButton
++                    android:id="@+id/middleRightEndgame"
++                    android:layout_width="240dp"
++                    android:layout_height="80dp"
++                    android:layout_marginTop="4dp"
++                    android:backgroundTint="#ff7700"/>
++            </FrameLayout>
++
++            <FrameLayout
++                android:layout_width="240dp"
++                android:layout_height="80dp">
++                <ImageView
++                    android:id="@+id/bottomLeftImage"
++                    android:layout_marginLeft="4.5dp"
++                    android:layout_width="231dp"
++                    android:layout_marginTop="10dp"
++                    android:layout_height="68dp"
++                    android:src="@drawable/silly_1"
++                    android:scaleType="fitXY"/>
++                <ImageButton
++                    android:id="@+id/bottomLeftEndgame"
++                    android:layout_width="240dp"
++                    android:layout_height="80dp"
++                    android:layout_marginTop="4dp"
++                    android:backgroundTint="#ff7700"/>
++            </FrameLayout>
++
++            <FrameLayout
++                android:layout_width="240dp"
++                android:layout_height="80dp">
++                <ImageView
++                    android:id="@+id/bottomCenterImage"
++                    android:layout_marginLeft="4.5dp"
++                    android:layout_width="231dp"
++                    android:layout_marginTop="10dp"
++                    android:layout_height="68dp"
++                    android:src="@drawable/silly_2"
++                    android:scaleType="fitXY"/>
++                <ImageButton
++                    android:id="@+id/bottomCenterEndgame"
++                    android:layout_width="240dp"
++                    android:layout_height="80dp"
++                    android:layout_marginTop="4dp"
++                    android:backgroundTint="#ff7700"/>
++            </FrameLayout>
++
++            <FrameLayout
++                android:layout_width="240dp"
++                android:layout_height="80dp">
++                <ImageView
++                    android:id="@+id/bottomRightImage"
++                    android:layout_marginLeft="4.5dp"
++                    android:layout_width="231dp"
++                    android:layout_marginTop="10dp"
++                    android:layout_height="68dp"
++                    android:src="@drawable/silly_3"
++                    android:scaleType="fitXY"/>
++                <ImageButton
++                    android:id="@+id/bottomRightEndgame"
++                    android:layout_width="240dp"
++                    android:layout_height="80dp"
++                    android:layout_marginTop="4dp"
++                    android:backgroundTint="#ff7700"/>
++            </FrameLayout>
++
++        </GridLayout>
++
++        </FrameLayout>
++
++        <LinearLayout
++            android:layout_width="wrap_content"
++            android:layout_height="match_parent"
++            android:orientation="vertical"
++            android:gravity="center_vertical">
++
++            <TextView
++                android:id="@+id/labelTop"
++                android:layout_width="wrap_content"
++                android:layout_height="0dp"
++                android:layout_weight="1"
++                android:text="L3"
++                android:layout_marginLeft="20dp"
++                android:textSize="30sp"
++                android:gravity="center"
++                android:textColor="#C00000"
++                android:textStyle="bold"/>
++
++            <TextView
++                android:id="@+id/labelMiddle"
++                android:layout_width="wrap_content"
++                android:layout_height="0dp"
++                android:layout_weight="1"
++                android:text="L2"
++                android:layout_marginLeft="20dp"
++                android:textSize="30sp"
++                android:gravity="center"
++                android:textColor="#C00000"
++                android:textStyle="bold"/>
++
++            <TextView
++                android:id="@+id/labelBottom"
++                android:layout_width="wrap_content"
++                android:layout_height="0dp"
++                android:layout_weight="1"
++                android:text="L1"
++                android:layout_marginLeft="20dp"
++                android:textSize="30sp"
++                android:gravity="center"
++                android:textColor="#C00000"
++                android:textStyle="bold"/>
++
++        </LinearLayout>
++
++
++    </LinearLayout>
++
++        <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+-            android:background="@drawable/cage" />
++            android:orientation="horizontal"
++            android:layout_marginRight="25dp">
++
++            <TextView
++                android:id="@+id/leftLabel"
++                android:layout_width="100dp"
++                android:layout_height="wrap_content"
++                android:layout_marginTop="15dp"
++                android:text="   NO CLIMB"
++                android:textSize="24sp"
++                android:textColor="#C00000"
++                android:textStyle="bold"/>
+ 
+-    </RelativeLayout>
++            <FrameLayout
++                android:layout_width="720dp"
++                android:layout_height="75dp">
++
++                <ImageView
++                    android:id="@+id/climbButtonImage"
++                    android:layout_marginLeft="4dp"
++                    android:layout_width="712dp"
++                    android:layout_marginTop="15dp"
++                    android:layout_height="68dp"
++                    android:src="@drawable/silly_0"
++                    android:scaleType="fitXY"
++                    android:layout_marginRight="30dp"/>
++                <ImageButton
++                    android:id="@+id/climbButtonEndgame"
++                    android:layout_width="720dp"
++                    android:layout_height="75dp"
++                    android:layout_gravity="center_vertical"
++                    android:layout_marginTop="8dp"
++                    android:layout_marginRight="20dp"
++                    android:backgroundTint="#ff7700"/>
++            </FrameLayout>
++
++        </LinearLayout>
++
++    </LinearLayout>
++
++</ScrollView>
+ 
+-</ScrollView>
+\ No newline at end of file
+Index: app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/fragment/ui/UIDetailFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;\r\n\r\nimport android.content.Context;\r\nimport android.os.Bundle;\r\nimport android.text.Editable;\r\nimport android.text.TextWatcher;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.view.inputmethod.InputMethodManager;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.lifecycle.ViewModelProvider;\r\n\r\nimport com.team2073.eagleforcescoutingapplication.R;\r\nimport com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;\r\nimport com.team2073.eagleforcescoutingapplication.databinding.AddSubtractValuesBinding;\r\nimport com.team2073.eagleforcescoutingapplication.databinding.UiFragmentDetailBinding;\r\nimport com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;\r\n\r\nimport timber.log.Timber;\r\n\r\npublic class UIDetailFragment extends Fragment {\r\n\r\n    private static final String ARG_SECTION_NUMBER = \"Detail\";\r\n    private ScoutingFormPresenter scoutingFormPresenter;\r\n    private UiFragmentDetailBinding fragmentDetailBinding;\r\n    private AddSubtractValuesBinding defensePerform;\r\n    private AddSubtractValuesBinding driverPerform;\r\n\r\n\r\n    public static UIDetailFragment newInstance(int index) {\r\n        UIDetailFragment fragment = new UIDetailFragment();\r\n        Bundle bundle = new Bundle();\r\n        bundle.putInt(ARG_SECTION_NUMBER, index);\r\n        fragment.setArguments(bundle);\r\n        return fragment;\r\n    }\r\n\r\n    @Override\r\n    public void onCreate(@Nullable Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        PageViewModel pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);\r\n        int index = getArguments().getInt(ARG_SECTION_NUMBER);\r\n        pageViewModel.setIndex(index);\r\n        scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());\r\n    }\r\n\r\n    @Nullable\r\n    @Override\r\n    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {\r\n        fragmentDetailBinding = UiFragmentDetailBinding.inflate(inflater, container, false);\r\n        driverPerform = fragmentDetailBinding.driverPerformance;\r\n        defensePerform = fragmentDetailBinding.defensePerformance;\r\n        return fragmentDetailBinding.getRoot();\r\n\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n        initTextFields();\r\n        togglePerformanceRatings();\r\n        editTextToggle();\r\n        toggleRobotProblems();\r\n    }\r\n\r\n    @Override\r\n    public void onDestroyView() {\r\n        super.onDestroyView();\r\n        fragmentDetailBinding = null;\r\n    }\r\n\r\n    private void initTextFields() {\r\n        driverPerform.formField.setText(getResources().getString(R.string.driver_performance));\r\n        driverPerform.formScore.setText(scoutingFormPresenter.readData(\"driverRanking\"));\r\n\r\n        defensePerform.formField.setText(getResources().getString(R.string.defense_performance));\r\n        defensePerform.formScore.setText(scoutingFormPresenter.readData(\"defenseRanking\"));\r\n\r\n        //TODO: initialize Comment to the save data and checkbox save data\r\n    }\r\n\r\n    private void togglePerformanceRatings() {\r\n        driverPerform.formAdd.setOnClickListener(addDriverPerformance ->\r\n                addPerformanceValue(driverPerform.formScore, \"driverRanking\"));\r\n        driverPerform.formSubtract.setOnClickListener(subtractDriverPerformance ->\r\n                subtractPerformanceValue(driverPerform.formScore, \"driverRanking\"));\r\n\r\n        defensePerform.formAdd.setOnClickListener(addDefensePerformance ->\r\n                addPerformanceValue(defensePerform.formScore, \"defenseRanking\"));\r\n        defensePerform.formSubtract.setOnClickListener(subtractDefensePerformance ->\r\n                subtractPerformanceValue(defensePerform.formScore, \"defenseRanking\"));\r\n    }\r\n\r\n    private void toggleRobotProblems() {\r\n        fragmentDetailBinding.checkBroken.setOnClickListener(checkBroken -> toggle_check(\"isBroken\"));\r\n        fragmentDetailBinding.checkDisabled.setOnClickListener(checkDisabled -> toggle_check(\"isDisabled\"));\r\n        fragmentDetailBinding.checkTipped.setOnClickListener(checkTipped -> toggle_check(\"isTipped\"));\r\n    }\r\n\r\n    private void toggle_check(String condition) {\r\n        if (scoutingFormPresenter.readData(condition).equals(\"0\")) {\r\n            scoutingFormPresenter.saveData(condition, \"1\");\r\n        } else {\r\n            scoutingFormPresenter.saveData(condition, \"0\");\r\n        }\r\n        Timber.d(\"%s:%s\", condition, scoutingFormPresenter.readData(condition));\r\n    }\r\n\r\n    private void editTextToggle() {\r\n        fragmentDetailBinding.uiComments.addTextChangedListener(new TextWatcher() {\r\n            @Override\r\n            public void beforeTextChanged(CharSequence s, int start, int count, int after) {\r\n            }\r\n\r\n            @Override\r\n            public void onTextChanged(CharSequence s, int start, int before, int count) {\r\n                String comment = fragmentDetailBinding.uiComments.getText().toString();\r\n                if (comment.contains(\"'\")) {\r\n                    comment = comment.replace(\"'\", \"\\\"\");\r\n                }\r\n                scoutingFormPresenter.saveData(\"comment\", comment);\r\n            }\r\n\r\n            @Override\r\n            public void afterTextChanged(Editable s) {\r\n            }\r\n        });\r\n    }\r\n\r\n    private void addPerformanceValue(TextView formScore, String performanceType) {\r\n        int value = Integer.parseInt(formScore.getText().toString()) + 1;\r\n        if (value > 5) {\r\n            value = 5;\r\n        }\r\n        formScore.setText(String.valueOf(value));\r\n\r\n        scoutingFormPresenter.saveData(performanceType, String.valueOf(value));\r\n\r\n        Timber.d(performanceType + \", \" + scoutingFormPresenter.readData(performanceType));\r\n    }\r\n\r\n    private void subtractPerformanceValue(TextView formScore, String performanceType) {\r\n        int value = Integer.parseInt(formScore.getText().toString()) - 1;\r\n        if (value < 0) {\r\n            value = 0;\r\n        }\r\n        formScore.setText(String.valueOf(value));\r\n\r\n        scoutingFormPresenter.saveData(performanceType, String.valueOf(value));\r\n\r\n        Timber.d(performanceType + \", \" + scoutingFormPresenter.readData(performanceType));\r\n    }\r\n\r\n    public void setUserVisibleHint(boolean isVisibleToUser) {\r\n        super.setUserVisibleHint(isVisibleToUser);\r\n        if (isVisibleToUser) {\r\n            try {\r\n                InputMethodManager mImm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);\r\n                mImm.hideSoftInputFromWindow(getView().getWindowToken(), 0);\r\n            } catch (Exception e) {\r\n                Timber.d(\"setUserVisibleHint: EndGame \");\r\n            }\r\n        }\r\n    }\r\n}\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/fragment/ui/UIDetailFragment.java b/app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/fragment/ui/UIDetailFragment.java
+--- a/app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/fragment/ui/UIDetailFragment.java	(revision 1c6ad655666b202ee8f58e0a4663c63bd3b995fc)
++++ b/app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/fragment/ui/UIDetailFragment.java	(date 1769820622589)
+@@ -8,6 +8,7 @@
+ import android.view.View;
+ import android.view.ViewGroup;
+ import android.view.inputmethod.InputMethodManager;
++import android.widget.SeekBar;
+ import android.widget.TextView;
+ 
+ import androidx.annotation.NonNull;
+@@ -94,6 +95,28 @@
+                 addPerformanceValue(defensePerform.formScore, "defenseRanking"));
+         defensePerform.formSubtract.setOnClickListener(subtractDefensePerformance ->
+                 subtractPerformanceValue(defensePerform.formScore, "defenseRanking"));
++
++        SeekBar seekBar = fragmentDetailBinding.accuracySeekBar;
++        TextView textView = fragmentDetailBinding.accuracyValueText;
++
++        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
++            @Override
++            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
++                textView.setText(String.valueOf(progress));
++                scoutingFormPresenter.saveData("shootingAccuracy", String.valueOf(progress));
++            }
++
++
++            @Override
++            public void onStartTrackingTouch(SeekBar seekBar) {
++                // optional: user started touching the slider
++            }
++
++            @Override
++            public void onStopTrackingTouch(SeekBar seekBar) {
++                // optional: user released the slider
++            }
++        });
+     }
+ 
+     private void toggleRobotProblems() {
+Index: app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/fragment/ui/UIEndGameFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.lifecycle.ViewModelProvider;\r\n\r\nimport com.team2073.eagleforcescoutingapplication.R;\r\nimport com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;\r\nimport com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;\r\nimport com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;\r\n\r\nimport timber.log.Timber;\r\n\r\npublic class UIEndGameFragment extends Fragment {\r\n\r\n    private static final String ARG_SECTION_NUMBER = \"Detail\";\r\n    private ScoutingFormPresenter scoutingFormPresenter;\r\n    private UiFragmentEndgameBinding fragmentEndgameBinding;\r\n\r\n\r\n    public static UIEndGameFragment newInstance(int index) {\r\n        UIEndGameFragment fragment = new UIEndGameFragment();\r\n        Bundle bundle = new Bundle();\r\n        bundle.putInt(ARG_SECTION_NUMBER, index);\r\n        fragment.setArguments(bundle);\r\n        return fragment;\r\n    }\r\n\r\n    @Override\r\n    public void onCreate(@Nullable Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        PageViewModel pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);\r\n        int index = getArguments().getInt(ARG_SECTION_NUMBER);\r\n        pageViewModel.setIndex(index);\r\n        scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());\r\n    }\r\n\r\n    @Nullable\r\n    @Override\r\n    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {\r\n        fragmentEndgameBinding = UiFragmentEndgameBinding.inflate(inflater, container, false);\r\n        return fragmentEndgameBinding.getRoot();\r\n    }\r\n\r\n    @Override\r\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n        initDataFields();\r\n    }\r\n\r\n    @Override\r\n    public void onDestroyView() {\r\n        super.onDestroyView();\r\n        fragmentEndgameBinding = null;\r\n    }\r\n\r\n    private void initDataFields() {\r\n        fragmentEndgameBinding.cage.setOnClickListener(cage -> toggleClimb());\r\n        switch (readData(\"endClimb\")) {\r\n            case \"0\":\r\n                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage);\r\n                break;\r\n            case \"1\":\r\n                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_park);\r\n                break;\r\n            case \"2\":\r\n                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_shallow);\r\n                break;\r\n            case \"3\":\r\n                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_deep);\r\n                break;\r\n        }\r\n    }\r\n\r\n    public void toggleClimb() {\r\n        int drawable = 0;\r\n        switch (readData(\"endClimb\")) {\r\n            case \"0\":\r\n                saveData(\"endClimb\", \"1\");\r\n                drawable = R.drawable.cage_park;\r\n                break;\r\n            case \"1\":\r\n                saveData(\"endClimb\", \"2\");\r\n                drawable = R.drawable.cage_shallow;\r\n                break;\r\n            case \"2\":\r\n                saveData(\"endClimb\", \"3\");\r\n                drawable = R.drawable.cage_deep;\r\n                break;\r\n            case \"3\":\r\n                saveData(\"endClimb\", \"0\");\r\n                drawable = R.drawable.cage;\r\n                break;\r\n        }\r\n        Timber.d(\"Climb:%s\", readData(\"endClimb\"));\r\n        fragmentEndgameBinding.cage.setImageResource(drawable);\r\n    }\r\n\r\n    public String readData(String key) {\r\n        return scoutingFormPresenter.readData(key);\r\n    }\r\n    public void saveData(String key, String data) {\r\n        scoutingFormPresenter.saveData(key, data);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/fragment/ui/UIEndGameFragment.java b/app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/fragment/ui/UIEndGameFragment.java
+--- a/app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/fragment/ui/UIEndGameFragment.java	(revision 1c6ad655666b202ee8f58e0a4663c63bd3b995fc)
++++ b/app/src/main/java/com/team2073/eagleforcescoutingapplication/activities/fragment/ui/UIEndGameFragment.java	(date 1769818236099)
+@@ -4,13 +4,13 @@
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.widget.ImageButton;
+ 
+ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ import androidx.fragment.app.Fragment;
+ import androidx.lifecycle.ViewModelProvider;
+ 
+-import com.team2073.eagleforcescoutingapplication.R;
+ import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
+ import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentEndgameBinding;
+ import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
+@@ -59,47 +59,75 @@
+         fragmentEndgameBinding = null;
+     }
+ 
++    private ImageButton[] buttons;
++
+     private void initDataFields() {
+-        fragmentEndgameBinding.cage.setOnClickListener(cage -> toggleClimb());
+-        switch (readData("endClimb")) {
+-            case "0":
+-                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage);
+-                break;
+-            case "1":
+-                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_park);
+-                break;
+-            case "2":
+-                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_shallow);
+-                break;
+-            case "3":
+-                fragmentEndgameBinding.cage.setImageResource(R.drawable.cage_deep);
+-                break;
++
++        buttons = new ImageButton[]{
++                fragmentEndgameBinding.bottomLeftEndgame,
++                fragmentEndgameBinding.bottomCenterEndgame,
++                fragmentEndgameBinding.bottomRightEndgame,
++                fragmentEndgameBinding.middleLeftEndgame,
++                fragmentEndgameBinding.middleCenterEndgame,
++                fragmentEndgameBinding.middleRightEndgame,
++                fragmentEndgameBinding.topLeftEndgame,
++                fragmentEndgameBinding.topCenterEndgame,
++                fragmentEndgameBinding.topRightEndgame,
++                fragmentEndgameBinding.climbButtonEndgame
++        };
++
++        for (ImageButton btn : buttons) {
++            btn.setTag(false);     // not selected
++            btn.setAlpha(1f);      // fully visible
++            btn.setOnClickListener(v -> toggleClimb((ImageButton) v));
+         }
+     }
+ 
+-    public void toggleClimb() {
+-        int drawable = 0;
+-        switch (readData("endClimb")) {
+-            case "0":
+-                saveData("endClimb", "1");
+-                drawable = R.drawable.cage_park;
+-                break;
+-            case "1":
+-                saveData("endClimb", "2");
+-                drawable = R.drawable.cage_shallow;
+-                break;
+-            case "2":
+-                saveData("endClimb", "3");
+-                drawable = R.drawable.cage_deep;
+-                break;
+-            case "3":
+-                saveData("endClimb", "0");
+-                drawable = R.drawable.cage;
+-                break;
++
++    public void toggleClimb(ImageButton b) {
++
++        // 1️⃣ Reset ALL buttons
++        for (ImageButton btn : buttons) {
++            btn.setTag(false);
++            btn.animate()
++                    .alpha(1f)
++                    .setDuration(150)
++                    .start();
++        }
++
++        // 2️⃣ Activate ONLY the clicked button
++        b.setTag(true);
++        b.animate()
++                .alpha(0.3f)
++                .setDuration(200)
++                .start();
++
++        // 3️⃣ Save data
++        if (b.equals(fragmentEndgameBinding.bottomLeftEndgame)) {
++            saveData("endClimb", "1");
++        } else if (b.equals(fragmentEndgameBinding.climbButtonEndgame)) {
++            saveData("endClimb", "0");
++        } else if (b.equals(fragmentEndgameBinding.bottomCenterEndgame)) {
++            saveData("endClimb", "2");
++        } else if (b.equals(fragmentEndgameBinding.bottomRightEndgame)) {
++            saveData("endClimb", "3");
++        } else if (b.equals(fragmentEndgameBinding.middleLeftEndgame)) {
++            saveData("endClimb", "4");
++        } else if (b.equals(fragmentEndgameBinding.middleCenterEndgame)) {
++            saveData("endClimb", "5");
++        } else if (b.equals(fragmentEndgameBinding.middleRightEndgame)) {
++            saveData("endClimb", "6");
++        } else if (b.equals(fragmentEndgameBinding.topLeftEndgame)) {
++            saveData("endClimb", "7");
++        } else if (b.equals(fragmentEndgameBinding.topCenterEndgame)) {
++            saveData("endClimb", "8");
++        } else if (b.equals(fragmentEndgameBinding.topRightEndgame)) {
++            saveData("endClimb", "9");
+         }
+-        Timber.d("Climb:%s", readData("endClimb"));
+-        fragmentEndgameBinding.cage.setImageResource(drawable);
++
++        Timber.d("pressed");
+     }
++
+ 
+     public String readData(String key) {
+         return scoutingFormPresenter.readData(key);
+Index: app/src/main/java/com/team2073/eagleforcescoutingapplication/framework/presenter/ScoutingFormPresenter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.team2073.eagleforcescoutingapplication.framework.presenter;\r\n\r\nimport android.Manifest;\r\nimport android.app.Activity;\r\nimport android.content.pm.PackageManager;\r\nimport android.graphics.Bitmap;\r\nimport android.media.MediaScannerConnection;\r\nimport android.os.Environment;\r\nimport android.util.Base64;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.appcompat.widget.Toolbar;\r\nimport androidx.core.app.ActivityCompat;\r\nimport androidx.fragment.app.FragmentActivity;\r\nimport androidx.viewpager.widget.ViewPager;\r\n\r\nimport com.google.android.material.tabs.TabLayout;\r\nimport com.google.zxing.BarcodeFormat;\r\nimport com.google.zxing.MultiFormatWriter;\r\nimport com.google.zxing.WriterException;\r\nimport com.google.zxing.common.BitMatrix;\r\nimport com.journeyapps.barcodescanner.BarcodeEncoder;\r\nimport com.team2073.eagleforcescoutingapplication.R;\r\nimport com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIPagerAdapter;\r\nimport com.team2073.eagleforcescoutingapplication.framework.form.ReefscapeScoutingForm;\r\nimport com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;\r\nimport com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;\r\nimport com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;\r\nimport com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;\r\nimport com.team2073.eagleforcescoutingapplication.framework.manager.PrefsDataManager;\r\nimport com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;\r\nimport com.team2073.eagleforcescoutingapplication.util.Match;\r\n\r\nimport org.json.JSONException;\r\nimport org.json.JSONObject;\r\n\r\nimport java.io.ByteArrayOutputStream;\r\nimport java.io.File;\r\nimport java.io.FileOutputStream;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\n\r\nimport timber.log.Timber;\r\n\r\npublic class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {\r\n\r\n    private final Activity mActivity;\r\n    private final CSVManager csvManager;\r\n    private final FileManager fileManager;\r\n    private final DrawerManager drawerManager;\r\n    private final PrefsDataManager prefsDataManager;\r\n    private final ScoutingForm scoutingForm = new ReefscapeScoutingForm();\r\n    private final ArrayList<String> allFieldNames = scoutingForm.getFieldNames();\r\n\r\n    public ScoutingFormPresenter(Activity activity) {\r\n        this.mActivity = activity;\r\n        csvManager = CSVManager.getInstance(mActivity);\r\n        fileManager = FileManager.getInstance(mActivity);\r\n        drawerManager = DrawerManager.getInstance(mActivity);\r\n        prefsDataManager = PrefsDataManager.getInstance(mActivity);\r\n    }\r\n\r\n    public void makeDrawer(Toolbar toolbar) {\r\n        drawerManager.makeDrawer(toolbar);\r\n    }\r\n\r\n    public void createTabs() {\r\n        UIPagerAdapter sectionsPagerAdapter = new UIPagerAdapter(mActivity, ((FragmentActivity) mActivity).getSupportFragmentManager());\r\n        ViewPager viewPager = mActivity.findViewById(R.id.view_pager);\r\n        viewPager.setAdapter(sectionsPagerAdapter);\r\n        viewPager.setOffscreenPageLimit(5);\r\n        TabLayout tabs = mActivity.findViewById(R.id.tabs);\r\n        tabs.setupWithViewPager(viewPager);\r\n    }\r\n\r\n    public void saveData(String key, String data) {\r\n        prefsDataManager.writeToPreferences(key, data);\r\n    }\r\n\r\n    public String readData(String key) {\r\n        return prefsDataManager.readFromPreferences(key);\r\n    }\r\n\r\n\r\n    public void clearPreferences() {\r\n        prefsDataManager.clearPreferences(scoutingForm.getClearNames());\r\n    }\r\n\r\n    public void advanceOnSubmit(String matchNum, ArrayList<Match> scheduleList, String position) {\r\n        if (scheduleList == null) {\r\n            Timber.e(\"no schedule file for auto advance\");\r\n            Toast.makeText(mActivity, \"Please select a schedule file\", Toast.LENGTH_SHORT).show();\r\n            clearPreferences();\r\n            return;\r\n        }\r\n\r\n        int matchNumber = Integer.parseInt(matchNum);\r\n        String teamNumber;\r\n        Match currentMatch = scheduleList.get(matchNumber);\r\n        switch (position) {\r\n            case \"Red1\":\r\n                teamNumber = currentMatch.getRed1();\r\n                break;\r\n            case \"Red2\":\r\n                teamNumber = currentMatch.getRed2();\r\n                break;\r\n            case \"Red3\":\r\n                teamNumber = currentMatch.getRed3();\r\n                break;\r\n            case \"Blue1\":\r\n                teamNumber = currentMatch.getBlue1();\r\n                break;\r\n            case \"Blue2\":\r\n                teamNumber = currentMatch.getBlue2();\r\n                break;\r\n            case \"Blue3\":\r\n                teamNumber = currentMatch.getBlue3();\r\n                break;\r\n\r\n            default:\r\n                throw new IllegalStateException(\"Unexpected value: \" + \"position\");\r\n        }\r\n        clearPreferences();\r\n        prefsDataManager.writeToPreferences(\"matchNumber\", Integer.toString(matchNumber + 1));\r\n        prefsDataManager.writeToPreferences(\"teamNumber\", teamNumber);\r\n\r\n    }\r\n\r\n    public JSONObject dataToJSON() throws JSONException {\r\n        JSONObject jsonData = new JSONObject();\r\n        if (readData(\"autoPath\").length() > 1) {\r\n            saveData(\"autoLeave\", \"1\");\r\n        }\r\n        try {\r\n            for (String fieldData : allFieldNames) {\r\n                jsonData.put(fieldData, prefsDataManager.readFromPreferences(fieldData));\r\n                if (fieldData.equals(\"autoPath\")) {\r\n                    jsonData.put(fieldData, prefsDataManager.readFromPreferences(fieldData).replaceAll(\"\\\\d\", \"\"));\r\n                }\r\n            }\r\n        } catch (JSONException e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n        Timber.tag(\"json_data\").d(jsonData.toString());\r\n        return jsonData;\r\n    }\r\n\r\n    public Bitmap createQR() throws WriterException {\r\n        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();\r\n        try {\r\n            BitMatrix bitMatrix = multiFormatWriter.encode(String.valueOf(dataToJSON()), BarcodeFormat.QR_CODE, 400, 400);\r\n            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();\r\n            return barcodeEncoder.createBitmap(bitMatrix);\r\n        } catch (JSONException e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n    }\r\n    public void saveQR(Bitmap myBitmap) {\r\n\r\n        ByteArrayOutputStream bytes = new ByteArrayOutputStream();\r\n        myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);\r\n\r\n        byte[] byteArrayVar = bytes.toByteArray();\r\n\r\n        String  ConvertQR = Base64.encodeToString(byteArrayVar, Base64.DEFAULT);\r\n        File file = Environment.getExternalStorageDirectory();\r\n        File wallpaperDirectory = new File(file.getAbsolutePath() + \"/Pictures/Screenshots\");\r\n        String qrName = \"Team: \" + prefsDataManager.readFromPreferences(\"teamNumber\") + \" Match: \" + prefsDataManager.readFromPreferences(\"matchNumber\");\r\n\r\n        try {\r\n            File f = new File(wallpaperDirectory, qrName + \".jpg\");\r\n            FileOutputStream fo = new FileOutputStream(f);\r\n            fo.write(bytes.toByteArray());\r\n            MediaScannerConnection.scanFile(this.mActivity.getBaseContext(), new String[]{f.getPath()},\r\n                    new String[]{\"image/jpeg\"}, null);\r\n            fo.close();\r\n\r\n            Toast.makeText(this.mActivity.getBaseContext(), \"QR Saved to : \"+ f.getAbsolutePath() , Toast.LENGTH_LONG).show();\r\n            f.getAbsolutePath();\r\n        }\r\n        catch (IOException e1) {\r\n            e1.printStackTrace();\r\n        }\r\n    }\r\n    public void checkCompCode(){\r\n        if(prefsDataManager.readFromPreferences(\"comp_code\").equals(\"0\")){\r\n            prefsDataManager.writeToPreferences(\"comp_code\", \"testing\");\r\n        }\r\n    }\r\n\r\n    public void checkReadPermissions(){\r\n        String[] permissionsStorage = {Manifest.permission.READ_EXTERNAL_STORAGE};\r\n        int requestExternalStorage = 1;\r\n        int permission = ActivityCompat.checkSelfPermission(this.mActivity, Manifest.permission.READ_EXTERNAL_STORAGE);\r\n        if (permission != PackageManager.PERMISSION_GRANTED) {\r\n            ActivityCompat.requestPermissions(this.mActivity, permissionsStorage, requestExternalStorage);\r\n        }\r\n        permission = ActivityCompat.checkSelfPermission(this.mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE);\r\n        if (permission != PackageManager.PERMISSION_GRANTED) {\r\n            ActivityCompat.requestPermissions(this.mActivity, permissionsStorage, requestExternalStorage);\r\n        }\r\n    }\r\n\r\n    public ArrayList<Match> getScheduleList(){\r\n        if(fileManager.getScheduleFile() == null) {\r\n            return null;\r\n        }\r\n        return csvManager.readScheduleFile(fileManager.getScheduleFile());\r\n\r\n    }\r\n    public String getPosition(){\r\n        if(prefsDataManager.readFromPreferences(\"position\") != null)\r\n        return prefsDataManager.readFromPreferences(\"position\");\r\n        return \"Red1\";\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/team2073/eagleforcescoutingapplication/framework/presenter/ScoutingFormPresenter.java b/app/src/main/java/com/team2073/eagleforcescoutingapplication/framework/presenter/ScoutingFormPresenter.java
+--- a/app/src/main/java/com/team2073/eagleforcescoutingapplication/framework/presenter/ScoutingFormPresenter.java	(revision 1c6ad655666b202ee8f58e0a4663c63bd3b995fc)
++++ b/app/src/main/java/com/team2073/eagleforcescoutingapplication/framework/presenter/ScoutingFormPresenter.java	(date 1769820065635)
+@@ -22,7 +22,7 @@
+ import com.journeyapps.barcodescanner.BarcodeEncoder;
+ import com.team2073.eagleforcescoutingapplication.R;
+ import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIPagerAdapter;
+-import com.team2073.eagleforcescoutingapplication.framework.form.ReefscapeScoutingForm;
++import com.team2073.eagleforcescoutingapplication.framework.form.RebuiltScoutingForm;
+ import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
+ import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
+ import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;
+@@ -49,7 +49,7 @@
+     private final FileManager fileManager;
+     private final DrawerManager drawerManager;
+     private final PrefsDataManager prefsDataManager;
+-    private final ScoutingForm scoutingForm = new ReefscapeScoutingForm();
++    private final ScoutingForm scoutingForm = new RebuiltScoutingForm();
+     private final ArrayList<String> allFieldNames = scoutingForm.getFieldNames();
+ 
+     public ScoutingFormPresenter(Activity activity) {
+Index: app/src/main/java/com/team2073/eagleforcescoutingapplication/framework/form/RebuiltScoutingForm.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/team2073/eagleforcescoutingapplication/framework/form/RebuiltScoutingForm.java b/app/src/main/java/com/team2073/eagleforcescoutingapplication/framework/form/RebuiltScoutingForm.java
+new file mode 100644
+--- /dev/null	(date 1769820028095)
++++ b/app/src/main/java/com/team2073/eagleforcescoutingapplication/framework/form/RebuiltScoutingForm.java	(date 1769820028095)
+@@ -0,0 +1,104 @@
++package com.team2073.eagleforcescoutingapplication.framework.form;
++
++import java.util.ArrayList;
++
++public class RebuiltScoutingForm implements ScoutingForm{
++
++    private ArrayList<String> fieldNames = new ArrayList<>();
++    private ArrayList<String> teleNames = new ArrayList<>();
++    private ArrayList<String> autoNames = new ArrayList<>();
++    private ArrayList<String> endgameNames = new ArrayList<>();
++    private ArrayList<String> clearNames = new ArrayList<>();
++
++    public RebuiltScoutingForm(){
++        //General Info
++        fieldNames.add("teamNumber");
++        clearNames.add("teamNumber");
++
++        fieldNames.add("comp_code");
++
++        fieldNames.add("name");
++
++        fieldNames.add("matchNumber");
++        clearNames.add("matchNumber");
++
++        fieldNames.add("startPos");
++        clearNames.add("startPos");
++
++        fieldNames.add("quantifier");
++        clearNames.add("fieldSide");
++
++        //Autos
++        autoNames.add("missed_auto");
++        autoNames.add("autoLeave");
++        autoNames.add("autoNet");
++        autoNames.add("autoProcessor");
++        autoNames.add("autoRemoved");
++        autoNames.add("autoPath");
++        autoNames.add("autoL1");
++        autoNames.add("autoL2");
++        autoNames.add("autoL3");
++        autoNames.add("autoL4");
++        for (String name:autoNames) {
++            fieldNames.add(name);
++            clearNames.add(name);
++        }
++        clearNames.add("sourceA");
++        clearNames.add("sourceB");
++
++        //Teleop
++        teleNames.add("teleProcessor");
++        teleNames.add("teleRemoved");
++        teleNames.add("telenet"); //for future reference <- this is a Chris request, it's supposed to be lowercase
++        teleNames.add("teleL1");
++        teleNames.add("teleL2");
++        teleNames.add("teleL3");
++        teleNames.add("teleL4");
++
++        for (String name:teleNames) {
++            fieldNames.add(name);
++            clearNames.add(name);
++        }
++
++        //Endgame
++        endgameNames.add("endClimb");
++        fieldNames.add("endClimb");
++        clearNames.add("endClimb");
++
++        //Submit
++        fieldNames.add("driverRanking");
++        fieldNames.add("defenseRanking");
++        fieldNames.add("shootingAccuracy");
++        fieldNames.add("comment");
++        fieldNames.add("isBroken");
++        fieldNames.add("isDisabled");
++        fieldNames.add("isTipped");
++
++        clearNames.add("driverRanking");
++        clearNames.add("shootingAccuracy");
++        clearNames.add("comment");
++        clearNames.add("isBroken");
++        clearNames.add("isDisabled");
++        clearNames.add("isTipped");
++
++    }
++    public ArrayList<String> getFieldNames() {
++        return fieldNames;
++    }
++    @Override
++    public ArrayList<String> getTeleFieldNames() {
++        return teleNames;
++    }
++    @Override
++    public ArrayList<String> getAutoFieldNames() {
++        return autoNames;
++    }
++    @Override
++    public ArrayList<String> getEndGameFieldNames() {
++        return endgameNames;
++    }
++    @Override
++    public ArrayList<String> getClearNames() {
++        return clearNames;
++    }
++}
+Index: app/src/main/res/layout/ui_fragment_detail.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<ScrollView xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\">\r\n\r\n\r\n    <RelativeLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_gravity=\"center\">\r\n\r\n        <include\r\n            android:id=\"@+id/driverPerformance\"\r\n            layout=\"@layout/add_subtract_values\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_alignParentTop=\"true\"\r\n            android:layout_centerHorizontal=\"true\" />\r\n\r\n        <include\r\n            android:id=\"@+id/defensePerformance\"\r\n            layout=\"@layout/add_subtract_values\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/driverPerformance\"\r\n            android:layout_centerHorizontal=\"true\" />\r\n\r\n        <EditText\r\n            android:id=\"@+id/uiComments\"\r\n            android:layout_width=\"300dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@+id/defensePerformance\"\r\n            android:layout_centerHorizontal=\"true\"\r\n            android:layout_marginTop=\"15dp\"\r\n            android:ellipsize=\"start\"\r\n            android:ems=\"10\"\r\n            android:gravity=\"center\"\r\n            android:inputType=\"textMultiLine\"\r\n            android:maxLength=\"115\"\r\n            android:hint=\"Comments\"\r\n            android:textColorHint=\"@color/md_blue_grey_200\"/>\r\n\r\n        <LinearLayout\r\n            android:id=\"@+id/robotConditions\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:orientation=\"horizontal\"\r\n            android:layout_below=\"@+id/uiComments\"\r\n            android:layout_centerHorizontal=\"true\"\r\n            android:layout_marginTop=\"15dp\">\r\n\r\n            <CheckBox\r\n                android:id=\"@+id/checkBroken\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"Broken\"\r\n                android:layout_marginEnd=\"10dp\"\r\n            />\r\n\r\n            <CheckBox\r\n                android:id=\"@+id/checkDisabled\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"Disabled\"\r\n                android:layout_marginEnd=\"10dp\"\r\n                />\r\n\r\n            <CheckBox\r\n                android:id=\"@+id/checkTipped\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"Tipped\"\r\n                />\r\n        </LinearLayout>\r\n\r\n\r\n    </RelativeLayout>\r\n\r\n</ScrollView>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/ui_fragment_detail.xml b/app/src/main/res/layout/ui_fragment_detail.xml
+--- a/app/src/main/res/layout/ui_fragment_detail.xml	(revision 1c6ad655666b202ee8f58e0a4663c63bd3b995fc)
++++ b/app/src/main/res/layout/ui_fragment_detail.xml	(date 1769820804897)
+@@ -5,10 +5,46 @@
+ 
+ 
+     <RelativeLayout
+-        android:layout_width="match_parent"
++        android:layout_width="1100dp"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center">
+ 
++
++        <SeekBar
++            android:id="@+id/accuracySeekBar"
++            android:layout_width="300dp"
++            android:layout_height="300dp"
++            android:layout_alignParentLeft="true"
++            android:indeterminate="false"
++            android:max="100"
++            android:progress="50"
++            android:rotation="270"
++            android:valueFrom="0.0"
++            android:valueTo="100.0" />
++
++        <TextView
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="Accuracy:"
++            android:textSize="24sp"
++            android:layout_marginStart="185dp"
++            android:layout_marginTop="75dp"
++            android:gravity="center"
++            android:textColor="#C00000"
++            />
++
++        <TextView
++            android:id="@+id/accuracyValueText"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="50"
++            android:textSize="40sp"
++            android:layout_marginStart="200dp"
++            android:layout_marginTop="120dp"
++            android:gravity="center"
++            android:textColor="#050505"
++            />
++
+         <include
+             android:id="@+id/driverPerformance"
+             layout="@layout/add_subtract_values"
+Index: .idea/deploymentTargetSelector.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"deploymentTargetSelector\">\r\n    <selectionStates>\r\n      <SelectionState runConfigName=\"app\">\r\n        <option name=\"selectionMode\" value=\"DROPDOWN\" />\r\n        <DropdownSelection timestamp=\"2025-09-21T04:38:57.483289Z\">\r\n          <Target type=\"DEFAULT_BOOT\">\r\n            <handle>\r\n              <DeviceId pluginId=\"PhysicalDevice\" identifier=\"serial=GCC1AQ05209600X5\" />\r\n            </handle>\r\n          </Target>\r\n        </DropdownSelection>\r\n        <DialogSelection />\r\n      </SelectionState>\r\n    </selectionStates>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetSelector.xml b/.idea/deploymentTargetSelector.xml
+--- a/.idea/deploymentTargetSelector.xml	(revision 1c6ad655666b202ee8f58e0a4663c63bd3b995fc)
++++ b/.idea/deploymentTargetSelector.xml	(date 1769820652228)
+@@ -4,10 +4,10 @@
+     <selectionStates>
+       <SelectionState runConfigName="app">
+         <option name="selectionMode" value="DROPDOWN" />
+-        <DropdownSelection timestamp="2025-09-21T04:38:57.483289Z">
++        <DropdownSelection timestamp="2026-01-31T00:41:26.218407700Z">
+           <Target type="DEFAULT_BOOT">
+             <handle>
+-              <DeviceId pluginId="PhysicalDevice" identifier="serial=GCC1AQ05209600X5" />
++              <DeviceId pluginId="PhysicalDevice" identifier="serial=GCC1EX04213500B5" />
+             </handle>
+           </Target>
+         </DropdownSelection>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"DesignSurface\">\r\n    <option name=\"filePathToZoomLevelMap\">\r\n      <map>\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/drawable-v24/ic_launcher_foreground.xml\" value=\"0.196\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/drawable/ic_baseline_add_circle_24.xml\" value=\"0.1545\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/drawable/ic_baseline_add_circle_outline_24.xml\" value=\"0.2775\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/drawable/vector_add_white.xml\" value=\"0.2775\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/drawable/vector_minus_white.xml\" value=\"0.2775\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/activity_choose_file.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/activity_insight.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/activity_qr_generator.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/activity_scouting_form.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/activity_settings.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/activity_view_schedule.xml\" value=\"0.25\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/add_subtract_values.xml\" value=\"0.3\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/button_pit_scouting_submit.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/climb_button_layout.xml\" value=\"0.175\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/port_points_layout.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/recycler_fragment_detail.xml\" value=\"0.13272543059777103\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/recycler_fragment_scouting_form_auto.xml\" value=\"0.175\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/recycler_fragment_scouting_form_submit.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/toolbar.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_auto.xml\" value=\"0.25\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_endgame.xml\" value=\"0.22333333333333336\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_info.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_qr.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_submit.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_teleop.xml\" value=\"0.25\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/mipmap-anydpi-v26/ic_launcher_foreground.xml\" value=\"0.196\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml\" value=\"0.196\" />\r\n        <entry key=\"..\\:/EagleforceScoutingApplication/app/src/main/res/xml/root_preferences.xml\" value=\"0.1\" />\r\n        <entry key=\"..\\:/Users/Brandon/StudioProjects/EagleforceScoutingApplication/app/src/main/res/layout/activity_choose_file.xml\" value=\"0.15885416666666666\" />\r\n        <entry key=\"..\\:/Users/Brandon/StudioProjects/EagleforceScoutingApplication/app/src/main/res/layout/activity_settings.xml\" value=\"0.11354166666666667\" />\r\n        <entry key=\"..\\:/Users/Brandon/StudioProjects/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_auto.xml\" value=\"0.72\" />\r\n        <entry key=\"..\\:/Users/Brandon/StudioProjects/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_endgame.xml\" value=\"0.25\" />\r\n        <entry key=\"..\\:/Users/Brandon/StudioProjects/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_info.xml\" value=\"0.2\" />\r\n        <entry key=\"..\\:/Users/Brandon/StudioProjects/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_submit.xml\" value=\"0.2\" />\r\n        <entry key=\"..\\:/Users/Kent Young/AndroidStudioProjects/EagleforceScoutingApplication/app/src/main/res/layout/toolbar.xml\" value=\"0.184375\" />\r\n        <entry key=\"..\\:/Users/Kent Young/AndroidStudioProjects/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_auto.xml\" value=\"0.33\" />\r\n        <entry key=\"..\\:/Users/Kent Young/AndroidStudioProjects/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_qrcode.xml\" value=\"0.1875\" />\r\n        <entry key=\"..\\:/Users/Kent Young/AndroidStudioProjects/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_submit.xml\" value=\"0.184375\" />\r\n        <entry key=\"..\\:/Users/Kent Young/AndroidStudioProjects/EagleforceScoutingApplication/app/src/main/res/layout/ui_fragment_teleop.xml\" value=\"0.33\" />\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_21\" default=\"true\" project-jdk-name=\"jbr-21\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 1c6ad655666b202ee8f58e0a4663c63bd3b995fc)
++++ b/.idea/misc.xml	(date 1770423971175)
+@@ -1,4 +1,3 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="DesignSurface">
+     <option name="filePathToZoomLevelMap">

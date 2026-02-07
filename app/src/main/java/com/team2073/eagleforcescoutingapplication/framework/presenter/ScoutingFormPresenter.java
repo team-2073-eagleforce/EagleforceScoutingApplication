@@ -22,7 +22,7 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIPagerAdapter;
-import com.team2073.eagleforcescoutingapplication.framework.form.ReefscapeScoutingForm;
+import com.team2073.eagleforcescoutingapplication.framework.form.RebuiltScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
 import com.team2073.eagleforcescoutingapplication.framework.manager.CSVManager;
 import com.team2073.eagleforcescoutingapplication.framework.manager.DrawerManager;
@@ -49,7 +49,7 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
     private final FileManager fileManager;
     private final DrawerManager drawerManager;
     private final PrefsDataManager prefsDataManager;
-    private final ScoutingForm scoutingForm = new ReefscapeScoutingForm();
+    private final ScoutingForm scoutingForm = new RebuiltScoutingForm();
     private final ArrayList<String> allFieldNames = scoutingForm.getFieldNames();
 
     public ScoutingFormPresenter(Activity activity) {
