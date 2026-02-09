@@ -62,10 +62,19 @@ public class UIInfoFragment extends Fragment {
         startPosition = fragmentInfoBinding.startPosition;
         initRadioGroup();
         initSpinner();
-        if (scoutingFormPresenter.readData("field_side").equals("0")) {
+        if (scoutingFormPresenter.readData("position").equals("Red1") || scoutingFormPresenter.readData("position").equals("Red2") || scoutingFormPresenter.readData("position").equals("Red3")){
+            if (scoutingFormPresenter.readData("field_side").equals("0")) {
             //RelativeLayout.LayoutParams imgParam = (RelativeLayout.LayoutParams) fragmentInfoBinding.startMap.getLayoutParams();
-            fragmentInfoBinding.startMap.setImageResource(R.drawable.non_processor_side_field_map);
-        }
+            fragmentInfoBinding.startMap.setImageResource(R.drawable.red_proc_non_processor);
+        } else {
+            fragmentInfoBinding.startMap.setImageResource(R.drawable.red_proc_processor);
+        }} else if(scoutingFormPresenter.readData("position").equals("Blue1") || scoutingFormPresenter.readData("position").equals("Blue2") || scoutingFormPresenter.readData("position").equals("Blue3")){
+            if (scoutingFormPresenter.readData("field_side").equals("0")) {
+                //RelativeLayout.LayoutParams imgParam = (RelativeLayout.LayoutParams) fragmentInfoBinding.startMap.getLayoutParams();
+                fragmentInfoBinding.startMap.setImageResource(R.drawable.blue_proc_non_processor);
+            } else {
+                fragmentInfoBinding.startMap.setImageResource(R.drawable.blue_proc_processor);
+        }}
         return fragmentInfoBinding.getRoot();
     }
 
