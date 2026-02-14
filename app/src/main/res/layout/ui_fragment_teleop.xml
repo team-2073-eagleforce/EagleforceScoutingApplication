@@ -109,7 +109,8 @@
         android:layout_centerHorizontal="true"
         android:textAlignment="center"
         android:textSize="40sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#2E5F3B"/>
     <TextView
         android:id="@+id/scoreCounter"
         android:layout_width="wrap_content"
@@ -120,7 +121,8 @@
         android:layout_below="@id/scoreText"
         android:textAlignment="center"
         android:textSize="40sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#4C9D62"/>
     <TextView
         android:id="@+id/passText"
         android:layout_width="wrap_content"
@@ -131,7 +133,8 @@
         android:text="Passes:"
         android:layout_centerHorizontal="true"
         android:textSize="40sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#483162"/>
     <TextView
         android:id="@+id/passCounter"
         android:layout_width="wrap_content"
@@ -142,7 +145,8 @@
         android:layout_below="@id/passText"
         android:textAlignment="center"
         android:textSize="40sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#734D9F"/>
 
 
 </RelativeLayout>
