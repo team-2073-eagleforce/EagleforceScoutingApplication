@@ -53,7 +53,7 @@
                     android:layout_width="240dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="4dp"
-                    android:backgroundTint="#ff7700"/>
+                    android:backgroundTint="#f25c54"/>
             </FrameLayout>
 
 
@@ -73,7 +73,7 @@
                     android:layout_width="240dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="4dp"
-                    android:backgroundTint="#ff7700"/>
+                    android:backgroundTint="#f25c54"/>
             </FrameLayout>
 
             <FrameLayout
@@ -92,7 +92,7 @@
                     android:layout_width="240dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="4dp"
-                    android:backgroundTint="#ff7700"/>
+                    android:backgroundTint="#f25c54"/>
             </FrameLayout>
 
             <FrameLayout
@@ -111,7 +111,7 @@
                     android:layout_width="240dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="4dp"
-                    android:backgroundTint="#ff7700"/>
+                    android:backgroundTint="#f27059"/>
             </FrameLayout>
 
             <FrameLayout
@@ -130,7 +130,7 @@
                     android:layout_width="240dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="4dp"
-                    android:backgroundTint="#ff7700"/>
+                    android:backgroundTint="#f27059"/>
             </FrameLayout>
 
             <FrameLayout
@@ -149,7 +149,7 @@
                     android:layout_width="240dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="4dp"
-                    android:backgroundTint="#ff7700"/>
+                    android:backgroundTint="#f27059"/>
             </FrameLayout>
 
             <FrameLayout
@@ -168,7 +168,7 @@
                     android:layout_width="240dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="4dp"
-                    android:backgroundTint="#ff7700"/>
+                    android:backgroundTint="#f4845f"/>
             </FrameLayout>
 
             <FrameLayout
@@ -187,7 +187,7 @@
                     android:layout_width="240dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="4dp"
-                    android:backgroundTint="#ff7700"/>
+                    android:backgroundTint="#f4845f"/>
             </FrameLayout>
 
             <FrameLayout
@@ -206,7 +206,7 @@
                     android:layout_width="240dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="4dp"
-                    android:backgroundTint="#ff7700"/>
+                    android:backgroundTint="#f4845f"/>
             </FrameLayout>
 
         </GridLayout>
@@ -296,7 +296,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="20dp"
-                    android:backgroundTint="#ff7700"/>
+                    android:backgroundTint="#f79d65"/>
             </FrameLayout>
 
         </LinearLayout>
