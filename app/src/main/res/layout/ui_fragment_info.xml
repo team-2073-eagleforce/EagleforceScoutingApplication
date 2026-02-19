@@ -84,7 +84,7 @@
             android:layout_height="fill_parent"
             android:layout_toEndOf="@id/textFields"
             android:layout_marginStart="20dp"
-            android:background="@drawable/processor_side_field_map"/>
+            android:background="@drawable/red_proc_processor"/>
 
         <RadioGroup
             android:id="@+id/start_position"
