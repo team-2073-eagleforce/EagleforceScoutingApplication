@@ -65,11 +65,23 @@ public class RebuiltScoutingForm implements ScoutingForm{
 
 //Submit
         fieldNames.add("driverRanking");
+        clearNames.add("driverRanking");
+
         fieldNames.add("defenseRanking");
+        clearNames.add("defenseRanking");
+
         fieldNames.add("comment");
+        clearNames.add("comment");
+
         fieldNames.add("isBroken");
+        clearNames.add("isBroken");
+
         fieldNames.add("isDisabled");
+        clearNames.add("isDisabled");
+
         fieldNames.add("isTipped");
+        clearNames.add("isTipped");
+
     }
     public ArrayList<String> getFieldNames() {
         return fieldNames;

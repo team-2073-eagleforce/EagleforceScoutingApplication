@@ -167,7 +167,7 @@
             android:textSize="11sp"
             android:layout_toEndOf="@id/start_position"
             android:layout_alignBottom="@+id/start_position"
-            android:text="*new layout"/>
+            android:text="let's go 2073"/>
 
     </RelativeLayout>
 </ScrollView>

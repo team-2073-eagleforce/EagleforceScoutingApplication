@@ -99,16 +99,17 @@
         android:layout_marginBottom="5dp"
         android:text="Score"
         android:textSize="35sp"
-        /><Button
-    android:id="@+id/autoClimbMiddle"
-    android:layout_width="150dp"
-    android:layout_height="60dp"
-    android:backgroundTint="#8e9aaf"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="5dp"
-    android:text="Middle Climb?"
-    android:textSize="18sp"/>
+        />
+    <Button
+        android:id="@+id/autoClimbMiddle"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#8e9aaf"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="Middle Climb?"
+        android:textSize="18sp"/>
     <Button
         android:id="@+id/autoClimbLeft"
         android:layout_width="150dp"
@@ -143,7 +144,6 @@
         android:layout_marginLeft="5dp"
         android:text="Auto Leave?"
         android:textSize="18sp"/>
-
     <TextView
         android:id="@+id/scoreTextAuto"
         android:layout_width="wrap_content"
