@@ -95,6 +95,11 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         }
 
         int matchNumber = Integer.parseInt(matchNum);
+        if (matchNumber < 0 || matchNumber >= scheduleList.size()) {
+            Timber.e("Match number %d out of schedule range", matchNumber);
+            clearPreferences();
+            return;
+        }
         String teamNumber;
         Match currentMatch = scheduleList.get(matchNumber);
         switch (position) {

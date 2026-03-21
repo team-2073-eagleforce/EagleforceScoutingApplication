@@ -97,16 +97,17 @@ public class UIQRCodeFragment extends Fragment {
                 } catch (WriterException e) {
                     throw new RuntimeException(e);
                 }
+
+                String matchNum = scoutingFormPresenter.readData("matchNumber");
+                ArrayList<Match> scheduleList = scoutingFormPresenter.getScheduleList();
+                String position = scoutingFormPresenter.getPosition();
+                scoutingFormPresenter.advanceOnSubmit(matchNum, scheduleList, position);
+
                 Intent intent = getActivity().getIntent();
                 getActivity().overridePendingTransition(0, 0);
                 getActivity().finish();
                 getActivity().overridePendingTransition(0, 0);
                 startActivity(intent);
-
-                String matchNum = scoutingFormPresenter.readData("matchNumber");
-                ArrayList <Match> scheduleList = scoutingFormPresenter.getScheduleList();
-                String position = scoutingFormPresenter.getPosition();
-                scoutingFormPresenter.advanceOnSubmit(matchNum, scheduleList, position);
             }).setNegativeButton("No", (dialog, which) -> {
             });
             AlertDialog dialog = builder.create();

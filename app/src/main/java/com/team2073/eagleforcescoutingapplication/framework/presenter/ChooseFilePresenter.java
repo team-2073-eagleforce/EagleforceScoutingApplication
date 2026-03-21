@@ -3,8 +3,6 @@ package com.team2073.eagleforcescoutingapplication.framework.presenter;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.widget.Toast;
 
 import com.team2073.eagleforcescoutingapplication.activities.SettingsActivity;
@@ -12,6 +10,11 @@ import com.team2073.eagleforcescoutingapplication.framework.manager.FileManager;
 import com.team2073.eagleforcescoutingapplication.framework.view.ChooseFileView;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.IOException;
+
+import timber.log.Timber;
 
 public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
     private static final int READ_REQUEST_CODE = 42;
@@ -49,17 +52,11 @@ public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
                 Uri uri = resultData.getData();
-                File file;
-                String tempID = DocumentsContract.getDocumentId(uri);
-                System.out.println(tempID);
-                String[] split = tempID.split(":");
-                String id = split[1];
-                System.out.println(id);
+                File file = copyUriToCache(uri);
 
-                if (id.startsWith("/storage/emulated/0/")) {
-                    file = new File(id);
-                } else {
-                    file = new File(Environment.getExternalStorageDirectory().getPath() + "/" + id);
+                if (file == null || !file.exists()) {
+                    Toast.makeText(mActivity, "Failed to read schedule file", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 FileManager.getInstance(mActivity).setScheduleFile(file);
@@ -69,6 +66,26 @@ public class ChooseFilePresenter extends BasePresenter<ChooseFileView> {
                 mActivity.startActivity(new Intent(mActivity, activityClass));
                 mActivity.finish();
             }
+        }
+    }
+
+    private File copyUriToCache(Uri uri) {
+        try {
+            InputStream inputStream = mActivity.getContentResolver().openInputStream(uri);
+            if (inputStream == null) return null;
+            File cacheFile = new File(mActivity.getCacheDir(), "schedule.csv");
+            FileOutputStream outputStream = new FileOutputStream(cacheFile);
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            inputStream.close();
+            outputStream.close();
+            return cacheFile;
+        } catch (IOException e) {
+            Timber.e(e, "Failed to copy schedule URI to cache");
+            return null;
         }
     }
 }
