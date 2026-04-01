@@ -1,6 +1,7 @@
 package com.team2073.eagleforcescoutingapplication.activities.fragment.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -102,6 +103,10 @@ public class UIInfoFragment extends Fragment {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         matchDropdown.setAdapter(adapter);
+        SharedPreferences quantifierPersist = getActivity().getSharedPreferences("savePrefs", Context.MODE_PRIVATE);
+
+        int savedPosition = quantifierPersist.getInt("spinner_position", 0);
+        matchDropdown.setSelection(savedPosition);
         matchDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
@@ -116,10 +121,18 @@ public class UIInfoFragment extends Fragment {
                     scoutingFormPresenter.saveData("quantifier", "Play Off");
                 }
                 Timber.d("%s",parent.getItemAtPosition(pos));
+                SharedPreferences quantifierPersist = getActivity().getSharedPreferences("savePrefs", Context.MODE_PRIVATE);
+
+                quantifierPersist.edit()
+                        .putInt("spinner_position", pos)
+                        .apply();
+
+
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
