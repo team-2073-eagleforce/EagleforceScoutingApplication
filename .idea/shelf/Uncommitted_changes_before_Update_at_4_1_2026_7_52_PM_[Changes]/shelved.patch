@@ -1,0 +1,54 @@
+Index: .idea/deploymentTargetSelector.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetSelector.xml b/.idea/deploymentTargetSelector.xml
+new file mode 100644
+--- /dev/null	(date 1775018450783)
++++ b/.idea/deploymentTargetSelector.xml	(date 1775018450783)
+@@ -0,0 +1,18 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="deploymentTargetSelector">
++    <selectionStates>
++      <SelectionState runConfigName="app">
++        <option name="selectionMode" value="DROPDOWN" />
++        <DropdownSelection timestamp="2026-03-21T17:11:07.630303949Z">
++          <Target type="DEFAULT_BOOT">
++            <handle>
++              <DeviceId pluginId="PhysicalDevice" identifier="serial=GCC1AQ05210500DC" />
++            </handle>
++          </Target>
++        </DropdownSelection>
++        <DialogSelection />
++      </SelectionState>
++    </selectionStates>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/amazonq.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/amazonq.xml b/.idea/amazonq.xml
+new file mode 100644
+--- /dev/null	(date 1775018434011)
++++ b/.idea/amazonq.xml	(date 1775018434011)
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="qAccountSettings">
++    <option name="activeRegion" value="us-east-1" />
++    <option name="recentlyUsedRegions">
++      <list>
++        <option value="us-east-1" />
++      </list>
++    </option>
++  </component>
++  <component name="qConnectionManager">
++    <option name="activeConnectionId" value="sso;us-east-1;https://view.awsapps.com/start" />
++  </component>
++</project>
+\ No newline at end of file
