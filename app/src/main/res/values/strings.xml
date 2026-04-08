@@ -44,4 +44,44 @@
     <string name="drawerScoutingFormText">Scouting Form</string>
     <string name="drawerScheduleText">Schedule</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Schedule QR / download -->
+    <string name="remove_schedule">Remove Schedule</string>
+    <string name="scan_schedule_qr">Scan Schedule QR</string>
+    <string name="scan_schedule_qr_prompt">Scan the Schedule QR from the admin panel</string>
+    <string name="schedule_downloading">Downloading schedule…</string>
+    <string name="schedule_downloaded_ok">Schedule downloaded ✓</string>
+    <string name="schedule_qr_incomplete_config">QR scanned, but comp_code or year is missing.\nEnter them manually in Settings.</string>
+    <string name="schedule_qr_parse_error">Could not read QR code. Make sure it's a valid schedule QR.</string>
+    <string name="schedule_error_403">Schedule download disabled. Ask field crew to re-enable it.</string>
+    <string name="schedule_error_404">Schedule file not found on server. Check QR was generated after the correct schedule was activated.</string>
+    <string name="schedule_error_generic">Schedule download failed (HTTP %1$d).</string>
+    <string name="schedule_error_network">Cannot reach replay server. Verify WiFi connection.</string>
+
+    <!-- Remote start preferences -->
+    <string name="remote_start_header">Replay Remote Start</string>
+    <string name="remote_start_enable_title">Enable Remote Start</string>
+    <string name="remote_start_enable_summary">Locks Info→Auto swipe; shows Start Recording button</string>
+    <string name="scan_remote_start_qr_title">Scan Remote Start QR</string>
+    <string name="scan_remote_start_qr_summary">Scan QR from the admin panel Audio tab</string>
+    <string name="scan_remote_start_qr_prompt">Scan the Remote Start QR from the admin panel</string>
+    <string name="replay_server_ip_title">Server IP</string>
+    <string name="replay_server_ip_summary">Manual override (filled automatically by QR scan)</string>
+    <string name="replay_server_port_title">Server Port</string>
+    <string name="replay_server_port_summary">Default: 3000</string>
+    <string name="replay_auth_key_title">Auth Key</string>
+    <string name="replay_auth_key_summary">64-char hex key (filled by QR scan)</string>
+    <string name="replay_start_url_title">Start URL</string>
+    <string name="replay_start_url_summary">Full URL to POST (filled by QR scan)</string>
+    <string name="remote_start_qr_saved">Remote start config saved ✓</string>
+    <string name="remote_start_qr_parse_error">Could not read QR code. Make sure it's a valid remote start QR.</string>
+
+    <!-- Remote start button / responses -->
+    <string name="start_recording">▶ Start Recording</string>
+    <string name="remote_start_success">✓ Recording started</string>
+    <string name="remote_start_error_401">QR code expired — scan a new Remote Start QR (401)</string>
+    <string name="remote_start_error_409">Already recording (409)</string>
+    <string name="remote_start_error_400">Cannot start right now — try again in a moment (400)</string>
+    <string name="remote_start_error_generic">Remote start error: %1$d</string>
+    <string name="remote_start_error_network">Cannot reach replay server</string>
 </resources>

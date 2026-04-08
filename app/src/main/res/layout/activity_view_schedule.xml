@@ -7,28 +7,44 @@
     tools:context="com.team2073.eagleforcescoutingapplication.activities.ViewScheduleActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/schedule_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme">
 
-    <include
-        layout="@layout/toolbar"/>
-    <Button
-        android:id="@+id/remove_schedule"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:text="Remove Schedule"
-        android:textColor="@android:color/holo_blue_light"
-        />
+        <include layout="@layout/toolbar"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="4dp">
+
+            <Button
+                android:id="@+id/remove_schedule"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/remove_schedule"
+                android:textColor="@android:color/holo_blue_light" />
+
+            <Button
+                android:id="@+id/scan_schedule_qr"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/scan_schedule_qr"
+                android:textColor="@android:color/holo_green_light" />
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/schedule_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </androidx.recyclerview.widget.RecyclerView>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
+        android:layout_height="match_parent"
+        android:layout_below="@id/schedule_app_bar" />
 
 </RelativeLayout>

@@ -49,4 +49,44 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/remote_start_header">
+
+        <SwitchPreferenceCompat
+            android:key="remote_start_enabled"
+            android:title="@string/remote_start_enable_title"
+            android:summary="@string/remote_start_enable_summary"
+            android:defaultValue="false" />
+
+        <Preference
+            android:key="scan_remote_start_qr"
+            android:title="@string/scan_remote_start_qr_title"
+            android:summary="@string/scan_remote_start_qr_summary" />
+
+        <EditTextPreference
+            android:key="replay_server_ip"
+            android:title="@string/replay_server_ip_title"
+            android:summary="@string/replay_server_ip_summary"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:key="replay_server_port"
+            android:title="@string/replay_server_port_title"
+            android:summary="@string/replay_server_port_summary"
+            android:defaultValue="3000"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:key="replay_auth_key"
+            android:title="@string/replay_auth_key_title"
+            android:summary="@string/replay_auth_key_summary"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:key="replay_start_url"
+            android:title="@string/replay_start_url_title"
+            android:summary="@string/replay_start_url_summary"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
 </androidx.preference.PreferenceScreen>

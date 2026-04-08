@@ -169,5 +169,17 @@
             android:layout_alignBottom="@+id/start_position"
             android:text="let's go 2073"/>
 
+        <Button
+            android:id="@+id/start_recording_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/msg"
+            android:layout_toEndOf="@id/start_position"
+            android:layout_marginTop="12dp"
+            android:text="@string/start_recording"
+            android:backgroundTint="@color/md_red_700"
+            android:textColor="@android:color/white"
+            android:visibility="gone" />
+
     </RelativeLayout>
 </ScrollView>
