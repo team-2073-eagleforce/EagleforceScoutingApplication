@@ -248,6 +248,9 @@ public class UIInfoFragment extends Fragment {
                 if (getActivity() == null) return;
                 String msg;
                 switch (httpCode) {
+                    case -1:
+                        msg = getString(R.string.remote_start_error_no_config);
+                        break;
                     case 401:
                         msg = getString(R.string.remote_start_error_401);
                         break;

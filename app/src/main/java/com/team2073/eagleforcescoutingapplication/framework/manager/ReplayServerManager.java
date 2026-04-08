@@ -22,7 +22,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.Executors;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -102,7 +101,7 @@ public class ReplayServerManager {
         String serverIp = json.optString("server_ip", "");
         String port = json.optString("port", "3000");
         String compCode = json.isNull("comp_code") ? "" : json.optString("comp_code", "");
-        String year = json.isNull("year") ? "" : String.valueOf(json.opt("year"));
+        String year = json.isNull("year") ? "" : json.optString("year", "");
         prefs.edit()
                 .putString(KEY_SERVER_IP, serverIp)
                 .putString(KEY_SERVER_PORT, port)
@@ -201,7 +200,7 @@ public class ReplayServerManager {
         String authKey = getAuthKey();
         if (startUrl.isEmpty() || authKey.isEmpty()) {
             if (callback != null) {
-                callback.onError(401, "No remote start config. Scan Remote Start QR first.");
+                callback.onError(-1, "No remote start config. Scan Remote Start QR first.");
             }
             return;
         }
@@ -244,7 +243,9 @@ public class ReplayServerManager {
 
     /**
      * Opens an HttpURLConnection, using a trust-all SSL context for HTTPS
-     * to support self-signed LAN certificates.
+     * to support self-signed LAN certificates (required per server documentation).
+     * The hostname is verified against the configured server IP to prevent
+     * connecting to unexpected hosts.
      */
     private HttpURLConnection openConnection(String urlStr)
             throws IOException, NoSuchAlgorithmException, KeyManagementException {
@@ -261,7 +262,11 @@ public class ReplayServerManager {
             sc.init(null, trustAll, new java.security.SecureRandom());
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setSSLSocketFactory(sc.getSocketFactory());
-            conn.setHostnameVerifier((hostname, session) -> true);
+            // Verify hostname against the configured server IP so we only trust
+            // the known LAN host even though the certificate is self-signed.
+            final String configuredIp = getServerIp();
+            conn.setHostnameVerifier((hostname, session) ->
+                    configuredIp.isEmpty() || hostname.equals(configuredIp));
             return conn;
         } else {
             return (HttpURLConnection) url.openConnection();

@@ -79,6 +79,7 @@
     <!-- Remote start button / responses -->
     <string name="start_recording">▶ Start Recording</string>
     <string name="remote_start_success">✓ Recording started</string>
+    <string name="remote_start_error_no_config">Scan the Remote Start QR in Settings first</string>
     <string name="remote_start_error_401">QR code expired — scan a new Remote Start QR (401)</string>
     <string name="remote_start_error_409">Already recording (409)</string>
     <string name="remote_start_error_400">Cannot start right now — try again in a moment (400)</string>
