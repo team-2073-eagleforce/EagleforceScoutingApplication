@@ -73,9 +73,6 @@ dependencies {
     // ZXing (QR Code Scanner)
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 
-    apply plugin: 'com.android.application'
-    apply plugin: 'kotlin-android' // <-- ADD THIS LINE
-
     // Testing
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test:runner:1.5.2'
