@@ -4,18 +4,20 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import com.team2073.eagleforcescoutingapplication.R;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.ui.UIQRCodeFragment;
 import com.team2073.eagleforcescoutingapplication.databinding.ActivityScoutingFormBinding;
+import com.team2073.eagleforcescoutingapplication.framework.manager.ReplayServerManager;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 import com.team2073.eagleforcescoutingapplication.framework.view.ScoutingFormView;
+import com.team2073.eagleforcescoutingapplication.util.NonSwipeableViewPager;
 
 public class ScoutingFormActivity extends BaseActivity implements ScoutingFormView {
 
     private ScoutingFormPresenter scoutingFormPresenter;
     private ActivityScoutingFormBinding activityScoutingFormBinding;
+    private NonSwipeableViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,23 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        // Refresh lock state in case settings changed while paused
+        if (viewPager != null) {
+            viewPager.setLockInfoToAuto(
+                    ReplayServerManager.getInstance(this).isRemoteStartEnabled());
+        }
+    }
+
+    /** Programmatically navigate to the Auto tab (position 1). */
+    public void navigateToAutoTab() {
+        if (viewPager != null) {
+            viewPager.setCurrentItem(1, true);
+        }
+    }
+
+    @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_scouting_form;
     }
@@ -35,24 +54,18 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
     protected void initEvent() {
         scoutingFormPresenter.createTabs();
 
-        ViewPager viewPager = findViewById(R.id.view_pager);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        viewPager = findViewById(R.id.view_pager);
+        viewPager.setLockInfoToAuto(
+                ReplayServerManager.getInstance(this).isRemoteStartEnabled());
 
-            }
-
+        viewPager.addOnPageChangeListener(new androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                Fragment fragmentInstance = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + viewPager.getCurrentItem());
+                Fragment fragmentInstance = getSupportFragmentManager()
+                        .findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + viewPager.getCurrentItem());
                 if (fragmentInstance instanceof UIQRCodeFragment) {
                     ((UIQRCodeFragment) fragmentInstance).generateQRCode();
                 }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
     }

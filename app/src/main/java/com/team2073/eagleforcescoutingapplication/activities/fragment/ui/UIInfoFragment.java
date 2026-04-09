@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,9 +23,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.team2073.eagleforcescoutingapplication.R;
+import com.team2073.eagleforcescoutingapplication.activities.ScoutingFormActivity;
 import com.team2073.eagleforcescoutingapplication.activities.fragment.PageViewModel;
 import com.team2073.eagleforcescoutingapplication.databinding.UiFragmentInfoBinding;
-import com.team2073.eagleforcescoutingapplication.framework.form.ScoutingForm;
+import com.team2073.eagleforcescoutingapplication.framework.manager.ReplayServerManager;
 import com.team2073.eagleforcescoutingapplication.framework.presenter.ScoutingFormPresenter;
 
 import timber.log.Timber;
@@ -33,10 +34,10 @@ import timber.log.Timber;
 public class UIInfoFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "Info";
-    TextView teamNumberTextView;
     private ScoutingFormPresenter scoutingFormPresenter;
     private UiFragmentInfoBinding fragmentInfoBinding;
     private RadioGroup startPosition;
+    private ReplayServerManager replayServerManager;
 
     public static UIInfoFragment newInstance(int index) {
         UIInfoFragment fragment = new UIInfoFragment();
@@ -53,29 +54,29 @@ public class UIInfoFragment extends Fragment {
         int index = getArguments().getInt(ARG_SECTION_NUMBER);
         pageViewModel.setIndex(index);
         scoutingFormPresenter = new ScoutingFormPresenter(this.getActivity());
+        replayServerManager = ReplayServerManager.getInstance(requireActivity());
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentInfoBinding = UiFragmentInfoBinding.inflate(inflater, container, false);
-        teamNumberTextView = getActivity().findViewById(R.id.scoutingTeamNumberTextView);
         startPosition = fragmentInfoBinding.startPosition;
         initRadioGroup();
         initSpinner();
         if (scoutingFormPresenter.readData("position").equals("Red1") || scoutingFormPresenter.readData("position").equals("Red2") || scoutingFormPresenter.readData("position").equals("Red3")){
             if (scoutingFormPresenter.readData("field_side").equals("0")) {
-            //RelativeLayout.LayoutParams imgParam = (RelativeLayout.LayoutParams) fragmentInfoBinding.startMap.getLayoutParams();
-            fragmentInfoBinding.startMap.setImageResource(R.drawable.red_proc_non_processor);
-        } else {
-            fragmentInfoBinding.startMap.setImageResource(R.drawable.red_proc_processor);
-        }} else if(scoutingFormPresenter.readData("position").equals("Blue1") || scoutingFormPresenter.readData("position").equals("Blue2") || scoutingFormPresenter.readData("position").equals("Blue3")){
+                fragmentInfoBinding.startMap.setImageResource(R.drawable.red_proc_non_processor);
+            } else {
+                fragmentInfoBinding.startMap.setImageResource(R.drawable.red_proc_processor);
+            }
+        } else if(scoutingFormPresenter.readData("position").equals("Blue1") || scoutingFormPresenter.readData("position").equals("Blue2") || scoutingFormPresenter.readData("position").equals("Blue3")){
             if (scoutingFormPresenter.readData("field_side").equals("0")) {
-                //RelativeLayout.LayoutParams imgParam = (RelativeLayout.LayoutParams) fragmentInfoBinding.startMap.getLayoutParams();
                 fragmentInfoBinding.startMap.setImageResource(R.drawable.blue_proc_non_processor);
             } else {
                 fragmentInfoBinding.startMap.setImageResource(R.drawable.blue_proc_processor);
-        }}
+            }
+        }
         return fragmentInfoBinding.getRoot();
     }
 
@@ -83,6 +84,14 @@ public class UIInfoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initTextFields();
         initOnChangeEditText();
+        initStartRecordingButton();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Refresh button visibility whenever the tab is shown
+        refreshStartRecordingButton();
     }
 
     @Override
@@ -126,8 +135,6 @@ public class UIInfoFragment extends Fragment {
                 quantifierPersist.edit()
                         .putInt("spinner_position", pos)
                         .apply();
-
-
             }
 
             @Override
@@ -140,8 +147,6 @@ public class UIInfoFragment extends Fragment {
         startPosition.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                // on below line we are getting radio button from our group.
                 RadioButton radioButton = startPosition.findViewById(checkedId);
                 String pos = radioButton.getText().toString();
                 if (pos.equals("No Show")) {
@@ -191,12 +196,84 @@ public class UIInfoFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 scoutingFormPresenter.saveData("teamNumber", fragmentInfoBinding.editTextTeamNumber.getText().toString());
-                String team_number_display = String.format(getResources().getString(R.string.team_num), scoutingFormPresenter.readData("teamNumber"));
-                teamNumberTextView.setText(team_number_display);
+                if (getActivity() != null) {
+                    android.widget.TextView tv = getActivity().findViewById(R.id.scoutingTeamNumberTextView);
+                    if (tv != null) {
+                        tv.setText(String.format(getResources().getString(R.string.team_num),
+                                scoutingFormPresenter.readData("teamNumber")));
+                    }
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+    private void initStartRecordingButton() {
+        Button startButton = fragmentInfoBinding.startRecordingButton;
+        refreshStartRecordingButton();
+        startButton.setOnClickListener(v -> onStartRecordingClicked());
+    }
+
+    private void refreshStartRecordingButton() {
+        if (fragmentInfoBinding == null) return;
+        Button startButton = fragmentInfoBinding.startRecordingButton;
+        if (replayServerManager.isRemoteStartEnabled()) {
+            startButton.setVisibility(View.VISIBLE);
+        } else {
+            startButton.setVisibility(View.GONE);
+        }
+    }
+
+    private void onStartRecordingClicked() {
+        // Navigate to Auto tab immediately — fire and forget
+        if (getActivity() instanceof ScoutingFormActivity) {
+            ((ScoutingFormActivity) getActivity()).navigateToAutoTab();
+        }
+
+        // Fire the remote start request asynchronously
+        replayServerManager.fireRemoteStart(new ReplayServerManager.RemoteStartCallback() {
+            @Override
+            public void onSuccess() {
+                if (getActivity() == null) return;
+                Toast.makeText(getActivity(),
+                        getString(R.string.remote_start_success),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(int httpCode, String message) {
+                if (getActivity() == null) return;
+                String msg;
+                switch (httpCode) {
+                    case -1:
+                        msg = getString(R.string.remote_start_error_no_config);
+                        break;
+                    case 401:
+                        msg = getString(R.string.remote_start_error_401);
+                        break;
+                    case 409:
+                        msg = getString(R.string.remote_start_error_409);
+                        break;
+                    case 400:
+                        msg = getString(R.string.remote_start_error_400);
+                        break;
+                    default:
+                        msg = getString(R.string.remote_start_error_generic, httpCode);
+                }
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                Timber.w("Remote start error %d: %s", httpCode, message);
+            }
+
+            @Override
+            public void onNetworkError(String message) {
+                if (getActivity() == null) return;
+                Toast.makeText(getActivity(),
+                        getString(R.string.remote_start_error_network),
+                        Toast.LENGTH_SHORT).show();
+                Timber.w("Remote start network error: %s", message);
             }
         });
     }

@@ -70,6 +70,10 @@
 
     <color name="unselected">#C1C1C1</color>
 
+    <color name="md_black_1000">#000000</color>
+
+    <color name="md_red_700">#D32F2F</color>
+
 
 
 </resources>
