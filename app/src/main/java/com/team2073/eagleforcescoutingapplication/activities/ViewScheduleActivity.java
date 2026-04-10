@@ -58,7 +58,13 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
         replayServerManager = ReplayServerManager.getInstance(this);
 
         Button removeSchedule = findViewById(R.id.remove_schedule);
-        removeSchedule.setOnClickListener(v -> fileManager.setScheduleFile(null));
+        removeSchedule.setOnClickListener(v -> {
+            fileManager.setScheduleFile(null);
+            if (scheduleRecyclerView != null) {
+                scheduleRecyclerView.setAdapter(null);
+            }
+            Toast.makeText(this, "Schedule removed", Toast.LENGTH_SHORT).show();
+        });
 
         Button scanQr = findViewById(R.id.scan_schedule_qr);
         scanQr.setOnClickListener(v -> launchScheduleQrScanner());
