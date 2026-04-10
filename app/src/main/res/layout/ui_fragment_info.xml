@@ -160,26 +160,17 @@
                 android:textSize="20sp" />
         </RadioGroup>
 
-        <TextView
-            android:id="@+id/msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:layout_toEndOf="@id/start_position"
-            android:layout_alignBottom="@+id/start_position"
-            android:text="let's go 2073"/>
 
         <Button
             android:id="@+id/start_recording_button"
             android:layout_width="120dp"
             android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@id/start_position"
+            android:layout_alignBottom="@+id/start_position"
             android:text="@string/start_recording"
-            android:backgroundTint="@color/md_red_700"
+            android:backgroundTint="#e41478"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:textSize="13sp"
             android:visibility="gone" />
 
     </RelativeLayout>
