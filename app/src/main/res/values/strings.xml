@@ -52,7 +52,7 @@
     <string name="schedule_downloading">Downloading schedule…</string>
     <string name="schedule_downloaded_ok">Schedule downloaded ✓</string>
     <string name="schedule_qr_incomplete_config">QR scanned, but comp_code or year is missing.\nEnter them manually in Settings.</string>
-    <string name="schedule_qr_parse_error">Could not read QR code. Make sure it's a valid schedule QR.</string>
+    <string name="schedule_qr_parse_error">Could not read QR code. Make sure it\'s a valid schedule QR.</string>
     <string name="schedule_error_403">Schedule download disabled. Ask field crew to re-enable it.</string>
     <string name="schedule_error_404">Schedule file not found on server. Check QR was generated after the correct schedule was activated.</string>
     <string name="schedule_error_generic">Schedule download failed (HTTP %1$d).</string>
@@ -74,7 +74,7 @@
     <string name="replay_start_url_title">Start URL</string>
     <string name="replay_start_url_summary">Full URL to POST (filled by QR scan)</string>
     <string name="remote_start_qr_saved">Remote start config saved ✓</string>
-    <string name="remote_start_qr_parse_error">Could not read QR code. Make sure it's a valid remote start QR.</string>
+    <string name="remote_start_qr_parse_error">Could not read QR code. Make sure it\'s a valid remote start QR.</string>
 
     <!-- Remote start button / responses -->
     <string name="start_recording">▶ Start Recording</string>

@@ -171,14 +171,15 @@
 
         <Button
             android:id="@+id/start_recording_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/msg"
-            android:layout_toEndOf="@id/start_position"
-            android:layout_marginTop="12dp"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
             android:text="@string/start_recording"
             android:backgroundTint="@color/md_red_700"
             android:textColor="@android:color/white"
+            android:textSize="18sp"
             android:visibility="gone" />
 
     </RelativeLayout>

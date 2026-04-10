@@ -74,6 +74,8 @@
 
     <color name="md_red_700">#D32F2F</color>
 
+    <color name="md_white_1000">#FFFFFF</color>
 
+    <color name="md_blue_grey_200">#B0BEC5</color>
 
 </resources>
