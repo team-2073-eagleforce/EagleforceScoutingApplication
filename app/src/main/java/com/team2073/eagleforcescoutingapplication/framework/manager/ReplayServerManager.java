@@ -137,7 +137,20 @@ public class ReplayServerManager {
         String comp = getCompCode();
         String year = getYear();
         if (ip.isEmpty() || comp.isEmpty() || year.isEmpty()) return null;
-        return "https://" + ip + ":" + port + "/schedule/" + year + comp + "_matches.csv";
+        String base = buildBaseUrl(ip, port);
+        return base + "/schedule/" + year + comp + "_matches.csv";
+    }
+
+    /**
+     * Builds the base URL from server IP and port.
+     * If the IP is already a full URL (starts with http:// or https://), uses it directly
+     * (stripping any trailing slash). Otherwise constructs https://ip:port.
+     */
+    private String buildBaseUrl(String ip, String port) {
+        if (ip.startsWith("http://") || ip.startsWith("https://")) {
+            return ip.endsWith("/") ? ip.substring(0, ip.length() - 1) : ip;
+        }
+        return "https://" + ip + ":" + port;
     }
 
     /**
@@ -264,9 +277,20 @@ public class ReplayServerManager {
             conn.setSSLSocketFactory(sc.getSocketFactory());
             // Verify hostname against the configured server IP so we only trust
             // the known LAN host even though the certificate is self-signed.
+            // When the configured IP is a full URL, extract its hostname for comparison.
             final String configuredIp = getServerIp();
+            final String expectedHost;
+            if (configuredIp.startsWith("http://") || configuredIp.startsWith("https://")) {
+                try {
+                    expectedHost = new URL(configuredIp).getHost();
+                } catch (IOException e) {
+                    throw new IOException("Invalid server IP URL: " + configuredIp, e);
+                }
+            } else {
+                expectedHost = configuredIp;
+            }
             conn.setHostnameVerifier((hostname, session) ->
-                    configuredIp.isEmpty() || hostname.equals(configuredIp));
+                    expectedHost.isEmpty() || hostname.equals(expectedHost));
             return conn;
         } else {
             return (HttpURLConnection) url.openConnection();
