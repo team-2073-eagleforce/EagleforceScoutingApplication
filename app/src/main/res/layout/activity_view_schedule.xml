@@ -37,6 +37,14 @@
                 android:text="@string/scan_schedule_qr"
                 android:textColor="@android:color/holo_green_light" />
 
+            <Button
+                android:id="@+id/retry_download_schedule"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/retry_download_schedule"
+                android:textColor="@android:color/holo_orange_light" />
+
         </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>

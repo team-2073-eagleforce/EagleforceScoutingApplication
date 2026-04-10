@@ -49,6 +49,7 @@
     <string name="remove_schedule">Remove Schedule</string>
     <string name="scan_schedule_qr">Scan Schedule QR</string>
     <string name="scan_schedule_qr_prompt">Scan the Schedule QR from the admin panel</string>
+    <string name="retry_download_schedule">Retry Download</string>
     <string name="schedule_downloading">Downloading schedule…</string>
     <string name="schedule_downloaded_ok">Schedule downloaded ✓</string>
     <string name="schedule_qr_incomplete_config">QR scanned, but comp_code or year is missing.\nEnter them manually in Settings.</string>

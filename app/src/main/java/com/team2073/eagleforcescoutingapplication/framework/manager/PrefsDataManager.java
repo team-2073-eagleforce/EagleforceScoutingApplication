@@ -12,9 +12,7 @@ import java.util.ArrayList;
 public class PrefsDataManager {
 
     private static PrefsDataManager INSTANCE;
-    private Activity mActivity;
     private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
 
     public static PrefsDataManager getInstance(Activity activity){
         if(INSTANCE == null){
@@ -24,14 +22,32 @@ public class PrefsDataManager {
     }
 
     public PrefsDataManager(Activity activity){
-        mActivity = activity;
-        sharedPreferences = mActivity.getPreferences(Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        sharedPreferences = activity.getApplicationContext()
+                .getSharedPreferences("scouting_prefs", Context.MODE_PRIVATE);
+
+        // One-time migration from old activity-scoped prefs
+        if (!sharedPreferences.getBoolean("_migrated", false)) {
+            try {
+                SharedPreferences oldPrefs = activity.getPreferences(Context.MODE_PRIVATE);
+                String[] keysToMigrate = {"name", "position", "field_side", "comp_code",
+                        "teamNumber", "matchNumber"};
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                for (String key : keysToMigrate) {
+                    String val = oldPrefs.getString(key, null);
+                    if (val != null && sharedPreferences.getString(key, "0").equals("0")) {
+                        editor.putString(key, val);
+                    }
+                }
+                editor.putBoolean("_migrated", true);
+                editor.commit();
+            } catch (Exception ignored) {
+                // If old prefs aren't accessible, skip migration
+            }
+        }
     }
 
     public void writeToPreferences(String key, String value){
-        editor.putString(key, value);
-        editor.commit();
+        sharedPreferences.edit().putString(key, value).commit();
     }
 
     /**
@@ -50,15 +66,8 @@ public class PrefsDataManager {
         return values;
     }
 
-    /**
-     *
-     * @return true if successful, false if failed
-     */
-    public Boolean commitToPreferences(){
-        return editor.commit();
-    }
-
     public void clearPreferences(ArrayList<String> preferences){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         for (String preference: preferences) {
             editor.remove(preference);
         }
@@ -66,8 +75,7 @@ public class PrefsDataManager {
     }
 
     public void clearPreferences(){
-        editor.clear();
-        editor.commit();
+        sharedPreferences.edit().clear().commit();
     }
 
 }

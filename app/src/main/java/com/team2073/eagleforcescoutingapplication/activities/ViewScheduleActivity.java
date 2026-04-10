@@ -63,6 +63,9 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
         Button scanQr = findViewById(R.id.scan_schedule_qr);
         scanQr.setOnClickListener(v -> launchScheduleQrScanner());
 
+        Button retryDownload = findViewById(R.id.retry_download_schedule);
+        retryDownload.setOnClickListener(v -> retryScheduleDownload());
+
         loadScheduleIfAvailable();
     }
 
@@ -87,6 +90,15 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
         scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
     }
 
+    private void retryScheduleDownload() {
+        String url = replayServerManager.buildScheduleUrl();
+        if (url == null) {
+            Toast.makeText(this, "No server config yet. Scan a Schedule QR first.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        downloadScheduleFromServer();
+    }
+
     private void handleScheduleQrResult(String qrContent) {
         try {
             JSONObject json = new JSONObject(qrContent);
@@ -102,45 +114,49 @@ public class ViewScheduleActivity extends BaseActivity implements ViewScheduleVi
                 return;
             }
 
-            Toast.makeText(this, getString(R.string.schedule_downloading), Toast.LENGTH_SHORT).show();
-
-            replayServerManager.downloadSchedule(new ReplayServerManager.ScheduleDownloadCallback() {
-                @Override
-                public void onSuccess(File csvFile) {
-                    fileManager.setScheduleFile(csvFile);
-                    Toast.makeText(ViewScheduleActivity.this,
-                            getString(R.string.schedule_downloaded_ok), Toast.LENGTH_SHORT).show();
-                    loadScheduleIfAvailable();
-                }
-
-                @Override
-                public void onError(int httpCode, String message) {
-                    String msg;
-                    switch (httpCode) {
-                        case 403:
-                            msg = getString(R.string.schedule_error_403);
-                            break;
-                        case 404:
-                            msg = getString(R.string.schedule_error_404);
-                            break;
-                        default:
-                            msg = getString(R.string.schedule_error_generic, httpCode);
-                    }
-                    Toast.makeText(ViewScheduleActivity.this, msg, Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onNetworkError(String message) {
-                    Toast.makeText(ViewScheduleActivity.this,
-                            getString(R.string.schedule_error_network),
-                            Toast.LENGTH_LONG).show();
-                    Timber.e("Schedule network error: %s", message);
-                }
-            });
+            downloadScheduleFromServer();
         } catch (JSONException e) {
             Toast.makeText(this, getString(R.string.schedule_qr_parse_error), Toast.LENGTH_LONG).show();
             Timber.e(e, "Failed to parse schedule QR JSON");
         }
+    }
+
+    private void downloadScheduleFromServer() {
+        Toast.makeText(this, getString(R.string.schedule_downloading), Toast.LENGTH_SHORT).show();
+
+        replayServerManager.downloadSchedule(new ReplayServerManager.ScheduleDownloadCallback() {
+            @Override
+            public void onSuccess(File csvFile) {
+                fileManager.setScheduleFile(csvFile);
+                Toast.makeText(ViewScheduleActivity.this,
+                        getString(R.string.schedule_downloaded_ok), Toast.LENGTH_SHORT).show();
+                loadScheduleIfAvailable();
+            }
+
+            @Override
+            public void onError(int httpCode, String message) {
+                String msg;
+                switch (httpCode) {
+                    case 403:
+                        msg = getString(R.string.schedule_error_403);
+                        break;
+                    case 404:
+                        msg = getString(R.string.schedule_error_404);
+                        break;
+                    default:
+                        msg = getString(R.string.schedule_error_generic, httpCode);
+                }
+                Toast.makeText(ViewScheduleActivity.this, msg, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNetworkError(String message) {
+                Toast.makeText(ViewScheduleActivity.this,
+                        getString(R.string.schedule_error_network),
+                        Toast.LENGTH_LONG).show();
+                Timber.e("Schedule network error: %s", message);
+            }
+        });
     }
 
     @Override

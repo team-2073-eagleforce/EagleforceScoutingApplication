@@ -95,35 +95,42 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
         }
 
         int matchNumber = Integer.parseInt(matchNum);
+        int nextMatchIndex = matchNumber; // current match is 1-based, so index for *next* match is matchNumber
+        if (nextMatchIndex >= scheduleList.size()) {
+            Timber.d("Reached end of schedule");
+            clearPreferences();
+            return;
+        }
+
         String teamNumber;
-        Match currentMatch = scheduleList.get(matchNumber);
+        Match nextMatch = scheduleList.get(nextMatchIndex);
         switch (position) {
             case "Red1":
-                teamNumber = currentMatch.getRed1();
+                teamNumber = nextMatch.getRed1();
                 break;
             case "Red2":
-                teamNumber = currentMatch.getRed2();
+                teamNumber = nextMatch.getRed2();
                 break;
             case "Red3":
-                teamNumber = currentMatch.getRed3();
+                teamNumber = nextMatch.getRed3();
                 break;
             case "Blue1":
-                teamNumber = currentMatch.getBlue1();
+                teamNumber = nextMatch.getBlue1();
                 break;
             case "Blue2":
-                teamNumber = currentMatch.getBlue2();
+                teamNumber = nextMatch.getBlue2();
                 break;
             case "Blue3":
-                teamNumber = currentMatch.getBlue3();
+                teamNumber = nextMatch.getBlue3();
                 break;
-
             default:
-                throw new IllegalStateException("Unexpected value: " + "position");
+                Timber.e("Unexpected position value: %s, defaulting to Red1", position);
+                teamNumber = nextMatch.getRed1();
+                break;
         }
         clearPreferences();
         prefsDataManager.writeToPreferences("matchNumber", Integer.toString(matchNumber + 1));
         prefsDataManager.writeToPreferences("teamNumber", teamNumber);
-
     }
 
     public JSONObject dataToJSON() throws JSONException {
@@ -209,8 +216,10 @@ public class ScoutingFormPresenter extends BasePresenter<ScoutingFormView> {
 
     }
     public String getPosition(){
-        if(prefsDataManager.readFromPreferences("position") != null)
-        return prefsDataManager.readFromPreferences("position");
-        return "Red1";
+        String position = prefsDataManager.readFromPreferences("position");
+        if(position.equals("0") || position.isEmpty()) {
+            return "Red1";
+        }
+        return position;
     }
 }
