@@ -72,7 +72,7 @@
             android:ems="10"
             android:gravity="center"
             android:inputType="textMultiLine"
-            android:maxLength="115"
+            android:maxLength="999"
             android:hint="Comments"
             android:textColorHint="@color/md_blue_grey_200"/>
 
