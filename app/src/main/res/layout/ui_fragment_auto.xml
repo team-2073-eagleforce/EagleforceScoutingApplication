@@ -1,197 +1,319 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
+    <!-- Guidelines for layout structure -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.22" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.78" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_leftish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_rightish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <!-- Left Column: Minus Buttons -->
     <Button
         android:id="@+id/largeMinusAuto"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f68c70"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="-20"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_left"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/mediumMinusAuto"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f69c6d"
-        android:layout_below= "@id/largeMinusAuto"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="-10"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/largeMinusAuto"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="@+id/largeMinusAuto"
+        app:layout_constraintTop_toBottomOf="@+id/largeMinusAuto" />
+
     <Button
         android:id="@+id/smallMinusAuto"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f6ac69"
-        android:layout_below= "@id/mediumMinusAuto"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="-5"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/mediumMinusAuto"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="@+id/mediumMinusAuto"
+        app:layout_constraintTop_toBottomOf="@+id/mediumMinusAuto" />
+
     <Button
         android:id="@+id/oneMinusAuto"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f6bc66"
-        android:layout_below= "@id/smallMinusAuto"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="-1"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/smallMinusAuto"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="@+id/smallMinusAuto"
+        app:layout_constraintTop_toBottomOf="@+id/smallMinusAuto" />
+
+    <!-- Right Column: Plus Buttons -->
     <Button
         android:id="@+id/largePlusAuto"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f68c70"
-        android:layout_alignParentEnd= "true"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="+20"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toEndOf="@+id/guideline_right"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/mediumPlusAuto"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f69c6d"
-        android:layout_below= "@id/largePlusAuto"
-        android:layout_alignParentEnd= "true"
-        android:layout_marginLeft= "10dp"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="+10"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/largePlusAuto"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="@+id/largePlusAuto"
+        app:layout_constraintTop_toBottomOf="@+id/largePlusAuto" />
+
     <Button
         android:id="@+id/smallPlusAuto"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
-        android:layout_marginLeft= "10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f6ac69"
-        android:layout_below= "@id/mediumPlusAuto"
-        android:layout_alignParentEnd= "true"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="+5"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/mediumPlusAuto"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="@+id/mediumPlusAuto"
+        app:layout_constraintTop_toBottomOf="@+id/mediumPlusAuto" />
+
     <Button
         android:id="@+id/onePlusAuto"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
-        android:layout_marginLeft= "10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f6bc66"
-        android:layout_below= "@id/smallPlusAuto"
-        android:layout_alignParentEnd= "true"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="+1"
-        android:textSize="50sp"/>
-    <Button
-        android:id="@+id/passToggleAuto"
-        android:layout_width="350dp"
-        android:layout_height="70dp"
-        android:backgroundTint="#56d678"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5dp"
-        android:text="Score"
-        android:textSize="35sp"
-        />
-    <Button
-        android:id="@+id/autoClimbMiddle"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:backgroundTint="#8e9aaf"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="Middle Climb?"
-        android:textSize="18sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/smallPlusAuto"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="@+id/smallPlusAuto"
+        app:layout_constraintTop_toBottomOf="@+id/smallPlusAuto" />
+
+    <!-- Top Center: Climb Buttons -->
     <Button
         android:id="@+id/autoClimbLeft"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:backgroundTint="#8e9aaf"
-        android:layout_alignParentTop="true"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="5dp"
-        android:layout_toLeftOf="@id/autoClimbMiddle"
-        android:layout_marginRight="5dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="6dp"
+        android:backgroundTint="#8e9aaf"
         android:text="Left Climb?"
-        android:textSize="18sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="8sp"
+        app:autoSizeMaxTextSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/autoClimbMiddle"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/guideline_leftish"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/autoClimbMiddle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="#8e9aaf"
+        android:text="Middle Climb?"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="8sp"
+        app:autoSizeMaxTextSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/autoClimbRight"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/autoClimbLeft"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/autoClimbRight"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:backgroundTint="#8e9aaf"
-        android:layout_alignParentTop="true"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/autoClimbMiddle"
-        android:layout_marginLeft="5dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="6dp"
+        android:backgroundTint="#8e9aaf"
         android:text="Right Climb?"
-        android:textSize="18sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="8sp"
+        app:autoSizeMaxTextSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_rightish"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/autoClimbMiddle"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/autoLeave"
-        android:layout_width="125dp"
-        android:layout_height="70dp"
-        android:backgroundTint="#707a8c"
-        android:layout_centerVertical="true"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
-        android:layout_below="@id/autoClimbRight"
-        android:layout_alignRight="@id/autoClimbRight"
-        android:layout_marginLeft="5dp"
+        android:backgroundTint="#707a8c"
         android:text="Auto Leave?"
-        android:textSize="18sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeMaxTextSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/autoClimbRight"
+        app:layout_constraintHeight_percent="0.22"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintEnd_toEndOf="@id/autoClimbRight"/>
+
+    <!-- Center: Score and Pass Text -->
     <TextView
         android:id="@+id/scoreTextAuto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
         android:gravity="center"
         android:text="Score:"
-        android:layout_centerHorizontal="true"
         android:textAlignment="center"
-        android:textSize="35sp"
+        android:textColor="#2E5F3B"
+        android:textSize="@dimen/text_xlarge"
         android:textStyle="bold"
-        android:textColor="#2E5F3B"/>
+        app:layout_constraintBottom_toTopOf="@+id/scoreCounterAuto"
+        app:layout_constraintEnd_toStartOf="@+id/autoClimbRight"
+        app:layout_constraintStart_toStartOf="@+id/autoClimbMiddle"
+        app:layout_constraintTop_toBottomOf="@+id/autoClimbMiddle"
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <TextView
         android:id="@+id/scoreCounterAuto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:inputType="number"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/scoreTextAuto"
         android:textAlignment="center"
-        android:textSize="35sp"
+        android:textColor="#4C9D62"
+        android:textSize="@dimen/text_xlarge"
         android:textStyle="bold"
-        android:textColor="#4C9D62"/>
+        app:layout_constraintBottom_toTopOf="@+id/passTextAuto"
+        app:layout_constraintEnd_toEndOf="@+id/scoreTextAuto"
+        app:layout_constraintStart_toStartOf="@+id/scoreTextAuto"
+        app:layout_constraintTop_toBottomOf="@+id/scoreTextAuto" />
+
     <TextView
         android:id="@+id/passTextAuto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
-        android:layout_below="@id/scoreTextAuto"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="Passes:"
-        android:layout_centerHorizontal="true"
-        android:textSize="35sp"
+        android:textAlignment="center"
+        android:textColor="#483162"
+        android:textSize="@dimen/text_xlarge"
         android:textStyle="bold"
-        android:textColor="#483162"/>
+        app:layout_constraintBottom_toTopOf="@+id/passCounterAuto"
+        app:layout_constraintEnd_toEndOf="@+id/scoreTextAuto"
+        app:layout_constraintStart_toStartOf="@+id/scoreTextAuto"
+        app:layout_constraintTop_toBottomOf="@+id/scoreCounterAuto" />
+
     <TextView
         android:id="@+id/passCounterAuto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:inputType="number"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/passTextAuto"
         android:textAlignment="center"
-        android:textSize="35sp"
+        android:textColor="#734D9F"
+        android:textSize="@dimen/text_xlarge"
         android:textStyle="bold"
-        android:textColor="#734D9F"/>
+        app:layout_constraintBottom_toTopOf="@+id/passToggleAuto"
+        app:layout_constraintEnd_toEndOf="@+id/passTextAuto"
+        app:layout_constraintStart_toStartOf="@+id/passTextAuto"
+        app:layout_constraintTop_toBottomOf="@+id/passTextAuto" />
 
+    <!-- Bottom Button -->
+    <Button
+        android:id="@+id/passToggleAuto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#56d678"
+        android:text="Score"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passCounterAuto"
+        app:layout_constraintWidth_percent="0.4" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

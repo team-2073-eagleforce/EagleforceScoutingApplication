@@ -1,307 +1,344 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:padding="8dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        <!-- Outpost Vertical Text -->
         <TextView
             android:id="@+id/leftSign"
-            android:layout_marginTop="100dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OUTPOST"
-            android:textSize="22sp"
             android:rotation="270"
+            android:text="OUTPOST"
             android:textColor="#C00000"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/text_medium"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/container_middleLeft"
+            app:layout_constraintEnd_toStartOf="@+id/container_middleLeft"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/container_middleLeft" />
 
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <!-- 3x3 Grid using Constraints -->
+        <!-- Row 1 -->
+        <FrameLayout
+            android:id="@+id/container_topLeft"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="3:1"
+            app:layout_constraintEnd_toStartOf="@+id/container_topCenter"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/leftSign"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25">
 
+            <ImageView
+                android:id="@+id/topLeftImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/silly_7"
+                android:visibility="invisible" />
 
-        <GridLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnCount="3">
-
-
-            <FrameLayout
-                android:layout_width="240dp"
-                android:layout_height="80dp">
-                <ImageView
-                    android:id="@+id/topLeftImage"
-                    android:layout_marginLeft="4.5dp"
-                    android:layout_width="231dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="68dp"
-                    android:src="@drawable/silly_7"
-                    android:scaleType="fitXY"/>
-                <ImageButton
-                    android:id="@+id/topLeftEndgame"
-                    android:layout_width="240dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#f25c54"/>
-            </FrameLayout>
-
-
-            <FrameLayout
-                android:layout_width="240dp"
-                android:layout_height="80dp">
-                <ImageView
-                    android:id="@+id/topCenterImage"
-                    android:layout_marginLeft="4.5dp"
-                    android:layout_width="231dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="68dp"
-                    android:src="@drawable/silly_8"
-                    android:scaleType="fitXY"/>
-                <ImageButton
-                    android:id="@+id/topCenterEndgame"
-                    android:layout_width="240dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#f25c54"/>
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="240dp"
-                android:layout_height="80dp">
-                <ImageView
-                    android:id="@+id/topRightImage"
-                    android:layout_marginLeft="4.5dp"
-                    android:layout_width="231dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="68dp"
-                    android:src="@drawable/silly_9"
-                    android:scaleType="fitXY"/>
-                <ImageButton
-                    android:id="@+id/topRightEndgame"
-                    android:layout_width="240dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#f25c54"/>
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="240dp"
-                android:layout_height="80dp">
-                <ImageView
-                    android:id="@+id/middleLeftImage"
-                    android:layout_marginLeft="4.5dp"
-                    android:layout_width="231dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="68dp"
-                    android:src="@drawable/silly_4"
-                    android:scaleType="fitXY"/>
-                <ImageButton
-                    android:id="@+id/middleLeftEndgame"
-                    android:layout_width="240dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#f27059"/>
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="240dp"
-                android:layout_height="80dp">
-                <ImageView
-                    android:id="@+id/middleCenterImage"
-                    android:layout_marginLeft="4.5dp"
-                    android:layout_width="231dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="68dp"
-                    android:src="@drawable/silly_5"
-                    android:scaleType="fitXY"/>
-                <ImageButton
-                    android:id="@+id/middleCenterEndgame"
-                    android:layout_width="240dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#f27059"/>
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="240dp"
-                android:layout_height="80dp">
-                <ImageView
-                    android:id="@+id/middleRightImage"
-                    android:layout_marginLeft="4.5dp"
-                    android:layout_width="231dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="68dp"
-                    android:src="@drawable/silly_6"
-                    android:scaleType="fitXY"/>
-                <ImageButton
-                    android:id="@+id/middleRightEndgame"
-                    android:layout_width="240dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#f27059"/>
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="240dp"
-                android:layout_height="80dp">
-                <ImageView
-                    android:id="@+id/bottomLeftImage"
-                    android:layout_marginLeft="4.5dp"
-                    android:layout_width="231dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="68dp"
-                    android:src="@drawable/silly_1"
-                    android:scaleType="fitXY"/>
-                <ImageButton
-                    android:id="@+id/bottomLeftEndgame"
-                    android:layout_width="240dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#f4845f"/>
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="240dp"
-                android:layout_height="80dp">
-                <ImageView
-                    android:id="@+id/bottomCenterImage"
-                    android:layout_marginLeft="4.5dp"
-                    android:layout_width="231dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="68dp"
-                    android:src="@drawable/silly_2"
-                    android:scaleType="fitXY"/>
-                <ImageButton
-                    android:id="@+id/bottomCenterEndgame"
-                    android:layout_width="240dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#f4845f"/>
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="240dp"
-                android:layout_height="80dp">
-                <ImageView
-                    android:id="@+id/bottomRightImage"
-                    android:layout_marginLeft="4.5dp"
-                    android:layout_width="231dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="68dp"
-                    android:src="@drawable/silly_3"
-                    android:scaleType="fitXY"/>
-                <ImageButton
-                    android:id="@+id/bottomRightEndgame"
-                    android:layout_width="240dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#f4845f"/>
-            </FrameLayout>
-
-        </GridLayout>
-
+            <ImageButton
+                android:id="@+id/topLeftEndgame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#f25c54"
+                android:scaleType="fitXY" />
         </FrameLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center_vertical">
+        <FrameLayout
+            android:id="@+id/container_topCenter"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="3:1"
+            app:layout_constraintEnd_toStartOf="@+id/container_topRight"
+            app:layout_constraintStart_toEndOf="@+id/container_topLeft"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25">
 
-            <TextView
-                android:id="@+id/labelTop"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="L3"
-                android:layout_marginLeft="20dp"
-                android:textSize="30sp"
-                android:gravity="center"
-                android:textColor="#C00000"
-                android:textStyle="bold"/>
+            <ImageView
+                android:id="@+id/topCenterImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/silly_8"
+                android:visibility="invisible" />
 
-            <TextView
-                android:id="@+id/labelMiddle"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="L2"
-                android:layout_marginLeft="20dp"
-                android:textSize="30sp"
-                android:gravity="center"
-                android:textColor="#C00000"
-                android:textStyle="bold"/>
+            <ImageButton
+                android:id="@+id/topCenterEndgame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#f25c54" />
+        </FrameLayout>
 
-            <TextView
-                android:id="@+id/labelBottom"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="L1"
-                android:layout_marginLeft="20dp"
-                android:textSize="30sp"
-                android:gravity="center"
-                android:textColor="#C00000"
-                android:textStyle="bold"/>
+        <FrameLayout
+            android:id="@+id/container_topRight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="3:1"
+            app:layout_constraintEnd_toStartOf="@+id/labelTop"
+            app:layout_constraintStart_toEndOf="@+id/container_topCenter"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25">
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/topRightImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/silly_9"
+                android:visibility="invisible" />
 
+            <ImageButton
+                android:id="@+id/topRightEndgame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#f25c54" />
+        </FrameLayout>
 
-    </LinearLayout>
+        <!-- Row 2 -->
+        <FrameLayout
+            android:id="@+id/container_middleLeft"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="3:1"
+            app:layout_constraintEnd_toEndOf="@+id/container_topLeft"
+            app:layout_constraintStart_toStartOf="@+id/container_topLeft"
+            app:layout_constraintTop_toBottomOf="@+id/container_topLeft">
 
-        <LinearLayout
+            <ImageView
+                android:id="@+id/middleLeftImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/silly_4"
+                android:visibility="invisible" />
+
+            <ImageButton
+                android:id="@+id/middleLeftEndgame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#f27059" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/container_middleCenter"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="3:1"
+            app:layout_constraintEnd_toEndOf="@+id/container_topCenter"
+            app:layout_constraintStart_toStartOf="@+id/container_topCenter"
+            app:layout_constraintTop_toBottomOf="@+id/container_topCenter">
+
+            <ImageView
+                android:id="@+id/middleCenterImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/silly_5"
+                android:visibility="invisible" />
+
+            <ImageButton
+                android:id="@+id/middleCenterEndgame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#f27059" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/container_middleRight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="3:1"
+            app:layout_constraintEnd_toEndOf="@+id/container_topRight"
+            app:layout_constraintStart_toStartOf="@+id/container_topRight"
+            app:layout_constraintTop_toBottomOf="@+id/container_topRight">
+
+            <ImageView
+                android:id="@+id/middleRightImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/silly_6"
+                android:visibility="invisible" />
+
+            <ImageButton
+                android:id="@+id/middleRightEndgame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#f27059" />
+        </FrameLayout>
+
+        <!-- Row 3 -->
+        <FrameLayout
+            android:id="@+id/container_bottomLeft"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="3:1"
+            app:layout_constraintEnd_toEndOf="@+id/container_middleLeft"
+            app:layout_constraintStart_toStartOf="@+id/container_middleLeft"
+            app:layout_constraintTop_toBottomOf="@+id/container_middleLeft">
+
+            <ImageView
+                android:id="@+id/bottomLeftImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/silly_1"
+                android:visibility="invisible" />
+
+            <ImageButton
+                android:id="@+id/bottomLeftEndgame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#f4845f" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/container_bottomCenter"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="3:1"
+            app:layout_constraintEnd_toEndOf="@+id/container_middleCenter"
+            app:layout_constraintStart_toStartOf="@+id/container_middleCenter"
+            app:layout_constraintTop_toBottomOf="@+id/container_middleCenter">
+
+            <ImageView
+                android:id="@+id/bottomCenterImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/silly_2"
+                android:visibility="invisible" />
+
+            <ImageButton
+                android:id="@+id/bottomCenterEndgame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#f4845f" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/container_bottomRight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="3:1"
+            app:layout_constraintEnd_toEndOf="@+id/container_middleRight"
+            app:layout_constraintStart_toStartOf="@+id/container_middleRight"
+            app:layout_constraintTop_toBottomOf="@+id/container_middleRight">
+
+            <ImageView
+                android:id="@+id/bottomRightImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/silly_3"
+                android:visibility="invisible" />
+
+            <ImageButton
+                android:id="@+id/bottomRightEndgame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#f4845f" />
+        </FrameLayout>
+
+        <!-- Right Side Labels -->
+        <TextView
+            android:id="@+id/labelTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginRight="25dp">
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="L3"
+            android:textColor="#C00000"
+            android:textSize="@dimen/text_large"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/container_topRight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/container_middleRight"
+            app:layout_constraintTop_toTopOf="@+id/container_topRight" />
 
-            <TextView
-                android:id="@+id/leftLabel"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="   NO CLIMB"
-                android:textSize="24sp"
-                android:textColor="#C00000"
-                android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/labelMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="L2"
+            android:textColor="#C00000"
+            android:textSize="@dimen/text_large"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/container_middleRight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/container_middleRight"
+            app:layout_constraintTop_toTopOf="@+id/container_middleRight" />
 
-            <FrameLayout
-                android:layout_width="720dp"
-                android:layout_height="75dp">
+        <TextView
+            android:id="@+id/labelBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="L1"
+            android:textColor="#C00000"
+            android:textSize="@dimen/text_large"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/container_bottomRight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/container_bottomRight"
+            app:layout_constraintTop_toTopOf="@+id/container_bottomRight" />
 
-                <ImageView
-                    android:id="@+id/climbButtonImage"
-                    android:layout_marginLeft="4dp"
-                    android:layout_width="712dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_height="68dp"
-                    android:src="@drawable/silly_0"
-                    android:scaleType="fitXY"
-                    android:layout_marginRight="30dp"/>
-                <ImageButton
-                    android:id="@+id/climbButtonEndgame"
-                    android:layout_width="720dp"
-                    android:layout_height="75dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="20dp"
-                    android:backgroundTint="#f79d65"/>
-            </FrameLayout>
+        <!-- No Climb Section -->
+        <TextView
+            android:id="@+id/leftLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="NO CLIMB"
+            android:textColor="#C00000"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/container_climb"
+            app:layout_constraintEnd_toStartOf="@+id/container_climb"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/container_climb" />
 
-        </LinearLayout>
+        <FrameLayout
+            android:id="@+id/container_climb"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="@id/container_bottomRight"
+            app:layout_constraintStart_toStartOf="@+id/container_bottomLeft"
+            app:layout_constraintTop_toBottomOf="@+id/container_bottomCenter"
+            app:layout_constraintHeight_percent="0.23">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/climbButtonImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/silly_0"
+                android:visibility="invisible" />
 
+            <ImageButton
+                android:id="@+id/climbButtonEndgame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#f79d65" />
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
-

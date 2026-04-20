@@ -212,14 +212,14 @@ public class UIInfoFragment extends Fragment {
     }
 
     private void initStartRecordingButton() {
-        Button startButton = fragmentInfoBinding.startRecordingButton;
+        Button startButton = fragmentInfoBinding.manualStartReplayButton;
         refreshStartRecordingButton();
         startButton.setOnClickListener(v -> onStartRecordingClicked());
     }
 
     private void refreshStartRecordingButton() {
         if (fragmentInfoBinding == null) return;
-        Button startButton = fragmentInfoBinding.startRecordingButton;
+        Button startButton = fragmentInfoBinding.manualStartReplayButton;
         if (replayServerManager.isRemoteStartEnabled()) {
             startButton.setVisibility(View.VISIBLE);
         } else {

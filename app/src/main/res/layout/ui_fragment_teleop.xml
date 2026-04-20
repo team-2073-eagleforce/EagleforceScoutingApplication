@@ -1,152 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
+    <!-- Guidelines to divide the screen for better responsiveness -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.24" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <!-- Left Column: Minus Buttons -->
     <Button
         android:id="@+id/largeMinus"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f25c54"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="-20"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_left"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/mediumMinus"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f27059"
-        android:layout_below= "@id/largeMinus"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="-10"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/largeMinus"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="@+id/largeMinus"
+        app:layout_constraintTop_toBottomOf="@+id/largeMinus" />
+
     <Button
         android:id="@+id/smallMinus"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f4845f"
-        android:layout_below= "@id/mediumMinus"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="-5"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/mediumMinus"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="@+id/mediumMinus"
+        app:layout_constraintTop_toBottomOf="@+id/mediumMinus" />
+
     <Button
         android:id="@+id/oneMinus"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f79d65"
-        android:layout_below= "@id/smallMinus"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="-1"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/smallMinus"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="@+id/smallMinus"
+        app:layout_constraintTop_toBottomOf="@+id/smallMinus" />
+
+    <!-- Right Column: Plus Buttons -->
     <Button
         android:id="@+id/largePlus"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f25c54"
-        android:layout_alignParentEnd= "true"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="+20"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toEndOf="@+id/guideline_right"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/mediumPlus"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f27059"
-        android:layout_below= "@id/largePlus"
-        android:layout_alignParentEnd= "true"
-        android:layout_marginLeft= "10dp"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="+10"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/largePlus"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="@+id/largePlus"
+        app:layout_constraintTop_toBottomOf="@+id/largePlus" />
+
     <Button
         android:id="@+id/smallPlus"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
-        android:layout_marginLeft= "10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f4845f"
-        android:layout_below= "@id/mediumPlus"
-        android:layout_alignParentEnd= "true"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="+5"
-        android:textSize="50sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/mediumPlus"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="@+id/mediumPlus"
+        app:layout_constraintTop_toBottomOf="@+id/mediumPlus" />
+
     <Button
         android:id="@+id/onePlus"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:layout_marginTop= "3dp"
-        android:layout_marginLeft= "10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#f79d65"
-        android:layout_below="@id/smallPlus"
-        android:layout_alignParentEnd= "true"
-        android:gravity ="center"
+        android:gravity="center"
         android:text="+1"
-        android:textSize="50sp"/>
-    <Button
-        android:id="@+id/passToggle"
-        android:layout_width="350dp"
-        android:layout_height="70dp"
-        android:backgroundTint="#56d678"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5dp"
-        android:text="Score"
-        android:textSize="35sp"/>
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/smallPlus"
+        app:layout_constraintHeight_percent="0.24"
+        app:layout_constraintStart_toStartOf="@+id/smallPlus"
+        app:layout_constraintTop_toBottomOf="@+id/smallPlus" />
+
+    <!-- Center Column: Score and Pass text -->
     <TextView
         android:id="@+id/scoreText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="Score:"
-        android:layout_centerHorizontal="true"
         android:textAlignment="center"
-        android:textSize="40sp"
+        android:textColor="#2E5F3B"
+        android:textSize="@dimen/text_xlarge"
         android:textStyle="bold"
-        android:textColor="#2E5F3B"/>
+        app:layout_constraintBottom_toTopOf="@+id/scoreCounter"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toEndOf="@+id/guideline_left"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <TextView
         android:id="@+id/scoreCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:inputType="number"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/scoreText"
         android:textAlignment="center"
-        android:textSize="40sp"
+        android:textColor="#4C9D62"
+        android:textSize="@dimen/text_xlarge"
         android:textStyle="bold"
-        android:textColor="#4C9D62"/>
+        app:layout_constraintBottom_toTopOf="@+id/passText"
+        app:layout_constraintEnd_toEndOf="@+id/scoreText"
+        app:layout_constraintStart_toStartOf="@+id/scoreText"
+        app:layout_constraintTop_toBottomOf="@+id/scoreText" />
+
     <TextView
         android:id="@+id/passText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
-        android:layout_below="@id/scoreText"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="Passes:"
-        android:layout_centerHorizontal="true"
-        android:textSize="40sp"
+        android:textAlignment="center"
+        android:textColor="#483162"
+        android:textSize="@dimen/text_xlarge"
         android:textStyle="bold"
-        android:textColor="#483162"/>
+        app:layout_constraintBottom_toTopOf="@+id/passCounter"
+        app:layout_constraintEnd_toEndOf="@+id/scoreText"
+        app:layout_constraintStart_toStartOf="@+id/scoreText"
+        app:layout_constraintTop_toBottomOf="@+id/scoreCounter" />
+
     <TextView
         android:id="@+id/passCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:inputType="number"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/passText"
         android:textAlignment="center"
-        android:textSize="40sp"
+        android:textColor="#734D9F"
+        android:textSize="@dimen/text_xlarge"
         android:textStyle="bold"
-        android:textColor="#734D9F"/>
+        app:layout_constraintBottom_toTopOf="@+id/passToggle"
+        app:layout_constraintEnd_toEndOf="@+id/passText"
+        app:layout_constraintStart_toStartOf="@+id/passText"
+        app:layout_constraintTop_toBottomOf="@+id/passText" />
 
+    <!-- Bottom Button -->
+    <Button
+        android:id="@+id/passToggle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="#56d678"
+        android:text="Score"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/onePlus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/onePlus"
+        app:layout_constraintWidth_percent="0.45" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

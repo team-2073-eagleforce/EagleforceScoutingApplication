@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -60,6 +61,7 @@ public class UIEndGameFragment extends Fragment {
     }
 
     private ImageButton[] buttons;
+    private ImageView[] images;
 
     private void initDataFields() {
 
@@ -76,31 +78,46 @@ public class UIEndGameFragment extends Fragment {
                 fragmentEndgameBinding.climbButtonEndgame
         };
 
-        for (ImageButton btn : buttons) {
-            btn.setTag(false);     // not selected
-            btn.setAlpha(1f);      // fully visible
+        images = new ImageView[]{
+                fragmentEndgameBinding.bottomLeftImage,
+                fragmentEndgameBinding.bottomCenterImage,
+                fragmentEndgameBinding.bottomRightImage,
+                fragmentEndgameBinding.middleLeftImage,
+                fragmentEndgameBinding.middleCenterImage,
+                fragmentEndgameBinding.middleRightImage,
+                fragmentEndgameBinding.topLeftImage,
+                fragmentEndgameBinding.topCenterImage,
+                fragmentEndgameBinding.topRightImage,
+                fragmentEndgameBinding.climbButtonImage
+        };
+
+        for (int i = 0; i < buttons.length; i++) {
+            ImageButton btn = buttons[i];
+            btn.setTag(i); // Store index for easier mapping
+            btn.setAlpha(1f);
             btn.setOnClickListener(v -> toggleClimb((ImageButton) v));
         }
     }
 
 
     public void toggleClimb(ImageButton b) {
+        int selectedIndex = (int) b.getTag();
 
-        // 1️⃣ Reset ALL buttons
-        for (ImageButton btn : buttons) {
-            btn.setTag(false);
-            btn.animate()
+        // 1️⃣ Reset ALL buttons and hide ALL images
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i].animate()
                     .alpha(1f)
                     .setDuration(150)
                     .start();
+            images[i].setVisibility(View.INVISIBLE);
         }
 
-        // 2️⃣ Activate ONLY the clicked button
-        b.setTag(true);
+        // 2️⃣ Activate ONLY the clicked button and show its image
         b.animate()
                 .alpha(0.3f)
                 .setDuration(200)
                 .start();
+        images[selectedIndex].setVisibility(View.VISIBLE);
 
         // 3️⃣ Save data
         if (b.equals(fragmentEndgameBinding.bottomLeftEndgame)) {
@@ -125,7 +142,7 @@ public class UIEndGameFragment extends Fragment {
             saveData("endClimb", "9");
         }
 
-        Timber.d("pressed");
+        Timber.d("pressed index: " + selectedIndex);
     }
 
 
