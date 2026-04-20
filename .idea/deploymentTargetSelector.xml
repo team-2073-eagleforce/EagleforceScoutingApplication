@@ -3,11 +3,11 @@
   <component name="deploymentTargetSelector">
     <selectionStates>
       <SelectionState runConfigName="app">
-        <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-04-15T23:01:26.410144600Z">
+        <option name="selectionMode" value="DIALOG" />
+        <DropdownSelection timestamp="2026-04-10T06:25:51.159978612Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=GCC1EX04213500B5" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=GCC1AR05209201S8" />
             </handle>
           </Target>
         </DropdownSelection>
@@ -15,18 +15,13 @@
           <targets>
             <Target type="DEFAULT_BOOT">
               <handle>
-                <DeviceId pluginId="PhysicalDevice" identifier="serial=GCC1EX04213500B5" />
+                <DeviceId pluginId="PhysicalDevice" identifier="serial=GCC1AQ052105008K" />
               </handle>
             </Target>
             <Target type="DEFAULT_BOOT">
-              <template>
-                <DeviceId pluginId="FirebaseDirectAccess" type="TEMPLATE" identifier="model_id=e1q/36" />
-              </template>
-            </Target>
-            <Target type="DEFAULT_BOOT">
-              <template>
-                <DeviceId pluginId="FirebaseDirectAccess" type="TEMPLATE" identifier="model_id=e1q/34" />
-              </template>
+              <handle>
+                <DeviceId pluginId="PhysicalDevice" identifier="serial=GCC1AQ05210500DC" />
+              </handle>
             </Target>
           </targets>
         </DialogSelection>
