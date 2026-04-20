@@ -1,0 +1,14 @@
+<resources>
+    <!-- Tablet screen margins -->
+    <dimen name="activity_horizontal_margin">32dp</dimen>
+    <dimen name="activity_vertical_margin">32dp</dimen>
+
+    <!-- Scaled Text Sizes for Tablets -->
+    <dimen name="text_small">18sp</dimen>
+    <dimen name="text_medium">22sp</dimen>
+    <dimen name="text_large">28sp</dimen>
+    <dimen name="text_xlarge">34sp</dimen>
+    <dimen name="text_huge">40sp</dimen>
+
+    <dimen name="button_min_height">64dp</dimen>
+</resources>

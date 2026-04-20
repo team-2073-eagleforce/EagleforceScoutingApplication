@@ -1,115 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-
-    <RelativeLayout
-        android:layout_width="1100dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:padding="16dp" >
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_leftish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.35" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_rightish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.65" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
         <SeekBar
             android:id="@+id/accuracySeekBar"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_alignParentLeft="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:indeterminate="false"
             android:max="100"
             android:progress="50"
             android:rotation="270"
-            android:valueFrom="0.0"
-            android:valueTo="100.0" />
+            app:layout_constraintBottom_toBottomOf="@+id/accuracyValueText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/accuracyLabel"
+            app:layout_constraintWidth_percent="0.2"
+            app:layout_constraintHeight_percent="0.3"/>
 
         <TextView
+            android:id="@+id/accuracyLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Accuracy:"
-            android:textSize="24sp"
-            android:layout_marginStart="185dp"
-            android:layout_marginTop="75dp"
+            android:layout_marginStart="16dp"
             android:gravity="center"
+            android:text="Accuracy:"
             android:textColor="#C00000"
-            />
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/accuracyValueText"
+            app:layout_constraintStart_toEndOf="@+id/accuracySeekBar"
+            app:layout_constraintEnd_toEndOf="@+id/guideline_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/accuracyValueText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="50"
-            android:textSize="40sp"
-            android:layout_marginStart="200dp"
-            android:layout_marginTop="120dp"
             android:gravity="center"
+            android:text="50"
             android:textColor="#050505"
-            />
+            android:textSize="32sp"
+            app:layout_constraintBottom_toTopOf="@+id/uiComments"
+            app:layout_constraintEnd_toEndOf="@+id/accuracyLabel"
+            app:layout_constraintStart_toStartOf="@+id/accuracyLabel"
+            app:layout_constraintTop_toBottomOf="@+id/accuracyLabel" />
 
         <include
             android:id="@+id/driverPerformance"
             layout="@layout/add_subtract_values"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintStart_toStartOf="@+id/guideline_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.45" />
 
         <include
             android:id="@+id/defensePerformance"
             layout="@layout/add_subtract_values"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/driverPerformance"
-            android:layout_centerHorizontal="true" />
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/driverPerformance"
+            app:layout_constraintStart_toStartOf="@+id/driverPerformance"
+            app:layout_constraintTop_toBottomOf="@+id/driverPerformance" />
 
         <EditText
             android:id="@+id/uiComments"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/defensePerformance"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:ellipsize="start"
+            android:layout_marginTop="24dp"
             android:ems="10"
             android:gravity="center"
-            android:inputType="textMultiLine"
-            android:maxLength="115"
             android:hint="Comments"
-            android:textColorHint="@color/md_blue_grey_200"/>
+            android:inputType="textMultiLine"
+            android:maxLength="500"
+            android:textColorHint="@color/md_blue_grey_200"
+            app:layout_constraintEnd_toEndOf="@id/guideline_rightish"
+            app:layout_constraintStart_toStartOf="@id/guideline_leftish"
+            app:layout_constraintTop_toBottomOf="@+id/defensePerformance"
+            app:layout_constraintWidth_percent="0.5" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/robotConditions"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/uiComments"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/guideline_rightish"
+            app:layout_constraintStart_toStartOf="@+id/guideline_leftish"
+            app:layout_constraintTop_toBottomOf="@+id/uiComments"
+            app:layout_constraintWidth_percent="0.8"/>
+
+            <CheckBox
+                android:id="@+id/stole"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stole?"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/checkBroken" />
 
             <CheckBox
                 android:id="@+id/checkBroken"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Broken"
-                android:layout_marginEnd="10dp"
-            />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_middle" />
 
             <CheckBox
                 android:id="@+id/checkDisabled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Disabled"
-                android:layout_marginEnd="10dp"
-                />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_middle" />
 
             <CheckBox
                 android:id="@+id/checkTipped"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tipped"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/checkDisabled"
                 />
-        </LinearLayout>
 
 
-    </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

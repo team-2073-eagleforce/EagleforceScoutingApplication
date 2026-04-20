@@ -123,6 +123,7 @@ public class UIDetailFragment extends Fragment {
         fragmentDetailBinding.checkBroken.setOnClickListener(checkBroken -> toggle_check("isBroken"));
         fragmentDetailBinding.checkDisabled.setOnClickListener(checkDisabled -> toggle_check("isDisabled"));
         fragmentDetailBinding.checkTipped.setOnClickListener(checkTipped -> toggle_check("isTipped"));
+        fragmentDetailBinding.stole.setOnClickListener(stole -> toggle_check("Steal"));
     }
 
     private void toggle_check(String condition) {

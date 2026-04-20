@@ -82,6 +82,9 @@ public class RebuiltScoutingForm implements ScoutingForm{
         fieldNames.add("isTipped");
         clearNames.add("isTipped");
 
+        fieldNames.add("Steal");
+        clearNames.add("Steal");
+
     }
     public ArrayList<String> getFieldNames() {
         return fieldNames;
