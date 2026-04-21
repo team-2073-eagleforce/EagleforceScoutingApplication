@@ -137,7 +137,7 @@
                 android:id="@+id/stole"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Stole?"
+                android:text="Stole"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/checkBroken" />
 
@@ -161,7 +161,7 @@
                 android:id="@+id/checkTipped"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tipped"
+                android:text="Beached"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/checkDisabled"
                 />
