@@ -36,7 +36,7 @@
     </string-array>
 
     <string-array name="comp_code">
-        <item>2026cmptx</item>
+        <item>2026dal</item>
         <item>2026casac</item>
         <item>2026caasv</item>
         <item>2026cancmp</item>
@@ -44,7 +44,7 @@
     </string-array>
 
     <string-array name="comp_name">
-        <item>FIRST Championships</item>
+        <item>FIRST Championships/Daly</item>
         <item>Sacramento Regionals</item>
         <item>Aerospace Valley</item>
         <item>State Championship</item>
