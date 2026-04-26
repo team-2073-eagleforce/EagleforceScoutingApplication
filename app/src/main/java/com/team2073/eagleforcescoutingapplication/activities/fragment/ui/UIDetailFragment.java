@@ -67,6 +67,7 @@ public class UIDetailFragment extends Fragment {
         togglePerformanceRatings();
         editTextToggle();
         toggleRobotProblems();
+        setupScrollingLogic();
     }
 
     @Override
@@ -155,6 +156,20 @@ public class UIDetailFragment extends Fragment {
             }
         });
     }
+
+    private void setupScrollingLogic() {
+        // Initially disable scrolling on the ScrollView
+        fragmentDetailBinding.detailScrollView.setOnTouchListener((v, event) -> true);
+        // Enable scrolling only when comments field is focused
+        fragmentDetailBinding.uiComments.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                fragmentDetailBinding.detailScrollView.setOnTouchListener(null);
+            } else {
+                fragmentDetailBinding.detailScrollView.setOnTouchListener((v1, event) -> true);
+            }
+        });
+    }
+
 
     private void addPerformanceValue(TextView formScore, String performanceType) {
         int value = Integer.parseInt(formScore.getText().toString()) + 1;
