@@ -39,8 +39,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         screenRootView.setOrientation(LinearLayout.VERTICAL);
         screenRootView.setBackgroundResource(R.color.colorPrimary);
 
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View screenView = inflater.inflate(resId, null);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View screenView = inflater.inflate(resId, screenRootView, false);
         screenRootView.addView(screenView);
 
         super.setContentView(screenRootView);
