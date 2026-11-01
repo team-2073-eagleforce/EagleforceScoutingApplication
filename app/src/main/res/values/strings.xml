@@ -86,4 +86,18 @@
     <string name="remote_start_error_400">Cannot start right now — try again in a moment (400)</string>
     <string name="remote_start_error_generic">Remote start error: %1$d</string>
     <string name="remote_start_error_network">Cannot reach replay server</string>
+    <!-- Offline Bluetooth sync with the stands machine -->
+    <string name="ble_sync_header">Bluetooth Sync (stands, offline)</string>
+    <string name="ble_sync_enable_title">Sync scouting over Bluetooth</string>
+    <string name="ble_sync_enable_summary">Sends every change and each submission to the stands machine. QR codes still work.</string>
+    <string name="ble_scan_pairing_title">Scan stands pairing QR</string>
+    <string name="ble_scan_pairing_summary">Settings → Tablet Sync on the stands machine</string>
+    <string name="ble_scan_pairing_prompt">Scan the scout pairing QR shown on the stands machine</string>
+    <string name="ble_pairing_input_title">…or type the pairing code</string>
+    <string name="ble_pairing_input_summary">Short code (e.g. K7QM-4XPA), long secret, or the team passphrase</string>
+    <string name="ble_pairing_saved">Paired with the stands machine</string>
+    <string name="ble_pairing_invalid">That pairing code is not valid</string>
+    <string name="ble_device_id_title">Tablet ID</string>
+    <string name="ble_sync_now_title">Sync now</string>
+    <string name="ble_sync_now_summary">Not synced yet</string>
 </resources>

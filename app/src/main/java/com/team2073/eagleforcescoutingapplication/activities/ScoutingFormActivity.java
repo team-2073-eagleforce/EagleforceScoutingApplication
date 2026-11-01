@@ -29,6 +29,10 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         scoutingFormPresenter.makeDrawer(toolbar);
+        // Offline BLE scouting: periodic connect → sync → disconnect while the form is open (no-op if off).
+        com.team2073.eagleforcescoutingapplication.framework.ble.BleSyncManager ble =
+                com.team2073.eagleforcescoutingapplication.framework.ble.BleSyncManager.get(this);
+        if (ble.isEnabled()) ble.startAutoSync();
     }
 
     @Override

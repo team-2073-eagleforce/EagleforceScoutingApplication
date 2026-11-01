@@ -49,6 +49,36 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/ble_sync_header">
+
+        <SwitchPreferenceCompat
+            android:key="ble_sync_enabled"
+            android:title="@string/ble_sync_enable_title"
+            android:summary="@string/ble_sync_enable_summary"
+            android:defaultValue="false" />
+
+        <Preference
+            android:key="ble_scan_pairing_qr"
+            android:title="@string/ble_scan_pairing_title"
+            android:summary="@string/ble_scan_pairing_summary" />
+
+        <EditTextPreference
+            android:key="ble_pairing_input"
+            android:title="@string/ble_pairing_input_title"
+            android:summary="@string/ble_pairing_input_summary" />
+
+        <EditTextPreference
+            android:key="ble_device_id_input"
+            android:title="@string/ble_device_id_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            android:key="ble_sync_now"
+            android:title="@string/ble_sync_now_title"
+            android:summary="@string/ble_sync_now_summary" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/remote_start_header">
 
         <SwitchPreferenceCompat
