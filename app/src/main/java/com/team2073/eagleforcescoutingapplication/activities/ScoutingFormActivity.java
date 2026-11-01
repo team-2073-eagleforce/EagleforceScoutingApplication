@@ -41,7 +41,8 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
         // Refresh lock state in case settings changed while paused
         if (viewPager != null) {
             viewPager.setLockInfoToAuto(
-                    ReplayServerManager.getInstance(this).isRemoteStartEnabled());
+                    ReplayServerManager.getInstance(this).isRemoteStartEnabled()
+                    || com.team2073.eagleforcescoutingapplication.framework.ble.BleSyncManager.get(this).hasStartKey());
         }
     }
 
@@ -63,7 +64,8 @@ public class ScoutingFormActivity extends BaseActivity implements ScoutingFormVi
 
         viewPager = findViewById(R.id.view_pager);
         viewPager.setLockInfoToAuto(
-                ReplayServerManager.getInstance(this).isRemoteStartEnabled());
+                ReplayServerManager.getInstance(this).isRemoteStartEnabled()
+                    || com.team2073.eagleforcescoutingapplication.framework.ble.BleSyncManager.get(this).hasStartKey());
 
         viewPager.addOnPageChangeListener(new androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener() {
             @Override

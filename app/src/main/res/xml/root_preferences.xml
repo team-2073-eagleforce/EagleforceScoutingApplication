@@ -68,6 +68,11 @@
             android:summary="@string/ble_pairing_input_summary" />
 
         <EditTextPreference
+            android:key="ble_start_input"
+            android:title="@string/ble_start_input_title"
+            android:summary="@string/ble_start_input_summary" />
+
+        <EditTextPreference
             android:key="ble_device_id_input"
             android:title="@string/ble_device_id_title"
             app:useSimpleSummaryProvider="true" />

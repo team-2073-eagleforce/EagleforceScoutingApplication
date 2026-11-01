@@ -46,6 +46,9 @@ final class BleSyncSession {
     private final String scout;
     private final ScoutEventLog log;
     private final Listener listener;
+    /** "scout" = push events (sync). "controller" + command = run one command (e.g. start_match) and leave. */
+    private final String role;
+    private final JSONObject command;
     private final Handler main = new Handler(Looper.getMainLooper());
     private final BleProtocol.Decoder decoder = new BleProtocol.Decoder();
     private final ArrayDeque<byte[]> writeQueue = new ArrayDeque<>();
@@ -62,6 +65,13 @@ final class BleSyncSession {
 
     BleSyncSession(Context ctx, BluetoothDevice device, byte[] pairingKey, String deviceId, String scout,
                    ScoutEventLog log, Listener listener) {
+        this(ctx, device, pairingKey, deviceId, scout, log, listener, "scout", null);
+    }
+
+    BleSyncSession(Context ctx, BluetoothDevice device, byte[] pairingKey, String deviceId, String scout,
+                   ScoutEventLog log, Listener listener, String role, JSONObject command) {
+        this.role = role;
+        this.command = command;
         this.ctx = ctx.getApplicationContext();
         this.device = device;
         this.pairingKey = pairingKey;
@@ -172,7 +182,7 @@ final class BleSyncSession {
                     auth.put("type", "auth");
                     auth.put("deviceId", deviceId);
                     auth.put("epoch", log.epoch());
-                    auth.put("role", "scout");
+                    auth.put("role", role);
                     auth.put("scout", scout);
                     auth.put("app", "eagleforce-scouting-android");
                     auth.put("clientNonce", clientNonce);
@@ -185,6 +195,7 @@ final class BleSyncSession {
                     if (!EfPairing.proofEquals(expected, m.optString("proof"))) { finish(false, "gateway failed to prove the pairing secret"); return; }
                     // The gateway's position is authoritative for this epoch (it may be behind us if
                     // its data was reset): adopt it so we resend whatever it doesn't have.
+                    if (command != null) { listener.onState("sending command"); send(command); break; }
                     log.adoptGatewayAck(m.optLong("ackSeq", -1));
                     listener.onState("syncing");
                     sendNextBatch();
@@ -196,8 +207,13 @@ final class BleSyncSession {
                     sendNextBatch();
                     break;
                 }
+                case "match_started":
+                case "match_stopped":
+                    if (command != null) finish(true, type, gatewayId);
+                    break;
                 case "error": {
                     String code = m.optString("code");
+                    if (command != null && !"AUTH_FAILED".equals(code)) { finish(false, code + (m.optString("detail").isEmpty() ? "" : ": " + m.optString("detail"))); break; }
                     if ("AUTH_FAILED".equals(code)) finish(false, "wrong pairing secret");
                     else Timber.w("gateway error %s: %s", code, m.optString("detail"));
                     break;

@@ -132,6 +132,8 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
             SwitchPreferenceCompat enabled = findPreference(BleSyncManager.KEY_ENABLED);
             if (enabled != null) enabled.setChecked(bleSyncManager.isEnabled());
             syncEditTextPreference("ble_device_id_input", bleSyncManager.deviceId());
+            Preference startPref = findPreference("ble_start_input");
+            if (startPref != null && bleSyncManager.hasStartKey()) startPref.setSummary(getString(R.string.ble_start_saved));
             Preference scan = findPreference("ble_scan_pairing_qr");
             if (scan != null) {
                 if (bleSyncManager.hasSecret()) scan.setSummary(getString(R.string.ble_pairing_saved));
@@ -163,10 +165,11 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
 
         private boolean applyPairingSecret(String value) {
             try {
-                bleSyncManager.setPairingSecret(value);
-                Preference scan = findPreference("ble_scan_pairing_qr");
-                if (scan != null) scan.setSummary(getString(R.string.ble_pairing_saved));
-                Toast.makeText(mActivity, getString(R.string.ble_pairing_saved), Toast.LENGTH_SHORT).show();
+                String kind = bleSyncManager.setPairingSecret(value);
+                boolean start = "start".equals(kind);
+                Preference p = findPreference(start ? "ble_start_input" : "ble_scan_pairing_qr");
+                if (p != null) p.setSummary(getString(start ? R.string.ble_start_saved : R.string.ble_pairing_saved));
+                Toast.makeText(mActivity, getString(start ? R.string.ble_start_saved : R.string.ble_pairing_saved), Toast.LENGTH_SHORT).show();
                 return true;
             } catch (IllegalArgumentException e) {
                 Toast.makeText(mActivity, getString(R.string.ble_pairing_invalid), Toast.LENGTH_LONG).show();
@@ -291,6 +294,20 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                     if (in != null && in.getText() != null && !in.getText().trim().isEmpty()) {
                         applyPairingSecret(in.getText());
                         in.setText(""); // don't leave the secret sitting in the settings screen
+                    }
+                    break;
+                }
+                case "ble_start_input": {
+                    EditTextPreference in = findPreference("ble_start_input");
+                    if (in != null && in.getText() != null && !in.getText().trim().isEmpty()) {
+                        try {
+                            bleSyncManager.setStartSecret(in.getText());
+                            in.setSummary(getString(R.string.ble_start_saved));
+                            Toast.makeText(mActivity, getString(R.string.ble_start_saved), Toast.LENGTH_SHORT).show();
+                        } catch (IllegalArgumentException e) {
+                            Toast.makeText(mActivity, getString(R.string.ble_pairing_invalid), Toast.LENGTH_LONG).show();
+                        }
+                        in.setText("");
                     }
                     break;
                 }

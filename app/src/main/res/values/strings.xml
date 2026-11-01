@@ -91,7 +91,10 @@
     <string name="ble_sync_enable_title">Sync scouting over Bluetooth</string>
     <string name="ble_sync_enable_summary">Sends every change and each submission to the stands machine. QR codes still work.</string>
     <string name="ble_scan_pairing_title">Scan stands pairing QR</string>
-    <string name="ble_scan_pairing_summary">Settings → Tablet Sync on the stands machine</string>
+    <string name="ble_scan_pairing_summary">Settings → Tablet Sync on the stands machine (scouting key or start key)</string>
+    <string name="ble_start_input_title">Start key (START REPLAY over Bluetooth)</string>
+    <string name="ble_start_input_summary">Scan a start-key QR above, or type the start key here</string>
+    <string name="ble_start_saved">Start key saved — START REPLAY works over Bluetooth</string>
     <string name="ble_scan_pairing_prompt">Scan the scout pairing QR shown on the stands machine</string>
     <string name="ble_pairing_input_title">…or type the pairing code</string>
     <string name="ble_pairing_input_summary">Short code (e.g. K7QM-4XPA), long secret, or the team passphrase</string>

@@ -220,7 +220,8 @@ public class UIInfoFragment extends Fragment {
     private void refreshStartRecordingButton() {
         if (fragmentInfoBinding == null) return;
         Button startButton = fragmentInfoBinding.manualStartReplayButton;
-        if (replayServerManager.isRemoteStartEnabled()) {
+        boolean bleStart = com.team2073.eagleforcescoutingapplication.framework.ble.BleSyncManager.get(getActivity()).hasStartKey();
+        if (replayServerManager.isRemoteStartEnabled() || bleStart) {
             startButton.setVisibility(View.VISIBLE);
         } else {
             startButton.setVisibility(View.GONE);
@@ -233,7 +234,25 @@ public class UIInfoFragment extends Fragment {
             ((ScoutingFormActivity) getActivity()).navigateToAutoTab();
         }
 
-        // Fire the remote start request asynchronously
+        // Offline-first: start over Bluetooth with the stands start key; fall back to Wi-Fi remote start.
+        com.team2073.eagleforcescoutingapplication.framework.ble.BleSyncManager ble =
+                com.team2073.eagleforcescoutingapplication.framework.ble.BleSyncManager.get(getActivity());
+        if (ble.hasStartKey()) {
+            ble.startRecording((ok, message) -> {
+                if (getActivity() == null) return;
+                if (ok || !replayServerManager.isRemoteStartEnabled()) {
+                    Toast.makeText(getActivity(), ok ? getString(R.string.remote_start_success) : message, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Timber.w("Bluetooth start failed (%s); trying Wi-Fi remote start", message);
+                fireWifiRemoteStart();
+            });
+            return;
+        }
+        fireWifiRemoteStart();
+    }
+
+    private void fireWifiRemoteStart() {
         replayServerManager.fireRemoteStart(new ReplayServerManager.RemoteStartCallback() {
             @Override
             public void onSuccess() {

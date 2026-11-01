@@ -48,6 +48,10 @@ public final class BleSyncManager {
     public static final String KEY_ENABLED = "ble_sync_enabled";
     public static final String KEY_SECRET = "ble_pairing_secret";
     public static final String KEY_DEVICE_ID = "ble_device_id";
+    /** "Start key" (controller role): lets the START REPLAY button start the recording on the stands. */
+    public static final String KEY_START_SECRET = "ble_start_secret";
+
+    public interface StartCallback { void onResult(boolean ok, String message); }
 
     /** Anchor/settings keys that describe the match rather than being scouted values. */
     private static final Set<String> NOT_DELTAS = new HashSet<>();
@@ -109,12 +113,30 @@ public final class BleSyncManager {
     }
     public boolean hasSecret() { return !prefs.getString(KEY_SECRET, "").isEmpty(); }
 
-    /** Accepts a scanned QR payload, a short code, a long string, or a typed passphrase. Throws on invalid input. */
-    public void setPairingSecret(String anyFormat) {
+    /**
+     * Accepts a scanned QR payload, a short code, a long string, or a typed passphrase. Throws on invalid input.
+     * Stands QRs say which role they are ("r"): a start key is stored as the start key, anything else as the
+     * scouting key. Returns "start" or "scout".
+     */
+    public String setPairingSecret(String anyFormat) {
         EfPairing.normalize(anyFormat); // validate
-        prefs.edit().putString(KEY_SECRET, anyFormat.trim()).apply();
+        String role = "scout";
+        String t = anyFormat.trim();
+        if (t.startsWith("{")) {
+            try { if ("controller".equals(new JSONObject(t).optString("r"))) role = "start"; } catch (JSONException ignored) { /* plain ef-pair */ }
+        }
+        prefs.edit().putString("start".equals(role) ? KEY_START_SECRET : KEY_SECRET, t).apply();
         publish();
+        return role;
     }
+
+    /** Typed start key (when there's no QR to scan). */
+    public void setStartSecret(String anyFormat) {
+        EfPairing.normalize(anyFormat);
+        prefs.edit().putString(KEY_START_SECRET, anyFormat.trim()).apply();
+    }
+
+    public boolean hasStartKey() { return !prefs.getString(KEY_START_SECRET, "").isEmpty(); }
 
     // ── recording (called from the form; never blocks, never throws) ────────
     public void onFieldWritten(String key, String oldValue, String newValue, AnchorReader anchors) {
@@ -233,35 +255,82 @@ public final class BleSyncManager {
 
         busy = true;
         setState("scanning", null);
+        scanForGateway(scanner, device -> {
+            String scout = ctx.getSharedPreferences("scouting_prefs", Context.MODE_PRIVATE).getString("name", "");
+            new BleSyncSession(ctx, device, key, deviceId(), scout, log, new BleSyncSession.Listener() {
+                @Override public void onState(String s) { setState(s, null); }
+                @Override public void onFinished(boolean ok, String message, String gw) {
+                    if (gw != null && !gw.isEmpty()) gatewayId = gw;
+                    if (ok) { prefs.edit().putLong("last_sync_at", System.currentTimeMillis()).apply(); maybePrune(); }
+                    setState(ok ? "synced" : "offline", message);
+                    sessionDone();
+                }
+            }).start();
+        }, reason -> { setState("offline", reason); sessionDone(); });
+    }
+
+    private interface DeviceFound { void found(android.bluetooth.BluetoothDevice device); }
+    private interface ScanFailed { void failed(String reason); }
+
+    @SuppressLint("MissingPermission")
+    private void scanForGateway(BluetoothLeScanner scanner, DeviceFound onFound, ScanFailed onFail) {
         final boolean[] found = {false};
         final ScanCallback cb = new ScanCallback() {
             @Override public void onScanResult(int callbackType, ScanResult result) {
                 if (found[0]) return;
                 found[0] = true;
                 try { scanner.stopScan(this); } catch (Exception ignored) { /* adapter went away */ }
-                String scout = ctx.getSharedPreferences("scouting_prefs", Context.MODE_PRIVATE).getString("name", "");
-                new BleSyncSession(ctx, result.getDevice(), key, deviceId(), scout, log, new BleSyncSession.Listener() {
-                    @Override public void onState(String s) { setState(s, null); }
-                    @Override public void onFinished(boolean ok, String message, String gw) {
-                        busy = false;
-                        if (gw != null && !gw.isEmpty()) gatewayId = gw;
-                        if (ok) { prefs.edit().putLong("last_sync_at", System.currentTimeMillis()).apply(); maybePrune(); }
-                        setState(ok ? "synced" : "offline", message);
-                    }
-                }).start();
+                onFound.found(result.getDevice());
             }
-            @Override public void onScanFailed(int errorCode) { busy = false; setState("offline", "scan failed (" + errorCode + ")"); }
+            @Override public void onScanFailed(int errorCode) { if (!found[0]) { found[0] = true; onFail.failed("scan failed (" + errorCode + ")"); } }
         };
         ScanFilter filter = new ScanFilter.Builder().setServiceUuid(new ParcelUuid(BleProtocol.SERVICE_UUID)).build();
         ScanSettings settings = new ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build();
         scanner.startScan(Collections.singletonList(filter), settings, cb);
         main.postDelayed(() -> {
             if (!found[0]) {
+                found[0] = true;
                 try { scanner.stopScan(cb); } catch (Exception ignored) { /* adapter went away */ }
-                busy = false;
-                setState("offline", "stands gateway not in range");
+                onFail.failed("stands machine not in Bluetooth range");
             }
         }, SCAN_TIMEOUT_MS);
+    }
+
+    private StartCallback pendingStart = null;
+
+    /** A sync session finished: if someone pressed START meanwhile, run it now (taps are never dropped). */
+    private void sessionDone() {
+        busy = false;
+        if (pendingStart != null) { StartCallback cb = pendingStart; pendingStart = null; startRecording(cb); }
+    }
+
+    /**
+     * START REPLAY over Bluetooth: connect with the start key, send start_match, wait for the stands machine
+     * to confirm, disconnect. Fully offline. If a sync is mid-flight, runs right after it.
+     */
+    @SuppressLint("MissingPermission")
+    public void startRecording(StartCallback cb) {
+        if (!hasStartKey()) { main.post(() -> cb.onResult(false, "no start key — scan the stands start-key QR in Settings")); return; }
+        if (!hasPermissions()) { main.post(() -> cb.onResult(false, "Bluetooth permission needed (Settings)")); return; }
+        if (busy) { pendingStart = cb; return; }
+        BluetoothManager bm = (BluetoothManager) ctx.getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter adapter = bm == null ? null : bm.getAdapter();
+        if (adapter == null || !adapter.isEnabled() || adapter.getBluetoothLeScanner() == null) { main.post(() -> cb.onResult(false, "turn Bluetooth on")); return; }
+        final byte[] key;
+        try { key = EfPairing.deriveKey(prefs.getString(KEY_START_SECRET, "")); }
+        catch (IllegalArgumentException e) { main.post(() -> cb.onResult(false, "start key invalid — rescan it")); return; }
+        busy = true;
+        JSONObject cmd = new JSONObject();
+        try { cmd.put("type", "start_match"); } catch (JSONException ignored) { /* constant */ }
+        scanForGateway(adapter.getBluetoothLeScanner(), device -> new BleSyncSession(ctx, device, key, deviceId(), "", log, new BleSyncSession.Listener() {
+            @Override public void onState(String s) { /* quick op; no status churn */ }
+            @Override public void onFinished(boolean ok, String message, String gw) {
+                busy = false;
+                String msg = ok ? "Recording started" : "MATCH_IN_PROGRESS".equals(message.split(":")[0]) ? "Already recording" : message;
+                main.post(() -> cb.onResult(ok, msg));
+                if (pendingStart != null) sessionDone();
+            }
+        }, "controller", cmd).start(), reason -> { busy = false; main.post(() -> cb.onResult(false, reason)); });
     }
 
     private void maybePrune() {
