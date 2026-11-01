@@ -13,6 +13,7 @@ public class PrefsDataManager {
 
     private static PrefsDataManager INSTANCE;
     private SharedPreferences sharedPreferences;
+    private final android.content.Context appContext;
 
     public static PrefsDataManager getInstance(Activity activity){
         if(INSTANCE == null){
@@ -22,6 +23,7 @@ public class PrefsDataManager {
     }
 
     public PrefsDataManager(Activity activity){
+        appContext = activity.getApplicationContext();
         sharedPreferences = activity.getApplicationContext()
                 .getSharedPreferences("scouting_prefs", Context.MODE_PRIVATE);
 
@@ -47,7 +49,11 @@ public class PrefsDataManager {
     }
 
     public void writeToPreferences(String key, String value){
+        String previous = sharedPreferences.getString(key, null);
         sharedPreferences.edit().putString(key, value).commit();
+        // Offline BLE scouting: every form value change becomes a delta event (no-op when BLE sync is off).
+        com.team2073.eagleforcescoutingapplication.framework.ble.BleSyncManager.get(appContext)
+                .onFieldWritten(key, previous, value, this::readFromPreferences);
     }
 
     /**

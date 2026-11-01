@@ -75,6 +75,8 @@ dependencies {
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
+    // Real org.json on the JVM (Android's is stubbed in local unit tests)
+    testImplementation 'org.json:json:20240303'
     androidTestImplementation 'androidx.test:runner:1.5.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

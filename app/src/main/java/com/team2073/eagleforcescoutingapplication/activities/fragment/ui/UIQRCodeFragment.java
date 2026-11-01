@@ -98,6 +98,14 @@ public class UIQRCodeFragment extends Fragment {
                     throw new RuntimeException(e);
                 }
 
+                // Offline BLE scouting: store this submission (the exact QR JSON) and try to sync.
+                try {
+                    com.team2073.eagleforcescoutingapplication.framework.ble.BleSyncManager.get(getActivity())
+                            .recordCommit(scoutingFormPresenter.dataToJSON(), scoutingFormPresenter::readData);
+                } catch (org.json.JSONException e) {
+                    Timber.w(e, "BLE commit not recorded");
+                }
+
                 String matchNum = scoutingFormPresenter.readData("matchNumber");
                 ArrayList <Match> scheduleList = scoutingFormPresenter.getScheduleList();
                 String position = scoutingFormPresenter.getPosition();
